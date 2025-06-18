@@ -1,0 +1,24 @@
+.header {
+  .header-nav.header-nav-main {
+    justify-content: center;
+    &.nav-left {
+      li {
+        margin: 0;
+        a {
+          color: $secondary-color;
+          text-transform: capitalize;
+          font-size: 15px;
+          margin: 0 15px;
+        }
+        &.active {
+          a {
+            color: $blue-dark;
+          }
+        }
+      }
+    }
+  }
+  .top-divider {
+    display: none;
+  }
+}

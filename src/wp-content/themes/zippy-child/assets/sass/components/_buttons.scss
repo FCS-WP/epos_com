@@ -1,0 +1,52 @@
+.button {
+  border-radius: 8px !important;
+  &.primary {
+    background-color: $primary-color !important;
+    border: 1px solid $primary-color !important;
+    color: white !important;
+    &:hover {
+      background-color: $green !important;
+    }
+    &.is-outline {
+      background-color: transparent !important;
+      border: 1px solid $primary-color !important;
+      color: $primary-color !important;
+      &:hover {
+        background-color: $primary-color !important;
+        border: 1px solid $primary-color !important;
+        color: white !important;
+      }
+    }
+  }
+  &.secondary {
+    background-color: $secondary-color !important;
+    border: 1px solid $secondary-color !important;
+    color: white !important;
+    &:hover {
+      background-color: $blue-light !important;
+    }
+    &.is-outline {
+      background-color: transparent !important;
+      border: 1px solid $secondary-color !important;
+      color: $secondary-color !important;
+      &:hover {
+        background-color: $secondary-color !important;
+        border: 1px solid $secondary-color !important;
+        color: white !important;
+      }
+    }
+  }
+  &.menu-btn-demo,
+  &.menu-btn-shop {
+    background-color: $secondary-color !important;
+    border: 1px solid $secondary-color !important;
+    color: white !important;
+    border-radius: 8px !important;
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 16px;
+    line-height: 1;
+  }
+}

@@ -1,0 +1,32 @@
+[15-Apr-2023 21:45:15 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/eposcom/public_html/wp-content/themes/flatsome/index.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/eposcom/public_html/wp-content/themes/flatsome/index.php on line 9
+[24-May-2023 05:34:33 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/eposcom/public_html/wp-content/themes/flatsome/index.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/eposcom/public_html/wp-content/themes/flatsome/index.php on line 9
+[27-May-2023 08:59:34 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/eposcom/public_html/wp-content/themes/flatsome/index.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/eposcom/public_html/wp-content/themes/flatsome/index.php on line 9
+[13-Aug-2023 07:35:46 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/eposcom/public_html/wp-content/themes/flatsome/index.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/eposcom/public_html/wp-content/themes/flatsome/index.php on line 9
+[26-Aug-2023 14:09:29 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/eposcom/public_html/wp-content/themes/flatsome/index.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/eposcom/public_html/wp-content/themes/flatsome/index.php on line 9
+[22-Apr-2025 19:10:45 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/eposcom/public_html/wp-content/themes/flatsome/index.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/eposcom/public_html/wp-content/themes/flatsome/index.php on line 9
+[22-Apr-2025 19:12:52 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/eposcom/public_html/wp-content/themes/flatsome/index.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/eposcom/public_html/wp-content/themes/flatsome/index.php on line 9
+[22-Apr-2025 19:12:52 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/eposcom/public_html/wp-content/themes/flatsome/index.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/eposcom/public_html/wp-content/themes/flatsome/index.php on line 9

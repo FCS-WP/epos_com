@@ -1,16 +1,96 @@
-
-
 /* Font face for web template */
-@include font-face("Open Sans", "#{$assets_path}fonts/Arial/SVN-Arial-Regular", 500);
-@include font-face("Open Sans", "#{$assets_path}fonts/Arial/SVN-Arial-Bold", 900);
-@include font-face("Open Sans", "#{$assets_path}fonts/Arial/SVN-Arial-Italic", 500);
-@include font-face("Open Sans", "#{$assets_path}fonts/Arial/SVN-Arial-Bold-Italic", 900);
-html * {
-  // background: url(../../img/background.jpg);
-  background-size: cover;
-  font-family: 'Open Sans', serif !important;
-  // font-weight: 400;
+// Montserrat
+@include font-face(
+  "Montserrat",
+  "#{$assets_path}fonts/Montserrat/Montserrat-Regular",
+  400
+);
+@include font-face(
+  "Montserrat",
+  "#{$assets_path}fonts/Montserrat/Montserrat-Light",
+  300
+);
+@include font-face(
+  "Montserrat",
+  "#{$assets_path}fonts/Montserrat/Montserrat-Medium",
+  500
+);
+@include font-face(
+  "Montserrat",
+  "#{$assets_path}fonts/Montserrat/Montserrat-Bold",
+  900
+);
+
+//PlusJakartaSans
+@include font-face(
+  "PlusJakartaSans",
+  "#{$assets_path}fonts/PlusJakartaSans/PlusJakartaSans-Regular",
+  400
+);
+@include font-face(
+  "PlusJakartaSans",
+  "#{$assets_path}fonts/PlusJakartaSans/PlusJakartaSans-Light",
+  300
+);
+@include font-face(
+  "PlusJakartaSans",
+  "#{$assets_path}fonts/PlusJakartaSans/PlusJakartaSans-Medium",
+  500
+);
+@include font-face(
+  "PlusJakartaSans",
+  "#{$assets_path}fonts/PlusJakartaSans/PlusJakartaSans-Bold",
+  900
+);
+body {
+  font-family: $main-font;
 }
-// body {
-//   font-family: "Arial", serif !important;
-// }
+#content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: $second-font;
+    color: $secondary-color;
+  }
+  p {
+    font-family: $main-font;
+    font-size: 16px;
+    color: $text-body !important;
+  }
+  a {
+    font-family: $main-font;
+    color: $secondary-color;
+    font-size: 16px;
+  }
+  h1,
+  h2 {
+    font-size: 28px !important;
+    line-height: 1.2em;
+
+    @include tablet {
+      font-size: 38px !important;
+    }
+    @include desktop {
+      font-size: 48px !important;
+    }
+    span {
+      font-size: 28px !important;
+      font-family: $second-font !important;
+      @include tablet {
+        font-size: 38px !important;
+      }
+      @include desktop {
+        font-size: 48px !important;
+      }
+    }
+  }
+  h3 {
+    font-size: 18px !important;
+    @include desktop {
+      font-size: 20px !important;
+    }
+  }
+}

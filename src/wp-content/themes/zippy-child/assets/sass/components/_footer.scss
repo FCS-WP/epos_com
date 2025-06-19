@@ -1,0 +1,19 @@
+.absolute-footer {
+  display: none;
+}
+.footer {
+  .footer-section {
+    h2 {
+      color: white;
+    }
+    a {
+      color: $primary-color;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .footer-bottom {
+      border-top:1px solid  $text-body;
+      padding-top: 20px;
+    }
+  }
+}

@@ -48,5 +48,9 @@
     padding-right: 15px;
     font-size: 16px;
     line-height: 1;
+    margin: 10px 0;
+    @include desktop {
+      margin: 0;
+    }
   }
 }

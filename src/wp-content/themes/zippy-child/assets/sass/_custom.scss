@@ -1,0 +1,57 @@
+// icon box
+
+.icon-box-primary {
+  padding: 37px;
+  border-radius: 30px;
+  box-shadow: $shadow;
+  .icon {
+    border-radius: 50% !important;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    .icon-inner {
+      img {
+        position: absolute;
+        width: 46px;
+        padding-top: 0;
+        top: -20%;
+        left: -5%;
+      }
+    }
+  }
+}
+
+.icon-box-white {
+  padding: 11px 34px;
+  border-radius: 30px;
+  .icon {
+    border-radius: 50% !important;
+    background-color: $white !important;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    .icon-inner {
+      img {
+        position: absolute;
+        width: 46px;
+        padding-top: 0;
+        top: 12%;
+        left: 12%;
+      }
+    }
+  }
+}
+
+.col-img-overplay {
+  position: absolute !important;
+  right: -10%;
+}
+
+// slider
+.logo-center {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important; 
+    // margin-left: -20px !important;
+}
+

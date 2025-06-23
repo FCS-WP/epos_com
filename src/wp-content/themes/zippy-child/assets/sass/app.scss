@@ -1,5 +1,6 @@
 @import "mixins";
 @import "variables";
+@import "custom";
 //Fonts
 @import "fonts/fonts";
 
@@ -8,3 +9,8 @@
 @import "components/buttons";
 @import "components/header";
 @import "components/footer";
+@import "components/default";
+
+// slider
+@import "../lib/slick/slick-theme.css";
+@import "../lib/slick/slick.css";

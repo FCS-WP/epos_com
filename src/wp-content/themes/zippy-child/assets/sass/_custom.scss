@@ -47,11 +47,15 @@
   right: -10%;
 }
 
-// slider
-.logo-center {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important; 
-    // margin-left: -20px !important;
-}
+// Slider
 
+.featured-on-slider {
+  .slick-slide {
+    margin: 0 15px; 
+    .logo-center {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+    }
+  }
+}

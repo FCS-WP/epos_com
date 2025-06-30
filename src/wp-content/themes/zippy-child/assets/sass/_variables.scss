@@ -20,6 +20,7 @@ $footer-color: #090727 !default;
 //Shadow
 $shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 
+//Spacers
 $spacer: 1rem;
 $spacers: (
   0: 0,
@@ -57,6 +58,7 @@ $spacers: (
   n4: -40px,
   n5: -50px,
 );
+//Breakpoints
 $breakpoints: (
   null: null,
   sm: 576px,

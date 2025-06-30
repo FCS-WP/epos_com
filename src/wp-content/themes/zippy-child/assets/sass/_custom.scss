@@ -1,69 +1,35 @@
-// icon box
 
-.icon-box-primary {
-  padding: 37px;
-  border-radius: 30px;
-  box-shadow: $shadow;
-  .icon {
-    border-radius: 50% !important;
-    position: relative;
-    width: 60px;
-    height: 60px;
-    .icon-inner {
-      img {
-        position: absolute;
-        width: 46px;
-        padding-top: 0;
-        top: -20%;
-        left: -5%;
-      }
-    }
-  }
-}
-
-.icon-box-white {
-  padding: 11px 34px;
-  border-radius: 30px;
-  .icon {
-    border-radius: 50% !important;
-    background-color: white !important;
-    position: relative;
-    width: 60px;
-    height: 60px;
-    .icon-inner {
-      img {
-        position: absolute;
-        width: 46px;
-        padding-top: 0;
-        top: 12%;
-        left: 12%;
-      }
-    }
-  }
-}
-.icon-box {
-  &.icon-no-bg {
-    .icon-box-img{
-      .icon {
-        background-color: transparent !important;
-      }
-    }
-  }
-}
-.col-img-overplay {
+.section-custom-bg{
+	position: relative;
+  height: 420px;
+  overflow: hidden;
+  .col-img-overplay {
   position: absolute !important;
   right: -10%;
 }
+}
 
 // Slider
-
 .featured-on-slider {
   .slick-slide {
-    margin: 0 15px; 
+    margin: 0 15px;
     .logo-center {
       display: flex !important;
       flex-wrap: wrap !important;
       justify-content: center !important;
     }
+  }
+}
+
+.fl-height {
+  .col-inner {
+    height: 100% !important;
+  }
+}
+.middel {
+  .col-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 }

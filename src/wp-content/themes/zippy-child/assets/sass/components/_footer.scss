@@ -4,10 +4,10 @@
 .footer {
   .footer-section {
     h2 {
-      color: white;
+      color: white !important;
     }
     a {
-      color: $primary-color;
+      color: $primary-color !important;
       font-size: 20px;
       font-weight: bold;
     }

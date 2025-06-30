@@ -48,5 +48,20 @@
     padding-right: 15px;
     font-size: 16px;
     line-height: 1;
+    margin: 10px 0;
+    @include desktop {
+      margin: 0;
+    }
+  }
+  &.white{
+    &.text-red{
+      color: $red !important;
+    }
+    &.text-secondary{
+      color: $secondary-color !important;
+    }
+    &.text-primary{
+      color: $primary-color !important;
+    }
   }
 }

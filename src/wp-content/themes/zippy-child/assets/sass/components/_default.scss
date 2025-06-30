@@ -1,36 +1,11 @@
-.mb-0 {
-  margin-bottom: 0 !important;
-  p {
-    margin-bottom: 0 !important;
-  }
-}
-  
-.mb-35 {
-  margin-bottom: 35px !important;
-}
-
-.mt-0 {
-  margin-top: 0 !important;
-  p {
-    margin-top: 0 !important;
-  }
-}
-
+// Padding
 .p-0 {
-  padding: 0 !important;
   p {
     padding: 0 !important;
   }
 }
-.m-0 {
-  margin: 0 !important;
-  p {
-    margin: 0 !important;
-  }
-}
 
 .pb-0 {
-  padding-bottom: 0 !important;
   p {
     padding-bottom: 0 !important;
   }
@@ -40,25 +15,27 @@
 }
 
 .pt-0 {
-  padding-top: 0 !important;
   p {
     padding-top: 0 !important;
   }
 }
 
 .p-60 {
-  padding: 60px 0;
   .col-inner {
     padding: 60px 0;
   }
 }
-
 .p-66 {
   padding: 30px 36px !important;
 }
-
+//
+// Border
 .rounded {
   border-radius: 30px !important;
+}
+
+.rounded-8 {
+  border-radius: 8px !important;
 }
 
 .rounded-14 {
@@ -71,6 +48,19 @@
     border-radius: 45px !important;
   }
 }
+.border {
+  &.border-primary {
+    border: 1px solid $primary-color !important;
+  }
+  &.border-secondary {
+    border: 1px solid $secondary-color !important;
+  }
+  &.border-orange {
+    border: 1px solid $orange !important;
+  }
+}
+//
+//text-color
 .text-primary {
   color: $primary-color !important;
   p {
@@ -84,6 +74,15 @@
     color: $secondary-color !important;
   }
 }
+.text-white {
+  color: white !important;
+  p {
+    color: white !important;
+  }
+  h2 {
+    color: white !important;
+  }
+}
 
 .text-blue-dark {
   color: $blue-dark !important;
@@ -93,25 +92,53 @@
 }
 
 .text-white {
-  color: $white !important;
+  color: white !important;
   h2 {
-    color: $white !important;
+    color: white !important;
   }
   p {
-    color: $white !important;
+    color: white !important;
   }
 }
-
+//
+//Font-weight
 .fw-bold {
   font-weight: bold !important;
   p {
     font-weight: bold !important;
   }
 }
-
+//
+//Font-size
 .fs-28 {
   font-size: 28px !important;
   p {
     font-size: 28px !important;
+  }
+}
+
+.bg-primary {
+  background-color: $primary-color !important;
+  p {
+    background-color: $primary-color !important;
+  }
+}
+.bg-primary-light {
+  --tw-gradient-from: #f0fdf4 !important;
+  --tw-gradient-to: #eff6ff !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+.bg-yelow-light {
+  --tw-gradient-from: #fff7ed !important;
+  --tw-gradient-to: #fef2f2 !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+.bg-secondary {
+  background-color: $secondary-color !important;
+  p {
+    background-color: $secondary-color !important;
   }
 }

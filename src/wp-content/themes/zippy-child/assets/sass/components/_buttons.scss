@@ -53,4 +53,15 @@
       margin: 0;
     }
   }
+  &.white{
+    &.text-red{
+      color: $red !important;
+    }
+    &.text-secondary{
+      color: $secondary-color !important;
+    }
+    &.text-primary{
+      color: $primary-color !important;
+    }
+  }
 }

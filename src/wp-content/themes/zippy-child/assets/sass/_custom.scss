@@ -26,7 +26,7 @@
   border-radius: 30px;
   .icon {
     border-radius: 50% !important;
-    background-color: $white !important;
+    background-color: white !important;
     position: relative;
     width: 60px;
     height: 60px;
@@ -41,7 +41,15 @@
     }
   }
 }
-
+.icon-box {
+  &.icon-no-bg {
+    .icon-box-img{
+      .icon {
+        background-color: transparent !important;
+      }
+    }
+  }
+}
 .col-img-overplay {
   position: absolute !important;
   right: -10%;

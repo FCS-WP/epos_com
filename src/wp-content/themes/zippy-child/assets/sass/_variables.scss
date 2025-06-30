@@ -10,6 +10,8 @@ $secondary-color: #102870 !default;
 $green: #298c65 !default;
 $yelow: #ffc402 !default;
 $blue: #1b459b !default;
+$red: #dc2626 !default;
+$orange: #fed7aa !default;
 $blue-light: #40538d !default;
 $blue-dark: #0a142f !default;
 $border-color: rgba(14, 11, 61, 0.078) !default;
@@ -18,22 +20,49 @@ $footer-color: #090727 !default;
 //Shadow
 $shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 
-// Customize Class
-.img-folow-content {
-  .col-inner {
-    height: 100%;
-    .img {
-      height: 100%;
-      .img-inner {
-        height: 100%;
-        img {
-          height: 100%;
-          object-fit: cover;
-        }
-      }
-    }
-  }
-}
-.rounded {
-  border-radius: 15px !important;
-}
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer,
+  2: $spacer * 2,
+  3: $spacer * 3,
+  4: $spacer * 4,
+  5: $spacer * 5,
+  6: $spacer * 6,
+  7: $spacer * 7,
+  8: $spacer * 8,
+  9: $spacer * 9,
+  10: $spacer * 10,
+  sm: $spacer * 0.5,
+  3px: 3px,
+  8px: 8px,
+  15: 15px,
+  25: 25px,
+  30: 30px,
+  35: 35px,
+  55: 55px,
+  60: 60px,
+  70: 70px,
+  75: 75px,
+  85: 85px,
+  90: 90px,
+  100: 100px,
+  150: 150px,
+  2rem: 2rem,
+  n15px: -15px,
+  n5px: -5px,
+  n1: -10px,
+  n2: -20px,
+  n3: -30px,
+  n4: -40px,
+  n5: -50px,
+);
+$breakpoints: (
+  null: null,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+);
+
+

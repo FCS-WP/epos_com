@@ -1,0 +1,95 @@
+$spacing-types: (
+  m: margin,
+  p: padding,
+);
+
+$directions: (
+  t: top,
+  e: right,
+  b: bottom,
+  s: left,
+  x: (
+    left,
+    right,
+  ),
+  y: (
+    top,
+    bottom,
+  ),
+  "": null,
+);
+
+@each $prefix, $css-prop in $spacing-types {
+  @each $dir, $actual-dir in $directions {
+    @each $key, $value in $spacers {
+      $class-name: if(
+        $dir == "",
+        "#{$prefix}-#{$key}",
+        "#{$prefix}-#{$dir}-#{$key}"
+      );
+      .#{$class-name} {
+        @if type-of($actual-dir) == "list" {
+          @each $side in $actual-dir {
+            #{$css-prop}-#{$side}: #{$value};
+          }
+        } @else if $actual-dir == null {
+          #{$css-prop}: #{$value};
+        } @else {
+          #{$css-prop}-#{$actual-dir}: #{$value};
+        }
+      }
+    }
+  }
+}
+
+@each $breakpoint, $breakpoint-size in $breakpoints {
+  @if $breakpoint == null {
+    @each $prefix, $css-prop in $spacing-types {
+      @each $dir, $actual-dir in $directions {
+        @each $key, $value in $spacers {
+          $class-name: if(
+            $dir == "",
+            "#{$prefix}-#{$key}",
+            "#{$prefix}-#{$dir}-#{$key}"
+          );
+          .#{$class-name} {
+            @if type-of($actual-dir) == "list" {
+              @each $side in $actual-dir {
+                #{$css-prop}-#{$side}: #{$value};
+              }
+            } @else if $actual-dir == null {
+              #{$css-prop}: #{$value};
+            } @else {
+              #{$css-prop}-#{$actual-dir}: #{$value};
+            }
+          }
+        }
+      }
+    }
+  } @else {
+    @media (min-width: #{$breakpoint-size}) {
+      @each $prefix, $css-prop in $spacing-types {
+        @each $dir, $actual-dir in $directions {
+          @each $key, $value in $spacers {
+            $class-name: if(
+              $dir == "",
+              "#{$breakpoint}\\:#{$prefix}-#{$key}",
+              "#{$breakpoint}\\:#{$prefix}-#{$dir}-#{$key}"
+            );
+            .#{$class-name} {
+              @if type-of($actual-dir) == "list" {
+                @each $side in $actual-dir {
+                  #{$css-prop}-#{$side}: #{$value};
+                }
+              } @else if $actual-dir == null {
+                #{$css-prop}: #{$value};
+              } @else {
+                #{$css-prop}-#{$actual-dir}: #{$value};
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

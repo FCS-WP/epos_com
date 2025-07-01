@@ -1,11 +1,9 @@
-/* Do not remove this code if use Jquery */
 import "../lib/slick/slick.min.js";
 
 ("use strict");
 $ = jQuery;
 $(document).ready(function () {
   const $slider = $(".featured-on-slider .col-inner");
-
   // Init slick
   $slider.slick({
     speed: 3000,
@@ -62,5 +60,13 @@ $(document).ready(function () {
   $slider.on("mouseleave", function () {
     velocity = 1.2;
     isHovering = false;
+  });
+
+  $(".client-slider").slick({
+    dots: false,
+    infinite: true,
+    speed: 300,
+    slidesToShow: 4,
+    slidesToScroll: 1,
   });
 });

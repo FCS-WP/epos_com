@@ -26,11 +26,16 @@
           }
         }
       }
+      .icon-box-text{
+        p{
+          font-weight: 600;
+          color: $title-color;
+          font-size: 20px;
+        }
+      }
     }
     &.icon-box-primary {
       padding: 37px;
-      border-radius: 30px;
-      box-shadow: $shadow;
       .icon {
         border-radius: 50% !important;
         position: relative;

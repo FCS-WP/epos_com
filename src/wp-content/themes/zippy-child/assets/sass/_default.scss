@@ -70,11 +70,23 @@
   }
 }
 //
-//Font-weight
+//Font
 .fw-bold {
   font-weight: bold !important;
   p {
     font-weight: bold !important;
+  }
+}
+.fs-26 {
+  @include desktop {
+    font-size: 26px !important;
+    p {
+      font-size: 26px !important;
+    }
+  }
+  font-size: 18px !important;
+  p{
+    font-size: 18px !important;
   }
 }
 //
@@ -103,4 +115,41 @@
   p {
     background-color: $secondary-color !important;
   }
+}
+//shadow
+.shadow {
+  box-shadow: $shadow !important;
+}
+// Position
+.position-relative {
+  position: relative !important;
+}
+.position-absolute {
+  position: absolute !important;
+}
+//Flex
+.d-flex {
+  display: flex !important;
+}
+.d-block {
+  display: block !important;
+}
+.d-none {
+  display: none !important;
+}
+.justify-content-center {
+  justify-content: center !important;
+}
+.justify-content-between {
+  justify-content: space-between !important;
+}
+.align-items-center {
+  align-items: center !important;
+}
+//width
+.w-100 {
+  width: 100% !important;
+}
+.w-auto {
+  width: auto !important;
 }

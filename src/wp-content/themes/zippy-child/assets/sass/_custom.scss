@@ -4,7 +4,7 @@
   overflow: hidden;
   .col-img-overplay {
     position: absolute !important;
-    left:18%;
+    left: 18%;
     right: auto;
     @include desktop {
       right: -10%;
@@ -100,10 +100,12 @@
       right: 14% !important;
       left: unset;
       transform: none !important;
+      margin: 0 15px;
     }
     &.next {
       right: 11% !important;
       transform: none !important;
+      margin: 0 15px;
     }
   }
   .client-review-custom {
@@ -123,6 +125,42 @@
   .icon-box-img {
     .icon {
       padding-left: 0 !important;
+    }
+  }
+}
+.tailored-bg-image {
+  position: relative;
+  @include desktop {
+    &::before {
+      background-image: url("/wp-content/uploads/2025/06/Grey_Brandmark-1.jpg");
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: contain;
+      opacity: 1;
+      background-repeat: no-repeat;
+    }
+  }
+  
+}
+.custom-slider {
+  .slider {
+    .carousel-cell {
+      position: relative;
+      height: auto !important;
+      width: 100% !important;
+      margin-right: 2px;
+      opacity: 1 !important;
+
+      @include tablet {
+        width: 50% !important;
+      }
+      @include desktop {
+        width: 33.3333% !important;
+      }
     }
   }
 }

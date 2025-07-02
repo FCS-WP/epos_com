@@ -28,6 +28,29 @@
     border: 1px solid $orange !important;
   }
 }
+.border-end {
+  border-bottom: 1px solid $text-body !important;
+  @include desktop {
+    border-right: 1px solid $text-body !important;
+    border-bottom: none !important;
+  }
+  @include tablet {
+    border-right: 1px solid $text-body !important;
+    border-bottom: none !important;
+  }
+}
+.border-start {
+  border-top: 1px solid $text-body !important;
+  @include desktop {
+    border-left: 1px solid $text-body !important;
+    border-top: none !important;
+  }
+  @include tablet {
+    border-left: 1px solid $text-body !important;
+    border-top: none !important;
+  }
+}
+
 //
 //text-color
 .text-primary {
@@ -85,7 +108,7 @@
     }
   }
   font-size: 18px !important;
-  p{
+  p {
     font-size: 18px !important;
   }
 }
@@ -114,6 +137,12 @@
   background-color: $secondary-color !important;
   p {
     background-color: $secondary-color !important;
+  }
+}
+.bg-white {
+  background-color: white !important;
+  p {
+    background-color: white !important;
   }
 }
 //shadow

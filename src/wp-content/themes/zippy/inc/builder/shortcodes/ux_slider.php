@@ -261,6 +261,13 @@ add_ux_builder_shortcode( 'ux_slider', array(
                     'true'  => array( 'title' => 'On'),
                 ),
             ),
+            'groupcells' => array(
+                'type' => 'textfield',
+                'heading' => 'Group Cells',
+                'default' => '',
+                'description' => 'Set the number of cells to group together. Leave empty to disable.',
+                'full_width' => true,
+            ),
           ),
         ),
         'advanced_options' => require( __DIR__ . '/commons/advanced.php'),

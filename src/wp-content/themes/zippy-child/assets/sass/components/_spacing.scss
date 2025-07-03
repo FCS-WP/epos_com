@@ -25,17 +25,17 @@ $directions: (
       $class-name: if(
         $dir == "",
         "#{$prefix}-#{$key}",
-        "#{$prefix}-#{$dir}-#{$key}"
+        "#{$prefix}#{$dir}-#{$key}"
       );
       .#{$class-name} {
         @if type-of($actual-dir) == "list" {
           @each $side in $actual-dir {
-            #{$css-prop}-#{$side}: #{$value};
+            #{$css-prop}-#{$side}: #{$value} !important;
           }
         } @else if $actual-dir == null {
-          #{$css-prop}: #{$value};
+          #{$css-prop}: #{$value} !important;
         } @else {
-          #{$css-prop}-#{$actual-dir}: #{$value};
+          #{$css-prop}-#{$actual-dir}: #{$value} !important;
         }
       }
     }
@@ -50,17 +50,17 @@ $directions: (
           $class-name: if(
             $dir == "",
             "#{$prefix}-#{$key}",
-            "#{$prefix}-#{$dir}-#{$key}"
+            "#{$prefix}#{$dir}-#{$key}"
           );
           .#{$class-name} {
             @if type-of($actual-dir) == "list" {
               @each $side in $actual-dir {
-                #{$css-prop}-#{$side}: #{$value};
+                #{$css-prop}-#{$side}: #{$value} !important;
               }
             } @else if $actual-dir == null {
-              #{$css-prop}: #{$value};
+              #{$css-prop}: #{$value} !important;
             } @else {
-              #{$css-prop}-#{$actual-dir}: #{$value};
+              #{$css-prop}-#{$actual-dir}: #{$value} !important;
             }
           }
         }
@@ -74,17 +74,17 @@ $directions: (
             $class-name: if(
               $dir == "",
               "#{$breakpoint}\\:#{$prefix}-#{$key}",
-              "#{$breakpoint}\\:#{$prefix}-#{$dir}-#{$key}"
+              "#{$breakpoint}\\:#{$prefix}#{$dir}-#{$key}"
             );
             .#{$class-name} {
               @if type-of($actual-dir) == "list" {
                 @each $side in $actual-dir {
-                  #{$css-prop}-#{$side}: #{$value};
+                  #{$css-prop}-#{$side}: #{$value} !important;
                 }
               } @else if $actual-dir == null {
-                #{$css-prop}: #{$value};
+                #{$css-prop}: #{$value} !important;
               } @else {
-                #{$css-prop}-#{$actual-dir}: #{$value};
+                #{$css-prop}-#{$actual-dir}: #{$value} !important;
               }
             }
           }

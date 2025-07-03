@@ -37,6 +37,7 @@ function shortcode_ux_slider($atts, $content=null) {
         'friction' => '0.6',
         'selectedattraction' => '0.1',
         'threshold' => '10',
+        'groupcells' => '',
 
         // Derpicated
         'mobile' => 'true',
@@ -133,7 +134,8 @@ function shortcode_ux_slider($atts, $content=null) {
             "draggable": <?php echo esc_attr( $draggable ); ?>,
             "selectedAttraction": <?php echo esc_attr( $selectedattraction ); ?>,
             "parallax" : <?php echo esc_attr( $parallax ); ?>,
-            "friction": <?php echo esc_attr( $friction ); ?>
+            "friction": <?php echo esc_attr( $friction ); ?>,
+            "groupCells": <?php echo is_numeric($groupcells) ? $groupcells : '"' . esc_attr($groupcells) . '"'; ?>
         }'
         >
         <?php echo do_shortcode( $content ); ?>

@@ -97,13 +97,13 @@
       background-color: $primary-color !important;
     }
     &.previous {
-      right: 14% !important;
+      right: 4% !important;
       left: unset;
       transform: none !important;
       margin: 0 15px;
     }
     &.next {
-      right: 11% !important;
+      right: 0 !important;
       transform: none !important;
       margin: 0 15px;
     }
@@ -144,9 +144,11 @@
       background-repeat: no-repeat;
     }
   }
-  
 }
 .custom-slider {
+  max-width: 1250px;
+  margin-left: auto;
+  margin-right: auto;
   .slider {
     .carousel-cell {
       position: relative;

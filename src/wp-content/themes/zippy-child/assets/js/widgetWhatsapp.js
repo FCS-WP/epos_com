@@ -411,12 +411,12 @@ if (window.location.pathname.includes("/my")) {
     buttonName: "Start Chat",
     brandImageUrl:
       "https://www.epos.com.sg/wp-content/uploads/2020/01/pos-system.svg",
-    brandName: "EPOS POS System",
+    brandName: "EPOS Malaysia",
     brandStatusText: "Typically replies within a day",
     buttonPosition: "bottom-right",
-    phoneNumber: "6584821888",
+    phoneNumber: "60128838465",
     welcomeMessage: "Hi there! 👋 How can I help you?",
     prefillMessages: "Hello, I am looking for: ",
-    replyOptions: "F&B POS System,Retail POS System,Others,Tech Support",
+    replyOptions: "Product Inquiry,Demo Request,Pricing Details,Support Assistance",
   });
 }

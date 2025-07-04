@@ -221,4 +221,14 @@
       height: 300px !important;
     }
   }
+  .column-shadow {
+    .col-inner {
+      box-shadow: $shadow;
+    }
+  }
+  .column-same-height {
+    .col-inner {
+      height: 100%;
+    }
+  }
 }

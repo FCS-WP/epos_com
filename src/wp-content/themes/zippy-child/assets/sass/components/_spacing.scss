@@ -73,8 +73,8 @@ $directions: (
           @each $key, $value in $spacers {
             $class-name: if(
               $dir == "",
-              "#{$breakpoint}\\:#{$prefix}-#{$key}",
-              "#{$breakpoint}\\:#{$prefix}#{$dir}-#{$key}"
+              "#{$prefix}-#{$breakpoint}-#{$key}",
+              "#{$prefix}#{$dir}-#{$breakpoint}-#{$key}"
             );
             .#{$class-name} {
               @if type-of($actual-dir) == "list" {

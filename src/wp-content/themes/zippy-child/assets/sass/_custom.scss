@@ -1,168 +1,234 @@
-.section-custom-bg {
-  position: relative;
-  height: 420px;
-  overflow: hidden;
-  .col-img-overplay {
-    position: absolute !important;
-    left: 18%;
-    right: auto;
+#content {
+  .section-custom-bg {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    .col-img-overplay {
+      position: absolute !important;
+      left: 15%;
+      right: auto;
+      @include desktop {
+        right: -10%;
+        left: unset;
+      }
+      @include tablet {
+        right: -10%;
+        left: unset;
+      }
+    }
+  }
+
+  // Slider
+  .featured-on-slider {
+    .slick-slide {
+      margin: 0 15px;
+      .logo-center {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+      }
+    }
+  }
+
+  .fl-height {
+    .col-inner {
+      height: 100% !important;
+    }
+  }
+  .middel {
+    .col-inner {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+  .section-custom-container {
+    margin: 20px !important;
     @include desktop {
-      right: -10%;
-      left: unset;
+      margin: 50px !important;
+    }
+    width: auto !important;
+    .section-bg {
+      border-radius: 30px !important;
     }
   }
-}
 
-// Slider
-.featured-on-slider {
-  .slick-slide {
-    margin: 0 15px;
-    .logo-center {
-      display: flex !important;
-      flex-wrap: wrap !important;
-      justify-content: center !important;
-    }
-  }
-}
-
-.fl-height {
-  .col-inner {
-    height: 100% !important;
-  }
-}
-.middel {
-  .col-inner {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-}
-.section-custom-container {
-  margin: 20px !important;
-  @include desktop {
-    margin: 50px !important;
-  }
-  width: auto !important;
-  .section-bg {
-    border-radius: 30px !important;
-  }
-}
-
-.features-col {
-  .col-inner {
-    display: flex;
-    flex-direction: column;
-    box-shadow: $shadow;
-    border-radius: 30px !important;
-    padding: 30px;
-    height: 100%;
-    .img {
+  .features-col {
+    .col-inner {
+      display: flex;
+      flex-direction: column;
+      box-shadow: $shadow;
+      border-radius: 30px !important;
+      padding: 30px;
       height: 100%;
-      .img-inner {
+      .img {
         height: 100%;
-        img {
+        .img-inner {
           height: 100%;
-          object-fit: scale-down;
+          img {
+            height: 100%;
+            object-fit: scale-down;
+          }
+        }
+      }
+      h3 {
+        color: $title-color !important;
+      }
+    }
+    &.bg-blue-light-1 {
+      .col-inner {
+        background-color: $blue-light !important;
+        box-shadow: none;
+      }
+    }
+  }
+  .slider-client-review {
+    .flickity-viewport {
+      height: 450px !important;
+      .flickity-slider {
+        padding: 20px 0;
+      }
+    }
+    .stars {
+      color: $yelow !important;
+      font-size: 20px !important;
+    }
+    .flickity-button {
+      opacity: 1 !important;
+      color: $primary-color !important;
+      @include tablet {
+        top: -65%;
+      }
+      @include desktop {
+        top: -90%;
+      }
+      svg {
+        border-radius: 5px !important;
+        fill: $primary-color !important;
+        background-color: $primary-color !important;
+      }
+      @include tablet {
+        &.previous {
+          right: 6% !important;
+          left: unset;
+          transform: none !important;
+          margin: 0 15px;
+        }
+        &.next {
+          right: 0 !important;
+          transform: none !important;
+          margin: 0 15px;
+        }
+      }
+      @include desktop {
+        &.previous {
+          right: 4% !important;
+          left: unset;
+          transform: none !important;
+          margin: 0 15px;
+        }
+        &.next {
+          right: 0 !important;
+          transform: none !important;
+          margin: 0 15px;
         }
       }
     }
-    h3 {
-      color: $title-color !important;
+    .client-review-custom {
+      margin: auto !important;
+      width: auto !important;
+      position: unset !important;
+      height: 400px;
+      .col-inner {
+        border-radius: 8px !important;
+        box-shadow: $shadow;
+        padding: 30px;
+        background: white !important;
+        height: 100%;
+        .icon-box {
+          .icon-box-text {
+            h3 {
+              color: $title-color !important;
+              font-size: 16px !important;
+            }
+            p {
+              font-size: 14px !important;
+            }
+          }
+          .icon-box-img {
+            width: 60px !important;
+            img {
+              object-fit: contain !important;
+              width: 60px;
+            }
+          }
+        }
+      }
+    }
+    .testimonial-stars {
+      color: $yelow !important;
+      font-size: 18px;
+    }
+    .icon-box-img {
+      .icon {
+        padding-left: 0 !important;
+      }
     }
   }
-  &.bg-blue-light-1 {
-    .col-inner {
-      background-color: $blue-light !important;
-      box-shadow: none;
+  .tailored-bg-image {
+    position: relative;
+    @include desktop {
+      &::before {
+        background-image: url("/wp-content/uploads/2025/06/Grey_Brandmark-1.jpg");
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+        opacity: 1;
+        background-repeat: no-repeat;
+      }
     }
   }
-}
-.slider-client-review {
-  .flickity-viewport {
-    .flickity-slider {
-      padding: 20px 0;
-    }
-  }
-  .stars {
-    color: $yelow !important;
-    font-size: 20px !important;
-  }
-  .flickity-button {
-    opacity: 1 !important;
-    color: $primary-color !important;
-    top: -90%;
-    svg {
-      border-radius: 5px !important;
-      fill: $primary-color !important;
-      background-color: $primary-color !important;
-    }
-    &.previous {
-      right: 4% !important;
-      left: unset;
-      transform: none !important;
-      margin: 0 15px;
-    }
-    &.next {
-      right: 0 !important;
-      transform: none !important;
-      margin: 0 15px;
-    }
-  }
-  .client-review-custom {
-    margin: auto !important;
-    width: auto !important;
-    position: unset !important;
-    .col-inner {
-      border-radius: 30px !important;
-      box-shadow: $shadow;
-      padding: 30px;
-    }
-  }
-  .testimonial-stars {
-    color: $yelow !important;
-    font-size: 18px;
-  }
-  .icon-box-img {
-    .icon {
-      padding-left: 0 !important;
-    }
-  }
-}
-.tailored-bg-image {
-  position: relative;
-  @include desktop {
-    &::before {
-      background-image: url("/wp-content/uploads/2025/06/Grey_Brandmark-1.jpg");
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-size: contain;
-      opacity: 1;
-      background-repeat: no-repeat;
-    }
-  }
-}
-.custom-slider {
-  max-width: 1250px;
-  margin-left: auto;
-  margin-right: auto;
-  .slider {
-    .carousel-cell {
-      position: relative;
-      height: auto !important;
-      width: 100% !important;
-      margin-right: 2px;
-      opacity: 1 !important;
+  .custom-slider {
+    max-width: 1250px;
+    margin-left: auto;
+    margin-right: auto;
+    .slider {
+      .carousel-cell {
+        position: relative;
+        height: auto !important;
+        width: 100% !important;
+        margin-right: 2px;
+        opacity: 1 !important;
 
-      @include tablet {
-        width: 50% !important;
+        @include tablet {
+          width: 50% !important;
+        }
+        @include desktop {
+          width: 33.3333% !important;
+        }
       }
-      @include desktop {
-        width: 33.3333% !important;
-      }
+    }
+  }
+  .tailored-pos-box-icon {
+    @include tablet {
+      height: 290px !important;
+    }
+    @include desktop {
+      height: 300px !important;
+    }
+  }
+  .column-shadow {
+    .col-inner {
+      box-shadow: $shadow;
+    }
+  }
+  .column-same-height {
+    .col-inner {
+      height: 100%;
     }
   }
 }

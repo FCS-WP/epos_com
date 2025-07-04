@@ -1,16 +1,19 @@
 import "../lib/slick/slick.min.js";
+import "../js/widgetWhatsapp.js";
+
+
 
 ("use strict");
 $ = jQuery;
 $(document).ready(function () {
   const $slider = $(".featured-on-slider");
-  // Init slick
+
   if ($(window).width() < 920) {
     $slider.slick({
       speed: 3000,
       autoplay: false,
       cssEase: "linear",
-      slidesToShow: 1,
+      slidesToShow: 2,
       slidesToScroll: 1,
       variableWidth: true,
       infinite: true,
@@ -21,9 +24,15 @@ $(document).ready(function () {
 
     const $track = $slider.find(".slick-track");
 
+    $track.find("style").remove();
+
+    const $originalSlides = $track
+      .children(".slick-slide:not(.slick-cloned)")
+      .clone(true);
+    $track.append($originalSlides);
+
     let velocity = 1.2;
     let offset = 0;
-    let isHovering = false;
 
     function animate() {
       offset += velocity;
@@ -37,9 +46,8 @@ $(document).ready(function () {
       requestAnimationFrame(animate);
     }
 
-    $track.html($track.html() + $track.html());
-
     animate();
+
     $slider.on("mousemove", function (e) {
       const sliderOffset = $slider.offset().left;
       const sliderWidth = $slider.outerWidth();
@@ -54,27 +62,10 @@ $(document).ready(function () {
       if (Math.abs(velocity) < 0.2) {
         velocity = 0;
       }
-
-      isHovering = true;
     });
 
     $slider.on("mouseleave", function () {
       velocity = 1.2;
-      isHovering = false;
     });
   }
-   $('.custom-slider .slider').each(function(){
-    var $slider = $(this);
-    $slider.flickity('destroy');
-    $slider.flickity({
-      cellAlign: 'center',
-      contain: true,
-      wrapAround: true,
-      autoPlay: 6000,
-      pageDots: false,
-      prevNextButtons: true,
-      groupCells: false,
-      adaptiveHeight: true
-    });
-  });
 });

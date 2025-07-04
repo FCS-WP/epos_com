@@ -8,8 +8,17 @@
     }
     a {
       color: $primary-color !important;
-      font-size: 20px;
+      font-size: 16px;
       font-weight: bold;
+      @include desktop {
+         font-size: 20px;
+      }
+    }
+    p{
+       font-size: 13px;
+      @include desktop {
+        font-size: 18px;
+      }
     }
     .footer-bottom {
       border-top:1px solid  $text-body;

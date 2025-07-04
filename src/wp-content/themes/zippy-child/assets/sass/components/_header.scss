@@ -32,10 +32,22 @@
         }
       }
       .sub-menu {
+        left: 0 !important;
+        min-width: 185px !important;
+        padding: 10px 0 !important;
         li {
+          &:hover {
+            background-color: rgba(248, 248, 248, 0.9) !important;
+            a {
+              color: $blue-dark;
+            }
+          }
           a {
             font-size: 15px;
             font-weight: normal;
+            word-spacing: 10px;
+            letter-spacing: 0.5px;
+            margin: 0 10px !important;
           }
         }
       }

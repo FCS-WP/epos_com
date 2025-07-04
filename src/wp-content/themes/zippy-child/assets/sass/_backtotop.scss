@@ -1,0 +1,18 @@
+.back-to-top {
+  position: relative;
+  &.icon {
+    min-width: 50px !important;
+    height: 50px !important;
+    background: $secondary-color !important;
+    border: 1px solid $secondary-color !important;
+    .icon-angle-up {
+      &::before {
+        position: absolute;
+        top: -8px !important;
+        color: white !important;
+        left: -8px !important;
+        font-size: 24px;
+      }
+    }
+  }
+}

@@ -1,10 +1,10 @@
 //Box Icon
 .icon-box {
-  .icon-box-img {
-    .icon {
-      background-color: $primary-color;
-      padding: 10px;
-      border-radius: 8px;
+  &.icon-no-bg {
+    .icon-box-img {
+      .icon {
+        background-color: transparent !important;
+      }
     }
   }
 

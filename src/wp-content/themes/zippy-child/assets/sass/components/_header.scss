@@ -39,7 +39,7 @@
           &:hover {
             background-color: rgba(248, 248, 248, 0.9) !important;
             a {
-              color: $blue-dark;
+              color: $primary-color !important;
             }
           }
           a {
@@ -48,6 +48,13 @@
             word-spacing: 10px;
             letter-spacing: 0.5px;
             margin: 0 10px !important;
+          }
+          &.current-menu-item {
+            background-color: rgba(248, 248, 248, 0.9) !important;
+            a {
+              color: $primary-color !important;
+              font-weight: 500;
+            }
           }
         }
       }

@@ -1,4 +1,25 @@
 <?php
+add_action('rest_api_init', function () {
+    register_rest_route('geoip/v1', '/info', [
+        'methods'  => 'GET',
+        'callback' => 'get_geoip_info',
+        'permission_callback' => '__return_true',
+    ]);
+});
+
+function get_geoip_info()
+{
+    $api_key = 'f662ff11785348448f213e61332b2dab';
+    $response = wp_remote_get("https://api.geoapify.com/v1/ipinfo?apiKey=$api_key");
+
+    if (is_wp_error($response)) {
+        return new WP_Error('geoip_error', 'Cannot fetch GeoIP info', ['status' => 500]);
+    }
+
+    $body = wp_remote_retrieve_body($response);
+    return json_decode($body);
+}
+
 
 function geoip_redirect_popup_shortcode()
 {
@@ -36,13 +57,13 @@ add_action('wp_footer', function () {
                 return null;
             }
 
-            fetch("https://api.geoapify.com/v1/ipinfo?apiKey=f662ff11785348448f213e61332b2dab")
+            fetch("/wp-json/geoip/v1/info")
                 .then((response) => response.json())
                 .then((data) => {
-                    const countryCode = data.country.iso_code;
-                    const countryName = data.country.name;
+                    const countryCode = data.country?.iso_code;
+                    const countryName = data.country?.name;
                     const currentUrl = window.location.href;
-                    
+
                     const popup = $(".redirect-popup");
                     const userLocation = $(".user-location");
                     const countdown = $(".countdown");
@@ -59,43 +80,47 @@ add_action('wp_footer', function () {
                         redirectUrl = "/my";
                         cookieKey = "geoip_redirect_my";
                     }
+
+                    if (!redirectUrl || getCookie(cookieKey)) {
+                        return;
+                    }
+
                     if (cookieKey === "geoip_redirect_sg" && getCookie("geoip_redirect_my")) {
                         setCookie("geoip_redirect_my", "", -1);
                     } else if (cookieKey === "geoip_redirect_my" && getCookie("geoip_redirect_sg")) {
                         setCookie("geoip_redirect_sg", "", -1);
                     }
-                    if (redirectUrl && !getCookie(cookieKey)) {
-                        userLocation.text(countryName);
-                        popup.fadeIn();
 
-                        let secondsLeft = 5;
+                    userLocation.text(countryName);
+                    popup.fadeIn();
+
+                    let secondsLeft = 5;
+                    countdown.text(secondsLeft);
+
+                    const timer = setInterval(function() {
+                        secondsLeft--;
                         countdown.text(secondsLeft);
 
-                        const timer = setInterval(function() {
-                            secondsLeft--;
-                            countdown.text(secondsLeft);
-
-                            if (secondsLeft <= 0) {
-                                clearInterval(timer);
-                                setCookie(cookieKey, "1", 1);
-                                window.location.href = redirectUrl;
-                            }
-                        }, 1000);
-
-                        redirectNow.on("click", function(e) {
-                            e.preventDefault();
+                        if (secondsLeft <= 0) {
                             clearInterval(timer);
                             setCookie(cookieKey, "1", 1);
                             window.location.href = redirectUrl;
-                        });
+                        }
+                    }, 1000);
 
-                        stayHere.on("click", function(e) {
-                            e.preventDefault();
-                            clearInterval(timer);
-                            setCookie(cookieKey, "1", 1);
-                            popup.fadeOut();
-                        });
-                    }
+                    redirectNow.on("click", function(e) {
+                        e.preventDefault();
+                        clearInterval(timer);
+                        setCookie(cookieKey, "1", 1);
+                        window.location.href = redirectUrl;
+                    });
+
+                    stayHere.on("click", function(e) {
+                        e.preventDefault();
+                        clearInterval(timer);
+                        setCookie(cookieKey, "1", 1);
+                        popup.fadeOut();
+                    });
                 })
                 .catch((error) => {
                     console.error("Error fetching location data:", error);

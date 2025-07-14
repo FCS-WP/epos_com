@@ -93,4 +93,6 @@ $(document).ready(function () {
     malaysiaLink.html(globalHtmlNoIcon);
     malaysiaLink.attr("href", globalHref);
   }
+
+
 });

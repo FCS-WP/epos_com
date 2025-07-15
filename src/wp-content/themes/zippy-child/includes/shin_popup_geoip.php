@@ -7,19 +7,41 @@ add_action('rest_api_init', function () {
     ]);
 });
 
+function get_client_ip()
+{
+    $ip_keys = ['HTTP_CF_CONNECTING_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_CLIENT_IP', 'REMOTE_ADDR'];
+    foreach ($ip_keys as $key) {
+        if (!empty($_SERVER[$key])) {
+            $ip_list = explode(',', $_SERVER[$key]);
+            return trim(end($ip_list));
+        }
+    }
+    return 'UNKNOWN';
+}
+
 function get_geoip_info()
 {
     $api_key = 'f662ff11785348448f213e61332b2dab';
-    $response = wp_remote_get("https://api.geoapify.com/v1/ipinfo?apiKey=$api_key");
+    $client_ip = get_client_ip();
+
+    $url = "https://api.geoapify.com/v1/ipinfo?apiKey=$api_key&ip=$client_ip";
+    $response = wp_remote_get($url, ['timeout' => 5]);
 
     if (is_wp_error($response)) {
         return new WP_Error('geoip_error', 'Cannot fetch GeoIP info', ['status' => 500]);
     }
 
     $body = wp_remote_retrieve_body($response);
-    return json_decode($body);
-}
+    $data = json_decode($body, true);
 
+    return [
+        'ip' => $client_ip,
+        'country' => [
+            'iso_code' => $data['country']['iso_code'] ?? '',
+            'name' => $data['country']['name'] ?? '',
+        ]
+    ];
+}
 
 function geoip_redirect_popup_shortcode()
 {
@@ -39,7 +61,6 @@ add_action('wp_footer', function () {
 ?>
     <script>
         jQuery(document).ready(function($) {
-            // Cookie helpers
             function setCookie(name, value, days) {
                 const expires = new Date();
                 expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -63,6 +84,7 @@ add_action('wp_footer', function () {
                     const countryCode = data.country?.iso_code;
                     const countryName = data.country?.name;
                     const currentUrl = window.location.href;
+                    console.log("Country:", countryCode, countryName);
 
                     const popup = $(".redirect-popup");
                     const userLocation = $(".user-location");

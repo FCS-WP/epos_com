@@ -363,7 +363,6 @@ if (window.location.pathname.includes("/my")) {
           </div>
         </div>
         <div class="wapp-float-btn ${d_buttonPosition}">
-         
         </div>
       </div>`;
 
@@ -414,9 +413,10 @@ if (window.location.pathname.includes("/my")) {
     brandName: "EPOS Malaysia",
     brandStatusText: "Typically replies within a day",
     buttonPosition: "bottom-right",
-    phoneNumber: "60128838465",
+    phoneNumber: "60124655571",
     welcomeMessage: "Hi there! 👋 How can I help you?",
     prefillMessages: "Hello, I am looking for: ",
-    replyOptions: "Product Inquiry,Demo Request,Pricing Details,Support Assistance",
+    replyOptions:
+      "Product Inquiry,Demo Request,Pricing Details,Support Assistance",
   });
 }

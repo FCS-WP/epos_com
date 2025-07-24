@@ -11,3 +11,6 @@ function footer_shortcode()
     }
 }
 add_shortcode('custom_footer', 'footer_shortcode');
+
+
+

@@ -36,6 +36,24 @@
       }
     }
   }
+  &.gradient-primary {
+    background: $gradient-primary !important;
+    border: none !important;  
+    color: white !important;
+    &:hover {
+      background-color: $blue-light-2 !important;
+    }
+    &.is-outline {
+      background-color: transparent !important;
+      border: 1px solid $gradient-primary !important;
+      color: $gradient-primary !important;
+      &:hover {
+        background-color: $gradient-primary !important;
+        border: 1px solid $gradient-primary !important;
+        color: white !important;
+      }
+    }
+  }
   &.menu-btn-demo,
   &.menu-btn-shop {
     background-color: $primary-color !important;

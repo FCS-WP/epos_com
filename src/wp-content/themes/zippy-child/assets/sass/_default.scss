@@ -20,9 +20,20 @@
 
   .rounded-14 {
     border-radius: 14px !important;
+    img {
+      border-radius: 14px !important;
+    }
     &.col {
       .col-inner {
         border-radius: 14px !important;
+      }
+    }
+  }
+  .rounded-24 {
+    border-radius: 24px !important;
+    &.col {
+      .col-inner {
+        border-radius: 24px !important;
       }
     }
   }
@@ -134,12 +145,53 @@
       color: white !important;
     }
   }
+
+  .text-gradient-primary {
+    background: $gradient-secondary;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      background: $gradient-secondary;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p {
+      background: $gradient-secondary;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+  .span-primary {
+    span {
+      color: $primary-color !important; 
+    }
+  }
   //
   //Font
   .fw-bold {
     font-weight: bold !important;
     p {
       font-weight: bold !important;
+    }
+  }
+  .fs-44 {
+    font-size: 26px !important;
+    p {
+      font-size: 26px !important;
+    }
+    @include desktop {
+      font-size: 44px !important;
+      p {
+        font-size: 44px !important;
+      }
     }
   }
   .fs-26 {
@@ -222,6 +274,12 @@
       }
     }
   }
+  .bg-light-blur {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  .bg-purple {
+    background: $gradient-green !important;
+  }
   //shadow
   .shadow {
     box-shadow: $shadow !important;
@@ -236,6 +294,12 @@
   //Flex
   .d-flex {
     display: flex !important;
+  }
+  .f-column {
+    flex-direction: column !important;
+  }
+  .f-row {
+    flex-direction: row !important;
   }
   .d-block {
     display: block !important;

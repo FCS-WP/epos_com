@@ -12,17 +12,19 @@ $yelow: #ffc402 !default;
 $blue: #1b459b !default;
 $red: #dc2626 !default;
 $orange: #fed7aa !default;
+$orange-secondary: #fe9700 !default;
 $blue-light: #eff7ff !default;  
 $blue-light-2: #40538d !default;
 $blue-dark: #0a142f !default; 
-$border-color: rgba(14, 11, 61, 0.078) !default;
+$border-color: rgba(14, 11, 61, 0.1) !default;
 $footer-color: #090727 !default;
 
 // gradient
 $gradient-primary: linear-gradient(to right, #49ad60, #00a286, #0092a2, #007faa, #336a9e);
 $gradient-secondary: linear-gradient(to right bottom, #cfe7d0, #b7d9b9, #9ecaa2, #86bc8c, #6dae76, #57aa77, #3ba57a, #00a07e, #00a298, #00a2af, #00a0c0, #2c9dcb);
-$gradient-purple: linear-gradient(to bottom, #8e0ff6, #800af2, #7105ef, #6102eb, #4f00e7);
+$gradient-purple: linear-gradient(to top left, #8e0ff6, #800af2, #7105ef, #6102eb, #4f00e7);
 $gradient-green: linear-gradient(to top, #cfe7d0, #b7d9b9, #9ecaa2, #86bc8c, #6dae76, #57aa77, #3ba57a, #00a07e, #00a298);
+$gradient-green-reverse: linear-gradient(to bottom, #86bc8c, #6dae76, #57aa77, #3ba57a, #2eaf7d);
 
 //Shadow
 $shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);

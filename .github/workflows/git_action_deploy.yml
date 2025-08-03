@@ -86,4 +86,4 @@ jobs:
             <b>Details:</b>
             Project name 💻: ${{ github.repository }}
             Project link 🔎: https://github.com/${{ github.repository }}
-            See new changes: https://${{secrets.FPT_DIR_PATH}}
+            See new changes: https://epos.com

@@ -237,4 +237,24 @@
       height: 100%;
     }
   }
+
+  .compare-table {
+    box-shadow: $shadow;
+    border-radius: 10px;
+    .compare-items {
+      .item-header {
+        border-radius: 10px 10px 0 0;
+        color: white;
+      }
+      .item {
+        padding: 0 10px;
+        .text {
+          padding: 25px 0;
+        }
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
 }

@@ -1,4 +1,12 @@
 #content {
+  //width
+  .width-80 {
+    max-width: 100%;
+    @include desktop {
+      max-width: 80% !important;
+    }
+  }
+
   // Border
   .rounded {
     border-radius: 30px !important;
@@ -31,6 +39,9 @@
   }
   .rounded-24 {
     border-radius: 24px !important;
+    img {
+      border-radius: 24px !important;
+    }
     &.col {
       .col-inner {
         border-radius: 24px !important;
@@ -59,6 +70,12 @@
     &.border-orange {
       border: 1px solid $orange !important;
     }
+    &.border-light {
+      border: 1px solid rgba($blue-light, 0.4) !important;
+    }
+    &.border-dark {
+      border: 1px solid $border-color !important;
+    }
   }
   .border-end {
     border-bottom: 1px solid $text-body !important;
@@ -86,6 +103,40 @@
   }
 
   //
+  .opacity-0-8 {
+    opacity: 0.8 !important;
+  }
+
+  //text-margin 
+  .text-margin-0 {
+    margin: 0 !important;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 0 !important;
+    }
+    p {
+      margin: 0 !important;
+    }
+  }
+
+  .text-mb-8 {
+    margin-bottom: 8px !important;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-bottom: 8px !important;
+    }
+    p {
+      margin-bottom: 8px !important;
+    }
+  }
   //text-color
   .text-primary {
     color: $primary-color !important;
@@ -145,6 +196,35 @@
       color: white !important;
     }
   }
+  
+  .text-light-blue {
+    color: $blue-light !important;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $blue-light !important;
+    }
+    p {
+      color: $blue-light !important;
+    }
+  }
+  .text-orange-secondary {
+    color: $orange-secondary !important;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $orange-secondary !important;
+    }
+    p {
+      color: $orange-secondary !important;
+    }
+  }
 
   .text-gradient-primary {
     background: $gradient-secondary;
@@ -171,11 +251,18 @@
   }
   .span-primary {
     span {
-      color: $primary-color !important; 
+      color: $primary-color !important;
+      font-size: 20px;
     }
   }
   //
   //Font
+  .fw-500 {
+    font-weight: 500 !important;
+    p {
+      font-weight: 500 !important;
+    }
+  }
   .fw-bold {
     font-weight: bold !important;
     p {
@@ -200,10 +287,16 @@
       p {
         font-size: 26px !important;
       }
+      span {
+        font-size: 26px !important;
+      }
     }
-    font-size: 20px !important;
+    font-size: 20px;
     p {
-      font-size: 20px !important;
+      font-size: 20px;
+    }
+    span {
+      font-size: 20px;
     }
   }
   .fs-24 {
@@ -225,9 +318,47 @@
         font-size: 20px !important;
       }
     }
-    font-size: 18px !important;
+    font-size: 18px;
     p {
+      font-size: 18px;
+    }
+  }
+  .fs-18 {
+    @include desktop {
       font-size: 18px !important;
+      p {
+        font-size: 18px !important;
+      }
+    }
+    font-size: 16px !important;
+    p {
+      font-size: 16px !important;
+    }
+  }
+  .fs-14 {
+    font-size: 14px !important;
+    p {
+      font-size: 14px !important;
+    }
+  }
+  .h-fs-32 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: 26px !important;
+    }
+    @include desktop {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-size: 32px !important;
+      }
     }
   }
   //
@@ -280,6 +411,15 @@
   .bg-purple {
     background: $gradient-green !important;
   }
+  .bg-gra-purple {
+    background: $gradient-purple !important;
+  }
+  .bg-gra-secondary {
+    background: $gradient-secondary !important;
+  }
+  .bg-gra-green-re {
+    background: $gradient-green-reverse !important;
+  }
   //shadow
   .shadow {
     box-shadow: $shadow !important;
@@ -295,7 +435,7 @@
   .d-flex {
     display: flex !important;
   }
-  .f-column {
+  .f-col {
     flex-direction: column !important;
   }
   .f-row {
@@ -344,6 +484,44 @@
   .h-300px {
     @include desktop {
       height: 300px !important;
+    }
+  }
+  .h-310px {
+    @include desktop {
+      height: 310px !important;
+    }
+  }
+  .h-260px {
+    @include desktop {
+      height: 260px !important;
+    }
+  }
+
+  //tag-line
+  .tag-line {
+    width: fit-content;
+    padding: 8px 12px;
+    border: 1px solid $border-color;
+    border-radius: 24px;
+    p {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.2em;
+      color: $blue-dark;
+    }
+  }
+  .tag-line-title {
+    width: fit-content;
+    padding: 10px 15px;
+    border-radius: 24px;
+    background-color: $border-color;
+    p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1;
+      color: $blue-dark;
     }
   }
 }

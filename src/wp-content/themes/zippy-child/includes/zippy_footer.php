@@ -1,10 +1,10 @@
 <?php
 function footer_shortcode()
 {
+    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $path_trimmed = trim($path, '/');
 
-    $current_url = $_SERVER['REQUEST_URI'];
-
-    if (trim($current_url, '/') === 'my') {
+    if (strpos($path_trimmed, 'my') === 0) {
         return do_shortcode('[block id="footer-malaysia"]');
     } else {
         return do_shortcode('[block id="footer"]');

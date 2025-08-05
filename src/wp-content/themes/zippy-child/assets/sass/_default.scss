@@ -76,13 +76,16 @@
     &.border-dark {
       border: 1px solid $border-color !important;
     }
+    &.border-lighter-blue {
+      border: 1px solid $lighter-blue !important;
+    }
   }
   .border-end {
     border-bottom: 1px solid $text-body !important;
     padding-bottom: 20px;
     @include desktop {
       border-right: 1px solid $text-body !important;
-      border-bottom: none !important;
+      border-bottom: none !important; 
     }
     @include tablet {
       border-right: 1px solid $text-body !important;
@@ -211,6 +214,22 @@
       color: $blue-light !important;
     }
   }
+
+  .text-lighter-blue {
+    color: $lighter-blue !important;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $lighter-blue !important;
+    }
+    p {
+      color: $lighter-blue !important;
+    }
+  }
+
   .text-orange-secondary {
     color: $orange-secondary !important;
     h1,
@@ -311,6 +330,18 @@
       font-size: 18px !important;
     }
   }
+  .fs-22 {
+    @include desktop {
+      font-size: 22px !important;
+      p {
+        font-size: 22px !important;
+      }
+    }
+    font-size: 20px;
+    p {
+      font-size: 20px;
+    }
+  }
   .fs-20 {
     @include desktop {
       font-size: 20px !important;
@@ -408,6 +439,9 @@
   .bg-light-blur {
     background-color: rgba(255, 255, 255, 0.1) !important;
   }
+  .bg-lighter-blue {
+    background-color: $lighter-blue !important;
+  }
   .bg-purple {
     background: $gradient-green !important;
   }
@@ -419,6 +453,9 @@
   }
   .bg-gra-green-re {
     background: $gradient-green-reverse !important;
+  }
+  .bg-smoke {
+    background-color: $smoke !important;
   }
   //shadow
   .shadow {
@@ -440,6 +477,10 @@
   }
   .f-row {
     flex-direction: row !important;
+  }
+  .f-nowrap {
+    flex-wrap: nowrap !important;
+    // gap: 45px;
   }
   .d-block {
     display: block !important;

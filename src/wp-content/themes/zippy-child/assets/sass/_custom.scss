@@ -258,3 +258,10 @@
     }
   }
 }
+.menu-language{
+  a{
+    &::before{
+      display: none ;
+    }
+  }
+}

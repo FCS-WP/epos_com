@@ -35,7 +35,6 @@ function get_geoip_info()
     $data = json_decode($body, true);
 
     return [
-        'ip' => $client_ip,
         'country' => [
             'iso_code' => $data['country']['iso_code'] ?? '',
             'name' => $data['country']['name'] ?? '',

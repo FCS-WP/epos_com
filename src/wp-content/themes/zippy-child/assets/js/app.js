@@ -67,32 +67,4 @@ $(document).ready(function () {
     });
   }
 
-  // language switcher
-  const pathname = window.location.pathname;
-  const parentLink = $(".menu-language > a");
-  const dropdownIcon = parentLink.find("i").clone();
-
-  if (pathname.startsWith("/my")) {
-    const globalHtml = parentLink.html();
-    const globalHref = parentLink.attr("href");
-
-    const malaysiaLink = $(".region-option.malaysia a");
-    const malaysiaHtml = malaysiaLink.html();
-    const malaysiaHref = malaysiaLink.attr("href");
-
-    parentLink.html(malaysiaHtml).append(dropdownIcon);
-    parentLink.attr("href", malaysiaHref);
-
-    const globalHtmlNoIcon = $("<div>")
-      .html(globalHtml)
-      .find("i")
-      .remove()
-      .end()
-      .html();
-
-    malaysiaLink.html(globalHtmlNoIcon);
-    malaysiaLink.attr("href", globalHref);
-  }
-
-
 });

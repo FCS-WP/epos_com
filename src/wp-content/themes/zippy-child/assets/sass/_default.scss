@@ -77,7 +77,7 @@
       border: 1px solid rgba($blue-light, 0.4) !important;
     }
     &.border-dark {
-      border: 1px solid $border-color !important;
+      border: 1px solid $border-dark !important;
     }
     &.border-lighter-blue {
       border: 1px solid $lighter-blue !important;
@@ -125,6 +125,9 @@
       margin: 0 !important;
     }
     p {
+      margin: 0 !important;
+    }
+    strong {
       margin: 0 !important;
     }
   }
@@ -279,6 +282,24 @@
   }
   //
   //Font
+  .lh-small {
+    line-height: 1.25;
+    p {
+      line-height: 1.25;
+    }
+    span {
+      line-height: 1.25;
+    }
+  }
+  .fw-400 {
+    font-weight: 400 !important;
+    p {
+      font-weight: 400 !important;
+    }
+    span {
+      font-weight: 400 !important;
+    }
+  }
   .fw-500 {
     font-weight: 500 !important;
     p {
@@ -301,6 +322,24 @@
       p {
         font-size: 44px !important;
       }
+    }
+  }
+  .fs-30 {
+    @include desktop {
+      font-size: 30px !important;
+      p {
+        font-size: 30px !important;
+      }
+      span {
+        font-size: 30px !important;
+      }
+    }
+    font-size: 22px;
+    p {
+      font-size: 22px;
+    }
+    span {
+      font-size: 22px;
     }
   }
   .fs-26 {
@@ -364,9 +403,9 @@
         font-size: 18px !important;
       }
     }
-    font-size: 16px !important;
+    font-size: 16px;
     p {
-      font-size: 16px !important;
+      font-size: 16px;
     }
   }
   .fs-14 {
@@ -460,6 +499,9 @@
   .bg-smoke {
     background-color: $smoke !important;
   }
+  .bg-light-gray {
+    background-color: $light-gray !important;
+  }
   //shadow
   .shadow {
     box-shadow: $shadow !important;
@@ -475,15 +517,29 @@
   .d-flex {
     display: flex !important;
   }
+  .d-flex-inner {
+    .col-inner {
+      display: flex !important;
+    }
+  }
   .f-col {
     flex-direction: column !important;
+  }
+  .f-col-inner {
+    .col-inner {
+      flex-direction: column !important;
+    }
   }
   .f-row {
     flex-direction: row !important;
   }
+  .f-row-inner {
+    .col-inner {
+      flex-direction: row !important;
+    }
+  }
   .f-nowrap {
     flex-wrap: nowrap !important;
-    // gap: 45px;
   }
   .d-block {
     display: block !important;
@@ -499,6 +555,11 @@
   }
   .align-items-center {
     align-items: center !important;
+  }
+  .align-center-inner {
+    .col-inner {
+      align-items: center !important;
+    }
   }
   //width
   .w-100 {

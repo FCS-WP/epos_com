@@ -1,0 +1,12 @@
+.banner-my-site {
+  background-color: rgb(237 237 237);
+  border-radius: 0 0 60px 60px;
+  margin-bottom: 120px;
+  padding-bottom: 0 !important;
+  position: relative;
+  .image-banner-home {
+    @include desktop {
+      margin-bottom: -80px;
+    }
+  }
+}

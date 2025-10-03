@@ -63,6 +63,17 @@
       }
     }
   }
+  .rounded-60 {
+    border-radius: 60px !important;
+    img {
+      border-radius: 60px !important;
+    }
+    &.col {
+      .col-inner {
+        border-radius: 60px !important;
+      }
+    }
+  }
   .border {
     &.border-primary {
       border: 1px solid $primary-color !important;
@@ -272,6 +283,20 @@
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+  }
+  .text-gray{
+    color: $text-body !important;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $text-body !important;
+    }
+    p {
+      color: $text-body !important;
     }
   }
   .span-primary {

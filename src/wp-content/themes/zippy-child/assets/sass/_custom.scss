@@ -258,10 +258,28 @@
     }
   }
 }
-.menu-language{
-  a{
-    &::before{
-      display: none ;
+.menu-language {
+  a {
+    &::before {
+      display: none;
+    }
+  }
+}
+.tabbed-content {
+  &.tab-language-private-policy {
+    .nav {
+      justify-content: end !important;
+      border-bottom: none !important;
+      li.tab {
+        padding: 5px 10px !important;
+        border-right: 1px solid $text-body !important;
+        a {
+          font-size: 18px !important;
+        }
+        &:last-child {
+          border-right: none !important;
+        }
+      }
     }
   }
 }

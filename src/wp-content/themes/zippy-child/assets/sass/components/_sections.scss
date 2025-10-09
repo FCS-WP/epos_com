@@ -65,8 +65,12 @@
   background-color: #ededed !important;
 }
 
-.tabbed-content .nav {
-  display: none;
+.tabbed-content {
+  &.tab-menu-hiden {
+    .nav {
+      display: none;
+    }
+  }
 }
 
 .justify-content-inner-between {

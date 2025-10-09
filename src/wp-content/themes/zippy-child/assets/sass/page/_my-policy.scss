@@ -1,0 +1,13 @@
+#content {
+  .content-policy {
+    h2 {
+      font-size: 26px !important;
+      @include tablet {
+        font-size: 28px !important;
+      }
+      @include desktop {
+        font-size: 32px !important;
+      }
+    }
+  }
+}

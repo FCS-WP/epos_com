@@ -1,5 +1,5 @@
 <header id="header" class="header header-my <?php flatsome_header_classes(); ?>">
-    <div class="header-wrapper stuck">
+    <div class="header-wrapper">
         <div id="masthead" class="header-main <?php header_inner_class('main'); ?>">
             <div class="header-inner flex-row container <?php flatsome_logo_position(); ?>" role="navigation">
 

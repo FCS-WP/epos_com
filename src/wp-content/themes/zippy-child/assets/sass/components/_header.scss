@@ -65,3 +65,23 @@
     display: none;
   }
 }
+.header-my {
+  .header-nav.header-nav-main {
+    .menu-item {
+      .sub-menu {
+        li {
+          a {
+            word-spacing: 3px !important;
+          }
+
+          &.current-menu-item {
+            a {
+              color: rgb(0, 0, 0) !important;
+              font-weight: 400;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -99,7 +99,7 @@
     padding-bottom: 20px;
     @include desktop {
       border-right: 1px solid $text-body !important;
-      border-bottom: none !important; 
+      border-bottom: none !important;
     }
     @include tablet {
       border-right: 1px solid $text-body !important;
@@ -124,7 +124,7 @@
     opacity: 0.8 !important;
   }
 
-  //text-margin 
+  //text-margin
   .text-margin-0 {
     margin: 0 !important;
     h1,
@@ -216,7 +216,7 @@
       color: white !important;
     }
   }
-  
+
   .text-light-blue {
     color: $blue-light !important;
     h1,
@@ -285,7 +285,7 @@
       -webkit-text-fill-color: transparent;
     }
   }
-  .text-gray{
+  .text-gray {
     color: $text-body !important;
     h1,
     h2,

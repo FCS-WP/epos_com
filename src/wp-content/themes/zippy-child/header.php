@@ -39,5 +39,11 @@
 		<?php endif; ?>
 
 		<?php do_action('flatsome_after_header'); ?>
+		<?php
+		$main_classes = flatsome_main_classes(false);
+		if ($request_uri === 'my' || strpos($request_uri, 'my/') === 0) {
+			$main_classes .= ' my-main';
+		}
+		?>
 
-		<main id="main" class="<?php flatsome_main_classes(); ?>">
+		<main id="main" class="<?php echo esc_attr(trim($main_classes)); ?>">

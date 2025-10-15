@@ -51,7 +51,7 @@
     border-bottom: 1px solid $border-color;
     margin: 0 30px;
     @include desktop {
-      margin: 0 0 ;
+      margin: 0 0;
     }
     &:last-child {
       border-bottom: none;
@@ -75,13 +75,13 @@
         top: -76%;
         left: -15%;
         width: 200px;
-        @include desktop {
-          top: -63%;
-          left: -5%;
-        }
         @include tablet {
           top: -63%;
           left: -8%;
+        }
+        @include desktop {
+          top: -63%;
+          left: -5%;
         }
       }
     }

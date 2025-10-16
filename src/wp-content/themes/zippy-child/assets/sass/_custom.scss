@@ -257,6 +257,29 @@
       }
     }
   }
+  .cash-register-section {
+    .col {
+      @include desktop {
+        min-height: 180px;
+        margin-bottom: 0;
+      }
+      min-height: auto;
+      margin-bottom: 20px;
+      .col-inner {
+        height: 100%;
+        .icon-box {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          .icon-box-text {
+            h3 {
+              font-size: 18px !important ;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 .menu-language {
   a {
@@ -282,4 +305,14 @@
       }
     }
   }
+}
+
+.slider-wrapper {
+  .flickity-prev-next-button {
+    display: block !important;
+  }
+}
+.epos-whatsapp-wa.wapp-chatCta,
+.back-to-top.active {
+	z-index: 9999 !important;
 }

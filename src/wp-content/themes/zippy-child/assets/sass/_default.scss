@@ -74,6 +74,17 @@
       }
     }
   }
+  .non-rounded {
+    border-radius: 0 !important;
+    &.col {
+      .col-inner {
+        border-radius: 0 !important;
+      }
+    }
+    img {
+      border-radius: 0 !important;
+    }
+  }
   .border {
     &.border-primary {
       border: 1px solid $primary-color !important;

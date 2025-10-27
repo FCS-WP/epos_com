@@ -444,6 +444,18 @@
       font-size: 16px;
     }
   }
+  .fs-16 {
+    @include desktop {
+      font-size: 16px !important;
+      p {
+        font-size: 16px !important;
+      }
+    }
+    font-size: 14px;
+    p {
+      font-size: 14px;
+    }
+  }
   .fs-14 {
     font-size: 14px !important;
     p {

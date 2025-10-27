@@ -1,0 +1,29 @@
+.vids-list-section {
+    .list-items-1 {
+        .col-inner {
+            min-height: auto !important;
+            border: 1px solid $border-dark !important;
+            padding: 35px !important;
+            border-radius: 24px;
+        }
+    }
+    .list-items-2 {
+        border: 1px solid $border-dark !important;
+        padding: 20px !important;
+        border-radius: 24px;
+        margin-inline: 0 !important;
+        margin-bottom: 40px !important;
+    }
+    @include desktop {
+        .list-items-1 {
+            .col-inner {
+                min-height: 470px !important;
+                padding: 30px !important;
+            }
+        }
+        .list-items-2 {
+            padding: 30px !important;
+            margin-bottom: 0 !important;
+        }
+    }
+}

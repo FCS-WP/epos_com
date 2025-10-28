@@ -1,5 +1,6 @@
 import "../lib/slick/slick.min.js";
 import "../js/widgetWhatsapp.js";
+import "../js/video_hub.js";
 
 ("use strict");
 $ = jQuery;

@@ -18,9 +18,26 @@ $thumbnail  = get_field('thumbnail', $video_id);
         <p class="video-desc"><?php echo esc_html($desc); ?></p>
         <?php if ($video_file): ?>
             <div class="video-player">
-                <video controls poster="<?php echo esc_url($thumbnail['url']); ?>">
-                    <source src="<?php echo esc_url($video_file['url']); ?>" type="video/mp4">
-                </video>
+                <figure class="video-card" id="videoCard">
+                    <video
+                        id="myVideo"
+                        class="media"
+                        poster="<?php echo esc_url($thumbnail['url']); ?>"
+                        preload="none"
+                        playsinline
+                        aria-label="Video demo"
+                        tabindex="0"
+                        data-src="<?php echo esc_url($video_file['url']); ?>">
+                    </video>
+
+                    <div class="play-overlay" aria-hidden="true">
+                        <div class="play-btn" id="playBtn" role="button" aria-label="Play video" tabindex="0">
+                            <img class="play-icon"
+                                src="/wp-content/uploads/2025/10/EPOSMY-Webpage-Resources-Section-04-button.webp"
+                                alt="Play video">
+                        </div>
+                    </div>
+                </figure>
                 <div class="vid-info">
                     <p class="vid-title"><?php echo esc_html($title); ?></p>
                     <p class="vid-desc"><?php echo esc_html($desc); ?></p>

@@ -4,7 +4,7 @@
     "menu_order": 0,
     "active": true,
     "post_type": "videos_hub",
-    "advanced_configuration": false,
+    "advanced_configuration": true,
     "import_source": "",
     "import_date": "",
     "labels": {
@@ -70,7 +70,8 @@
     "has_archive": false,
     "has_archive_slug": "",
     "rewrite": {
-        "permalink_rewrite": "post_type_key",
+        "permalink_rewrite": "custom_permalink",
+        "slug": "my\/videos_hub",
         "with_front": "1",
         "feeds": "0",
         "pages": "1"
@@ -80,5 +81,5 @@
     "can_export": true,
     "delete_with_user": false,
     "register_meta_box_cb": "",
-    "modified": 1761562125
+    "modified": 1761625358
 }

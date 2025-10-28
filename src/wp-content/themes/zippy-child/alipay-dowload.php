@@ -37,14 +37,14 @@
 
 <body>
   <iframe
-    src="https://pre.ac.alipay.com/page/landing/download.html"
+    src="https://ac.alipay.com/page/landing/download.html"
     class="iframe-wrapper"
     title="Alipay Download Page"
     loading="lazy"></iframe>
 
   <noscript class="fallback">
     If the page doesn’t load,
-    <a href="https://pre.ac.alipay.com/page/landing/download.html" target="_blank" rel="noopener noreferrer">
+    <a href="https://ac.alipay.com/page/landing/download.html" target="_blank" rel="noopener noreferrer">
       click here to open in a new tab
     </a>.
   </noscript>

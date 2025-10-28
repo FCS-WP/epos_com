@@ -83,7 +83,7 @@ $thumbnail  = get_field('thumbnail', $video_id);
         </div>
     </div>
 </div>
-<div class="support-section">
+<div class="support-section content-area" id="content">
     <?php echo do_shortcode('[block id="video-hub-footer"]'); ?>
 </div>
 <?php get_footer(); ?>

@@ -1,0 +1,69 @@
+.banner-my-site {
+  .custom-epos-bluetap {
+    .col-inner {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      height: 100%;
+      align-items: center;
+    }
+  }
+}
+.group-button-bluetap {
+  gap: 20px;
+  .custom-button-buletap {
+    position: relative;
+    background-color: $light-gray !important;
+    border: 1px solid $light-gray !important;
+    padding: 20px !important;
+    border-radius: 15px;
+    margin: 0 20px !important;
+    @include desktop {
+      margin: 0 !important;
+    }
+    .col-inner {
+      height: 100%;
+      .icon-box {
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+    }
+    &:nth-child(1){
+        &::before{
+            content: "1";
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            width: 40px;
+            height: 40px;
+            background-color: $secondary-color;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+        }
+    }
+    &:nth-child(2){
+        &::before{
+            content: "2";
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            width: 40px;
+            height: 40px;
+            background-color: $secondary-color;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+        }
+    }
+  }
+}

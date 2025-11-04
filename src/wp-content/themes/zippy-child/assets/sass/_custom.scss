@@ -270,10 +270,13 @@
         .icon-box {
           display: flex;
           flex-direction: column;
-          height: 100%;
           .icon-box-text {
             h3 {
-              font-size: 18px !important ;
+              font-size: 18px !important;
+              min-height: auto;
+              @media (min-width: 850px) and (max-width: 1270px) {
+                min-height: 56px;
+              }
             }
           }
         }

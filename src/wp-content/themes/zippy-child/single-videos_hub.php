@@ -47,8 +47,6 @@ $thumbnail  = get_field('thumbnail', $video_id);
     </div>
 
     <div class="related-videos">
-        <h2>More from <?php echo esc_html($category ?: 'Getting Started'); ?></h2>
-        <div class="related-videos-grid">
             <?php
             $args = [
                 'post_type'      => 'videos_hub',
@@ -67,20 +65,22 @@ $thumbnail  = get_field('thumbnail', $video_id);
             $related = new WP_Query($args);
             if ($related->have_posts()):
                 while ($related->have_posts()): $related->the_post();
-                    $thumb = get_field('thumbnail');
-            ?>
+                $thumb = get_field('thumbnail');
+                ?>
+                <h2>More from <?php echo esc_html($category ?: 'Getting Started'); ?></h2>
+                 <div class="related-videos-grid">
                     <a href="<?php the_permalink(); ?>" class="related-video-item">
                         <?php if ($thumb): ?>
                             <img src="<?php echo esc_url($thumb['url']); ?>" alt="<?php the_title_attribute(); ?>">
                         <?php endif; ?>
                         <h3><?php the_title(); ?></h3>
                     </a>
+                </div>
             <?php
                 endwhile;
                 wp_reset_postdata();
             endif;
             ?>
-        </div>
     </div>
 </div>
 <div class="support-section content-area" id="content">

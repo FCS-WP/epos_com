@@ -1,6 +1,7 @@
 import "../lib/slick/slick.min.js";
 import "../js/widgetWhatsapp.js";
 import "../js/video_hub.js";
+import "../js/careers-page.js";
 
 ("use strict");
 $ = jQuery;
@@ -74,16 +75,25 @@ document.addEventListener("DOMContentLoaded", function () {
     "button-tab-f&b": { tab: "tab-f&b", panel: "tab_f&b" },
     "button-tab-retail": { tab: "tab-retail", panel: "tab_retail" },
     "button-tab-services": { tab: "tab-services", panel: "tab_services" },
-    "button-tab-all-businesses": { tab: "tab-all-businesses", panel: "tab_all-businesses" },
+    "button-tab-all-businesses": {
+      tab: "tab-all-businesses",
+      panel: "tab_all-businesses",
+    },
   };
 
   Object.entries(mapping).forEach(([buttonClass, { tab, panel }]) => {
     const buttons = document.getElementsByClassName(buttonClass);
     Array.from(buttons).forEach((button) => {
       button.addEventListener("click", function () {
-        document.querySelectorAll(".tabbed-content .tab").forEach((el) => el.classList.remove("active"));
-        document.querySelectorAll(".tabbed-content .panel").forEach((el) => el.classList.remove("active"));
-        document.querySelectorAll(".stack a.button").forEach((el) => el.classList.remove("active"));
+        document
+          .querySelectorAll(".tabbed-content .tab")
+          .forEach((el) => el.classList.remove("active"));
+        document
+          .querySelectorAll(".tabbed-content .panel")
+          .forEach((el) => el.classList.remove("active"));
+        document
+          .querySelectorAll(".stack a.button")
+          .forEach((el) => el.classList.remove("active"));
 
         button.classList.add("active");
 
@@ -103,4 +113,3 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
-

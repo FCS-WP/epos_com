@@ -29,41 +29,59 @@
         align-items: center;
       }
     }
-    &:nth-child(1){
-        &::before{
-            content: "1";
-            position: absolute;
-            top: -15px;
-            left: -15px;
-            width: 40px;
-            height: 40px;
-            background-color: $secondary-color;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-        }
+    &:nth-child(1) {
+      &::before {
+        content: "1";
+        position: absolute;
+        top: -15px;
+        left: -15px;
+        width: 40px;
+        height: 40px;
+        background-color: $secondary-color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+      }
     }
-    &:nth-child(2){
-        &::before{
-            content: "2";
-            position: absolute;
-            top: -15px;
-            left: -15px;
-            width: 40px;
-            height: 40px;
-            background-color: $secondary-color;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-        }
+    &:nth-child(2) {
+      &::before {
+        content: "2";
+        position: absolute;
+        top: -15px;
+        left: -15px;
+        width: 40px;
+        height: 40px;
+        background-color: $secondary-color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+      }
+    }
+  }
+}
+
+.blue-tab-slider {
+  .flickity-button.flickity-prev-next-button {
+    height: auto;
+    svg {
+      top: 50%;
+    }
+  }
+  @include tablet {
+    .flickity-button.flickity-prev-next-button {
+      top: 0;
+      height: 800px;
+      svg {
+        top: 50%;
+      }
     }
   }
 }

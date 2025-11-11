@@ -58,3 +58,7 @@ function display_product_video_on_single_product() {
     <?php    
 }
 // add_action('woocommerce_product_thumbnails', 'display_product_video_on_single_product', 0, 0);
+
+foreach (glob(THEME_DIR . '-child' . "/includes/workable/*.php") as $file_name) {
+  require_once($file_name);
+}

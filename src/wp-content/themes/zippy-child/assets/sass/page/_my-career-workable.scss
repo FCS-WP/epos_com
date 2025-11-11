@@ -74,11 +74,12 @@ $radius: 8px;
     }
 
     .job-name-wrapper {
+      width: 100%;
       @include desktop {
         width: 40%;
       }
-      width: 100%;
       .job-name {
+        text-align: left;
         cursor: pointer;
         a {
           font-size: 18px !important;
@@ -93,6 +94,7 @@ $radius: 8px;
       }
     }
     .job-metas {
+      text-align: left;
       display: flex;
       justify-content: space-between;
       align-items: start;
@@ -107,6 +109,7 @@ $radius: 8px;
       .job-department-wrapper {
         font-size: 14px;
         width: 40%;
+        text-align: left;
       }
       @include desktop {
         align-items: center;

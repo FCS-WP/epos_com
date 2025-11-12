@@ -81,7 +81,7 @@ function job_openings_shortcode()
 
             <div class="job-loading-overlay" id="job-loading" style="display: none;">
                 <div class="job-loading-inner">
-                    <img src="https://www.epos.com.sg/wp-content/uploads/2025/06/EPOS_Logo.png" alt="Loading..." class="loading-logo">
+                    <img src="https://www.epos.com.sg/wp-content/uploads/2025/11/EPOS_Full-Color.png" alt="Loading..." class="loading-logo">
                 </div>
             </div>
         </div>

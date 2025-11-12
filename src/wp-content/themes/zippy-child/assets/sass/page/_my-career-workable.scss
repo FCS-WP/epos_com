@@ -6,7 +6,7 @@ $radius: 8px;
 
   // ===== Search box =====
   .job-search-full {
-    width: 49%;
+    width: 100%;
     height: 50px;
     padding: 0 16px;
     margin-bottom: 15px;
@@ -22,6 +22,10 @@ $radius: 8px;
 
     &:focus {
       box-shadow: $shadow-2;
+    }
+
+    @include tablet {
+      width: 49%;
     }
   }
 
@@ -76,7 +80,7 @@ $radius: 8px;
     .job-name-wrapper {
       width: 100%;
       @include desktop {
-        width: 40%;
+        width: 40% !important;
       }
       .job-name {
         text-align: left;
@@ -88,9 +92,15 @@ $radius: 8px;
           cursor: pointer;
         }
       }
+      .job-meta {
+        text-align: left;
+      }
       .job-posted {
         font-size: 14px;
         font-weight: 400;
+      }
+      h3 {
+        margin-bottom: 0;
       }
     }
     .job-metas {

@@ -10,7 +10,7 @@ DESKTOP */
       const s1Tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".s1",
-          start: "top top+=80",
+          start: "top top+=60",
           end: "+=220%",
           pin: true,
           scrub: true,
@@ -49,7 +49,7 @@ DESKTOP */
       const s2Tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".s2",
-          start: "top top+=80",
+          start: "top top+=60",
           end: "+=220%",
           pin: true,
           scrub: true,
@@ -93,7 +93,7 @@ DESKTOP */
       const s3Tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".s3",
-          start: "top top+=80",
+          start: "top top+=60",
           end: "+=220%",
           pin: true,
           scrub: true,
@@ -132,7 +132,7 @@ DESKTOP */
       const s4Tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".s4",
-          start: "center center+=80",
+          start: "center center+=60",
           end: "+=220%",
           pin: true,
           scrub: true,

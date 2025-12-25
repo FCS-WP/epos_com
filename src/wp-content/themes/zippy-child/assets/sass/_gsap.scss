@@ -1,0 +1,239 @@
+///
+.video-scroll {
+  min-height: 100vh !important;
+  will-change: transform;
+}
+.section-sell {
+  position: relative;
+  @include desktop {
+    overflow: hidden;
+  }
+
+  .row-sell {
+    position: relative;
+    .col {
+      position: relative;
+      height: 100%;
+      .col-inner {
+        height: 100%;
+        position: relative;
+      }
+    }
+    .sell-absolute-left {
+      @include desktop {
+        position: absolute;
+        left: 30%;
+        top: 139%;
+        width: 250px;
+        z-index: 1;
+      }
+    }
+    .sell-absolute-center {
+      @include desktop {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 150px !important;
+        height: 150px;
+        z-index: 1;
+      }
+    }
+    .sell-absolute-right {
+      @include desktop {
+        position: absolute;
+        left: -50px;
+        top: 265px;
+        z-index: 1;
+      }
+    }
+  }
+}
+//save
+.section-save {
+  position: relative;
+  overflow: hidden;
+  .row-save {
+    position: relative;
+    .col {
+      position: relative;
+      height: 100%;
+      .col-inner {
+        height: 100%;
+        position: relative;
+      }
+    }
+    .save-absolute-left {
+      @include desktop {
+        &.v1 {
+          position: absolute;
+          left: 55%;
+          top: 215%;
+          width: 250px;
+          z-index: 1;
+        }
+        &.v2 {
+          position: absolute;
+          left: 50%;
+          top: 200%;
+          width: 250px;
+          z-index: 2;
+        }
+      }
+    }
+    .save-absolute-right {
+      @include desktop {
+        &.v1 {
+          position: absolute;
+          left: -100px;
+          top: 55px;
+          z-index: 1;
+        }
+        &.v2 {
+          position: absolute;
+          left: -100px;
+          top: 150px;
+          z-index: 2;
+        }
+      }
+    }
+  }
+}
+//Manage
+.section-manage {
+  position: relative;
+  overflow: hidden;
+  .row-manage {
+    position: relative;
+    .col {
+      position: relative;
+      height: 100%;
+      .col-inner {
+        height: 100%;
+        position: relative;
+      }
+    }
+    .manage-absolute-left {
+      @include desktop {
+        position: absolute;
+        left: 30%;
+        top: 139%;
+        width: 250px;
+        z-index: 1;
+      }
+    }
+    .manage-absolute-center {
+      @include desktop {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 150px !important;
+        height: 150px;
+        z-index: 1;
+      }
+    }
+    .manage-absolute-right {
+      @include desktop {
+        position: absolute;
+        left: -50px;
+        top: 25px;
+        z-index: 1;
+      }
+    }
+  }
+}
+//Loan
+.section-loan {
+  position: relative;
+  overflow: hidden;
+  .row-loan {
+    position: relative;
+    .col {
+      position: relative;
+      height: 100%;
+      .col-inner {
+        height: 100%;
+        position: relative;
+      }
+    }
+    .loan-absolute-left {
+      @include desktop {
+        position: absolute;
+        left: 30%;
+        top: 139%;
+        width: 250px;
+        z-index: 1;
+      }
+    }
+    .loan-absolute-center {
+      @include desktop {
+        position: absolute;
+        right: -165px;
+        top: -345px;
+        width: 250px !important;
+        height: 100%;
+        z-index: 1;
+        display: flex;
+        flex-direction: column-reverse;
+        .box-text {
+          padding: 5px;
+        }
+      }
+    }
+    .loan-absolute-right {
+      @include desktop {
+        position: absolute;
+        left: -50px;
+        top: 265px;
+        z-index: 1;
+      }
+    }
+  }
+}
+//
+.section-grow {
+  position: relative;
+  overflow: hidden;
+
+  // Flatsome section content
+  .section-content {
+    position: relative;
+    min-height: 100vh;
+    align-items: center;
+  }
+
+  .row-grow {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .tab-image {
+    position: relative;
+    min-height: 100%;
+  }
+
+  .img-1,
+  .img-2,
+  .img-3 {
+    position: absolute;
+    inset: 0;
+    top: -250px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .s5-tabs {
+    position: relative;
+
+    .tab {
+      opacity: 0.4;
+      transition: opacity 0.3s ease;
+
+      &.active {
+        opacity: 1;
+      }
+    }
+  }
+}

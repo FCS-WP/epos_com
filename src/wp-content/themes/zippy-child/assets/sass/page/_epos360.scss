@@ -1,0 +1,136 @@
+$epos360-primary: #58cc52;
+$epos360-secondary: #1323a6;
+
+body.page-id-1364 {
+  font-family: "Poppins", sans-serif !important;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Poppins", sans-serif !important;
+  }
+  .text-primary {
+    color: $epos360-primary !important;
+  }
+  .epos360-banner {
+  }
+  .intro-section-epos360 {
+    background: #0a22aa;
+    background: linear-gradient(
+      180deg,
+      rgba(10, 34, 170, 1) 20%,
+      rgba(12, 28, 115, 1) 80%
+    );
+  }
+  //button
+  .button.secondary {
+    &.button-secondary-epos360 {
+      border-color: $epos360-secondary !important;
+      color: #fff !important;
+    }
+    &.is-outline {
+      border-color: $epos360-secondary !important;
+      color: $epos360-secondary !important;
+    }
+  }
+  .button.primary {
+    &.button-add-to-cart {
+      background-color: $epos360-primary !important;
+      border-color: $epos360-primary !important;
+      color: #fff !important;
+    }
+  }
+
+  #content {
+    .icon-box {
+      margin-bottom: 8px;
+      @include desktop {
+        margin-bottom: 5px;
+      }
+      &.rounded-14 {
+        .icon-box-img {
+          img {
+            border-radius: 0 !important;
+          }
+        }
+      }
+      .icon-box-text {
+        p {
+          font-size: 14px !important;
+          @include desktop {
+            font-size: 16px !important;
+          }
+        }
+      }
+    }
+    .product-bluetap {
+      .col-inner {
+        .row {
+          .col {
+            .col-inner {
+              .product-title {
+                h2 {
+                  font-size: 28px !important;
+                  @include desktop {
+                    font-size: 32px !important;
+                  }
+                }
+              }
+              .product-price {
+                h3 {
+                  .sale-price {
+                    font-size: 26px !important;
+                    @include desktop {
+                      font-size: 28px !important;
+                    }
+                  }
+                  .regular-price {
+                    color: gray !important;
+                    text-decoration: line-through;
+                    font-weight: normal !important;
+                    font-size: 20px !important;
+                    @include desktop {
+                      font-size: 22px !important;
+                    }
+                  }
+                }
+              }
+              .product-thumbnail {
+                img {
+                  @include desktop {
+                    height: 450px;
+                  }
+                  height: 300px;
+                  object-fit: contain;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.mobile-left {
+  .mobile-nav {
+    display: none !important;
+  }
+}
+
+.gallery-accepts {
+  .col-inner {
+    .gallery-custom {
+      justify-content: center;
+      align-items: center;
+      .box-image {
+        img {
+          border-radius: 0px !important;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+}
+

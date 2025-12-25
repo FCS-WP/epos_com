@@ -186,7 +186,7 @@ DESKTOP */
       const s5Tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".s5",
-          start: "top top+=30",
+          start: "top top+=10",
           end: "+=300%", // 3 phase
           pin: true,
           scrub: true,

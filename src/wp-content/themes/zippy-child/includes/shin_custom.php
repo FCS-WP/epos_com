@@ -70,7 +70,7 @@ foreach (glob(THEME_DIR . '-child' . "/includes/workable/*.php") as $file_name) 
 function load_gsap_scrolltrigger_only_page()
 {
 
-  if (is_page()) {
+  if (is_page('epos360-hardware-purchase')) {
     $version = time();
     wp_enqueue_script(
       'gsap',

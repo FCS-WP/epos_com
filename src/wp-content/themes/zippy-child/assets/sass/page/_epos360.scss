@@ -111,6 +111,45 @@ body.page-id-1364 {
         }
       }
     }
+    .section-product {
+      .bg-white.col {
+        .col-inner {
+          background-color: #f3f4f6 !important;
+
+          p {
+            background-color: #f3f4f6 !important;
+          }
+
+          img {
+            border-radius: 0 !important;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    #main {
+      .fp-section {
+        display: block !important;
+        height: 100%;
+      }
+
+      .section-grow {
+        .s5-tabs {
+          .tab {
+            opacity: 1;
+          }
+        }
+
+        .img-1,
+        .img-2,
+        .img-3 {
+          position: relative;
+          inset: auto;
+        }
+      }
+    }
   }
 }
 .mobile-left {
@@ -133,4 +172,3 @@ body.page-id-1364 {
     }
   }
 }
-

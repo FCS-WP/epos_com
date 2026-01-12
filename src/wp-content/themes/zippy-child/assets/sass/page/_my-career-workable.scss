@@ -36,6 +36,11 @@ $radius: 8px;
     justify-content: space-between;
     gap: 10px;
     margin-bottom: 15px;
+    .custom-select.open {
+      .item {
+        margin-bottom: 0;
+      }
+    }
   }
 
   // ===== Label + clear button =====

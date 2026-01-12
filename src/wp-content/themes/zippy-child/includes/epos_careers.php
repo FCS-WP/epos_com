@@ -13,7 +13,8 @@ function job_openings_shortcode()
         $employment_types[] = $job['type'];
     }
 
-    $employment_types = array_unique($employment_types);
+    $employment_types = array_unique($employment_types); // Remove same value
+    $employment_types = array_filter($employment_types); // Remove null value
     sort($employment_types);
 ?>
 

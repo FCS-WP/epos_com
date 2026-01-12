@@ -1,7 +1,6 @@
 .vids-list-section {
   .list-items-1 {
     row-gap: 35px;
-    
     .col-inner {
       min-height: auto !important;
       border: 1px solid $border-dark !important;
@@ -11,8 +10,8 @@
 
       .order-icon {
         position: absolute;
-        top: -45px;
-        left: 38%;
+        top: -38px;
+        left: 42%;
         max-width: 80px;
       }
     }
@@ -26,37 +25,42 @@
     position: relative;
     .order-icon-col {
       position: absolute;
-      top: -45px;
+      top: -35px;
       left: auto;
       width: 80px;
       padding: 0;
     }
   }
-  @include desktop { 
-    margin: 0 0 40px 0 !important;
-    .order-icon {
-      position: absolute;
-      top: -45px;
-      left: 35%;
-      max-width: 80px;
-    }
-    .order-icon-col {
-      top: 20%;
-      left: -50px;
+  @include tablet {
+    .list-items-1 {
+      .col-inner {
+        .order-icon {
+          position: absolute;
+          top: -28px;
+          left: 38%;
+        }
+      }
     }
   }
   @include desktop {
+    margin: 0 0 40px 0 !important;
     .list-items-1 {
       .col-inner {
         min-height: 470px !important;
         padding: 40px 30px !important;
+        .order-icon {
+          position: absolute;
+          top: -38px;
+          left: 42%;
+          max-width: 80px;
+        }
       }
     }
     .list-items-2 {
       padding: 20px 20px 20px 40px !important;
       margin-bottom: 0 !important;
       .order-icon-col {
-        top: 15%;
+        top: 20%;
         left: -40px;
         width: 80px;
       }

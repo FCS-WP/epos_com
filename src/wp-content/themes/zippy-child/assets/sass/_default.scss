@@ -107,6 +107,9 @@
     &.border-lighter-blue {
       border: 1px solid $lighter-blue !important;
     }
+    &.border-gray {
+      border: 1px solid $text-body !important;
+    }
   }
   .border-end {
     border-bottom: 1px solid $text-body !important;
@@ -154,6 +157,19 @@
     }
     strong {
       margin: 0 !important;
+    }
+  }
+  .text-mb-0 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-bottom: 0 !important;
+    }
+    p {
+      margin-bottom: 0 !important;
     }
   }
 
@@ -559,6 +575,9 @@
   .bg-light-gray {
     background-color: $light-gray !important;
   }
+  .bg-gray {
+    background-color: #ededed !important;
+  }
   //shadow
   .shadow {
     box-shadow: $shadow !important;
@@ -633,6 +652,9 @@
   }
   .w-auto {
     width: auto !important;
+  }
+  .w-fit-content {
+    width: fit-content !important;
   }
   //z-index
   .z-1 {

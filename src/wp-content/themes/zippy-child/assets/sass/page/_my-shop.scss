@@ -1,0 +1,30 @@
+
+.shop-container {
+  @include tablet {
+
+    .product-main {
+      .content-row {
+        justify-content: center;
+      }
+      .product-gallery {
+        max-width: 40%;
+      }
+      .product-info {
+        max-width: 40%;
+      }
+    }
+  }
+}
+
+.woocommerce-cart-form {
+  .shop_table {
+    .product-remove {
+      a.remove {
+        width: 18px;
+        height: 18px;
+        font-size: 14px !important;
+        line-height: 14px !important;
+      }
+    }
+  }
+}

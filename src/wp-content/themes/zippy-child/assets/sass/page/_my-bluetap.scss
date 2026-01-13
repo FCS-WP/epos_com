@@ -4,12 +4,11 @@
 .break-line-dark-gray {
   background-color: $text-body !important;
 }
-.banner-my-site {
-  @include tablet {
-    .bluetap-banner-img {
-      .img-inner {
-        margin-left: -10%;
-      }
+
+@include tablet {
+  .bluetap-banner-img {
+    .img-inner {
+      margin-left: -10%;
     }
   }
 }
@@ -25,4 +24,18 @@
     font-size: 0.75em;
     vertical-align: top;
   }
+}
+
+.button.bluetap-add-to-cart-button {
+  padding: 0 12px;
+}
+.button.bluetap-add-to-cart-button::before {
+	content: "";
+	width: 30px;
+	height: 30px;
+	background: url(https://www.epos.com/wp-content/uploads/2026/01/Add-to-cart-icon-green.png) no-repeat center;
+	background-size: contain;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 8px 4px 8px 0;
 }

@@ -23,27 +23,30 @@
 
                 <!-- Right Elements -->
                 <div class="flex-col hide-for-medium flex-right">
-                    <?php
-                    if (class_exists('FlatsomeNavDropdown')) {
-                        wp_nav_menu(array(
-                            'theme_location' => 'my_menu',
-                            'container'      => false,
-                            'menu_class'     => 'header-nav header-nav-main nav nav-left nav-line-bottom  ',
-                            'depth'          => 3,
-                            'walker'         => new FlatsomeNavDropdown(),
-                            'fallback_cb'    => false,
-                        ));
-                    }
-                    ?>
+                    <div class="flex-row">
+                        <?php
+                        if (class_exists('FlatsomeNavDropdown')) {
+                            wp_nav_menu(array(
+                                'theme_location' => 'my_menu',
+                                'container'      => false,
+                                'menu_class'     => 'header-nav header-nav-main nav nav-left nav-line-bottom  ',
+                                'depth'          => 3,
+                                'walker'         => new FlatsomeNavDropdown(),
+                                'fallback_cb'    => false,
+                            ));
+                        }
+                        ?>
+                        
+                        <?php echo do_shortcode('[flatsome_cart]'); ?>
+                    </div>
                 </div>
 
-
-
                 <!-- Mobile Right Elements -->
-                <div class="flex-col show-for-medium flex-right">
+                <div class="mobile-my-header flex-col show-for-medium flex-right">
                     <ul class="mobile-nav nav nav-right <?php flatsome_nav_classes('main-mobile'); ?>">
 
                     </ul>
+                    <?php echo do_shortcode('[flatsome_cart]'); ?>
                 </div>
 
             </div>

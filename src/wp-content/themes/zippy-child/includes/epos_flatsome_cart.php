@@ -108,13 +108,6 @@ function flatsome_custom_cart_shortcode()
 add_shortcode('flatsome_cart', 'flatsome_custom_cart_shortcode');
 
 
-add_action('flatsome_footer', function () {
-    $request_uri = trim($_SERVER['REQUEST_URI'], '/');
-    if ($request_uri === 'my' || strpos($request_uri, 'my/') === 0 || is_shop() || is_product()) {
-        echo do_shortcode('[flatsome_cart]');
-    }
-});
-
 add_filter( 'woocommerce_return_to_shop_redirect', function() {
     return site_url('/my/bluetap');
 });

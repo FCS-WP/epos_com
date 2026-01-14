@@ -41,9 +41,17 @@ add_action('woocommerce_checkout_create_order', function($order) {
 }, 99);
 
 
-// Checkout form - Company name input is required
+// Checkout page - Company name input is required
 add_filter('woocommerce_checkout_fields', function($fields) {
     $fields['billing']['billing_company']['required'] = true;
     $fields['billing']['billing_company']['label'] = 'Company name';
     return $fields;
 });
+
+add_filter('woocommerce_checkout_required_field_notice', function ($message, $field_label) {
+    if ($field_label === 'Billing Company name') {
+        return '<strong>Company name</strong> is required.';
+    }
+    return $message;
+}, 10, 2);
+

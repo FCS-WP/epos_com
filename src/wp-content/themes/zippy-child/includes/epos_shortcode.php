@@ -22,7 +22,7 @@ function flatsome_ajax_add_to_cart_shortcode($atts)
   return sprintf(
     '<a href="%s" 
             data-quantity="%s" 
-            class="button primary product_type_%s add_to_cart_button ajax_add_to_cart bluetap-add-to-cart-button fw-400"
+            class="button primary product_type_%s add_to_cart_button ajax_add_to_cart bluetap-add-to-cart-button rounded-45 fw-400"
             data-product_id="%s"
             data-product_sku="%s"
             aria-label="%s"

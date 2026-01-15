@@ -111,3 +111,32 @@ add_shortcode('flatsome_cart', 'flatsome_custom_cart_shortcode');
 add_filter( 'woocommerce_return_to_shop_redirect', function() {
     return site_url('/my/bluetap');
 });
+add_filter('woocommerce_continue_shopping_redirect', function($url) {
+    return home_url('/my/bluetap');
+});
+add_filter('woocommerce_cart_item_name', function($name, $cart_item, $cart_item_key) {
+    return esc_html($cart_item['data']->get_name());
+}, 10, 3);
+add_filter('woocommerce_order_item_name', function($name, $item, $is_visible) {
+    $product = $item->get_product();
+    if (!$product) {
+        return $name;
+    }
+    return esc_html($product->get_name());
+}, 10, 3);
+
+
+// validate url add to cart has quantity
+add_filter('woocommerce_add_to_cart_validation', function($passed, $product_id, $qty) {
+    if (empty($_REQUEST['add-to-cart']) && !WC()->cart) {
+        return $passed;
+    }
+
+    foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+        if ($cart_item['product_id'] == $product_id) {
+            WC()->cart->set_quantity($cart_item_key, $qty, true);
+            return false;
+        }
+    }
+    return $passed;
+}, 10, 3);

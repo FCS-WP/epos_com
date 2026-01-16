@@ -124,3 +124,18 @@ function custom_cart_item_name($product_name, $cart_item, $cart_item_key)
     }
     return $product_name;
 }
+
+
+add_filter('woocommerce_add_to_cart_validation', function ($passed, $product_id, $qty) {
+    if (empty($_REQUEST['add-to-cart']) && !WC()->cart) {
+        return $passed;
+    }
+
+    foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+        if ($cart_item['product_id'] == $product_id) {
+            WC()->cart->set_quantity($cart_item_key, $qty, true);
+            return false;
+        }
+    }
+    return $passed;
+}, 10, 3);

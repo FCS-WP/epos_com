@@ -128,7 +128,7 @@ add_filter('woocommerce_order_item_name', function($name, $item, $is_visible) {
 
 // validate url add to cart has quantity
 add_filter('woocommerce_add_to_cart_validation', function($passed, $product_id, $qty) {
-    if (empty($_REQUEST['add-to-cart']) && !WC()->cart) {
+    if (empty($_REQUEST['add-to-cart']) || !WC()->cart) {
         return $passed;
     }
 

@@ -187,6 +187,34 @@
       margin-bottom: 8px !important;
     }
   }
+
+  .text-mb-0-sm {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-bottom: 0 !important;
+    }
+    p {
+      margin-bottom: 0 !important;
+    }
+    @include tablet {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin-bottom: 1em !important;
+      }
+      p {
+        margin-bottom: 1em !important;
+      }
+    }
+  }
+
   //text-color
   .text-primary {
     color: $primary-color !important;
@@ -509,6 +537,17 @@
   }
   //
   // Background
+  .bg-white {
+    background-color: white !important;
+    p {
+      background-color: white !important;
+    }
+    &.col {
+      .col-inner {
+        background-color: white !important;
+      }
+    }
+  }
   .bg-primary {
     background-color: $primary-color !important;
     p {
@@ -538,17 +577,6 @@
     background-color: $secondary-color !important;
     p {
       background-color: $secondary-color !important;
-    }
-  }
-  .bg-white {
-    background-color: white !important;
-    p {
-      background-color: white !important;
-    }
-    &.col {
-      .col-inner {
-        background-color: white !important;
-      }
     }
   }
   .bg-light-blur {

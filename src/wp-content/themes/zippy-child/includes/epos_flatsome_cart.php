@@ -108,6 +108,19 @@ function flatsome_custom_cart_shortcode()
 add_shortcode('flatsome_cart', 'flatsome_custom_cart_shortcode');
 
 
-add_filter( 'woocommerce_return_to_shop_redirect', function() {
+add_filter('woocommerce_return_to_shop_redirect', function () {
     return site_url('/my/bluetap');
 });
+
+
+add_filter('woocommerce_cart_item_name', 'custom_cart_item_name', 10, 3);
+function custom_cart_item_name($product_name, $cart_item, $cart_item_key)
+{
+    $product = $cart_item['data'];
+    if ($product && is_a($product, 'WC_Product')) {
+        if ($product->get_id() == 2174) {
+            $product_name =  $product_name . '<div class="cart-pre-order">' . 'Pre-order – Delivery starts from February</div>';
+        }
+    }
+    return $product_name;
+}

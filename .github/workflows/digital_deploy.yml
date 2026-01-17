@@ -39,6 +39,13 @@ jobs:
           username: "deployer"
           key: ${{ secrets.DO_SSH_KEY }}
           script: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+            # Verify node version
+            node -v
+
+            cd /var/www/epos_com
             cd /var/www/epos_com
 
             # 1. Update code to the specific tag

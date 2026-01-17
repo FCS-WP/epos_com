@@ -79,7 +79,8 @@ jobs:
         uses: appleboy/telegram-action@master
         with:
           to: -1002034905977
-          token: ${{ secrets.TELEGRAM_TOKEN }}
+          token: 6611988217:AAERCNw3lNbdpABmMztQudQXBuPcp1jsKdk
+
           format: html
           message: |
             <i><code>The Shin International</code><b> Website Deployed ✅</b></i>

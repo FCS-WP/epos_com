@@ -18,7 +18,7 @@ jobs:
           token: 6611988217:AAERCNw3lNbdpABmMztQudQXBuPcp1jsKdk
           format: html
           message: |
-            <i><code>theshin.info</code><b> Website Deploying... 🚀</b></i>
+            <i><code>EPOS MY</code><b> Website Deploying... 🚀</b></i>
 
             <b>Details:</b>
             Project name 💻: ${{ github.repository }}
@@ -83,7 +83,7 @@ jobs:
 
           format: html
           message: |
-            <i><code>The Shin International</code><b> Website Deployed ✅</b></i>
+            <i><code>EPOS MY</code><b> Website Deployed ✅</b></i>
 
             <b>Details:</b>
             Version 🏷️: ${{ github.ref_name }}

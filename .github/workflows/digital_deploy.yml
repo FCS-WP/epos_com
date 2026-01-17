@@ -49,6 +49,7 @@ jobs:
 
             # 1. Update code to the specific tag
             git fetch --tags
+            git reset --hard origin/production
             git checkout ${{ github.ref_name }}
 
             # 2. Re-generate .env from GitHub Secrets

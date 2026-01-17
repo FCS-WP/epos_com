@@ -11,7 +11,7 @@ namespace Zippy_Core\Src\Admin;
 defined('ABSPATH') or die();
 
 use Zippy_Core\Utils\Zippy_Utils_Core;
-use WP_REST_Response;
+use WP_REST_Response; 
 use WP_REST_Request;
 
 class Zippy_Admin_Setting

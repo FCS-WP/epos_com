@@ -46,7 +46,6 @@ jobs:
             node -v
 
             cd /var/www/epos_com
-            cd /var/www/epos_com
 
             # 1. Update code to the specific tag
             git fetch --tags

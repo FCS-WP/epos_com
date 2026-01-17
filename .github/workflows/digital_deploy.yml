@@ -53,9 +53,9 @@ jobs:
             echo "WORDPRESS_DB_HOST=mysql" >> .env
             echo "WORDPRESS_TABLE_PREFIX=fcs_data_" >> .env
 
-            # 3 Build Assets with Yarn
+            # 3 Build Assets
             echo "Installing dependencies with Yarn..."
-            yarn install --frozen-lockfile # Ensure consistent versions
+            yarn install --frozen-lockfile
 
             echo "Building assets with Webpack..."
             yarn build

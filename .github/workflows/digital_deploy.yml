@@ -46,6 +46,7 @@ jobs:
             node -v
 
             cd /var/www/epos_com
+            sudo chown -R deployer:deployer .
 
             # 1. Update code to the specific tag
             git fetch --tags
@@ -61,7 +62,6 @@ jobs:
             echo "WORDPRESS_TABLE_PREFIX=fcs_data_" >> .env
 
             # 3 Build Assets
-            sudo chown -R deployer:deployer .
             echo "Installing dependencies with Yarn..."
             yarn install --frozen-lockfile
 

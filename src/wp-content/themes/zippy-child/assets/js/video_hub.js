@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+  if (!document.body.classList.contains("single-videos_hub")) return;
+
   const video = document.getElementById("myVideo");
   const playBtn = document.getElementById("playBtn");
   const card = document.getElementById("videoCard");

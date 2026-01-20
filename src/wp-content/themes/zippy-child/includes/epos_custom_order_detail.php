@@ -55,3 +55,10 @@ add_filter('woocommerce_checkout_required_field_notice', function ($message, $fi
     return $message;
 }, 10, 2);
 
+// Checkout page - Billing phone start with +60 by default
+add_filter('woocommerce_checkout_get_value', function ($value, $input) {
+    if ($input === 'billing_phone' && empty($value)) {
+        return '+60 ';
+    }
+    return $value;
+}, 10, 2);

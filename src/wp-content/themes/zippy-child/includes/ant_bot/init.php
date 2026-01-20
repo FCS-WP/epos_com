@@ -1,5 +1,7 @@
 <?php
 
+use Automattic\WooCommerce\Admin\Overrides\OrderRefund;
+
 /**
  * Signs the request and sends the message to Ant Group Bot.
  * * @param string $content The text message to be sent.
@@ -69,6 +71,9 @@ function ad_handle_daily_order_sync()
   $report_until_6pm = ['title' => $today_530->format('j M') . " (until 6pm)", 'orders' => []];
 
   foreach ($orders as $order) {
+    if ($order instanceof OrderRefund) {
+      continue;
+    }
     $order_ts = $order->get_date_created()->getTimestamp();
 
 

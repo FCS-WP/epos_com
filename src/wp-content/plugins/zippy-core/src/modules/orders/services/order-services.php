@@ -7,6 +7,7 @@ use WC_Tax;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Zippy_Core\Utils\Zippy_Wc_Calculate_Helper;
+use Automattic\WooCommerce\Admin\Overrides\OrderRefund;
 
 class Order_Services
 {
@@ -46,6 +47,9 @@ class Order_Services
         $data = [];
 
         foreach ($orders as $order) {
+            if ($order instanceof OrderRefund) {
+                continue;
+            }
             $data[] = self::parse_order_data($order);
         }
 
@@ -186,6 +190,9 @@ class Order_Services
 
         $order_rows = [];
         foreach ($orders as $order) {
+            if ($order instanceof OrderRefund) {
+                continue;
+            }
             $country = $order->get_billing_country();
             $state   = $order->get_billing_state();
 
@@ -194,7 +201,7 @@ class Order_Services
 
             $order_rows[] = [
                 'order_id'       => $order->get_id(),
-            'phone'          => $order->get_billing_phone(),
+                'phone'          => $order->get_billing_phone(),
                 'name'      => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
                 'email'       => $order->get_billing_email(),
                 'company'           => $order->get_billing_company(),

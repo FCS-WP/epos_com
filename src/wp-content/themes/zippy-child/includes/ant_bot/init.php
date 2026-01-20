@@ -57,7 +57,7 @@ function ad_handle_daily_order_sync()
 
   $yesterday_530 = new DateTime('yesterday 17:30:00', $tz);
   $today_530     = new DateTime('today 17:30:00', $tz);
-  $today_600     = new DateTime('today 17:30:00', $tz);
+  $today_600     = new DateTime('today 18:00:00', $tz);
 
 
   $orders = wc_get_orders(array(
@@ -71,7 +71,7 @@ function ad_handle_daily_order_sync()
   $report_until_6pm = ['title' => $today_530->format('j M') . " (until 6pm)", 'orders' => []];
 
   foreach ($orders as $order) {
-    if ($order instanceof OrderRefund) {
+    if ($order instanceof OrderRefund || $order->has_status('refunded')) {
       continue;
     }
     $order_ts = $order->get_date_created()->getTimestamp();

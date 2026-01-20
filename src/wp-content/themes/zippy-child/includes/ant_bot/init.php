@@ -57,7 +57,7 @@ function ad_handle_daily_order_sync()
 
   $yesterday_530 = new DateTime('yesterday 17:30:00', $tz);
   $today_530     = new DateTime('today 17:30:00', $tz);
-  $today_600     = new DateTime('today 18:00:00', $tz);
+  $today_600     = new DateTime('today 17:30:00', $tz);
 
 
   $orders = wc_get_orders(array(

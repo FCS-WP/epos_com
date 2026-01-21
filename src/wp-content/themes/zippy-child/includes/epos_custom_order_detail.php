@@ -20,7 +20,8 @@ add_action('woocommerce_init', function() {
 });
 
 
-add_action('woocommerce_checkout_create_order', function($order) {
+add_action('woocommerce_checkout_create_order', function($order, $data) {
+    // Handle UTM
     $map = [
         'utm_source'   => 'source',
         'utm_medium'   => 'medium',
@@ -36,22 +37,20 @@ add_action('woocommerce_checkout_create_order', function($order) {
             $order->update_meta_data('_' . $utm, $value);
         }
     }
-
     $order->update_meta_data('source_type', 'utm');
-}, 99);
 
 
-// Checkout page - Company name input is required
-add_filter('woocommerce_checkout_fields', function($fields) {
-    $fields['billing']['billing_company']['required'] = true;
-    $fields['billing']['billing_company']['label'] = 'Company name';
-    return $fields;
-});
+    // Handle Full name field
+    if (empty($data['billing_full_name'])) return;
 
-add_filter('woocommerce_checkout_required_field_notice', function ($message, $field_label) {
-    if ($field_label === 'Billing Company name') {
-        return '<strong>Company name</strong> is required.';
-    }
-    return $message;
-}, 10, 2);
+    $name  = trim(preg_replace('/\s+/', ' ', $data['billing_full_name']));
+    $parts = explode(' ', $name, 2);
+    $first = $parts[0];
+    $last  = $parts[1] ?? '';
+
+    $order->set_billing_first_name($first);
+    $order->set_billing_last_name($last);
+
+}, 99, 2);
+
 

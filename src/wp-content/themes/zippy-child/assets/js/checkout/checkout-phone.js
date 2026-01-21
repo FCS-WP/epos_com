@@ -1,3 +1,9 @@
+document.addEventListener('DOMContentLoaded', () => {
+  document
+    .querySelectorAll('#billing_first_name_field, #billing_last_name_field')
+    .forEach(el => el.remove());
+});
+
 (function ($) {
   let iti = null;
 
@@ -49,6 +55,10 @@
       e.preventDefault();
       e.stopImmediatePropagation();
 
+      window.scrollTo({
+        top: input.getBoundingClientRect().top + window.pageYOffset - 150,
+        behavior: "smooth"
+      });
       $(input).addClass("phone-invalid").focus();
       return;
     }

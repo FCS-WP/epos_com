@@ -1,0 +1,154 @@
+<?php
+function flatsome_custom_cart_shortcode()
+{
+    ob_start();
+
+    if (function_exists('is_woocommerce_activated') && is_woocommerce_activated() && function_exists('flatsome_is_wc_cart_available') && flatsome_is_wc_cart_available()) {
+
+        if (get_theme_mod('catalog_mode')) {
+            get_template_part('template-parts/header/partials/element', 'cart-replace');
+            return;
+        }
+        $cart_style = get_theme_mod('header_cart_style', 'dropdown');
+        $custom_cart_content = get_theme_mod('html_cart_header');
+        $icon_style = get_theme_mod('cart_icon_style');
+        $icon = get_theme_mod('cart_icon', 'basket');
+        $cart_title = get_theme_mod('header_cart_title', 1);
+        $cart_total = get_theme_mod('header_cart_total', 1);
+        $disable_mini_cart = apply_filters('flatsome_disable_mini_cart', is_cart() || is_checkout());
+        if ($disable_mini_cart) {
+            $cart_style = 'link';
+        }
+?>
+        <div class="cart-item has-icon<?php if ($cart_style == 'dropdown') { ?> has-dropdown<?php } ?> ">
+            <?php if ($icon_style && $icon_style !== 'plain') { ?><div class="header-button"><?php } ?>
+
+                <?php if ($cart_style !== 'off-canvas') { ?>
+                    <a href="<?php echo esc_url(wc_get_cart_url()); ?>" title="<?php _e('Cart', 'woocommerce'); ?>" class="header-cart-link <?php echo get_flatsome_icon_class($icon_style, 'small'); ?>">
+                    <?php } else if ($cart_style == 'off-canvas') { ?>
+                        <a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="header-cart-link off-canvas-toggle nav-top-link <?php echo get_flatsome_icon_class($icon_style, 'small'); ?>" data-open="#cart-popup" data-class="off-canvas-cart" title="<?php _e('Cart', 'woocommerce'); ?>" data-pos="right">
+                        <?php } ?>
+
+                        <?php if ($cart_total || $cart_title) { ?>
+                            <span class="header-cart-title">
+                                <?php if ($cart_title) { ?> <?php _e('Cart', 'woocommerce'); ?> <?php } ?>
+                                <?php if ($cart_total && $cart_title) { ?>/<?php } ?>
+                                <?php if ($cart_total) { ?>
+                                    <span class="cart-price"><?php echo WC()->cart->get_cart_subtotal(); ?></span>
+                                <?php } ?>
+                            </span>
+                        <?php } ?>
+
+                        <?php
+                        if (get_theme_mod('custom_cart_icon')) {
+                            $icon_id = get_theme_mod('custom_cart_icon');
+                            if ($icon_id) {
+                                $icon_url = wp_get_attachment_image_url($icon_id, 'full');
+                            }
+                        ?>
+                            <span class="image-icon header-cart-icon" data-icon-label="<?php echo WC()->cart->cart_contents_count; ?>">
+                                <img class="cart-img-icon" alt="<?php _e('Cart', 'woocommerce'); ?>" src="<?php echo esc_url($icon_url); ?>" />
+                            </span>
+                        <?php } else { ?>
+                            <?php if (!$icon_style) { ?>
+                                <span class="cart-icon image-icon">
+                                    <strong><?php echo WC()->cart->cart_contents_count; ?></strong>
+                                </span>
+                            <?php } else { ?>
+                                <i class="icon-shopping-<?php echo $icon; ?>"
+                                    data-icon-label="<?php echo WC()->cart->cart_contents_count; ?>">
+                                </i>
+                            <?php } ?>
+                        <?php }  ?>
+                        </a>
+                        <?php if ($icon_style && $icon_style !== 'plain') { ?>
+                </div><?php } ?>
+
+            <?php if ($cart_style == 'dropdown') { ?>
+                <ul class="nav-dropdown <?php flatsome_dropdown_classes(); ?>">
+                    <li class="html widget_shopping_cart">
+                        <div class="widget_shopping_cart_content">
+                            <?php woocommerce_mini_cart(); ?>
+                        </div>
+                    </li>
+                    <?php if ($custom_cart_content) {
+                        echo '<li class="html">' . do_shortcode($custom_cart_content) . '</li>';
+                    }
+                    ?>
+                </ul>
+            <?php }  ?>
+
+            <?php if ($cart_style == 'off-canvas') { ?>
+                <div id="cart-popup" class="mfp-hide widget_shopping_cart">
+                    <div class="cart-popup-inner inner-padding">
+                        <div class="cart-popup-title text-center">
+                            <h4 class="uppercase"><?php _e('Cart', 'woocommerce'); ?></h4>
+                            <div class="is-divider"></div>
+                        </div>
+                        <div class="widget_shopping_cart_content">
+                            <?php woocommerce_mini_cart(); ?>
+                        </div>
+                        <?php if ($custom_cart_content) {
+                            echo '<div class="header-cart-content">' . do_shortcode($custom_cart_content) . '</div>';
+                        }
+                        ?>
+                        <?php do_action('flatsome_cart_sidebar'); ?>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+
+<?php
+    } else {
+        fl_header_element_error('woocommerce');
+    }
+
+    return ob_get_clean();
+}
+add_shortcode('flatsome_cart', 'flatsome_custom_cart_shortcode');
+
+
+add_filter('woocommerce_return_to_shop_redirect', function () {
+    return site_url('/my/bluetap');
+});
+add_filter('woocommerce_continue_shopping_redirect', function($url) {
+    return home_url('/my/bluetap');
+});
+add_filter('woocommerce_cart_item_permalink', function ($permalink, $cart_item, $cart_item_key) {
+    return false;
+}, 10, 3);
+add_filter('woocommerce_order_item_name', function($name, $item, $is_visible) {
+    $product = $item->get_product();
+    if (!$product) {
+        return $name;
+    }
+    return esc_html($product->get_name());
+}, 10, 3);
+
+
+// validate url add to cart has quantity
+add_filter('woocommerce_cart_item_name', 'custom_cart_item_name', 10, 3);
+function custom_cart_item_name($product_name, $cart_item, $cart_item_key)
+{
+    $product = $cart_item['data'];
+    if ($product && is_a($product, 'WC_Product')) {
+        if ($product->get_id() == 2174) {
+            $product_name =  $product_name . '<div class="cart-pre-order">' . 'Pre-order – Delivery starts from February</div>';
+        }
+    }
+    return $product_name;
+}
+
+add_filter('woocommerce_add_to_cart_validation', function ($passed, $product_id, $qty) {
+    if (empty($_REQUEST['add-to-cart']) || !WC()->cart) {
+        return $passed;
+    }
+
+    foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+        if ($cart_item['product_id'] == $product_id) {
+            WC()->cart->set_quantity($cart_item_key, $qty, true);
+            return false;
+        }
+    }
+    return $passed;
+}, 10, 3);

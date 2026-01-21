@@ -17,6 +17,9 @@
         color: white !important;
       }
     }
+    &.rounded-circle {
+      border-radius: 50px !important;
+    }
   }
   &.secondary {
     background-color: $secondary-color !important;
@@ -34,6 +37,30 @@
         border: 1px solid $secondary-color !important;
         color: white !important;
       }
+    }
+    &.rounded-circle {
+      border-radius: 50px !important;
+    }
+  }
+  &.gradient-primary {
+    background: $gradient-primary !important;
+    border: none !important;
+    color: white !important;
+    &:hover {
+      background-color: $blue-light-2 !important;
+    }
+    &.is-outline {
+      background-color: transparent !important;
+      border: 1px solid $gradient-primary !important;
+      color: $gradient-primary !important;
+      &:hover {
+        background-color: $gradient-primary !important;
+        border: 1px solid $gradient-primary !important;
+        color: white !important;
+      }
+    }
+    &.rounded-circle {
+      border-radius: 50px !important;
     }
   }
   &.menu-btn-demo,
@@ -53,15 +80,28 @@
       margin: 0;
     }
   }
-  &.white{
-    &.text-red{
+  &.white {
+    &.text-red {
       color: $red !important;
     }
-    &.text-secondary{
+    &.text-secondary {
       color: $secondary-color !important;
     }
-    &.text-primary{
+    &.text-primary {
       color: $primary-color !important;
+    }
+    &.is-outline {
+      background-color: transparent !important;
+      border: 1px solid gray !important;
+      color: gray !important;
+      &:hover {
+        background-color: gray !important;
+        border: 1px solid gray !important;
+        color: white !important;
+      }
+      &.rounded-circle {
+        border-radius: 50px !important;
+      }
     }
   }
 }

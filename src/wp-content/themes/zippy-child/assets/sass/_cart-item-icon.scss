@@ -1,0 +1,23 @@
+// Icon display screen
+.cart-item {
+  .image-icon img {
+    min-width: 30px;
+  }
+  [data-icon-label]:after {
+    right: -7px;
+    top: -7px;
+  }
+  @include tablet {
+    [data-icon-label]:after {
+      right: -7px;
+      top: -7px;
+    }
+  }
+}
+
+.mobile-my-header {
+  .cart-item {
+    justify-content: end;
+    display: flex;
+  }
+}

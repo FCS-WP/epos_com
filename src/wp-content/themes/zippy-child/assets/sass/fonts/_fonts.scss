@@ -58,15 +58,14 @@ body {
   p {
     font-family: $main-font;
     font-size: 16px;
-    color: $text-body ;
+    color: $text-body;
   }
   a {
     font-family: $main-font;
     color: $secondary-color;
     font-size: 16px;
   }
-  h1,
-  h2 {
+  h1 {
     font-size: 28px !important;
     line-height: 1.2em;
 
@@ -87,10 +86,33 @@ body {
       }
     }
   }
+
+  h2 {
+    font-size: 24px !important;
+    line-height: 1.2em;
+
+    @include tablet {
+      font-size: 32px !important;
+    }
+    @include desktop {
+      font-size: 40px !important;
+    }
+    span {
+      font-size: 24px !important;
+      font-family: $second-font !important;
+      @include tablet {
+        font-size: 32px !important;
+      }
+      @include desktop {
+        font-size: 40px !important;
+      }
+    }
+  }
+
   h3 {
     font-size: 18px !important;
     @include desktop {
-      font-size: 20px !important;
-    }
+      font-size: 22px !important;
+    } 
   }
 }

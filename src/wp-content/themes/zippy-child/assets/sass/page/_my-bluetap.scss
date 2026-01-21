@@ -1,0 +1,67 @@
+
+.banner-add-to-cart-button .button{
+	margin: 0 !important;
+	width: 100%;
+}
+
+.break-line-light-gray {
+  background-color: $light-gray !important;
+}
+.break-line-dark-gray {
+  background-color: $text-body !important;
+}
+
+@include tablet {
+  .bluetap-banner-img {
+    .img-inner {
+      margin-left: -10%;
+    }
+  }
+}
+
+.bluetab-product-price {
+  .sale-price {
+    text-decoration: line-through;
+    margin-right: 10px;
+    color: $text-body;
+  }
+  .currencySymbol {
+    display: inline-block;
+    font-size: 0.75em;
+    vertical-align: top;
+  }
+}
+
+.button.bluetap-add-to-cart-button {
+  padding: 0 12px;
+  text-transform: inherit;
+}
+.button.bluetap-add-to-cart-button::before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  background: url(https://www.epos.com/wp-content/uploads/2026/01/Add-to-cart-icon-green.png)
+    no-repeat center;
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 8px 4px 8px 0;
+}
+
+.ck-delivery-note {
+  margin-bottom: 20px !important;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 14px;
+  color: $secondary-color;
+
+}
+
+//Cart page Bluetap
+
+.product-name{
+  .cart-pre-order{
+    font-size: 12px;
+    font-style: italic;
+  }
+}

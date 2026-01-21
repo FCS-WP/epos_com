@@ -1,0 +1,14 @@
+{
+  "name": "epos/workable-integration",
+  "description": "Integrate Workable API with WordPress",
+  "type": "project",
+  "require": {
+    "guzzlehttp/guzzle": "^7.0",
+    "guzzlehttp/oauth-subscriber": "^0.6"
+  },
+  "config": {
+  "platform": {
+    "php": "7.4"
+  }
+}
+}

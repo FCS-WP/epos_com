@@ -14,15 +14,17 @@ if (!defined('THEME_URL'))
 /*
  * Include framework files
  */
-foreach (glob(THEME_DIR.'-child' . "/includes/*.php") as $file_name) {
-    require_once ( $file_name );
+foreach (glob(THEME_DIR . '-child' . "/includes/*.php") as $file_name) {
+    require_once($file_name);
 }
 
 
+// Include workable files
+foreach (glob(THEME_DIR . '-child' . "/includes/workable/*.php") as $file_name) {
+    require_once($file_name);
+}
 
-
-
-
-
-
-
+// Include ant bot files
+foreach (glob(THEME_DIR . '-child' . "/includes/ant_bot/*.php") as $file_name) {
+    require_once($file_name);
+}

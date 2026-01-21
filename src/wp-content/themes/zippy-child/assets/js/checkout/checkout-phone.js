@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  document
-    .querySelectorAll('#billing_first_name_field, #billing_last_name_field')
-    .forEach(el => el.remove());
+  if (!document.body.classList.contains("woocommerce-checkout")) return;
+  document.querySelectorAll('#billing_first_name_field, #billing_last_name_field').forEach(el => el.remove());
 });
 
 (function ($) {
@@ -24,9 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener("DOMContentLoaded", initIntlTelInput);
 
   const input = document.querySelector("#billing_phone");
-
   input.addEventListener("countrychange", function () {
-    const input = document.querySelector("#billing_phone");
     if (!input || !iti) return;
 
     if (!iti.isValidNumber()) {
@@ -37,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(document).on("change", "#billing_phone", function () {
-    const input = document.querySelector("#billing_phone");
     if (!input || !iti) return;
 
     if (!iti.isValidNumber()) {
@@ -48,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(document).on("click", "#place_order", function (e) {
-    const input = document.querySelector("#billing_phone");
     if (!input || !iti) return;
 
     if (!iti.isValidNumber()) {

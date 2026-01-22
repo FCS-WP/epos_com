@@ -1,7 +1,5 @@
 <?php
-
 use Automattic\WooCommerce\Admin\Overrides\OrderRefund;
-
 /**
  * Signs the request and sends the message to Ant Group Bot.
  * * @param string $content The text message to be sent.
@@ -46,6 +44,11 @@ function ad_send_to_ant_group_bot($title, $content)
 
 add_action('wp_loaded', 'ad_handle_daily_order_sync');
 
+/**
+ * Daily Order Sync to fetch two specific reports:
+ * 1. Full Yesterday (00:00:00 to 23:59:59)
+ * 2. Until 5:30 PM Today (Starting from 17:30 Yesterday)
+ */
 function ad_handle_daily_order_sync()
 {
   if (!isset($_GET['ad_run_server_cron_sync'])) {
@@ -54,44 +57,50 @@ function ad_handle_daily_order_sync()
 
   $tz = wp_timezone();
 
+  $start_yesterday = new DateTime('yesterday 00:00:00', $tz);
+  $end_yesterday   = new DateTime('yesterday 23:59:59', $tz);
 
-  $yesterday_530 = new DateTime('yesterday 17:30:00', $tz);
-  $today_530     = new DateTime('today 17:30:00', $tz);
-  $today_600     = new DateTime('today 17:30:00', $tz);
+  $start_cutoff = new DateTime('yesterday 17:30:00', $tz);
+  $end_today_530 = new DateTime('today 17:30:00', $tz);
 
-
+  // Fetch all orders covering the widest range to minimize database calls
   $orders = wc_get_orders(array(
     'limit'        => -1,
     'status'       => array('wc-processing', 'wc-completed'),
-    'date_created' => $yesterday_530->getTimestamp() . '...' . $today_600->getTimestamp(),
+    'date_created' => $start_yesterday->getTimestamp() . '...' . $end_today_530->getTimestamp(),
   ));
 
-  //Title
-  $report_full_day  = ['title' => $today_530->format('j M') . " (full day)", 'orders' => []];
-  $report_until_6pm = ['title' => $today_530->format('j M') . " (until 6pm)", 'orders' => []];
+  $report_full_yesterday = [
+    'title'  => $start_yesterday->format('j M') . " (Full Day)",
+    'orders' => []
+  ];
+
+  $report_until_530pm = [
+    'title'  => $end_today_530->format('j M') . " (Until 5:30 PM)",
+    'orders' => []
+  ];
 
   foreach ($orders as $order) {
-    if ($order instanceof OrderRefund || $order->has_status('refunded')) {
+     if ($order instanceof OrderRefund || $order->has_status('refunded')) {
       continue;
     }
     $order_ts = $order->get_date_created()->getTimestamp();
 
-
-    if ($order_ts >= $yesterday_530->getTimestamp() && $order_ts <= $today_530->getTimestamp()) {
-      $report_full_day['orders'][] = $order;
+    if ($order_ts >= $start_yesterday->getTimestamp() && $order_ts <= $end_yesterday->getTimestamp()) {
+      $report_full_yesterday['orders'][] = $order;
     }
 
-    if ($order_ts >= $yesterday_530->getTimestamp() && $order_ts <= $today_600->getTimestamp()) {
-      $report_until_6pm['orders'][] = $order;
+    if ($order_ts >= $start_cutoff->getTimestamp() && $order_ts <= $end_today_530->getTimestamp()) {
+      $report_until_530pm['orders'][] = $order;
     }
   }
 
   // Generate Markdown content
-  $message = ad_format_antbot_markdown($report_full_day);
+  $message = ad_format_antbot_markdown($report_full_yesterday);
   $message .= "\n\n---\n\n";
-  $message .= ad_format_antbot_markdown($report_until_6pm);
+  $message .= ad_format_antbot_markdown($report_until_530pm);
 
-
+  // Send to Antding BOT
   ad_send_to_ant_group_bot("Daily Sales Summary", $message);
 
   wp_die('Ant Group Bot: Reports Synchronized Successfully.');

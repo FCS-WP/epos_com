@@ -22,7 +22,7 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 	{
 
 		$this->id           =  PAYMENT_2C2P_ID;
-		$this->method_title = __(PAYMENT_2C2P_NAME, PREFIX . '_zippy_payment');
+		$this->method_title = _(PAYMENT_2C2P_NAME, PREFIX . '_zippy_payment');
 		$this->icon  =  ZIPPY_PAY_DIR_URL . 'includes/assets/icons/2c2p.svg';
 		$this->has_fields   = true;
 
@@ -40,6 +40,10 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 		add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
 		add_action('woocommerce_api_zippy_2c2p_transaction', [$this, 'handle_callback']);
 		add_action('woocommerce_api_zippy_2c2p_redirect', [$this, 'handle_redirect_page']);
+
+		//Handle automatic payment status check
+		add_action('wp_ajax_zippy_check_payment_status', [$this, 'ajax_check_payment_status']);
+		add_action('wp_ajax_nopriv_zippy_check_payment_status', [$this, 'ajax_check_payment_status']);
 	}
 
 	/**
@@ -134,7 +138,9 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 
 		wp_localize_script('2c2p-dropin-init', 'Zippy2C2P', array(
 			'paymentUrl' => $payment_url,
-			'returnUrl'  => $this->get_return_url($order)
+			'returnUrl'  => $this->get_return_url($order),
+			'ajaxUrl'   => admin_url('admin-ajax.php'),
+			'orderId'   => $order_id
 		));
 
 		echo '<div id="pgw-ui-container" style="height: 600px; width: 100%;"></div>';
@@ -173,8 +179,14 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 			"currencyCode"      => $order->get_currency(),
 			"frontendReturnUrl" => WC()->api_request_url('zippy_2c2p_redirect') . '?order_id=' . $order->get_id(),
 			"backendReturnUrl"  => WC()->api_request_url('zippy_2c2p_transaction'),
-			"nonceStr"          => wp_generate_password(12, false)
-
+			"nonceStr"          => wp_generate_password(12, false),
+			"uiParams" => array(
+				"userInfo" => array(
+					"email" => $order->get_billing_email(),
+					"name"  => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
+				)
+			),
+			"paymentChannel" => array("CC",    "TNG"),
 		);
 	}
 
@@ -225,12 +237,10 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 	 */
 	public function handle_callback()
 	{
-		// $jwt_payload = isset($_REQUEST['payload']) ? $_REQUEST['payload'] : '';
 
 		$jwt_payload = isset($_POST['payload']) ? $_POST['payload'] : '';
 
 
-		// Nếu $_POST trống, thử đọc raw body
 		if (empty($jwt_payload)) {
 			$raw_body = file_get_contents('php://input');
 			$decoded_body = json_decode($raw_body, true);
@@ -353,6 +363,29 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 
 		wp_safe_redirect($this->get_return_url($order));
 		exit;
+	}
+
+	public function ajax_check_payment_status()
+	{
+		$order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
+		$order = wc_get_order($order_id);
+
+		if (!$order) {
+			wp_send_json_error(['message' => 'Order not found']);
+		}
+
+		if ($order->is_paid()) {
+			wp_send_json_success(['status' => 'paid', 'redirect' => $this->get_return_url($order)]);
+		}
+
+		$resp_code = $this->get_transaction_status($order_id);
+
+		if ($resp_code === '0000') {
+			$this->payment_complete($order);
+			wp_send_json_success(['status' => 'paid', 'redirect' => $this->get_return_url($order)]);
+		}
+
+		wp_send_json_success(['status' => 'pending']);
 	}
 
 

@@ -26,5 +26,31 @@
         console.log("2C2P Error: " + response.responseDescription);
       }
     });
+
+    /**
+     * Polling mechanism to check payment status
+     */
+    startPaymentPolling(Zippy2C2P.order_id);
   };
+
+  function startPaymentPolling(orderId) {
+    const pollInterval = setInterval(function () {
+      jQuery.ajax({
+        url: Zippy2C2P.ajax_url,
+        type: "POST",
+        data: {
+          action: "zippy_check_payment_status",
+          order_id: orderId,
+        },
+        success: function (response) {
+          if (response.success && response.data.status === "paid") {
+            clearInterval(pollInterval);
+            window.location.href = response.data.redirect;
+          }
+        },
+      });
+    }, 5000);
+
+    setTimeout(() => clearInterval(pollInterval), 600000);
+  }
 })();

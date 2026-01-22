@@ -14,30 +14,42 @@ add_action('wp_enqueue_scripts', function () {
 });
 
 
+// Add UTMs in to woo session for mapping when create order
+add_action('woocommerce_init', function() {
+    if (!WC()->session) return;
+
+    $keys = [
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'utm_term',
+        'utm_content'
+    ];
+
+    foreach ($keys as $key) {
+        if (!empty($_GET[$key])) {
+            WC()->session->set($key, sanitize_text_field($_GET[$key]));
+        }
+    }
+});
+
+
 // Custom order MCC/UEN field for checkout
 add_action('woocommerce_after_checkout_billing_form', function ($checkout) {
     woocommerce_form_field('order_eg', [
         'type'        => 'text',
         'class'       => ['form-row-wide'],
-        'label'       => __('E.g.MCC, UEN'),
+        'label'       => __('MCC/UEN'),
         'placeholder' => __('MCC/UEN'),
         'required'    => false,
     ], $checkout->get_value('order_eg'));
-});
-add_action('woocommerce_checkout_create_order', function ($order) {
-    if (!empty($_POST['order_eg'])) {
-        $order->update_meta_data(
-            'order_eg',
-            sanitize_text_field($_POST['order_eg'])
-        );
-    }
 });
 
 // Show in order dashboard
 add_action('woocommerce_admin_order_data_after_billing_address', function ($order) {
     $eg = $order->get_meta('order_eg');
     if ($eg) {
-        echo '<p><strong>E.g:</strong> ' . esc_html($eg) . '</p>';
+        echo '<p><strong>' . __('MCC / UEN', 'woocommerce') . ':</strong> ' . esc_html($eg) . '</p>';
     }
 });
 
@@ -54,12 +66,57 @@ add_filter('woocommerce_email_order_meta_fields', function ($fields, $sent_to_ad
     $eg = $order->get_meta('order_eg');
     if ($eg) {
         $fields['order_eg'] = [
-            'label' => __('E.g:'),
+            'label' => __('MCC / UEN', 'woocommerce'),
             'value' => $eg,
         ];
     }
     return $fields;
 }, 10, 3);
+
+
+
+add_action('woocommerce_checkout_create_order', function($order, $data) {
+    // Handle UTM mapping to order from woo session
+    $map = [
+        'utm_source'   => 'source',
+        'utm_medium'   => 'medium',
+        'utm_campaign' => 'campaign',
+        'utm_term'     => 'term',
+        'utm_content'  => 'content',
+    ];
+
+    foreach ($map as $utm => $field) {
+        $value = WC()->session->get($utm);
+        if ($value) {
+            $order->update_meta_data($field, $value);
+            $order->update_meta_data('_' . $utm, $value);
+        }
+    }
+
+    $order->update_meta_data('source_type', 'utm');
+
+
+    // Handle Full name field
+    if (empty($data['billing_full_name'])) return;
+
+    $name  = trim(preg_replace('/\s+/', ' ', $data['billing_full_name']));
+    $parts = explode(' ', $name, 2);
+    $first = $parts[0];
+    $last  = $parts[1] ?? '';
+
+    $order->set_billing_first_name($first);
+    $order->set_billing_last_name($last);
+
+
+    // Handle custom order eg field
+    if (!empty($_POST['order_eg'])) {
+        $order->update_meta_data(
+            'order_eg',
+            sanitize_text_field($_POST['order_eg'])
+        );
+    }
+}, 99, 2);
+
 
 
 

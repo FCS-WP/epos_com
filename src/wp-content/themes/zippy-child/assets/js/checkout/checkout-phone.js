@@ -58,6 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    input.value = iti.getNumber();
+    input.value = iti.getNumber(intlTelInputUtils.numberFormat.INTERNATIONAL);
   });
 })(jQuery);

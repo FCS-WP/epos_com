@@ -10,48 +10,52 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('intl-tel-input', "$base/css/intlTelInput.min.css", [], $ver);
     wp_enqueue_script('intl-tel-input', "$base/js/intlTelInput.min.js", [], $ver, true);
     wp_enqueue_script('intl-tel-input-utils', "$base/js/utils.js", ['intl-tel-input'], $ver, true);
-
-    wp_enqueue_script(
-        'checkout-phone',
-        get_stylesheet_directory_uri() . '/assets/js/checkout-phone.js',
-        ['intl-tel-input'],
-        '1.0',
-        true
-    );
+    wp_enqueue_script('checkout-phone', get_stylesheet_directory_uri() . '/assets/js/checkout-phone.js', ['intl-tel-input'], '1.0', true);
 });
 
+
 // Custom order MCC/UEN field for checkout
-add_action('woocommerce_before_order_notes', function ($checkout) {
-    woocommerce_form_field('order_tag', [
+add_action('woocommerce_after_checkout_billing_form', function ($checkout) {
+    woocommerce_form_field('order_eg', [
         'type'        => 'text',
         'class'       => ['form-row-wide'],
         'label'       => __('E.g.MCC, UEN'),
         'placeholder' => __('MCC/UEN'),
         'required'    => false,
-    ], $checkout->get_value('order_tag'));
+    ], $checkout->get_value('order_eg'));
 });
 add_action('woocommerce_checkout_create_order', function ($order) {
-    if (!empty($_POST['order_tag'])) {
+    if (!empty($_POST['order_eg'])) {
         $order->update_meta_data(
-            'Tag',
-            sanitize_text_field($_POST['order_tag'])
+            'order_eg',
+            sanitize_text_field($_POST['order_eg'])
         );
     }
 });
+
 // Show in order dashboard
 add_action('woocommerce_admin_order_data_after_billing_address', function ($order) {
-    $tag = $order->get_meta('Tag');
-    if ($tag) {
-        echo '<p><strong>Tag:</strong> ' . esc_html($tag) . '</p>';
+    $eg = $order->get_meta('order_eg');
+    if ($eg) {
+        echo '<p><strong>E.g:</strong> ' . esc_html($eg) . '</p>';
     }
 });
+
+// Show in order detail
+add_action('woocommerce_order_details_after_customer_details', function ($order) {
+    $eg = $order->get_meta('order_eg');
+    if ($eg) {
+        echo '<p><strong>' . __('MCC / UEN', 'woocommerce') . ':</strong> ' . esc_html($eg) . '</p>';
+    }
+});
+
 // Show in mail
 add_filter('woocommerce_email_order_meta_fields', function ($fields, $sent_to_admin, $order) {
-    $tag = $order->get_meta('Tag');
-    if ($tag) {
-        $fields['order_tag'] = [
-            'label' => __('Tag'),
-            'value' => $tag,
+    $eg = $order->get_meta('order_eg');
+    if ($eg) {
+        $fields['order_eg'] = [
+            'label' => __('E.g:'),
+            'value' => $eg,
         ];
     }
     return $fields;

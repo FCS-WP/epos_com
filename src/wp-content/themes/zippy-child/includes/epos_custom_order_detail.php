@@ -21,25 +21,6 @@ add_action('woocommerce_init', function() {
 
 
 add_action('woocommerce_checkout_create_order', function($order, $data) {
-    // Handle UTM
-    $map = [
-        'utm_source'   => 'source',
-        'utm_medium'   => 'medium',
-        'utm_campaign' => 'campaign',
-        'utm_term'     => 'term',
-        'utm_content'  => 'content',
-    ];
-
-    foreach ($map as $utm => $field) {
-        $value = WC()->session->get($utm);
-        if ($value) {
-            $order->update_meta_data($field, $value);
-            $order->update_meta_data('_' . $utm, $value);
-        }
-    }
-    $order->update_meta_data('source_type', 'utm');
-
-
     // Handle Full name field
     if (empty($data['billing_full_name'])) return;
 

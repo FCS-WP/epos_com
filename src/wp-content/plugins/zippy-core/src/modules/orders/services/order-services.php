@@ -215,6 +215,7 @@ class Order_Services
                 'status'         => wc_get_order_status_name($order->get_status()),
                 'total' => html_entity_decode(wp_strip_all_tags(wc_price($order->get_total()))),
                 'payment_method' => $order->get_payment_method_title(),
+                'order_note' => $order->get_customer_note(),
                 'date_created'   => $order->get_date_created()->date_i18n('Y-m-d H:i:s'),
                 'source'      => $order->get_meta('_wc_order_attribution_utm_source') ?: 'website',
             ];
@@ -259,6 +260,7 @@ class Order_Services
             'State',
             'Order ID',
             "Products",
+            "Notes",
             'Status',
             'Total',
             'Date Created',
@@ -277,6 +279,7 @@ class Order_Services
                 $r['state'] ?? '',
                 $r['order_id'],
                 $r['items'],
+                $r['order_note'],
                 $r['status'],
                 $r['total'],
                 $r['date_created'],

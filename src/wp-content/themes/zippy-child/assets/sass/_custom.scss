@@ -318,5 +318,68 @@
 }
 .epos-whatsapp-wa.wapp-chatCta,
 .back-to-top.active {
-	z-index: 9999 !important;
+  z-index: 9999 !important;
+}
+
+// Scroll To custom UI
+body {
+  .scroll-to-bullets {
+    position: fixed;
+    top: 40%;
+    right: auto;
+    left: 0;
+    transform: translateY(-50%);
+    display: none;
+    flex-direction: column;
+    z-index: 999;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+  }
+
+  .scroll-to-bullets a {
+    width: auto;
+    height: auto;
+    padding: 10px 14px;
+    background: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #222;
+    font-size: 14px;
+    line-height: 1.2;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    font-weight: 500;
+    margin: 8px;
+    opacity: .8;
+  }
+
+  .scroll-to-bullets a::before {
+    content: attr(data-title);
+  }
+
+  .scroll-to-bullets a strong {
+    display: none;
+  }
+
+  .scroll-to-bullets a:hover {
+    background: $primary-color;
+    color: #fff;
+  }
+
+  .scroll-to-bullets a.active {
+    background: $secondary-color;
+    border-color: $secondary-color;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .tooltipster-sidetip {
+    display: none !important;
+  }
+
+  @include tablet {
+    .scroll-to-bullets {
+      display: flex;
+    }
+  }
 }

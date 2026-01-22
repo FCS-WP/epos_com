@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+  if (!document.body.classList.contains("career")) return;
+
   const dropdowns = document.querySelectorAll(".custom-select");
   const search = document.getElementById("job-search");
   const allJobs = Array.from(document.querySelectorAll(".job-item"));

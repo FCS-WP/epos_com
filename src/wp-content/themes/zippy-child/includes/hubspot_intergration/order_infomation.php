@@ -2,7 +2,6 @@
 
 /**
  * Sync WooCommerce Order Data to HubSpot Contacts API with UTM & Address
- * International Standard Implementation
  */
 
 add_action('woocommerce_checkout_order_processed', 'sync_wc_order_to_hubspot', 20, 3);
@@ -54,6 +53,7 @@ function sync_wc_order_to_hubspot($order_id, $posted_data, $order)
     'lifecyclestage' => 'customer',
 
     'utm_source'     => $utm_source ?: 'Website',
+    'utm_campaign'     => $utm_campaign,
     'utm_medium'     => $utm_medium,
     "hs_latest_source" => "OTHER_CAMPAIGNS"
   ];

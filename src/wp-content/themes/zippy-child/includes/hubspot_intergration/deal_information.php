@@ -87,6 +87,7 @@ function sync_hubspot_contact_for_deal($order, $token)
 
     'utm_source'     => $utm_source ?: 'Website',
     'utm_medium'     => $utm_medium,
+    'utm_campaign'     => $utm_campaign,
     "hs_latest_source" => "OTHER_CAMPAIGNS"
   ];
 

@@ -1,0 +1,30 @@
+.bluetap-onboarding-tips {
+  background-color: #ededed;
+	border-radius: 14px;
+  padding: 20px 40px !important;
+  .icon-box {
+    margin-top: 0;
+  }
+  .icon-box-img {
+    margin-bottom: 8px;
+  }
+}
+
+.android-steps .col-inner {
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+}
+
+@include desktop {
+  .bluetap-onboarding-tips {
+    padding: 0 50px 70px !important;
+    .icon-box {
+      margin-top: -35px;
+    }
+    .icon-box-img {
+      margin-bottom: 8px;
+    }
+  }
+}

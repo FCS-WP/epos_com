@@ -1,7 +1,7 @@
 .header-wrapper.stuck {
   background-color: #fff;
 }
-#content {
+#content, #main {
   //width
   .width-80 {
     max-width: 100%;
@@ -109,6 +109,9 @@
     }
     &.border-gray {
       border: 1px solid $text-body !important;
+    }
+    &.border-blue-primary {
+      border: 1px solid $blue-primary !important;
     }
   }
   .border-end {
@@ -257,6 +260,20 @@
     }
     p {
       color: $blue-dark !important;
+    }
+  }
+  .text-blue-primary {
+    color: $blue-primary !important;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $blue-primary !important;
+    }
+    p {
+      color: $blue-primary !important;
     }
   }
 
@@ -572,12 +589,18 @@
       }
     }
   }
-  .bg-primary {
-    background-color: $primary-color !important;
+  .bg-light-blue {
+    background-color: $blue-light !important;
     p {
-      background-color: $primary-color !important;
+      background-color: $blue-light !important;
+    }
+    &.col {
+      .col-inner {
+        background-color: $blue-light !important;
+      }
     }
   }
+  
   .bg-primary-light {
     --tw-gradient-from: #f0fdf4 !important;
     --tw-gradient-to: #eff6ff !important;
@@ -629,12 +652,27 @@
   }
   .bg-gray {
     background-color: #ededed !important;
+    p {
+      background-color: #ededed !important;
+    }
+    &.col {
+      .col-inner {
+        background-color: #ededed !important;
+      }
+    }
   }
+  .bg-primary {
+    background-color: $primary-color !important;
+    p {
+      background-color: $primary-color !important;
+    }
+  }
+  
   //shadow
   .shadow {
     box-shadow: $shadow !important;
   }
-  // Position
+  // Position1
   .position-relative {
     position: relative !important;
   }

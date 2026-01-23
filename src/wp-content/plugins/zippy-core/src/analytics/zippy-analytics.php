@@ -52,16 +52,16 @@ class Zippy_Analytics
 
   public function analytics_assets()
   {
-    $version = time();
-    $current_user_id = get_current_user_id();
+    // $version = time();
+    // $current_user_id = get_current_user_id();
 
-    // Pass the user ID to the script
-    wp_enqueue_script('chart-js', ZIPPY_CORE_URL . '/assets/dist/js/main.min.js', [], $version, true);
-    wp_enqueue_style('zippy-css', ZIPPY_CORE_URL . '/assets/dist/css/main.min.css', [], $version);
+    // // Pass the user ID to the script
+    // wp_enqueue_script('admin_script', ZIPPY_CORE_URL . '/assets/dist/js/admin.min.js', [], $version, true);
+    // wp_enqueue_style('zippy-css', ZIPPY_CORE_URL . '/assets/dist/css/admin.min.css', [], $version);
 
-    wp_localize_script('chart-js', 'admin_id', array(
-      'userID' => $current_user_id,
-    ));
+    // wp_localize_script('admin_script', 'admin_id', array(
+    //   'userID' => $current_user_id,
+    // ));
   }
 
 

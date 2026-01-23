@@ -33,6 +33,8 @@ class Zippy_Settings
 		add_filter('body_class', [$this, 'shin_add_slug_to_body_class']);
 
 		add_filter('body_class', [$this, 'shin_add_class_to_body']);
+
+		add_action('wp_enqueue_scripts', [$this, 'zippy_core_add_scripts_web']);
 	}
 
 	public function debug_mode()
@@ -112,5 +114,13 @@ class Zippy_Settings
 		}
 
 		return $classes;
+	}
+
+	function zippy_core_add_scripts_web()
+	{
+		$version = time();
+		// Pass the user ID to the script
+		wp_enqueue_script('core-web-scripts', ZIPPY_CORE_URL . '/assets/dist/js/web.min.js', ['jquery'], $version, true);
+		wp_enqueue_style('core-web-styles', ZIPPY_CORE_URL . '/assets/dist/css/web.min.css', [], $version);
 	}
 }

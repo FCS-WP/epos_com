@@ -1,4 +1,4 @@
-if (window.location.pathname.includes("/my")) {
+if (window.location.pathname.includes("/my") && !window.location.pathname.includes('/links')) {
   function whatsappContact({
     brandName: d_brandName = "",
     buttonName: d_buttonName = "Chat with us",

@@ -1,5 +1,5 @@
 <?php
-// Action
+// Actions
 // Enqueue scripts for billing phone country codes
 add_action('wp_enqueue_scripts', function () {
     if (!is_checkout()) return;
@@ -16,13 +16,25 @@ add_action('wp_enqueue_scripts', function () {
 
 // Custom order MCC/UEN field for checkout
 add_action('woocommerce_after_checkout_billing_form', function ($checkout) {
+    if (!cart_has_product_bluetap360()) {
+        return;
+    }
     woocommerce_form_field('order_eg', [
         'type'        => 'text',
         'class'       => ['form-row-wide'],
         'label'       => __('MCC/UEN'),
         'placeholder' => __('MCC/UEN'),
-        'required'    => false,
+        'required'    => true,
     ], $checkout->get_value('order_eg'));
+});
+
+add_action('woocommerce_checkout_process', function () {
+    if (!cart_has_product_bluetap360()) {
+        return;
+    }
+    if (empty($_POST['order_eg'])) {
+        wc_add_notice(__('Please enter MCC/UEN.'), 'error');
+    }
 });
 
 // Show in order dashboard
@@ -78,10 +90,22 @@ add_action('woocommerce_checkout_create_order', function($order, $data) {
 }, 99, 2);
 
 
+// Functions
+// Check cart item has Bluetap360
+function cart_has_product_bluetap360() {
+    if (WC()->cart->is_empty()) { return false; }
+
+    foreach (WC()->cart->get_cart() as $cart_item) {
+        if ((int) $cart_item['product_id'] === 2174) {
+            return true;
+        }
+    }
+    return false;
+}
 
 
 
-// Filter
+// Filters
 // Company name input is required
 add_filter('woocommerce_checkout_fields', function($fields) {
     $fields['billing']['billing_company']['required'] = true;

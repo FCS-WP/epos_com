@@ -6,6 +6,7 @@
 @import "backtotop";
 @import "_geoip-popup";
 @import "cart-item-icon";
+
 //Fonts
 @import "fonts/fonts";
 
@@ -16,9 +17,12 @@
 @import "components/footer";
 @import "components/spacing";
 @import "components/icon_box";
+@import "components/scrollToBullets";
+
 // slider
 @import "../lib/slick/slick-theme.css";
 @import "../lib/slick/slick.css";
+
 //Page
 @import "page/my-home";
 @import "page/my-policy";
@@ -33,7 +37,10 @@
 @import "page/epos-checkout";
 @import "page/epos-bluetap-onboarding";
 @import "page/epos-links";
+@import "page/epos-bluetap-faq";
+
 //Epos 360
 @import "page/epos360";
+
 //Epos Awards
 @import "./gsap";

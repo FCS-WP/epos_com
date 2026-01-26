@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 (function ($) {
+  if (!document.body.classList.contains("woocommerce-checkout")) return;
   let iti = null;
 
   function initIntlTelInput() {

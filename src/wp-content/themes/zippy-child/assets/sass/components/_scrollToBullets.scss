@@ -1,0 +1,103 @@
+// Scroll To custom UI
+body {
+  // Menu button
+  .scroll-bullets-toggle {
+    position: fixed;
+    top: 11%;
+    left: 5px;
+    transform: translateY(-50%);
+    z-index: 1000;
+    padding: 10px;
+    background: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    margin: 0;
+    opacity: 1;
+    text-transform: none;
+  }
+
+  .scroll-bullets-toggle:hover {
+    opacity: 0.9;
+  }
+
+  .scroll-bullets-toggle.is-active {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .scroll-to-bullets.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .scroll-to-bullets:not(.is-hidden) {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  // Menu content
+  .shortcut-menu {
+    position: fixed;
+    top: 30%;
+    right: auto;
+    left: 5px;
+    transform: translateY(-50%);
+    transition: opacity 0.25s ease;
+    display: flex !important;
+    flex-direction: column;
+    z-index: 999;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+  }
+  .shortcut-menu a {
+    width: auto;
+    height: auto;
+    padding: 10px 14px;
+    background: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #222 !important;
+    font-size: 14px !important;
+    line-height: 1.2;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    font-weight: 500;
+    margin: 8px;
+    opacity: .9;
+  }
+
+  .shortcut-menu a::before {
+    content: attr(data-title);
+  }
+
+  .shortcut-menu a strong {
+    display: none;
+  }
+
+  .shortcut-menu a:hover {
+    background: $primary-color;
+    color: #fff !important;
+  }
+
+  .shortcut-menu.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @include tablet {
+    .scroll-bullets-toggle {
+        top: 30%;
+        left: 20px;
+        padding: 10px 15px;
+        font-size: 16px;
+    }
+    .shortcut-menu {
+        top: 40%;
+        left: 15px;
+    }
+  }
+}

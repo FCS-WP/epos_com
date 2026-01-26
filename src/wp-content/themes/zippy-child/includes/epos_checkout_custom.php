@@ -16,13 +16,16 @@ add_action('wp_enqueue_scripts', function () {
 
 
 add_action('woocommerce_checkout_create_order', function($order, $data) {
-    // Handle custom order eg field
-    if (!empty($_POST['order_eg'])) {
-        $order->update_meta_data(
-            'order_eg',
-            sanitize_text_field($_POST['order_eg'])
-        );
-    }
+    // Handle Full name field
+    if (empty($data['billing_full_name'])) return;
+
+    $name  = trim(preg_replace('/\s+/', ' ', $data['billing_full_name']));
+    $parts = explode(' ', $name, 2);
+    $first = $parts[0];
+    $last  = $parts[1] ?? '';
+
+    $order->set_billing_first_name($first);
+    $order->set_billing_last_name($last);
 }, 99, 2);
 
 

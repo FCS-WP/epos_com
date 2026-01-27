@@ -44,7 +44,7 @@
             "label": "Facebook Access Token",
             "name": "facebook_access_token",
             "aria-label": "",
-            "type": "text",
+            "type": "password",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -53,8 +53,6 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
-            "maxlength": "",
             "placeholder": "",
             "prepend": "",
             "append": ""
@@ -78,5 +76,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1769513626
+    "modified": 1769515079
 }

@@ -5,28 +5,44 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.pathname.includes("/bluetap-onboarding")
   ) {
     let observer = new MutationObserver(function () {
-      let shortcutMenu = document.querySelector(".shortcut-menu"); 
+      const shortcutMenu = document.querySelector(".shortcut-menu");
       if (!shortcutMenu) return;
       observer.disconnect();
       shortcutMenu.classList.add("is-hidden");
 
-      let btnMenu = document.createElement("button");
+      const btnMenu = document.createElement("button");
       btnMenu.className = "scroll-bullets-toggle";
-      btnMenu.innerHTML = "ⓘ Shortcuts";
-      document.body.appendChild(btnMenu); 
+      btnMenu.innerHTML = "ⓘ Guides <span class='down-icon'>▼</span>";
+      document.body.appendChild(btnMenu);
 
-      btnMenu.addEventListener("click", function (e) {
-        e.stopPropagation();
-        shortcutMenu.classList.toggle("is-hidden");
-        btnMenu.classList.toggle("is-active");
-      });
+      const showMenu = () => {
+        shortcutMenu.classList.remove("is-hidden");
+        btnMenu.classList.add("is-active");
+      };
 
-      document.addEventListener("click", function (e) {
-        if (!shortcutMenu.contains(e.target) && !btnMenu.contains(e.target)) {
-          shortcutMenu.classList.add("is-hidden");
-          btnMenu.classList.remove("is-active");
-        }
-      });
+      const hideMenu = () => {
+        shortcutMenu.classList.add("is-hidden");
+        btnMenu.classList.remove("is-active");
+      };
+
+      // breakpoint handle
+      if (window.innerWidth <= 768) {
+        btnMenu.addEventListener("click", function (e) {
+          shortcutMenu.classList.toggle("is-hidden");
+          btnMenu.classList.toggle("is-active");
+        });
+
+        document.addEventListener("click", function (e) {
+          if (!shortcutMenu.contains(e.target) && !btnMenu.contains(e.target)) {
+            hideMenu();
+          }
+        });
+      } else {
+        btnMenu.addEventListener("mouseenter", showMenu);
+        btnMenu.addEventListener("mouseleave", hideMenu);
+        shortcutMenu.addEventListener("mouseenter", showMenu);
+        shortcutMenu.addEventListener("mouseleave", hideMenu);
+      }
     });
 
     observer.observe(document.body, { childList: true, subtree: true });

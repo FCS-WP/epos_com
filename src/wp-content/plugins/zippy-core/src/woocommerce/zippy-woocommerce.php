@@ -35,7 +35,7 @@ class Zippy_Woocommerce
     if (!is_plugin_active('woocommerce/woocommerce.php')) return;
 
     //load all class in here
-    $this->set_hooks();
+    // $this->set_hooks();
   }
 
   protected function set_hooks()

@@ -64,6 +64,9 @@ function sync_hubspot_contact_for_deal($order, $token)
   $state_code   = $order->get_billing_state();
   $states       = WC()->countries->get_states($country_code);
   $state_name   = $states[$state_code] ?? $state_code;
+  $total        = $order->get_total();
+  $order_notes = $order->get_customer_note();
+
 
   // UTM Tracking Extraction
   $utm_source   = $order->get_meta('_wc_order_attribution_utm_source') ?: 'website';
@@ -84,6 +87,9 @@ function sync_hubspot_contact_for_deal($order, $token)
     'country'        => $country_code,
     'payment_status' => $payment_status ?: 'INITIATED CHECKOUT',
     'lifecyclestage' => 'customer',
+    'total_pricing' => $total,
+    'product_name' => get_products_data($order),
+    'message' => $order_notes,
 
     'utm_source'     => $utm_source ?: 'Website',
     'utm_medium'     => $utm_medium,

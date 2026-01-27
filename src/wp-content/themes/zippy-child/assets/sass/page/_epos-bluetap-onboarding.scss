@@ -1,30 +1,98 @@
-.bluetap-onboarding-tips {
-  background-color: #ededed;
-	border-radius: 14px;
-  padding: 20px 40px !important;
-  .icon-box {
-    margin-top: 0;
-  }
-  .icon-box-img {
-    margin-bottom: 8px;
-  }
-}
+#content {
+  .custom-button-buletap {
+    .col-inner {
+      background-color: #ededed;
+      padding: 30px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
 
-.android-steps .col-inner {
-	height: 100%;
-	display: flex;
-	justify-content: space-between;
-	flex-direction: column;
-}
+      h3 {
+        color: #102870 !important;
+        font-size: 20px !important;
+      }
+      p {
+        color: #0a142f !important;
+      }
+    }
 
-@include desktop {
+    &::before {
+      content: "1";
+      position: absolute;
+      background-color: #102870;
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+      height: 35px;
+      width: 35px;
+      padding-inline: 13px;
+      border-radius: 32px;
+      top: -16px;
+      left: 46%;
+      z-index: 2;
+    }
+
+    @include desktop {
+      .col-inner {
+        h3 {
+          font-size: 24px !important;
+        }
+      }
+
+      &::before {
+        left: 0;
+        top: -12px;
+      }
+    }
+  }
+
   .bluetap-onboarding-tips {
-    padding: 0 50px 70px !important;
+    background-color: #ededed;
+    border-radius: 14px;
+    padding: 20px 40px !important;
     .icon-box {
-      margin-top: -35px;
+      margin-top: 0;
     }
     .icon-box-img {
       margin-bottom: 8px;
+    }
+  }
+
+  .android-steps .col-inner {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+
+  @include desktop {
+    .bluetap-onboarding-tips {
+      padding: 0 50px 70px !important;
+      .icon-box {
+        margin-top: -35px;
+      }
+      .icon-box-img {
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  .merchant-regis-slider {
+    .slider-nav-outside .flickity-prev-next-button.next {
+      left: 97%;
+      top: 300px;
+      svg {
+        top: 50px;
+      }
+    }
+    .slider-nav-outside .flickity-prev-next-button.previous {
+      right: 97%;
+      top: 300px;
+      svg {
+        top: 50px;
+      }
     }
   }
 }

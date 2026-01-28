@@ -20,7 +20,7 @@ function sync_wc_paid_order_to_hubspot_deal($order_id, $order)
       'dealname'     => 'EPOS Bluetap Checkout - Order #' . $order->get_order_number(),
       'amount'       => $order->get_total(),
       'pipeline'     => '781854069',
-      'dealstage'    => 'closedwon',
+      'dealstage'    => '1142728054',
       'pi_number'    => $order->get_order_number(),
       'merchat_name__payment_team_' => $order->get_billing_company(),
       'closedate'    => $order->get_date_completed() ? $order->get_date_completed()->format('Y-m-d\TH:i:s\Z') : current_time('Y-m-d\TH:i:s\Z'),

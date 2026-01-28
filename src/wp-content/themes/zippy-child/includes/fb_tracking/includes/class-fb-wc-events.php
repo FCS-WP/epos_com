@@ -4,29 +4,39 @@ class My_FB_WC_Events
   public function __construct()
   {
     // Track View Content
-    // add_action('wp_footer', array($this, 'track_view_content'));
+    add_action('wp_footer', array($this, 'fb_js_initiate_checkout'));
     // Track Purchase
     add_action('woocommerce_thankyou', array($this, 'track_purchase'));
   }
 
-  public function track_view_content()
+  public function fb_js_initiate_checkout()
   {
-    if (! is_page('bluetap')) return;
+    if (! is_checkout() || is_wc_endpoint_url('order-received')) {
+      return;
+    }
 
-    global $product;
+    $cart = WC()->cart;
     $payload = [
-      'content_name' => $product->get_name(),
-      'content_ids'  => [(string) $product->get_id()],
+      'content_ids'  => array_values(array_map(function ($item) {
+        return (string) $item['product_id'];
+      }, $cart->get_cart())),
       'content_type' => 'product',
-      'value'        => $product->get_price(),
+      'value'        => (float) $cart->get_total('edit'),
       'currency'     => get_woocommerce_currency(),
+      'num_items'    => $cart->get_cart_contents_count(),
     ];
-
-    printf(
-      "<script>fbq('track', 'ViewContent', %s, { eventID: '%s' });</script>",
-      json_encode($payload),
-      My_FB_Init::get_event_id()
-    );
+?>
+    <script type="text/javascript">
+      jQuery(function($) {
+        /* Listen for the checkout form submission */
+        $('form.checkout').on('checkout_place_order', function() {
+          fbq('track', 'InitiateCheckout', <?php echo json_encode($payload); ?>, {
+            eventID: '<?php echo My_FB_Init::get_event_id(); ?>'
+          });
+        });
+      });
+    </script>
+<?php
   }
 
   public function track_purchase($order_id)

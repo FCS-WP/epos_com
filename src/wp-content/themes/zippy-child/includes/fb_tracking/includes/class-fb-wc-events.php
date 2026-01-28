@@ -4,7 +4,7 @@ class My_FB_WC_Events
   public function __construct()
   {
     // Track View Content
-    add_action('wp_footer', array($this, 'track_view_content'));
+    // add_action('wp_footer', array($this, 'track_view_content'));
     // Track Purchase
     add_action('woocommerce_thankyou', array($this, 'track_purchase'));
   }

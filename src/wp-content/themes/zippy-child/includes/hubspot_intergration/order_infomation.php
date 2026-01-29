@@ -25,6 +25,8 @@ function sync_wc_order_to_hubspot($order_id, $posted_data, $order)
   $address    = $order->get_billing_address_1() . ',' . $order->get_billing_address_2();
   $city       = $order->get_billing_city();
   $zip        = $order->get_billing_postcode();
+  $total        = $order->get_total();
+  $order_notes = $order->get_customer_note();
 
   $country_code = $order->get_billing_country();
   $state_code   = $order->get_billing_state();
@@ -51,6 +53,9 @@ function sync_wc_order_to_hubspot($order_id, $posted_data, $order)
     'country'        => $country_code,
     'payment_status' => $payment_status ?: 'INITIATED CHECKOUT',
     'lifecyclestage' => 'customer',
+    'total_pricing' => $total,
+    'product_name' => get_products_data($order),
+    'message' => $order_notes,
 
     'utm_source'     => $utm_source ?: 'Website',
     'utm_campaign'     => $utm_campaign,
@@ -72,3 +77,4 @@ function sync_wc_order_to_hubspot($order_id, $posted_data, $order)
     error_log('HubSpot Sync Error: ' . $response->get_error_message());
   }
 }
+

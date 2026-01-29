@@ -1,6 +1,8 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   if (!document.body.classList.contains("woocommerce-checkout")) return;
-  document.querySelectorAll('#billing_first_name_field, #billing_last_name_field').forEach(el => el.remove());
+  document
+    .querySelectorAll("#billing_first_name_field, #billing_last_name_field")
+    .forEach((el) => el.remove());
 });
 
 (function ($) {
@@ -47,15 +49,43 @@ document.addEventListener('DOMContentLoaded', () => {
   $(document).on("click", "#place_order", function (e) {
     if (!input || !iti) return;
 
+    const numberValue = input.value.trim();
+
+    if (!numberValue) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      $(".woocommerce-error").remove();
+
+      $("form.checkout").prepend(`
+        <ul class="woocommerce-error" role="alert">
+          <li class="alert-color"><strong>Phone number</strong> is required</li>
+        </ul>
+      `);
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+
+      return;
+    }
+
     if (!iti.isValidNumber()) {
       e.preventDefault();
       e.stopImmediatePropagation();
+      $(".woocommerce-error").remove();
+
+      $("form.checkout").prepend(`
+        <ul class="woocommerce-error" role="alert">
+          <li class="alert-color"><strong>Phone number</strong> is not valid</li>
+        </ul>
+      `);
 
       window.scrollTo({
-        top: input.getBoundingClientRect().top + window.pageYOffset - 150,
-        behavior: "smooth"
+        top: 0,
+        behavior: "smooth",
       });
-      $(input).addClass("phone-invalid").focus();
+
       return;
     }
 

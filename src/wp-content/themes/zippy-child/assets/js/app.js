@@ -2,7 +2,8 @@ import "../lib/slick/slick.min.js";
 import "../js/widgetWhatsapp.js";
 import "../js/video_hub.js";
 import "../js/careers-page.js";
-import "../js/checkout/checkout-phone.js";
+import "../js/checkout/checkout.js";
+import "../js/checkout/phone-validation.js";
 import "../js/scrollToBullet.js";
 
 ("use strict");

@@ -33,6 +33,10 @@
       left: 46%;
       z-index: 2;
     }
+    &:last-child::before {
+      content: "2";
+      padding-inline: 11px;
+    }
 
     @include desktop {
       .col-inner {
@@ -44,6 +48,7 @@
       &::before {
         left: 0;
         top: -12px;
+        line-height: 1.5em;
       }
     }
   }

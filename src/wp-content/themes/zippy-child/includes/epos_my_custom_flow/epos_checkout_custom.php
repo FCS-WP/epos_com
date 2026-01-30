@@ -1,4 +1,15 @@
 <?php
+// Functions
+// Check exist domain using php DNS resolver
+function email_domain_is_exist($email) {
+    if (!is_email($email)) {
+        return false;
+    }
+    $domain = substr(strrchr($email, "@"), 1);
+    return checkdnsrr($domain, 'MX');
+}
+
+
 // Actions
 // Enqueue scripts for billing phone country codes
 add_action('wp_enqueue_scripts', function () {
@@ -12,6 +23,21 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_script('intl-tel-input-utils', "$base/js/utils.js", ['intl-tel-input'], $ver, true);
     wp_enqueue_script('checkout-phone', get_stylesheet_directory_uri() . '/assets/js/checkout-phone.js', ['intl-tel-input'], '1.0', true);
 });
+
+
+// Check email domain
+add_action('woocommerce_after_checkout_validation', function ($data, $errors) {
+    if (empty($data['billing_email'])) {
+        return;
+    }
+
+    if (!email_domain_is_exist($data['billing_email'])) {
+        $errors->add(
+            'billing_email',
+            __('<strong>Email domain</strong> does not exist. Please use a valid email address.', 'woocommerce')
+        );
+    }
+}, 10, 2);
 
 
 
@@ -38,11 +64,21 @@ add_filter('woocommerce_checkout_fields', function($fields) {
     return $fields;
 });
 add_filter('woocommerce_checkout_required_field_notice', function ($message, $field_label) {
+    if ($field_label === 'Billing Email address') {
+        return '<strong>Email address</strong> is required.';
+    }
+    return $message;
+}, 10, 2);
+
+
+// Email address input is required
+add_filter('woocommerce_checkout_required_field_notice', function ($message, $field_label) {
     if ($field_label === 'Billing Company name') {
         return '<strong>Company name</strong> is required.';
     }
     return $message;
 }, 10, 2);
+
 
 // Name field
 add_filter('woocommerce_default_address_fields', function ($fields) {

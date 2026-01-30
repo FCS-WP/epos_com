@@ -9,6 +9,7 @@
 }
 .break-line-dark-gray {
   background-color: $text-body !important;
+  opacity: .8;
 }
 
 @include tablet {

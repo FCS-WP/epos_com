@@ -83,8 +83,6 @@ add_action('wp_footer', function () {
                     const countryCode = data.country?.iso_code;
                     const countryName = data.country?.name;
                     const currentUrl = window.location.href;
-                    console.log("Country:", countryCode, countryName);
-
                     const popup = $(".redirect-popup");
                     const userLocation = $(".user-location");
                     const countdown = $(".countdown");

@@ -31,3 +31,8 @@ require_once(THEME_DIR . '-child' . "/includes/ant_bot/init.php");
 foreach (glob(THEME_DIR . '-child' . "/includes/hubspot_intergration/*.php") as $file_name) {
     require_once($file_name);
 }
+
+// Include epos MY custom flow files
+foreach (glob(THEME_DIR . '-child' . "/includes/epos_my_custom_flow/*.php") as $file_name) {
+    require_once($file_name);
+}

@@ -467,63 +467,40 @@
     }
   }
   .fs-24 {
+    font-size: 18px !important;
+    p {
+      font-size: 18px !important;
+    }
     @include desktop {
       font-size: 24px !important;
       p {
         font-size: 24px !important;
       }
     }
-    font-size: 24px !important;
-    p {
-      font-size: 24px !important;
-    }
   }
-  .fs-24 {
-    @include desktop {
-      font-size: 24px !important;
-      p {
-        font-size: 24px !important;
-      }
-    }
-    font-size: 18px !important;
-    p {
-      font-size: 18px !important;
-    }
-  }
-  .fs-20 {
-    @include desktop {
-      font-size: 20px !important;
-      p {
-        font-size: 20px !important;
-      }
-    }
-    font-size: 18px !important;
-    p {
-      font-size: 18px !important;
-    }
-  }
+
   .fs-22 {
+    font-size: 18px;
+    p {
+      font-size: 18px;
+    }
     @include desktop {
       font-size: 22px !important;
       p {
         font-size: 22px !important;
       }
     }
-    font-size: 20px;
-    p {
-      font-size: 20px;
-    }
   }
   .fs-20 {
+    font-size: 18px;
+    p {
+      font-size: 18px;
+    }
     @include desktop {
       font-size: 20px !important;
       p {
         font-size: 20px !important;
       }
-    }
-    font-size: 18px;
-    p {
-      font-size: 18px;
     }
   }
   .fs-18 {

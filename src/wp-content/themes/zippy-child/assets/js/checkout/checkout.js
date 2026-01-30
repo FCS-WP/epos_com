@@ -1,3 +1,12 @@
+// Remove firstname default field
+document.addEventListener("DOMContentLoaded", () => {
+  if (!document.body.classList.contains("woocommerce-checkout")) return;
+  document
+    .querySelectorAll("#billing_first_name_field, #billing_last_name_field")
+    .forEach((el) => el.remove());
+});
+
+// Validate phonenumber
 (function ($) {
   if (!document.body.classList.contains("woocommerce-checkout")) return;
 

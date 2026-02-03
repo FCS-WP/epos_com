@@ -46,6 +46,7 @@ function bluetap_video_modal_shortcode($atts)
                     playsinline
                     preload="auto"
                     controls
+                    muted
                     autoplay>
                     <source src="<?php echo esc_url($atts['video']); ?>" type="video/mp4">
                 </video>

@@ -19,8 +19,8 @@ function sync_wc_paid_order_to_hubspot_deal($order_id, $order)
     'properties' => [
       'dealname'     => 'EPOS Bluetap Checkout - Order #' . $order->get_order_number(),
       'amount'       => $order->get_total(),
-      'pipeline'     => 'default', //need to change for MY website
-      'dealstage'    => 'closedwon',
+      'pipeline'     => '781854069',
+      'dealstage'    => '1142728054',
       'pi_number'    => $order->get_order_number(),
       'merchat_name__payment_team_' => $order->get_billing_company(),
       'closedate'    => $order->get_date_completed() ? $order->get_date_completed()->format('Y-m-d\TH:i:s\Z') : current_time('Y-m-d\TH:i:s\Z'),
@@ -64,6 +64,9 @@ function sync_hubspot_contact_for_deal($order, $token)
   $state_code   = $order->get_billing_state();
   $states       = WC()->countries->get_states($country_code);
   $state_name   = $states[$state_code] ?? $state_code;
+  $total        = $order->get_total();
+  $order_notes = $order->get_customer_note();
+
 
   // UTM Tracking Extraction
   $utm_source   = $order->get_meta('_wc_order_attribution_utm_source') ?: 'website';
@@ -84,6 +87,9 @@ function sync_hubspot_contact_for_deal($order, $token)
     'country'        => $country_code,
     'payment_status' => $payment_status ?: 'INITIATED CHECKOUT',
     'lifecyclestage' => 'customer',
+    'total_pricing' => $total,
+    'product_name' => get_products_data($order),
+    'message' => $order_notes,
 
     'utm_source'     => $utm_source ?: 'Website',
     'utm_medium'     => $utm_medium,

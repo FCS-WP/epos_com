@@ -45,7 +45,8 @@ function create_hubspot_deal($access_token, $deal_data, $contact_id)
       'amount'     => $deal_data['properties']['amount'],
       'closedate'  => $deal_data['properties']['closedate'],
       'dealstage'  => $deal_data['properties']['dealstage'],
-      'pipeline'   => 'default',
+      'pipeline'   => $deal_data['properties']['pipeline'],
+      'pi_number' => $deal_data['properties']['pi_number'],
     ],
     'associations' => [
       [
@@ -67,4 +68,22 @@ function create_hubspot_deal($access_token, $deal_data, $contact_id)
     'body'    => json_encode($deal_data),
     'timeout' => 20,
   ]);
+}
+
+
+function get_products_data($order)
+{
+  $items = [];
+
+  foreach ($order->get_items() as $item) {
+    if ($item instanceof WC_Order_Item_Product) {
+      $items[] = sprintf(
+        '%s (x%d)',
+        $item->get_name(),
+        $item->get_quantity()
+      );
+    }
+  }
+
+  return implode("\n", $items);
 }

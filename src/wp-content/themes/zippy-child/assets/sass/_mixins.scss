@@ -144,6 +144,11 @@ flexbox
     @content;
   }
 }
+@mixin only-mobile {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
 @mixin mobile {
   @media (min-width: 480px) {
     @content;
@@ -164,5 +169,3 @@ flexbox
     @content;
   }
 }
-
-

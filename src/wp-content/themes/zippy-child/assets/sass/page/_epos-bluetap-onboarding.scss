@@ -102,6 +102,63 @@ body.bluetap-onboarding {
       }
     }
   }
+
+  // Bluetap onboarding sub page
+  .bluetap-onboarding-subpage-title {
+    p {
+      color: #212121 !important;
+      font-size: 24px !important;
+      font-weight: 600 !important;
+      line-height: 32px !important;
+      letter-spacing: -0.25px !important;
+      margin-bottom: 8px;
+    }
+  }
+  .bluetap-onboarding-subpage-sub {
+    p {
+      color: #4a5671 !important;
+      line-height: 24px !important;
+      margin-bottom: 16px;
+    }
+  }
+  .connect-bluetap-wifi-tabs {
+    ul {
+      background-color: #f0f2f5;
+      border: none !important;
+      border-radius: 8px;
+      padding: 4px 8px;
+      .tab {
+        padding: 0;
+        border-radius: 8px;
+        width: 49.5%;
+        a {
+          font-weight: 500 !important;
+          color: #0a22aa !important;
+          font-size: 16px !important;
+          font-weight: 500 !important;
+          padding: 10px 48px;
+          width: 100%;
+          justify-content: center;
+        }
+      }
+      .tab.active {
+        background-color: #071a8a;
+        a {
+          color: #fff !important;
+          font-weight: 600 !important;
+        }
+      }
+    }
+    @include desktop {
+      ul {
+        .tab {
+          a {
+            font-size: 20px !important;
+          }
+        }
+      }
+    }
+  }
 }
 
 @include only-mobile {
@@ -251,7 +308,7 @@ body.bt-modal-open {
 .bt-close {
   position: absolute;
   top: 0px;
-  right:0px;
+  right: 0px;
   z-index: 2;
   padding: 5px !important;
   border-radius: 50%;
@@ -279,9 +336,7 @@ body.bt-modal-open {
   background: #fff;
   border-radius: 16px;
   padding-top: 20px;
-  font-family:
-    system-ui,
-    -apple-system;
+  font-family: system-ui, -apple-system;
 
   .bt-panel-title {
     font-size: 15px;
@@ -342,9 +397,7 @@ body.bt-modal-open {
     padding-top: 0;
     padding-bottom: 0;
     overflow: hidden;
-    transition:
-      max-height 0.35s ease,
-      opacity 0.25s ease;
+    transition: max-height 0.35s ease, opacity 0.25s ease;
   }
 
   &.expanded {

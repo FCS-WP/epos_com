@@ -30,7 +30,7 @@
 
 		<?php do_action('flatsome_before_header'); ?>
 		<?php $request_uri = trim($_SERVER['REQUEST_URI'], '/'); ?>
-		<?php if ($request_uri === 'my' || strpos($request_uri, 'my/') === 0) : ?>
+		<?php if ($request_uri === 'my' || strpos($request_uri, 'my/') === 0  || strpos($request_uri, 'shop') === 0 || strpos($request_uri, 'product/') === 0) : ?>
 			<?php get_template_part('header', 'my');; ?>
 		<?php else : ?>
 			<header id="header" class="header <?php flatsome_header_classes(); ?>">
@@ -41,7 +41,7 @@
 		<?php do_action('flatsome_after_header'); ?>
 		<?php
 		$main_classes = flatsome_main_classes(false);
-		if ($request_uri === 'my' || strpos($request_uri, 'my/') === 0) {
+		if ($request_uri === 'my' || strpos($request_uri, 'my/') === 0 || strpos($request_uri, 'shop') === 0 || strpos($request_uri, 'product/') === 0) {
 			$main_classes .= ' my-main';
 		}
 		?>

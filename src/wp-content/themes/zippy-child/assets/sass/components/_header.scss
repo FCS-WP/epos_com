@@ -88,4 +88,22 @@
       }
     }
   }
+  .icon-menu:before {
+    color: $blue-primary;
+  }
+}
+
+// For Moblie Menu
+
+#main-menu {
+  .menu-item {
+    a {
+      color: $blue-dark;
+    }
+    .toggle {
+      color: $blue-dark;
+      opacity: 1;
+      font-size: 14px;
+    }
+  }
 }

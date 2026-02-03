@@ -1,6 +1,7 @@
 // Scroll To custom UI
 body {
   // Menu button
+
   .scroll-bullets-toggle {
     position: fixed;
     top: 12%;
@@ -29,6 +30,9 @@ body {
     .down-icon {
       font-size: 20px;
       line-height: 0.5em;
+    }
+    @include only-mobile {
+      display: none;
     }
   }
 
@@ -88,6 +92,10 @@ body {
     &.is-hidden {
       opacity: 0;
       pointer-events: none;
+    }
+    @include only-mobile {
+      display: none !important;
+      transition: none;
     }
   }
 

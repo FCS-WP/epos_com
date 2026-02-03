@@ -1,10 +1,11 @@
 import "../lib/slick/slick.min.js";
-import "../js/widgetWhatsapp.js";
+// import "../js/widgetWhatsapp.js";
 import "../js/video_hub.js";
 import "../js/careers-page.js";
 import "../js/checkout/checkout.js";
 import "../js/checkout/phone-validation.js";
 import "../js/scrollToBullet.js";
+import "./page/epos-bluetap-onboarding.js"
 
 ("use strict");
 $ = jQuery;
@@ -116,3 +117,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+

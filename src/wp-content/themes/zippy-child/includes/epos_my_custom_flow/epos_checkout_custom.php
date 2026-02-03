@@ -13,7 +13,7 @@ function email_domain_is_exist($email) {
 // Actions
 // Enqueue scripts for billing phone country codes
 add_action('wp_enqueue_scripts', function () {
-    // if (!is_checkout()) return;
+    if (!is_checkout()) return;
 
     $base = get_stylesheet_directory_uri() . '/assets/lib/intl-tel-input';
     $ver  = '18.5.2';

@@ -96,7 +96,7 @@ add_action('wp_footer', function () {
                         redirectUrl = "https://www.epos.com.sg/";
                         cookieKey = "geoip_redirect_sg";
                     } else if (countryCode === "MY" && !currentUrl.includes("/my")) {
-                        redirectUrl = "/my";
+                        redirectUrl = "/my/bluetap/";
                         cookieKey = "geoip_redirect_my";
                     }
 

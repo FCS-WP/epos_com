@@ -328,9 +328,14 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 		$status_code = $this->get_transaction_status($order_id);
 
 		if ($status_code == 2000) {
-			$this->payment_complete($order);
-			wp_safe_redirect($this->get_return_url($order));
-			exit;
+			if (!$order->is_paid()) {
+				$this->payment_complete($order);
+				wp_safe_redirect($this->get_return_url($order));
+				exit;
+			} else {
+				wp_safe_redirect($this->get_return_url($order));
+				exit;
+			}
 		} else {
 			// Log the failure for debugging
 			ZIPPY_Pay_Logger::log_checkout("Payment inquiry returned status:", $status_code);
@@ -355,7 +360,9 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 			$resp_code = $this->get_transaction_status($order_id);
 
 			if ($resp_code == 2000) {
-				$this->payment_complete($order);
+				if (!$order->is_paid()) {
+					$this->payment_complete($order);
+				}
 			} else {
 				$order->add_order_note(__('Inquiry on Redirect: Payment not completed yet. Code: ', 'zippy') . $resp_code);
 			}

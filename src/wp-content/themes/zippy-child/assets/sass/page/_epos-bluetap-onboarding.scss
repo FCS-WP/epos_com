@@ -159,6 +159,15 @@ body.bluetap-onboarding {
       }
     }
   }
+
+  .qr-info-tag {
+    .icon-box-img img {
+      padding: 0 !important;
+    }
+    .icon-box-text {
+      padding-left: 8px !important;
+    }
+  }
 }
 
 @include only-mobile {

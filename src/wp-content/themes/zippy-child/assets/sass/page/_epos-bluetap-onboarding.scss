@@ -401,6 +401,9 @@ body.bt-modal-open {
 }
 
 .bt-chapter-card.has-body {
+  .bt-chapter-header .bt-icon {
+    margin-right: 6px;
+  }
   .bt-chapter-body {
     max-height: 0;
     opacity: 0;

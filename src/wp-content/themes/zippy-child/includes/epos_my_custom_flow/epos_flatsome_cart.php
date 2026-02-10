@@ -133,7 +133,7 @@ function custom_cart_item_name($product_name, $cart_item, $cart_item_key)
     $product = $cart_item['data'];
     if ($product && is_a($product, 'WC_Product')) {
         if ($product->get_id() == 2174) {
-            $product_name =  $product_name . '<div class="cart-pre-order">' . 'Pre-order – Delivery starts from February</div>';
+            $product_name =  $product_name . '<div class="cart-pre-order">' . 'Pre-order - Delivery starts from late February</div>';
         }
     }
     return $product_name;

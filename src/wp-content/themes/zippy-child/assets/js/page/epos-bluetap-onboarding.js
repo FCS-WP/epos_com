@@ -59,7 +59,13 @@ document.querySelectorAll(".bt-chapter-header").forEach((header) => {
 });
 // chapter video play button
 document.addEventListener("click", function (e) {
-  const playBtn = e.target.closest(".bt-play[data-video]");
+  const card = e.target.closest(".bt-chapter-card, .bt-sub-item");
+  if (!card) return;
+
+  const cardExpand = card.querySelector(".bt-chapter-body");
+  if (cardExpand) return;
+
+  const playBtn = card.querySelector(".bt-play[data-video]");
   if (!playBtn) return;
 
   const videoSrc = playBtn.dataset.video;

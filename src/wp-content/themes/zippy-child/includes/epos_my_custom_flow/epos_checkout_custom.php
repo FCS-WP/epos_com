@@ -101,3 +101,7 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
 add_filter('woocommerce_add_error', function ($message) {
     return str_replace('Billing Full name', 'Full name', $message);
 });
+
+
+// Remove order note 
+add_filter( 'woocommerce_enable_order_notes_field', '__return_false' );

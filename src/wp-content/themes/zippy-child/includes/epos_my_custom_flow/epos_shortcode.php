@@ -9,7 +9,7 @@ function flatsome_ajax_add_to_cart_shortcode($atts)
   if (!class_exists('WooCommerce')) return '';
 
   $atts = shortcode_atts(array(
-    'id'   => BLUETAP_PRODUCT_ID,
+    'id'   => BLUETAP_PRODUCT_ID, // Epos360 Bluetap product
     'qty'  => 1,
     'text' => 'Add to Cart'
   ), $atts);

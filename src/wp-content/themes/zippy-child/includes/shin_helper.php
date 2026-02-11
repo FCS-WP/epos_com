@@ -36,6 +36,7 @@ function pr($data)
 }
 
 // Define constants
+// Epos360 Bluetap product
 define('BLUETAP_PRODUCT_ID', 631);
 
 

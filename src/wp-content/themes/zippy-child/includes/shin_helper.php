@@ -36,8 +36,7 @@ function pr($data)
 }
 
 // Define constants
-// Epos360 Bluetap product
-define('BLUETAP_PRODUCT_ID', 631);
+define('BLUETAP_PRODUCT_ID', 631); // This is ID on live site: 2174
 
 
 // Hook to initialize the custom endpoint

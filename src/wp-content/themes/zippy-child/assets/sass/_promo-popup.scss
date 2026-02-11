@@ -1,0 +1,48 @@
+.bluetap-promo {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+}
+.bluetap-promo-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+}
+.bluetap-promo-content {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.35s ease;
+  max-width: 600px;
+  img {
+    border-radius: 16px;
+  }
+}
+
+.bluetap-promo.show {
+  display: flex;
+}
+
+.bluetap-promo.show .bluetap-promo-content {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.bluetap-promo-close {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 38px;
+  min-height: 38px;
+  line-height: 1;
+  font-weight: 200;
+  padding: 0 !important;
+  margin: 0 !important;
+  color: black;
+  cursor: pointer;
+  z-index: 3;
+}

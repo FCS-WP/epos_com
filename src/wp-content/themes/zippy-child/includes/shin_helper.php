@@ -35,6 +35,9 @@ function pr($data)
 
 }
 
+// Define constants
+define('BLUETAP_PRODUCT_ID', 631); // This is ID on live site: 2174
+
 
 // Hook to initialize the custom endpoint
 add_action('init', 'register_health_check_endpoint');

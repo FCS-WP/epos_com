@@ -734,6 +734,9 @@
   }
   .w-fit-content {
     width: fit-content !important;
+    > .col-inner {
+      width: fit-content !important;
+    }
   }
   //z-index
   .z-1 {
@@ -766,6 +769,13 @@
   .h-260px {
     @include desktop {
       height: 260px !important;
+    }
+  }
+
+  // icon-box
+  .icb-img-p-0 {
+    img {
+      padding: 0 !important;
     }
   }
 

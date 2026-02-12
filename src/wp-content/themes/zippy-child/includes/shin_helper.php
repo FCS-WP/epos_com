@@ -35,9 +35,6 @@ function pr($data)
 
 }
 
-// Define constants
-define('BLUETAP_PRODUCT_ID', 631); // This is ID on live site: 2174
-
 
 // Hook to initialize the custom endpoint
 add_action('init', 'register_health_check_endpoint');
@@ -70,3 +67,31 @@ function handle_health_check_endpoint() {
         exit;
     }
 }
+
+// Config bluetap product id in admin
+add_action('admin_init', 'bluetap_product_id_settings');
+function bluetap_product_id_settings() {
+    register_setting(
+        'general',                 
+        'bluetap_product_id',      
+        array(  
+            'type' => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default' => '',
+        )
+    );
+
+    add_settings_field(
+        'bluetap_product_id',
+        'Bluetap Product ID',
+        function () {
+            $value = get_option('bluetap_product_id', '');
+            echo '<input type="text" name="bluetap_product_id" value="' . esc_attr($value) . '" class="regular-text" />';
+        },
+        'general'
+    );
+}
+
+add_action('after_setup_theme', function () {
+    define('BLUETAP_PRODUCT_ID', get_option('bluetap_product_id', 2147));
+});

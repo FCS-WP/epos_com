@@ -93,5 +93,5 @@ function bluetap_product_id_settings() {
 }
 
 add_action('after_setup_theme', function () {
-    define('BLUETAP_PRODUCT_ID', get_option('bluetap_product_id', 2147));
+    define('BLUETAP_PRODUCT_ID', get_option('bluetap_product_id', 2174));
 });

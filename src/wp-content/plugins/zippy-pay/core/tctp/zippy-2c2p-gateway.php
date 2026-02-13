@@ -320,6 +320,34 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 
 		return '9999';
 	}
+
+	public function get_payment_status($order_id)
+	{
+		$order = wc_get_order($order_id);
+		if (!$order) return false;
+
+		$payment_token = $order->get_meta('_2c2p_payment_token');
+
+		$decoded_token = $this->base64UrlDecode($payment_token);
+
+		$response = wp_remote_post(PAYMENT_2C2P_ENDPOINT . '/paymentInquiry', array(
+			'headers' => array('Content-Type' => 'application/json'),
+			'body'    => json_encode(array('paymentToken' => $decoded_token['paymentToken'])),
+			'timeout' => 30
+		));
+
+		if (is_wp_error($response)) return false;
+
+		$body = json_decode(wp_remote_retrieve_body($response), true);
+		ZIPPY_Pay_Logger::log_checkout("2C2P Payment Inquiry.", $body);
+
+		if (isset($body['invoiceNo'])) {
+
+			return isset($body['respCode']) ? $body['respCode'] : '9999';
+		}
+
+		return '9999';
+	}
 	public function check_order_status($order_id)
 	{
 		$order = wc_get_order($order_id);
@@ -328,13 +356,20 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 		$status_code = $this->get_transaction_status($order_id);
 
 		if ($status_code == 2000) {
-			if (!$order->is_paid()) {
-				$this->payment_complete($order);
-				wp_safe_redirect($this->get_return_url($order));
-				exit;
-			} else {
-				wp_safe_redirect($this->get_return_url($order));
-				exit;
+			//Payment Inquiry 
+
+			$payed_status = $this->get_payment_status($order_id);
+
+			if ($payed_status == '0000') { {
+					if (!$order->is_paid()) {
+						$this->payment_complete($order);
+						wp_safe_redirect($this->get_return_url($order));
+						exit;
+					} else {
+						wp_safe_redirect($this->get_return_url($order));
+						exit;
+					}
+				}
 			}
 		} else {
 			// Log the failure for debugging

@@ -395,8 +395,19 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 			$resp_code = $this->get_transaction_status($order_id);
 
 			if ($resp_code == 2000) {
-				if (!$order->is_paid()) {
-					$this->payment_complete($order);
+
+				$payed_status = $this->get_payment_status($order_id);
+
+				if ($payed_status == '0000') { {
+						if (!$order->is_paid()) {
+							$this->payment_complete($order);
+							wp_safe_redirect($this->get_return_url($order));
+							exit;
+						} else {
+							wp_safe_redirect($this->get_return_url($order));
+							exit;
+						}
+					}
 				}
 			} else {
 				$order->add_order_note(__('Inquiry on Redirect: Payment not completed yet. Code: ', 'zippy') . $resp_code);
@@ -420,7 +431,7 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 			wp_send_json_success(['status' => 'paid', 'redirect' => $this->get_return_url($order)]);
 		}
 
-		$resp_code = $this->get_transaction_status($order_id);
+		$resp_code = $this->get_payment_status($order_id);
 
 		if ($resp_code === '0000') {
 			$this->payment_complete($order);

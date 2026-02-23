@@ -69,6 +69,7 @@ function handle_health_check_endpoint() {
 }
 
 
+<<<<<<< HEAD
 // Config bluetap product id in admin
 add_action('admin_init', 'bluetap_product_id_settings');
 function bluetap_product_id_settings() {
@@ -96,3 +97,8 @@ function bluetap_product_id_settings() {
 add_action('after_setup_theme', function () {
     define('BLUETAP_PRODUCT_ID', get_option('bluetap_product_id', 2147));
 });
+=======
+add_action('after_setup_theme', function () {
+    define('BLUETAP_PRODUCT_ID',get_field('360blue_product_id', 'option') ?: 2174);
+});
+>>>>>>> ce16067c99cea42fcd6b3ce76e142d0c5a638af0

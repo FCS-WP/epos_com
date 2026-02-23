@@ -45,6 +45,7 @@ function create_hubspot_deal($access_token, $deal_data, $contact_id)
       'amount'     => $deal_data['properties']['amount'],
       'closedate'  => $deal_data['properties']['closedate'],
       'dealstage'  => $deal_data['properties']['dealstage'],
+      'referral_code' => $deal_data['properties']['referral_code'],
       'pipeline'   => $deal_data['properties']['pipeline'],
       'pi_number' => $deal_data['properties']['pi_number'],
     ],

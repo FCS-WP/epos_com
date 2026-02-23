@@ -38,6 +38,7 @@ function sync_wc_order_to_hubspot($order_id, $posted_data, $order)
   $utm_source   = $order->get_meta('_wc_order_attribution_utm_source') ?: 'website';
   $utm_medium   = $order->get_meta('_wc_order_attribution_utm_medium');
   $utm_campaign = $order->get_meta('_wc_order_attribution_utm_campaign');
+  $referrer     = $order->get_meta('referral_code');
 
   // Construct HubSpot Properties
   $properties = [
@@ -55,6 +56,7 @@ function sync_wc_order_to_hubspot($order_id, $posted_data, $order)
     'lifecyclestage' => 'customer',
     'total_pricing' => $total,
     'product_name' => get_products_data($order),
+    'referral_code' => $referrer,
     'message' => $order_notes,
 
     'utm_source'     => $utm_source ?: 'Website',

@@ -3,7 +3,7 @@ add_action('rest_api_init', function () {
     register_rest_route('geoip/v1', '/info', [
         'methods'  => 'GET',
         'callback' => 'get_geoip_info',
-        'permission_callback' => '__return_true',
+        'permission_callback' => '__return_false',
     ]);
 });
 

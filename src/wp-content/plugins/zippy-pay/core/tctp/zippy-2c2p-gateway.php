@@ -411,11 +411,11 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 				}
 			} else {
 				$order->add_order_note(__('Inquiry on Redirect: Payment not completed yet. Code: ', 'zippy') . $resp_code);
+				wp_safe_redirect($order->get_checkout_payment_url());
+				exit;
 			}
 		}
 
-		wp_safe_redirect($this->get_return_url($order));
-		exit;
 	}
 
 	public function ajax_check_payment_status()

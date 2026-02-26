@@ -1,0 +1,49 @@
+//SELL
+@import "./sections/section-sell";
+//SAVE
+@import "./sections/section-save";
+//MANAGE
+@import "./sections/section-manage";
+//LOAN
+@import "./sections/section-loan";
+//GROW
+@import "./sections/section-grow";
+//FORM
+@import "./sections/section-form";
+body.epos360 #main {
+  overflow-x: hidden;
+}
+// .section-bg.bg-loaded {
+//   @include only-tablet {
+//     background-image: none !important;
+//   }
+// }
+
+html,
+body {
+  overflow: hidden;
+}
+
+/* Container chỉ để đánh dấu, KHÔNG tạo scroll context */
+.snap-container {
+  @include desktop {
+    height: auto;
+    overflow: visible;
+  }
+}
+
+/* Section snap bằng JS */
+.snap-section {
+  @include desktop {
+    min-height: 100vh;
+    position: relative;
+  }
+  height: 100%;
+}
+
+/* Section scroll tự nhiên */
+.normal-scroll {
+  @include desktop {
+    min-height: auto;
+  }
+}

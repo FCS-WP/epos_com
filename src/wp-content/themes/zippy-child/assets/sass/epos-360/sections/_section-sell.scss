@@ -1,0 +1,82 @@
+//sell
+.section-sell {
+  position: relative !important;
+  @include desktop {
+    overflow: hidden;
+  }
+  .row-sell {
+    position: relative;
+    @include desktop {
+      padding-top: 0;
+    }
+    .col {
+      position: relative;
+      height: 100%;
+      .col-inner {
+        height: 100%;
+        position: relative;
+      }
+    }
+    .image-center {
+      @include desktop {
+        width: 444px !important;
+        height: 612px !important;
+      }
+    }
+    .sell-absolute-center {
+      @include desktop {
+        position: absolute;
+        right: -79px;
+        top: 5px;
+        width: 150px !important;
+        height: 150px;
+        z-index: 1;
+      }
+      @include large-desktop {
+        position: absolute;
+        right: -18px;
+        top: -20px;
+        width: 181px !important;
+        height: 181px;
+        z-index: 1;
+      }
+    }
+    .sell-absolute-left {
+      @include desktop {
+        position: absolute;
+        left: 78x;
+        top: 264px;
+        width: 240px;
+        height: 260px;
+        z-index: 1;
+      }
+      @include large-desktop {
+        position: absolute;
+        left: 80px;
+        top: 264px;
+        width: 250px;
+        height: 250px;
+        z-index: 1;
+      }
+    }
+
+    .sell-absolute-right {
+      @include desktop {
+        position: absolute;
+        left: -75px;
+        top: 50px;
+        width: 285px;
+        height: 275px;
+        z-index: 1;
+      }
+      @include large-desktop {
+        position: absolute;
+        left: -53px;
+        top: 50px;
+        width: 360px;
+        height: 304px;
+        z-index: 1;
+      }
+    }
+  }
+}

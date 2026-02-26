@@ -1,0 +1,44 @@
+.intro-section-epos360 {
+  background: #0a22aa;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 34, 170, 1) 20%,
+    rgba(12, 28, 115, 1) 80%
+  );
+  .title-section-download {
+    h2 {
+      line-height: 40px;
+      letter-spacing: -0.64px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      font-size: 32px;
+      @include desktop {
+        line-height: 45px !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.48px !important;
+        margin-bottom: 23px;
+        font-size: 36px !important;
+      }
+    }
+  }
+  .content-section-download {
+    p {
+      font-size: 18px !important;
+      font-weight: 400 !important;
+      letter-spacing: 0px !important;
+      line-height: 27px !important;
+      margin-bottom: 15px;
+      color: #d1d5db !important;
+    }
+  }
+  .cta-image {
+    &.app-store {
+      width: 141.5px !important ;
+      height: 45.9px !important;
+    }
+    &.gg-play {
+      width: 161.85px !important ;
+      height: 48px !important;
+    }
+  }
+}

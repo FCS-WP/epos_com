@@ -374,7 +374,7 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 		} else {
 			// Log the failure for debugging
 			ZIPPY_Pay_Logger::log_checkout("Payment inquiry returned status:", $status_code);
-			wp_safe_redirect($order->get_checkout_payment_url());
+			wp_safe_redirect($order->get_checkout_payment_url(true));
 			exit;
 		}
 	}
@@ -411,11 +411,15 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 				}
 			} else {
 				$order->add_order_note(__('Inquiry on Redirect: Payment not completed yet. Code: ', 'zippy') . $resp_code);
-				wp_safe_redirect($order->get_checkout_payment_url());
+				wp_safe_redirect($order->get_checkout_payment_url(true));
 				exit;
 			}
 		}
 
+		if ($order->is_paid()) {
+			wp_safe_redirect($this->get_return_url($order));
+			exit;
+		}
 	}
 
 	public function ajax_check_payment_status()

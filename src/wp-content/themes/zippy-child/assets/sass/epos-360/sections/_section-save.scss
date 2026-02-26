@@ -1,0 +1,93 @@
+.section-save {
+  position: relative;
+  overflow: hidden;
+  .row-save {
+    position: relative;
+    @include desktop {
+      padding-top: 125px;
+    }
+    .col {
+      position: relative;
+      height: 100%;
+      .col-inner {
+        height: 100%;
+        position: relative;
+      }
+    }
+    .image-center {
+      @include desktop {
+        .img-inner {
+          width: 100% !important;
+          height: 100% !important;
+          img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+          }
+        }
+      }
+    }
+    .save-absolute-right {
+      @include tablet {
+        position: absolute;
+        left: -22px !important;
+        top: 20px;
+        width: 245px !important;
+        height: 265px !important;
+        z-index: 1;
+      }
+      @include desktop {
+        position: absolute;
+        left: -22px !important;
+        top: 20px;
+        width: 245px !important;
+        height: 265px !important;
+        z-index: 1;
+      }
+      @include large-desktop {
+        position: absolute;
+        left: -17px !important;
+        top: 46px;
+        width: 324px !important;
+        height: 352px !important;
+        z-index: 1;
+      }
+    }
+    .save-absolute-right-2 {
+      @include desktop {
+        position: absolute;
+        left: 18px !important;
+        top: 366px;
+        width: 185px !important;
+        height: 240px !important;
+        z-index: 1;
+      }
+      @include large-desktop {
+        position: absolute;
+        left: 18px !important;
+        top: 438px;
+        width: 250px !important;
+        height: 264px !important;
+        z-index: 1;
+      }
+    }
+    .save-absolute-left {
+      @include desktop {
+        position: absolute;
+        left: 0px;
+        top: 330px;
+        width: 235px !important;
+        height: 254px !important;
+        z-index: 1;
+      }
+      @include large-desktop {
+        position: absolute;
+        left: 0px;
+        top: 382px;
+        width: 324px !important;
+        height: 304px !important;
+        z-index: 1;
+      }
+    }
+  }
+}

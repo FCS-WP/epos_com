@@ -234,6 +234,20 @@
       color: $primary-color !important;
     }
   }
+  .text-primary-2 {
+    color: $primary-color-2 !important;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $primary-color-2 !important;
+    }
+    p {
+      color: $primary-color-2 !important;
+    }
+  }
 
   .text-secondary {
     color: $secondary-color !important;

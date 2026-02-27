@@ -1,0 +1,300 @@
+/*SECTION GROW – ROOT*/
+.section-grow {
+  position: relative;
+  min-height: 100vh;
+
+  .section-content,
+  .row-grow {
+    position: relative;
+    min-height: 100vh;
+  }
+
+  .row-grow {
+    display: flex;
+    align-items: center;
+
+    .text-info {
+      @include desktop {
+        position: absolute;
+        top: -270px;
+        left: 0;
+        width: 100%;
+      }
+    }
+  }
+
+  /* IMAGE COLUMN */
+  .tab-image-col {
+    .col-inner {
+      height: 100%;
+    }
+  }
+
+  .tab-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* TABS */
+  .s5-tabs {
+    position: relative;
+
+    .tab {
+      cursor: pointer;
+      padding: 30px 0;
+      border-bottom: 1px solid #d1d5db;
+      opacity: 0.25;
+      transition: opacity 0.3s ease;
+
+      &.active {
+        opacity: 1;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      h4 {
+        margin: 0 0 10px;
+        font-size: 20px !important;
+        line-height: 26px !important;
+        font-weight: 600 !important;
+        color: #111827 !important;
+      }
+
+      p {
+        margin: 0;
+        font-size: 16px !important;
+        line-height: 24px !important;
+        font-weight: 400 !important;
+
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        padding-top: 0;
+
+        transition:
+          max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.3s ease,
+          padding-top 0.3s ease;
+      }
+
+      &.active p {
+        max-height: 200px;
+        opacity: 1;
+        padding-top: 8px;
+      }
+    }
+  }
+
+  /* VISUAL GROUP */
+  .grow-visual-group {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    will-change: opacity, transform;
+    width: 100%;
+  }
+
+  /*PHONE FRAME – CORE MASK*/
+  .phone-frame {
+    position: relative;
+    width: 100%;
+    height: 636px;
+    max-width: 320px;
+    overflow: hidden;
+    > img {
+      width: 320px;
+      height: 636px;
+      object-fit: contain;
+      display: block;
+    }
+    @include mobile {
+      height: 610px;
+      > img {
+        height: 610px;
+      }
+    }
+    @include tablet {
+      height: 610px;
+      > img {
+        height: 610px;
+      }
+    }
+    @include desktop {
+      height: 636px;
+      > img {
+        height: 636px;
+      }
+    }
+    /*PHONE SCREEN – TAB g1 & g3*/
+    .phone-screen,
+    .ai-step {
+      position: absolute;
+      top: 11px;
+      left: 37px;
+      width: 78%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+      will-change: transform, opacity;
+      @include mobile {
+        top: 11px;
+        left: 20px;
+        width: 88%;
+      }
+      @include tablet {
+        top: 14px;
+        left: 28px;
+        width: 83%;
+      }
+      @include desktop {
+        width: 100%;
+        top: 14px;
+        left: 0;
+      }
+      image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+      &.s1 img, 
+      &.s2 img {
+        border-radius: 32px;
+      }
+    }
+  }
+}
+
+/* =================================================
+   TAB g2 – PHONE STRUCTURE
+================================*/
+.grow-visual-group.g2 {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  .phone-wrapper {
+    position: relative;
+    width: 100%;
+    height: 640px;
+    max-width: 324px;
+    overflow: hidden;
+    /* PHONE FRAME */
+    .phone-frame {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+    }
+  }
+  .active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 2;
+  }
+}
+
+/* PHONE SCREEN (TAB g2) */
+.grow-visual-group {
+  &.g2 {
+    .phone-screen {
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    &.active {
+      .phone-screen {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    /* BODY */
+    .screen-body {
+      position: absolute;
+      inset: 0;
+    }
+
+    .screen-body-item {
+      position: absolute;
+      inset: 0;
+      top: 25%;
+      width: 100%;
+      height: 260px;
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      will-change: transform, opacity;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      &.active {
+        opacity: 1;
+      }
+    }
+
+    /* FOOTER */
+    .screen-footer {
+      position: absolute;
+      left: 30px;
+      right: 0;
+      bottom: 116px;
+      height: 100%;
+      width: 80%;
+      overflow: hidden;
+      @include desktop {
+        bottom: 90px;
+      }
+    }
+
+    .screen-footer-item {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+      will-change: transform, opacity;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      &.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+}

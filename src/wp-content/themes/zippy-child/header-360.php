@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div id="logo-360" class="flex-col logo">
                     <a href="<?php echo esc_url(home_url('/')); ?>">
-                     <img width="250" height="72" src="/wp-content/uploads/2025/12/Logo-360.png" class="header_logo header-logo" alt="logo-epos-360">
+                     <img width="250" height="72" src="/wp-content/uploads/2026/02/Logo360.svg" class="header_logo header-logo" alt="logo-epos-360">
                     </a>
                 </div>
 
@@ -25,7 +25,7 @@
 
                 <!-- Right Elements -->
                 <div class="flex-col hide-for-medium flex-right">
-                    <?php
+                   <!-- <?php
                     if (class_exists('FlatsomeNavDropdown')) {
                         wp_nav_menu(array(
                             'theme_location' => '360_menu',
@@ -36,7 +36,8 @@
                             'fallback_cb'    => false,
                         ));
                     }
-                    ?>
+                    ?> -->
+                    <?php echo do_shortcode('[block id="epos360-header-button"]'); ?>
                 </div>
 
 

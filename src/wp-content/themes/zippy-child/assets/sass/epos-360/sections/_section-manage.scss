@@ -1,0 +1,264 @@
+.section-manage {
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+  .row-manage {
+    position: relative;
+    @include desktop {
+      padding-top: 125px;
+    }
+
+    .col {
+      position: relative;
+      height: 100%;
+      .col-inner {
+        // height: 100%;
+        position: relative;
+      }
+    }
+    .manage-absolute-left {
+      @include tablet {
+        &.v1 {
+          position: absolute;
+          left: 75px;
+          top: 280px;
+          width: 200px;
+          height: 320px;
+          z-index: 1;
+        }
+      }
+      @include desktop {
+        &.v1 {
+          position: absolute;
+          left: 75px;
+          top: 280px;
+          width: 200px;
+          height: 320px;
+          z-index: 1;
+        }
+      }
+      @include large-desktop {
+        &.v1 {
+          position: absolute;
+          left: 96px;
+          top: 318px;
+          width: 240px;
+          height: 384px;
+          z-index: 1;
+        }
+      }
+    }
+    .manage-absolute-right {
+      @include tablet {
+        &.v1 {
+          position: absolute;
+          left: -9px;
+          top: 390px;
+          width: 245px;
+          height: 235px;
+          z-index: 1;
+        }
+        &.v2 {
+          position: absolute;
+          left: -59px;
+          top: -50px;
+          width: 254px;
+          height: 230px;
+          z-index: 2;
+        }
+      }
+      @include desktop {
+        &.v1 {
+          position: absolute;
+          left: -9px;
+          top: 390px;
+          width: 245px;
+          height: 235px;
+          z-index: 1;
+        }
+        &.v2 {
+          position: absolute;
+          left: 0;
+          top: -50px;
+          width: 254px;
+          height: 230px;
+          z-index: 2;
+        }
+      }
+      @include large-desktop {
+        &.v1 {
+          position: absolute;
+          left: 50px;
+          top: 390px;
+          width: 330px;
+          height: 284px;
+          z-index: 1;
+        }
+        &.v2 {
+          position: absolute;
+          left: -40px;
+          top: -50px;
+          width: 284px;
+          height: 251px;
+          z-index: 2;
+        }
+      }
+    }
+  }
+  .image-center-col {
+    position: relative;
+    .image-center {
+      &.v1,
+      &.v2 {
+        @include desktop {
+          position: absolute;
+          left: 50%;
+          top: 30px;
+          z-index: 1;
+          transform: translateX(-50%) !important;
+        }
+      }
+    }
+  }
+}
+
+/* =============================
+  PHONE WRAPPER
+============================= */
+.phone-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 375px;
+  @include tablet {
+    width: 375px;
+    height: 570px;
+  }
+  @include desktop {
+    width: 375px;
+    height: 640px;
+  }
+  .phone-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      @include tablet {
+        height: 570px;
+      }
+      @include desktop {
+        height: 640px;
+      }
+    }
+  }
+}
+
+/* =============================
+  PHONE SCREEN
+============================= */
+.phone-screen {
+  position: absolute;
+  z-index: 4;
+  overflow: hidden;
+  top: 20px;
+  left: 9%;
+  width: 83%;
+  height: 100%;
+
+  @include tablet {
+    top: 3%;
+    left: 65px;
+    width: 248px;
+  }
+
+  @include desktop {
+    top: 30px;
+    left: 48px;
+    width: 75%;
+  }
+  @include large-desktop {
+    top: 20px;
+    left: 48px;
+    width: 75%;
+  }
+}
+
+/* =============================
+  HEADER
+============================= */
+.screen-header {
+  position: relative;
+  width: 170px;
+  height: 45px;
+  margin-left: 20px;
+  @include mobile {
+    height: 25px;
+    margin-left: 15px;
+  }
+  @include tablet {
+    height: 0px;
+  }
+  @include desktop {
+    height: 0px;
+  }
+  .screen-header-item {
+    position: absolute;
+    top: 37px;
+    left: 0;
+    opacity: 0;
+    width: 170px;
+    height: 26px;
+
+    .active {
+      opacity: 1;
+    }
+    @include mobile {
+      top: 16px;
+    }
+    @include tablet {
+      top: 23px;
+    }
+    @include desktop {
+      top: 20px;
+    }
+  }
+}
+
+/* =============================
+  BODY
+============================= */
+.screen-body {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.screen-body-item {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  top:20px;
+  @include tablet {
+    top: 4%;
+  }
+  @include desktop {
+    top: 6%;
+  }
+}
+
+/* =============================
+  SCREEN IMAGE
+============================= */
+.phone-screen-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}

@@ -1,0 +1,587 @@
+$epos360-primary: #58cc52;
+$epos360-secondary: #1323a6;
+
+body.epos360 {
+  background-color: #f9f9f9;
+  height: 100%;
+  overflow: hidden;
+  #content {
+    background-color: #f9f9f9;
+  }
+  @import "./sections/section-banner360";
+  @import "./sections/section-download";
+  @import "./gsap";
+
+  #main,
+  #content {
+    overflow: hidden !important;
+    height: auto !important;
+    font-family: "Poppins", sans-serif !important;
+  }
+  #fullpage {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  font-family: "Poppins", sans-serif !important;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Poppins", sans-serif !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.18em !important;
+    font-weight: 900 !important;
+  }
+  p,
+  a,
+  span {
+    font-family: "Poppins", sans-serif !important;
+  }
+  p {
+    color: #4b5563;
+    font-weight: 400 !important;
+    font-size: 18px;
+    letter-spacing: 0px !important;
+    line-height: 27px !important;
+  }
+  .text-primary {
+    color: $epos360-primary !important;
+    h1,
+    h2,
+    h3 {
+      color: $epos360-primary !important;
+    }
+  }
+  .text-secondary {
+    color: $epos360-secondary !important;
+    h1,
+    h2,
+    h3 {
+      color: $epos360-secondary !important;
+    }
+  }
+  .text-black {
+    color: #111827 !important;
+    h1,
+    h2,
+    h3 {
+      color: #111827 !important;
+    }
+  }
+  .text-black-2 {
+    color: #111827 !important;
+    h1,
+    h2,
+    h3 {
+      color: #111827 !important;
+    }
+    p {
+      color: #111827 !important;
+    }
+  }
+  .bg-white {
+    background-color: #f9f9f9 !important;
+  }
+  .text-white {
+    color: #fff !important;
+    h2 {
+      color: #fff !important;
+    }
+  }
+  .text-white-2 {
+    color: #d1d5db !important;
+    h2 {
+      color: #d1d5db !important;
+    }
+  }
+  .rounded {
+    border-radius: 16px !important;
+    img {
+      border-radius: 16px !important;
+    }
+    .img-inner {
+      border-radius: 16px !important;
+    }
+  }
+  .fb-section {
+    height: 100vh;
+  }
+  .fs-36px {
+    @include desktop {
+      font-size: 36px !important;
+    }
+    font-size: 28px !important;
+    h2 {
+      @include desktop {
+        font-size: 36px !important;
+      }
+      font-size: 28px !important;
+    }
+  }
+  .fs-18 {
+    font-size: 16px;
+    @include desktop {
+      font-size: 18px !important;
+    }
+    p {
+      font-size: 16px;
+      @include desktop {
+        font-size: 18px !important;
+      }
+    }
+  }
+  .button {
+    &.secondary {
+      background-color: $epos360-secondary !important;
+    }
+    &.primary {
+      background-color: $epos360-secondary !important;
+    }
+  }
+  .container,
+  .row {
+    @include large-desktop {
+      max-width: 1488px !important;
+      padding-right: 64px !important;
+      padding-left: 64px !important;
+    }
+    @include desktop {
+      max-width: 1488px !important;
+      padding-right: 64px !important;
+      padding-left: 64px !important;
+    }
+    @include tablet {
+      max-width: 1000px;
+      
+    }
+  }
+  .header-inner {
+    height: 80px;
+  }
+  .stuck .header-main {
+    height: 80px !important;
+  }
+  .medium-logo-center .logo {
+    @include only-mobile {
+      order: 1;
+      margin: 0 !important;
+      width: 180px;
+      height: 36px;
+    }
+  }
+  .text-info {
+    p {
+      color: #111827 !important;
+    }
+  }
+
+  //button
+  .button {
+    @include only-mobile {
+      width: 100% !important;
+      margin-top: 0px !important;
+      margin-bottom: 10px !important;
+    }
+    border: 1px solid !important;
+    border-radius: 8px !important;
+    margin-top: 11px;
+    margin-bottom: 11px;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    letter-spacing: 0 !important;
+    line-height: 18px !important;
+    padding: 10px 20px !important;
+    span {
+      font-weight: 500 !important;
+      line-height: 18px !important;
+    }
+    &.secondary {
+      &.button-secondary-epos360 {
+        border-color: $epos360-secondary !important;
+        color: #fff !important;
+        &.out-line {
+          border-color: $epos360-secondary !important;
+          color: $epos360-secondary !important;
+          background-color: white !important;
+          &:hover {
+            background-color: #f3f4f6 !important;
+            color: #111827 !important;
+            border-color: #111827 !important;
+          }
+        }
+        &:hover {
+          background-color: #111827 !important;
+          color: white !important;
+          border-color: #111827 !important;
+        }
+      }
+    }
+    &.primary {
+      &.button-add-to-cart {
+        background-color: $epos360-primary !important;
+        border-color: $epos360-primary !important;
+        color: #fff !important;
+      }
+    }
+    &.back-to-top {
+      height: 42px !important;
+      width: 42px !important;
+      border-radius: 50% !important;
+      padding: 4px 15px !important;
+      background: $epos360-secondary !important;
+      border-color: $epos360-secondary !important;
+      i {
+        font-size: 24px !important;
+        left: -2px !important;
+        top: 0 !important;
+        color: white !important;
+      }
+    }
+  }
+
+  #content {
+    .icon-box {
+      margin-bottom: 8px;
+      @include desktop {
+        margin-bottom: 5px;
+      }
+      &.rounded-14 {
+        .icon-box-img {
+          img {
+            border-radius: 0 !important;
+          }
+        }
+      }
+      .icon-box-text {
+        p {
+          font-size: 14px !important;
+          @include desktop {
+            font-size: 16px !important;
+          }
+        }
+      }
+    }
+    .product-bluetap {
+      &.row {
+        .col {
+          &.col-img {
+            @include only-mobile {
+              padding: 0 0 30px !important;
+            }
+          }
+
+          .col-inner {
+            .product-sub-title {
+              p {
+                font-size: 16px !important;
+                font-weight: 700 !important;
+                line-height: 20px !important;
+                letter-spacing: 0px !important;
+                color: $epos360-secondary !important;
+                margin-bottom: 12px;
+              }
+            }
+            .product-title {
+              h2 {
+                color: #111827 !important;
+                font-size: 28px !important;
+                font-weight: bold;
+                line-height: 45px !important;
+                letter-spacing: -0.72px !important;
+                margin-bottom: 24px !important;
+                @include desktop {
+                  font-size: 36px !important;
+                }
+              }
+            }
+            .product-des {
+              p {
+                font-size: 18px;
+                font-weight: 400 !important;
+                line-height: 27px !important;
+                letter-spacing: 0px !important;
+                color: #4b5563 !important;
+                margin-bottom: 26px !important;
+              }
+            }
+            .icon-box.list-info-product {
+              margin-bottom: 14px !important;
+              .icon-box-text {
+                p {
+                  line-height: 24px !important;
+                }
+              }
+            }
+            .product-price {
+              h3 {
+                margin-bottom: 0 !important;
+                .sale-price {
+                  color: #111827 !important;
+                  font-size: 32px !important;
+                  line-height: 40px !important;
+                  letter-spacing: -0.64px !important;
+                  font-weight: bold;
+                  @include desktop {
+                    font-size: 36px !important;
+                    line-height: 45px !important;
+                    letter-spacing: -0.72px !important;
+                  }
+                }
+                .regular-price {
+                  color: #9ca3af !important;
+                  text-decoration: line-through;
+                  font-weight: 600 !important;
+                  line-height: 23.4px !important;
+                  letter-spacing: 0px !important;
+                  font-size: 18px !important;
+                  @include desktop {
+                    font-size: 20px !important;
+                    line-height: 26px !important;
+                  }
+                }
+              }
+            }
+            .product-thumbnail {
+              img {
+                @include desktop {
+                  height: 450px;
+                }
+                height: 300px;
+                object-fit: contain;
+              }
+            }
+            .button-add-to-cart {
+              padding: 12px 18px !important;
+              margin-top: 0 !important;
+              margin-bottom: 0 !important;
+              transition: all 0.2s ease-in-out;
+              span {
+                font-size: 14px !important;
+                line-height: 16px !important;
+                letter-spacing: 0px !important;
+                font-weight: 500 !important;
+              }
+              &:hover {
+                background-color: black !important;
+                color: white !important;
+              }
+            }
+          }
+        }
+      }
+      .group-button {
+        @include only-mobile {
+          padding-left: 0 !important;
+          justify-content: space-between;
+        }
+        .col {
+          @include only-mobile {
+            padding: 0 10px !important;
+          }
+        }
+      }
+    }
+    .section-product {
+      .bg-white.col {
+        .col-inner {
+          background-color: #f3f4f6 !important;
+
+          p {
+            background-color: #f3f4f6 !important;
+          }
+
+          img {
+            border-radius: 0 !important;
+          }
+        }
+      } 
+
+      .button.bluetap-add-to-cart-button::before{
+        margin: 0 !important;
+      }
+
+      // .button.bluetap-add-to-cart-button::before {
+      //   display: none !important;
+      // }
+      
+      @include only-mobile {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    #main {
+      .fp-section {
+        display: block !important;
+        height: 100%;
+      }
+
+      .section-grow {
+        .s5-tabs {
+          .tab {
+            opacity: 1;
+          }
+        }
+
+        .img-1,
+        .img-2,
+        .img-3 {
+          position: relative;
+          inset: auto;
+        }
+      }
+    }
+  }
+  .mobile-left {
+    .mobile-nav {
+      display: none !important;
+    }
+  }
+  .pb-lg-0 {
+    @include desktop {
+      padding-bottom: 0px !important;
+    }
+  }
+  .px-lg-4 {
+    @include desktop {
+      padding-left: 4rem !important;
+      padding-right: 4rem !important;
+    }
+  }
+  .mt-1 {
+    margin-top: 1rem !important;
+  }
+  .mt-2 {
+    margin-top: 2rem !important;
+  }
+  .ps-1 {
+    padding-left: 1rem !important;
+  }
+  .text-info {
+    h4 {
+      font-weight: bold !important;
+      font-size: 16px !important;
+      color: #111827 !important;
+      line-height: 20px !important;
+      letter-spacing: 0px !important;
+    }
+    p {
+      @include desktop {
+        font-weight: 600 !important;
+        font-size: 24px !important;
+        line-height: 31.2px !important;
+        letter-spacing: -0.48px !important;
+        display: block !important;
+        width: 325px !important;
+      }
+      font-weight: 600 !important;
+      font-size: 20px !important;
+      line-height: 26px !important;
+      letter-spacing: 0px !important;
+      display: block !important;
+      strong {
+        @include desktop {
+          font-weight: 600 !important;
+          font-size: 24px !important;
+          line-height: 31.2px !important;
+          letter-spacing: -0.48px !important;
+          display: block !important;
+          width: 320px !important;
+        }
+        font-weight: 600 !important;
+        font-size: 20px !important;
+        line-height: 26px !important;
+        letter-spacing: 0px !important;
+        display: block !important;
+      }
+    }
+    sup {
+      font-size: 12px !important;
+    }
+  }
+  .header-360 {
+    .header-wrapper {
+      background-color: #f9f9f9 !important;
+    }
+  }
+
+  .footnotes {
+    p {
+      font-size: 14px;
+      margin-bottom: 15px !important;
+      line-height: 21px !important;
+      letter-spacing: 0px !important;
+      color: #4b5563 !important;
+      font-weight: 400 !important;
+    }
+    ol {
+      font-size: 14px;
+      margin-bottom: 0 !important;
+      line-height: 21px !important;
+      letter-spacing: 0px !important;
+      color: #4b5563 !important;
+      font-weight: 400 !important;
+      li {
+        font-size: 14px;
+        margin-bottom: 0px !important;
+        line-height: 21px !important;
+        letter-spacing: 0px !important;
+        color: #4b5563 !important;
+        font-weight: 400 !important;
+      }
+    }
+  }
+  .box {
+    .box-text {
+      padding-top: 14px !important;
+      .box-text-inner {
+        .text {
+          p {
+            font-size: 16px !important;
+            font-weight: 400 !important;
+            line-height: 24px !important;
+            letter-spacing: 0px !important;
+          }
+          strong {
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            line-height: 24px !important;
+            letter-spacing: 0px !important;
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 992px) {
+    section .bg.section-bg {
+      background-image: none !important;
+    }
+  }
+}
+.title {
+  &h2 {
+    @include desktop {
+      line-height: 45px !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.48px !important;
+      margin-bottom: 23px;
+      font-size: 36px !important;
+    }
+    line-height: 40px;
+    letter-spacing: -0.64px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 32px;
+  }
+}
+.col {
+  @include only-mobile {
+    padding: 0 24px 30px !important;
+  }
+}

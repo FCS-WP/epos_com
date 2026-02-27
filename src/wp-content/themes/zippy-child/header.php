@@ -30,8 +30,12 @@
 
 		<?php do_action('flatsome_before_header'); ?>
 		<?php $request_uri = trim($_SERVER['REQUEST_URI'], '/'); ?>
-		<?php if ($request_uri === 'my' || strpos($request_uri, 'my/') === 0  || strpos($request_uri, 'shop') === 0 || strpos($request_uri, 'product/') === 0) : ?>
-			<?php get_template_part('header', 'my');; ?>
+		<?php if ($request_uri === 'my' || strpos($request_uri, 'my/') === 0 || strpos($request_uri, 'shop') === 0 || strpos($request_uri, 'product/') === 0) : ?>
+			<?php if ($request_uri === 'my/epos360' || strpos($request_uri, 'my/epos360/') === 0) : ?>
+				<?php get_template_part('header', '360'); ?>
+			<?php else : ?>
+				<?php get_template_part('header', 'my'); ?>
+			<?php endif; ?>
 		<?php else : ?>
 			<header id="header" class="header <?php flatsome_header_classes(); ?>">
 				<?php get_template_part('template-parts/header/header', 'wrapper'); ?>

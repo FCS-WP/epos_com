@@ -21,16 +21,23 @@ defined( 'ABSPATH' ) || exit;
 use Automattic\WooCommerce\Admin\Notes\Note;
 use Automattic\WooCommerce\Admin\Notes\Notes;
 use Automattic\WooCommerce\Database\Migrations\MigrationHelper;
+use Automattic\WooCommerce\Enums\ProductStockStatus;
+use Automattic\WooCommerce\Enums\ProductType;
 use Automattic\WooCommerce\Internal\Admin\Marketing\MarketingSpecs;
 use Automattic\WooCommerce\Internal\Admin\Notes\WooSubscriptionsNotes;
 use Automattic\WooCommerce\Internal\AssignDefaultCategory;
+use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
 use Automattic\WooCommerce\Internal\DataStores\Orders\DataSynchronizer;
 use Automattic\WooCommerce\Internal\DataStores\Orders\OrdersTableDataStore;
+use Automattic\WooCommerce\Internal\Features\FeaturesController;
 use Automattic\WooCommerce\Internal\ProductAttributesLookup\DataRegenerator;
 use Automattic\WooCommerce\Internal\ProductAttributesLookup\LookupDataStore;
 use Automattic\WooCommerce\Internal\ProductDownloads\ApprovedDirectories\Register as Download_Directories;
 use Automattic\WooCommerce\Internal\ProductDownloads\ApprovedDirectories\Synchronize as Download_Directories_Sync;
+use Automattic\WooCommerce\Internal\Utilities\DatabaseUtil;
 use Automattic\WooCommerce\Utilities\StringUtil;
+use Automattic\WooCommerce\Blocks\Options as BlockOptions;
+use Automattic\WooCommerce\Blocks\Utils\BlockTemplateUtils;
 
 /**
  * Update file paths for 2.0
@@ -416,7 +423,7 @@ function wc_update_209_brazillian_state() {
 
 	// phpcs:disable WordPress.DB.SlowDBQuery
 
-	// Update brazillian state codes.
+	// Update Brazilian state codes.
 	$wpdb->update(
 		$wpdb->postmeta,
 		array(
@@ -555,6 +562,8 @@ function wc_update_220_shipping() {
 
 /**
  * Update order statuses for 2.2
+ *
+ * Keeping the internal statuses names as strings to avoid regression issues (not referencing Automattic\WooCommerce\Enums\OrderInternalStatus class).
  *
  * @return void
  */
@@ -991,7 +1000,7 @@ function wc_update_241_variations() {
 		$parent_stock_status = get_post_meta( $variation->variation_parent, '_stock_status', true );
 
 		// Set the _stock_status.
-		add_post_meta( $variation->variation_id, '_stock_status', $parent_stock_status ? $parent_stock_status : 'instock', true );
+		add_post_meta( $variation->variation_id, '_stock_status', $parent_stock_status ? $parent_stock_status : ProductStockStatus::IN_STOCK, true );
 
 		// Delete old product children array.
 		delete_transient( 'wc_product_children_' . $variation->variation_parent );
@@ -1266,7 +1275,7 @@ function wc_update_300_grouped_products() {
 	$parents = $wpdb->get_col( "SELECT DISTINCT( post_parent ) FROM {$wpdb->posts} WHERE post_parent > 0 AND post_type = 'product';" );
 	foreach ( $parents as $parent_id ) {
 		$parent = wc_get_product( $parent_id );
-		if ( $parent && $parent->is_type( 'grouped' ) ) {
+		if ( $parent && $parent->is_type( ProductType::GROUPED ) ) {
 			$children_ids = get_posts(
 				array(
 					'post_parent'    => $parent_id,
@@ -1331,7 +1340,7 @@ function wc_update_300_product_visibility() {
 		$wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO {$wpdb->term_relationships} SELECT post_id, %d, 0 FROM {$wpdb->postmeta} WHERE meta_key = '_visibility' AND meta_value IN ('hidden', 'search');", $exclude_catalog_term->term_taxonomy_id ) );
 	}
 
-	$outofstock_term = get_term_by( 'name', 'outofstock', 'product_visibility' );
+	$outofstock_term = get_term_by( 'name', ProductStockStatus::OUT_OF_STOCK, 'product_visibility' );
 
 	if ( $outofstock_term ) {
 		$wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO {$wpdb->term_relationships} SELECT post_id, %d, 0 FROM {$wpdb->postmeta} WHERE meta_key = '_stock_status' AND meta_value = 'outofstock';", $outofstock_term->term_taxonomy_id ) );
@@ -2596,9 +2605,16 @@ function wc_update_770_remove_multichannel_marketing_feature_options() {
 }
 
 /**
+ * Set a flag to indicate whether the blockified Product Grid Block should be used as a template.
+ */
+function wc_update_790_blockified_product_grid_block() {
+	update_option( BlockOptions::WC_BLOCK_USE_BLOCKIFIED_PRODUCT_GRID_BLOCK_AS_TEMPLATE, wc_bool_to_string( false ) );
+}
+
+/**
  * Migrate transaction data which was being incorrectly stored in the postmeta table to HPOS tables.
  *
- * @return bool Whether there are pending migration recrods.
+ * @return bool Whether there are pending migration records.
  */
 function wc_update_810_migrate_transactional_metadata_for_hpos() {
 	global $wpdb;
@@ -2640,6 +2656,44 @@ LIMIT 250
 	$has_pending = $wpdb->query( "$select_query LIMIT 1;" );
 
 	return ! empty( $has_pending );
+}
+
+/**
+ * Rename the checkout template to page-checkout.
+ */
+function wc_update_830_rename_checkout_template() {
+	$template = get_block_template( BlockTemplateUtils::PLUGIN_SLUG . '//checkout', 'wp_template' );
+
+	if ( $template && ! empty( $template->wp_id ) ) {
+		if ( ! defined( 'WP_POST_REVISIONS' ) ) {
+			define( 'WP_POST_REVISIONS', false );
+		}
+		wp_update_post(
+			array(
+				'ID'        => $template->wp_id,
+				'post_name' => 'page-checkout',
+			)
+		);
+	}
+}
+
+/**
+ * Rename the cart template to page-cart.
+ */
+function wc_update_830_rename_cart_template() {
+	$template = get_block_template( BlockTemplateUtils::PLUGIN_SLUG . '//cart', 'wp_template' );
+
+	if ( $template && ! empty( $template->wp_id ) ) {
+		if ( ! defined( 'WP_POST_REVISIONS' ) ) {
+			define( 'WP_POST_REVISIONS', false );
+		}
+		wp_update_post(
+			array(
+				'ID'        => $template->wp_id,
+				'post_name' => 'page-cart',
+			)
+		);
+	}
 }
 
 /**
@@ -2691,13 +2745,13 @@ function wc_update_890_update_connect_to_woocommerce_note() {
  * Disables the PayPal Standard gateway for stores that aren't using it.
  *
  * PayPal Standard has been deprecated since WooCommerce 5.5, but there are some stores that have it showing up in their
- * list of available Payment methods even if it's not setup. In WooComerce 8.9 we will disable PayPal Standard for those stores
+ * list of available Payment methods even if it's not setup. In WooCommerce 8.9 we will disable PayPal Standard for those stores
  * to reduce the amount of new connections to the legacy gateway.
  *
  * Shows an admin notice to inform the store owner that PayPal Standard has been disabled and suggests installing PayPal Payments.
  */
 function wc_update_890_update_paypal_standard_load_eligibility() {
-	$paypal = class_exists( 'WC_Gateway_Paypal' ) ? new WC_Gateway_Paypal() : null;
+	$paypal = class_exists( 'WC_Gateway_Paypal' ) ? WC_Gateway_Paypal::get_instance() : null;
 
 	if ( ! $paypal ) {
 		return;
@@ -2734,7 +2788,7 @@ function wc_update_910_add_launch_your_store_tour_option() {
  * Add woocommerce_hooked_blocks_version option for existing stores that are using a theme that supports the Block Hooks API
  */
 function wc_update_920_add_wc_hooked_blocks_version_option() {
-	if ( ! wc_current_theme_is_fse_theme() && ! current_theme_supports( 'block-template-parts' ) ) {
+	if ( ! wp_is_block_theme() && ! current_theme_supports( 'block-template-parts' ) ) {
 		return;
 	}
 
@@ -2851,4 +2905,328 @@ function wc_update_930_migrate_user_meta_for_launch_your_store_tour() {
 			'woocommerce_coming_soon_banner_dismissed'
 		)
 	);
+}
+
+/**
+ * Recreate FTS index if it already exists, so that phone number can be added to the index.
+ */
+function wc_update_940_add_phone_to_order_address_fts_index(): void {
+	$fts_already_exists = get_option( CustomOrdersTableController::HPOS_FTS_ADDRESS_INDEX_CREATED_OPTION ) === 'yes';
+	if ( ! $fts_already_exists ) {
+		return;
+	}
+
+	$hpos_controller = wc_get_container()->get( CustomOrdersTableController::class );
+	$result          = $hpos_controller->recreate_order_address_fts_index();
+	if ( ! $result['status'] ) {
+		if ( class_exists( 'WC_Admin_Settings ' ) ) {
+			WC_Admin_Settings::add_error( $result['message'] );
+		}
+	}
+}
+
+/**
+ * Remove user meta associated with the key 'woocommerce_admin_help_panel_highlight_shown'.
+ *
+ * This key is no longer needed since the help panel spotlight tour has been removed.
+ *
+ * @return void
+ */
+function wc_update_940_remove_help_panel_highlight_shown() {
+	global $wpdb;
+
+	$meta_key = 'woocommerce_admin_help_panel_highlight_shown';
+
+	$deletions = $wpdb->query(
+		$wpdb->prepare(
+			"DELETE FROM $wpdb->usermeta WHERE meta_key = %s",
+			$meta_key
+		)
+	);
+
+	// Get the WooCommerce logger to track the results of the deletion.
+	$logger = wc_get_logger();
+
+	if ( null === $logger ) {
+		return;
+	}
+
+	if ( false === $deletions ) {
+		$logger->notice(
+			'During the update to 9.4.0, WooCommerce attempted to remove user meta with the key "woocommerce_admin_help_panel_highlight_shown", but was unable to do so.',
+			array(
+				'source' => 'wc-updater',
+			)
+		);
+	} else {
+		$logger->info(
+			sprintf(
+				1 === $deletions
+					? 'During the update to 9.4.0, WooCommerce removed %d user meta row associated with the meta key "woocommerce_admin_help_panel_highlight_shown".'
+					: 'During the update to 9.4.0, WooCommerce removed %d user meta rows associated with the meta key "woocommerce_admin_help_panel_highlight_shown".',
+				number_format_i18n( $deletions )
+			),
+			array(
+				'source' => 'wc-updater',
+			)
+		);
+	}
+}
+
+/**
+ * Set multisite customer visibility option for existing sites.
+ *
+ * If WooCommerce is updated from an earlier version to 10.0.0, and if it is a multisite network,
+ * then set 'woocommerce_network_wide_customers' to 'yes' (but only if it has not already been
+ * set).
+ *
+ * This preserves WooCommerce's historic handling of cross-network user visibility for existing
+ * networks. New sites, or sites that are newly turned into networks at some later point, will
+ * instead use updated and stricter handling.
+ *
+ * @return void
+ */
+function wc_update_1000_multisite_visibility_setting(): void {
+	if ( ! is_multisite() ) {
+		return;
+	}
+
+	$existing_site_option = get_site_option( 'woocommerce_network_wide_customers', '' );
+
+	if ( is_string( $existing_site_option ) && strlen( $existing_site_option ) > 0 ) {
+		return;
+	}
+
+	update_site_option( 'woocommerce_network_wide_customers', 'yes' );
+}
+
+/**
+ * Autoloads woocommerce_allow_tracking option.
+ */
+function wc_update_950_tracking_option_autoload() {
+	$options = array(
+		'woocommerce_allow_tracking' => 'yes',
+	);
+	wp_set_option_autoload_values( $options );
+}
+
+/**
+ * Update the base color for emails as part of the WooCommerce rebranding,
+ * but only if the user hasn't specified a custom color.
+ */
+function wc_update_961_migrate_default_email_base_color() {
+	$color = get_option( 'woocommerce_email_base_color' );
+	if ( '#7f54b3' === $color ) {
+		update_option( 'woocommerce_email_base_color', '#720eec' );
+	}
+}
+
+/**
+ * Add old refunded order items to the product_lookup_table.
+ */
+function wc_update_1020_add_old_refunded_order_items_to_product_lookup_table() {
+	global $wpdb;
+
+	// Get every order ID where:
+	// 1. the total sales is less than 0, and
+	// 2. is not refunded shipping fee only, and
+	// 3. is not refunded tax fee only.
+	$refunded_orders = $wpdb->get_results(
+		"SELECT order_stats.order_id, order_stats.num_items_sold
+		FROM {$wpdb->prefix}wc_order_stats AS order_stats
+		WHERE order_stats.total_sales < 0 # Refunded orders
+			AND order_stats.total_sales != order_stats.shipping_total # Exclude refunded orders that only include a shipping refund
+			AND order_stats.total_sales != order_stats.tax_total # Exclude refunded orders that only include a tax refund"
+	);
+
+	if ( $refunded_orders ) {
+		update_option( 'woocommerce_analytics_uses_old_full_refund_data', 'yes' );
+		foreach ( $refunded_orders as $refunded_order ) {
+			if ( intval( $refunded_order->num_items_sold ) === 0 ) {
+				$order = wc_get_order( $refunded_order->order_id );
+				if ( ! $order ) {
+					continue;
+				}
+				// If the refund order has no line items, mark it as a full refund in orders_meta table.
+				// In the above query we already excluded orders for refunded shipping and tax, so it's safe to assume that the refund order without items is a full refund.
+				// Note that the "full" refund here means it's created by changing the order status to "Refunded", not partially refund all the items in the order.
+				if ( empty( $order->get_items() ) ) {
+					wc_get_logger()->info( sprintf( 'Setting refund type to full for order_id: %s', $refunded_order->order_id ) );
+					$order->update_meta_data( '_refund_type', 'full' );
+					$order->save_meta_data();
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Remove the option woocommerce_order_attribution_install_banner_dismissed.
+ * This data is now stored in the user meta table in the PR #55715.
+ */
+function wc_update_980_remove_order_attribution_install_banner_dismissed_option() {
+	delete_option( 'woocommerce_order_attribution_install_banner_dismissed' );
+}
+
+/**
+ * One-time force enable the new Payments Settings page feature for all stores.
+ */
+function wc_update_985_enable_new_payments_settings_page_feature() {
+	update_option( 'woocommerce_feature_reactify-classic-payments-settings_enabled', 'yes' );
+}
+
+/**
+ * Remove the transient wc_count_comments as this has migrated to use cache.
+ */
+function wc_update_990_remove_wc_count_comments_transient() {
+	delete_transient( 'wc_count_comments' );
+}
+
+/**
+ * Remove all notes of type 'email' from wp_wc_admin_notes table.
+ *
+ * @return void
+ */
+function wc_update_990_remove_email_notes() {
+	global $wpdb;
+
+	$wpdb->delete(
+		$wpdb->prefix . 'wc_admin_notes',
+		array(
+			'type' => 'email',
+		),
+		array( '%s' )
+	);
+}
+
+/**
+ * Remove the transient ptk_patterns.
+ * This was used to store the Patterns Toolkit patterns in the database.
+ * The patterns are now stored in the option ptk_patterns.
+ *
+ * @return void
+ */
+function wc_update_1000_remove_patterns_toolkit_transient() {
+	delete_transient( 'ptk_patterns' );
+}
+
+/**
+ * Add an index to (comment_date_gmt, comment_type, comment_approved, comment_post_ID)
+ * on the comments table to improve the admin query that gets the latest 25 comments
+ * while excluding reviews and internal notes.
+ *
+ * @return void
+ */
+function wc_update_1030_add_comments_date_type_index() {
+	global $wpdb;
+	$date_type_index_exists = $wpdb->get_row( "SHOW INDEX FROM {$wpdb->comments} WHERE key_name = 'woo_idx_comment_date_type'" );
+
+	if ( is_null( $date_type_index_exists ) ) {
+		// Improve performance of the admin comments query when fetching the latest 25 comments while excluding reviews and internal notes.
+		$wpdb->query( "ALTER TABLE {$wpdb->comments} ADD INDEX woo_idx_comment_date_type (comment_date_gmt, comment_type, comment_approved, comment_post_ID)" );
+	}
+}
+
+/**
+ * Clean up the old last_fetch_patterns_request option and non-grouped actions after migration to using the `action_scheduler_ensure_recurring_actions` hook.
+ *
+ * In version 10.4.0, this functionality was replaced with Action Scheduler recurring actions.
+ *
+ * @return void
+ */
+function wc_update_1040_cleanup_legacy_ptk_patterns_fetching() {
+	delete_option( 'last_fetch_patterns_request' );
+	as_unschedule_all_actions( 'fetch_patterns' );
+}
+
+/**
+ * Update brand permalink setting to take into account obsolete 'woocommerce_prepend_shop_page_to_urls' option, removed in WC 2.0.3.
+ * This migration ensures any installations that still have this old option set will have their brand permalink updated appropriately.
+ *
+ * @since 10.5.0
+ */
+function wc_update_1050_migrate_brand_permalink_setting() {
+	if ( 'yes' !== get_option( 'woocommerce_prepend_shop_page_to_urls' ) ) {
+		return;
+	}
+
+	$shop_page_id = wc_get_page_id( 'shop' );
+	$shop_slug    = ( $shop_page_id > 0 && get_post( $shop_page_id ) ) ? get_page_uri( $shop_page_id ) : 'shop';
+
+	if ( ! $shop_slug ) {
+		return;
+	}
+
+	$slug = trailingslashit( $shop_slug ) . __( 'brand', 'woocommerce' );
+	update_option( 'woocommerce_brand_permalink', $slug );
+}
+
+/**
+ * Autoload frequently used options for performance improvements (see https://github.com/woocommerce/woocommerce/issues/61855)
+ *
+ * `$autoload_options` are frequently used options that may already be in the db but with `autoload = off`.
+ * `$feature_options` are frequently used feature flag options that are not stored in the db.
+ *
+ * @return void
+ */
+function wc_update_1050_enable_autoload_options() {
+	global $wpdb;
+
+	$autoload_options = array(
+		// Page ID options with autoload `off` in the db.
+		'woocommerce_myaccount_page_id',
+		'woocommerce_cart_page_id',
+		'woocommerce_checkout_page_id',
+		'woocommerce_terms_page_id',
+		// Feature status options with autoload `off` in the db.
+		'woocommerce_show_marketplace_suggestions',
+		'woocommerce_enable_delayed_account_creation',
+		'wc_feature_woocommerce_brands_enabled',
+		'wc_connect_taxes_enabled',
+		'woocommerce_logs_logging_enabled',
+		'woocommerce_email_improvements_existing_store_enabled',
+		'woocommerce_custom_orders_table_data_sync_enabled',
+	);
+
+	$feature_options = array(
+		'fulfillments'         => 'woocommerce_feature_fulfillments_enabled',
+		'push_notifications'   => 'woocommerce_feature_push_notifications_enabled',
+		'agentic_checkout'     => 'woocommerce_feature_agentic_checkout_enabled',
+		'cart_checkout_blocks' => 'woocommerce_feature_cart_checkout_blocks_enabled',
+	);
+
+	$features_controller = wc_get_container()->get( FeaturesController::class );
+
+	foreach ( $feature_options as $key => $option ) {
+		if ( false === get_option( $option, false ) ) {
+			add_option( $option, wc_bool_to_string( $features_controller->feature_is_enabled( $key ) ), '', true );
+		} else {
+			$autoload_options[] = $option;
+		}
+	}
+
+	$placeholders = implode( ', ', array_fill( 0, count( $autoload_options ), '%s' ) );
+
+	$wpdb->query(
+		$wpdb->prepare(
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			"UPDATE {$wpdb->options} SET autoload = 'on' WHERE option_name IN ($placeholders)",
+			...$autoload_options
+		)
+	);
+}
+
+/**
+ * Remove deprecated marketplace feature option from the database.
+ *
+ * The marketplace feature flag was deprecated in 10.5.0 and is now always enabled.
+ * The option is no longer needed as FeaturesUtil::feature_is_enabled('marketplace')
+ * returns the deprecated_value directly without reading from the database.
+ *
+ * @since 10.5.0
+ *
+ * @return void
+ */
+function wc_update_1050_remove_deprecated_marketplace_option(): void {
+	delete_option( 'woocommerce_feature_marketplace_enabled' );
 }

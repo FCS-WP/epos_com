@@ -68,8 +68,9 @@ class WC_Site_Tracking {
 		$server_details  = WC_Tracks::get_server_details();
 		$blog_details    = WC_Tracks::get_blog_details( $user->ID );
 		$tracks_identity = WC_Tracks_Client::get_identity( $user->ID );
+		$role_details    = WC_Tracks::get_role_details( $user );
 
-		$client_tracking_properties = array_merge( $server_details, $blog_details );
+		$client_tracking_properties = array_merge( $server_details, $blog_details, $role_details );
 		/**
 		 * Add global tracks event properties.
 		 *
@@ -120,7 +121,7 @@ class WC_Site_Tracking {
 
 				const eventName = '<?php echo esc_attr( WC_Tracks::PREFIX ); ?>' + name;
 				let eventProperties = properties || {};
-				eventProperties = { ...eventProperties, ...<?php echo json_encode( $filtered_properties ); ?> };
+				eventProperties = { ...eventProperties, ...<?php echo json_encode( $filtered_properties, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ); // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode ?> };
 				if ( window.wp && window.wp.hooks && window.wp.hooks.applyFilters ) {
 					eventProperties = window.wp.hooks.applyFilters( 'woocommerce_tracks_client_event_properties', eventProperties, eventName );
 					delete( eventProperties._ui );

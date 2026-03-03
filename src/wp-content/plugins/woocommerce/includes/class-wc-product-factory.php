@@ -8,6 +8,9 @@
  * @version 3.0.0
  */
 
+use Automattic\WooCommerce\Internal\Caches\ProductCache;
+use Automattic\WooCommerce\Enums\ProductType;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -29,6 +32,16 @@ class WC_Product_Factory {
 			return false;
 		}
 
+		$use_product_cache = \Automattic\WooCommerce\Utilities\FeaturesUtil::feature_is_enabled( 'product_instance_caching' );
+		if ( $use_product_cache && empty( $deprecated ) ) {
+			// Nothing should be using the $deprecated argument still, but avoid using cache if they are.
+			$product_cache = wc_get_container()->get( ProductCache::class );
+			$product       = $product_cache->get( (int) $product_id );
+			if ( $product ) {
+				return $product;
+			}
+		}
+
 		$product_type = self::get_product_type( $product_id );
 
 		// Backwards compatibility.
@@ -43,7 +56,11 @@ class WC_Product_Factory {
 		$classname = self::get_product_classname( $product_id, $product_type );
 
 		try {
-			return new $classname( $product_id, $deprecated );
+			$product = new $classname( $product_id, $deprecated );
+			if ( $use_product_cache && isset( $product_cache ) && $product instanceof \WC_Product ) {
+				$product_cache->set( $product );
+			}
+			return $product;
 		} catch ( Exception $e ) {
 			return false;
 		}
@@ -58,7 +75,17 @@ class WC_Product_Factory {
 	 * @return string
 	 */
 	public static function get_product_classname( $product_id, $product_type ) {
-		$classname = apply_filters( 'woocommerce_product_class', self::get_classname_from_product_type( $product_type ), $product_type, 'variation' === $product_type ? 'product_variation' : 'product', $product_id );
+		/**
+		 * Filter the product class name.
+		 *
+		 * @param string $classname   Classname.
+		 * @param string $product_type Product type.
+		 * @param string $context     Context.
+		 * @param int    $product_id  Product ID.
+		 *
+		 * @since 3.0.0
+		 */
+		$classname = apply_filters( 'woocommerce_product_class', self::get_classname_from_product_type( $product_type ), $product_type, ProductType::VARIATION === $product_type ? 'product_variation' : 'product', $product_id );
 
 		if ( ! $classname || ! class_exists( $classname ) ) {
 			$classname = 'WC_Product_Simple';

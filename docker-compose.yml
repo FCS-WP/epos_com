@@ -2,7 +2,7 @@ version: "4.0"
 services:
   wordpress:
     container_name: ${PROJECT_ID}
-    image: wordpress:6.6
+    image: wordpress:6.8
     user: www-data
     volumes:
       # Mount volumes themes and plugin

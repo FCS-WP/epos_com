@@ -46,6 +46,7 @@ add_filter('rest_authentication_errors', 'authentication_rest_api_not_logged_in'
 
 function authentication_rest_api_not_logged_in($errors)
 {
+	var_dump($GLOBALS);
 	if (is_wp_error($errors)) {
 		return $errors;
 	}
@@ -64,4 +65,15 @@ function authentication_rest_api_not_logged_in($errors)
 	}
 
 	return $errors;
+}
+
+add_action('init', 'block_wp_json_root_only');
+
+function block_wp_json_root_only()
+{
+	$current_url = $_SERVER['REQUEST_URI'];
+
+	if ($current_url === '/wp-json/' || $current_url === '/wp-json') {
+		wp_die('Access Denied', 'Forbidden', array('status' => 403));
+	}
 }

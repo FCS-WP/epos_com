@@ -16,6 +16,11 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
 </IfModule>
 
+<Files xmlrpc.php>
+    Order Deny,Allow
+    Deny from all
+</Files>
+
 # END WordPress
 # BEGIN PHP Settings
 php_value upload_max_filesize 20M

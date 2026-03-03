@@ -46,7 +46,6 @@ add_filter('rest_authentication_errors', 'authentication_rest_api_not_logged_in'
 
 function authentication_rest_api_not_logged_in($errors)
 {
-	var_dump($GLOBALS);
 	if (is_wp_error($errors)) {
 		return $errors;
 	}

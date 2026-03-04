@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 (function ($) {
   if (!document.body.classList.contains("woocommerce-checkout")) return;
 
-  $(document).on("click", "#place_order", function (e) {
+  $(document).on("click", "#place_order[data-value='Place order']", function (e) {
     if (!window.PhoneValidation) return;
 
     $(".woocommerce-error").remove();

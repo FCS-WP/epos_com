@@ -26,15 +26,17 @@
     validate() {
       const input = document.querySelector("#billing_phone");
       if (!input || !this.iti) return true;
+      const phoneField = $("#billing_phone_field");
+      if (!phoneField.length) return true;
 
       const value = input.value.trim();
 
       if (!value || !this.iti.isValidNumber()) {
-        $("#billing_phone_field").addClass("woocommerce-invalid");
+        phoneField.addClass("woocommerce-invalid");
         return false;
       }
 
-      $("#billing_phone_field").removeClass("woocommerce-invalid");
+      phoneField.removeClass("woocommerce-invalid");
       return true;
     },
 

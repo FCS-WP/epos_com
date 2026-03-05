@@ -28,8 +28,8 @@ add_action('woocommerce_after_checkout_billing_form', function ($checkout) {
   woocommerce_form_field('referral_code', [
     'type'        => 'text',
     'class'       => ['form-row-wide'],
-    'label'       => ('Referral Code'),
-    'placeholder' => ('Referral Code'),
+    'label'       => Lang::translate('Referral Code'),
+    'placeholder' => Lang::translate('Referral Code'),
     'required'    => false,
   ], $checkout->get_value('referral_code'));
 });

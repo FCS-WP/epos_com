@@ -21,7 +21,7 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('intl-tel-input', "$base/css/intlTelInput.min.css", [], $ver);
     wp_enqueue_script('intl-tel-input', "$base/js/intlTelInput.min.js", [], $ver, true);
     wp_enqueue_script('intl-tel-input-utils', "$base/js/utils.js", ['intl-tel-input'], $ver, true);
-    wp_enqueue_script('checkout-phone', get_stylesheet_directory_uri() . '/assets/js/checkout-phone.js', ['intl-tel-input'], '1.0', true);
+    // wp_enqueue_script('checkout-phone', get_stylesheet_directory_uri() . '/assets/js/checkout-phone.js', ['intl-tel-input'], '1.0', true);
 });
 
 

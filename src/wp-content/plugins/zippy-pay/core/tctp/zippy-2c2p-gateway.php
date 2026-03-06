@@ -41,9 +41,6 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 		add_action('woocommerce_api_zippy_2c2p_transaction', [$this, 'handle_callback']);
 		add_action('woocommerce_api_zippy_2c2p_redirect', [$this, 'handle_redirect_page']);
 
-		//Handle automatic payment status check
-		add_action('wp_ajax_zippy_check_payment_status', [$this, 'ajax_check_payment_status']);
-		add_action('wp_ajax_nopriv_zippy_check_payment_status', [$this, 'ajax_check_payment_status']);
 	}
 
 	/**
@@ -267,6 +264,10 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 		// // 2000: Success
 		$resp_code = $data['respCode'];
 
+		if ($resp_code != '0000') {
+			ZIPPY_Pay_Logger::log_checkout("2C2P Callback: Order $order_id received non-success response.", $data);
+		}
+
 		if ($resp_code == '0000') {
 			if (!$order->is_paid()) {
 				$this->payment_complete($order);
@@ -274,8 +275,11 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 			}
 		} elseif ($resp_code === '0001') {
 			$order->update_status('on-hold', __('2C2P: Payment is pending/waiting.', 'zippy'));
+			ZIPPY_2c2p_Cron::get_instance()->schedule_retry_check($order_id, 1);
 		} else {
-			$order->update_status('failed', __('2C2P: Payment failed. Code: ', 'zippy') . $resp_code);
+			ZIPPY_Pay_Logger::log_checkout("2C2P Callback: Non-success code $resp_code for order $order_id. Scheduling retry.", $data);
+			$order->add_order_note(__('2C2P: Callback returned code ', 'zippy') . $resp_code . __('. Scheduling payment re-check.', 'zippy'));
+			ZIPPY_2c2p_Cron::get_instance()->schedule_retry_check($order_id, 1);
 		}
 
 		// Respond to 2C2P
@@ -299,26 +303,35 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 		if (!$order) return false;
 
 		$payment_token = $order->get_meta('_2c2p_payment_token');
+		if (empty($payment_token)) return false;
 
 		$decoded_token = $this->base64UrlDecode($payment_token);
+		if (!$decoded_token || !isset($decoded_token['paymentToken'])) return false;
+
+		$payload = array(
+			'paymentToken' => $decoded_token['paymentToken'],
+			'locale'       => 'en',
+		);
+
+		$jwt = $this->generate_jwt($payload);
 
 		$response = wp_remote_post(PAYMENT_2C2P_ENDPOINT . '/transactionStatus', array(
 			'headers' => array('Content-Type' => 'application/json'),
-			'body'    => json_encode(array('paymentToken' => $decoded_token['paymentToken'])),
+			'body'    => json_encode(array('payload' => $jwt)),
 			'timeout' => 30
 		));
 
 		if (is_wp_error($response)) return false;
 
 		$body = json_decode(wp_remote_retrieve_body($response), true);
-		ZIPPY_Pay_Logger::log_checkout("2C2P Redirect.", $body);
+		if (!isset($body['payload'])) return '9999';
 
-		if (isset($body['invoiceNo'])) {
+		$data = $this->base64UrlDecode($body['payload']);
+		ZIPPY_Pay_Logger::log_checkout("2C2P Transaction Status.", $data);
 
-			return isset($body['respCode']) ? $body['respCode'] : '9999';
-		}
+		if (!$data) return '9999';
 
-		return '9999';
+		return isset($data['respCode']) ? $data['respCode'] : '9999';
 	}
 
 	public function get_payment_status($order_id)
@@ -326,27 +339,34 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 		$order = wc_get_order($order_id);
 		if (!$order) return false;
 
-		$payment_token = $order->get_meta('_2c2p_payment_token');
+		$invoice_no = $order->get_meta('_2c2p_invoice_no');
+		if (empty($invoice_no)) return false;
 
-		$decoded_token = $this->base64UrlDecode($payment_token);
+		$payload = [
+			'merchantID' => $this->merchant_id,
+			'invoiceNo'  => $invoice_no,
+			'locale'     => 'en',
+		];
 
-		$response = wp_remote_post(PAYMENT_2C2P_ENDPOINT . '/paymentInquiry', array(
-			'headers' => array('Content-Type' => 'application/json'),
-			'body'    => json_encode(array('paymentToken' => $decoded_token['paymentToken'])),
+		$jwt = $this->generate_jwt($payload);
+
+		$response = wp_remote_post(PAYMENT_2C2P_ENDPOINT . '/paymentInquiry', [
+			'headers' => ['Content-Type' => 'application/json'],
+			'body'    => json_encode(['payload' => $jwt]),
 			'timeout' => 30
-		));
+		]);
 
 		if (is_wp_error($response)) return false;
 
 		$body = json_decode(wp_remote_retrieve_body($response), true);
-		ZIPPY_Pay_Logger::log_checkout("2C2P Payment Inquiry.", $body);
+		if (!isset($body['payload'])) return '9999';
 
-		if (isset($body['invoiceNo'])) {
+		$data = $this->base64UrlDecode($body['payload']);
+		ZIPPY_Pay_Logger::log_checkout("2C2P Payment Inquiry.", $data);
 
-			return isset($body['respCode']) ? $body['respCode'] : '9999';
-		}
+		if (!$data) return '9999';
 
-		return '9999';
+		return $data['respCode'] ?? '9999';
 	}
 	public function check_order_status($order_id)
 	{
@@ -360,16 +380,12 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 
 			$payed_status = $this->get_payment_status($order_id);
 
-			if ($payed_status == '0000') { {
-					if (!$order->is_paid()) {
-						$this->payment_complete($order);
-						wp_safe_redirect($this->get_return_url($order));
-						exit;
-					} else {
-						wp_safe_redirect($this->get_return_url($order));
-						exit;
-					}
+			if ($payed_status == '0000') {
+				if (!$order->is_paid()) {
+					$this->payment_complete($order);
 				}
+				wp_safe_redirect($this->get_return_url($order));
+				exit;
 			}
 		} else {
 			// Log the failure for debugging
@@ -398,16 +414,12 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 
 				$payed_status = $this->get_payment_status($order_id);
 
-				if ($payed_status == '0000') { {
-						if (!$order->is_paid()) {
-							$this->payment_complete($order);
-							wp_safe_redirect($this->get_return_url($order));
-							exit;
-						} else {
-							wp_safe_redirect($this->get_return_url($order));
-							exit;
-						}
+				if ($payed_status == '0000') {
+					if (!$order->is_paid()) {
+						$this->payment_complete($order);
 					}
+					wp_safe_redirect($this->get_return_url($order));
+					exit;
 				}
 			} else {
 				$order->add_order_note(__('Inquiry on Redirect: Payment not completed yet. Code: ', 'zippy') . $resp_code);

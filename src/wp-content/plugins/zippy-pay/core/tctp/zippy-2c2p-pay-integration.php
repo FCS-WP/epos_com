@@ -3,6 +3,7 @@
 namespace ZIPPY_Pay\Core\TcTp;
 
 use ZIPPY_Pay\Core\TcTp\ZIPPY_2c2p_Gateway;
+use ZIPPY_Pay\Core\TcTp\ZIPPY_2c2p_Cron;
 
 use ZIPPY_Pay\Core\ZIPPY_Pay_Core;
 
@@ -38,6 +39,14 @@ class ZIPPY_2c2p_Pay_Integration
         if (!ZIPPY_Pay_Core::is_woocommerce_active()) {
             return;
         }
+
+        // Initialize cron job handler
+        ZIPPY_2c2p_Cron::get_instance();
+
+        // AJAX payment status check (must be registered early, not inside gateway constructor)
+        add_action('wp_ajax_zippy_check_payment_status', [$this, 'handle_ajax_check_payment_status']);
+        add_action('wp_ajax_nopriv_zippy_check_payment_status', [$this, 'handle_ajax_check_payment_status']);
+
         // add_filter('woocommerce_get_settings_pages', [$this, 'setting_page']);
 
         add_filter('woocommerce_payment_gateways', [$this, 'add_zippy_to_woocommerce']);
@@ -78,6 +87,17 @@ class ZIPPY_2c2p_Pay_Integration
         return $gateways;
     }
 
+
+    public function handle_ajax_check_payment_status()
+    {
+        $gateways = WC()->payment_gateways()->get_available_payment_gateways();
+
+        if (isset($gateways[PAYMENT_2C2P_ID])) {
+            $gateways[PAYMENT_2C2P_ID]->ajax_check_payment_status();
+        } else {
+            wp_send_json_error(['message' => 'Payment gateway not available']);
+        }
+    }
 
     public function zippy_payment_load_plugin_textdomain()
     {

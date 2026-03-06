@@ -75,8 +75,11 @@ class ZIPPY_2c2p_Pay_Integration
         if (!is_checkout()) {
             return;
         }
-        wp_enqueue_script('adyen-sdk', 'https://pgw-ui.2c2p.com/sdk/js/pgw-sdk-4.2.1.js', [], '', true);
-        wp_enqueue_style('adyen-css', 'https://pgw-ui.2c2p.com/sdk/css/pgw-sdk-style-4.2.1.css', [], '');
+        wp_enqueue_script('2c2p-sdk', ZIPPY_PAY_DIR_URL . 'includes/assets/js/pgw-sdk-4.2.1.js', [], '4.2.1', true);
+        wp_enqueue_style('2c2p-css', ZIPPY_PAY_DIR_URL . 'includes/assets/css/pgw-sdk-style-4.2.1.css', [], '4.2.1');
+
+        // wp_enqueue_script('2c2p-sdk', 'https://pgw-ui.2c2p.com/sdk/js/pgw-sdk-4.2.1.js', [], '', true);
+        // wp_enqueue_style('adyen-css', 'https://pgw-ui.2c2p.com/sdk/css/pgw-sdk-style-4.2.1.css', [], '');
     }
 
 

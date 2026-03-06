@@ -40,7 +40,6 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 		add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
 		add_action('woocommerce_api_zippy_2c2p_transaction', [$this, 'handle_callback']);
 		add_action('woocommerce_api_zippy_2c2p_redirect', [$this, 'handle_redirect_page']);
-
 	}
 
 	/**
@@ -129,9 +128,13 @@ class ZIPPY_2c2p_Gateway extends WC_Payment_Gateway
 		$payment_url = $base_ui_url . "/#/token/" . urlencode($decoded_response['paymentToken']);
 
 		$version = time();
-		wp_enqueue_script('2c2p-pgw-sdk', 'https://pgw-ui.2c2p.com/sdk/js/pgw-sdk-4.2.1.js', array(), '4.2.1', true);
+		// wp_enqueue_script('2c2p-pgw-sdk', 'https://pgw-ui.2c2p.com/sdk/js/pgw-sdk-4.2.1.js', array(), '4.2.1', true);
+		wp_enqueue_script('2c2p-pgw-sdk', ZIPPY_PAY_DIR_URL . 'includes/assets/js/pgw-sdk-4.2.1.js', [], '4.2.1', true);
 		wp_enqueue_script('2c2p-dropin-init', ZIPPY_PAY_DIR_URL . 'includes/assets/js/dropin-init.js', array('2c2p-pgw-sdk'), $version, true);
-		wp_enqueue_style('dropin-init', 'https://pgw-ui.2c2p.com/sdk/css/pgw-sdk-style-4.2.1.css', [], '4.2.1');
+		wp_enqueue_style('dropin-init', ZIPPY_PAY_DIR_URL . 'includes/assets/css/pgw-sdk-style-4.2.1.css', [], '4.2.1');
+
+
+		// wp_enqueue_style('dropin-init', 'https://pgw-ui.2c2p.com/sdk/css/pgw-sdk-style-4.2.1.css', [], '4.2.1');
 
 		wp_localize_script('2c2p-dropin-init', 'Zippy2C2P', array(
 			'paymentUrl' => $payment_url,

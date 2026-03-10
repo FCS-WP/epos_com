@@ -115,4 +115,6 @@ return [
     'Delivery Address is your actual shop’s address. BlueTap will start shipping from late February 2026.' => 'Alamat penghantaran adalah alamat shop anda. BlueTap akan memulakan penghantaran dari akhir Februari 2026.',
     'Pre-order - Delivery starts from late February' => 'Pra-pesanan - Penghantaran mulai dari akhir Februari',
     'does not exist. Please use a valid email address.' => 'tidak wujud. Sila gunakan alamat e-mel yang sah.',
+    'Payment Confirmed' => 'Pembayaran Berjaya',
+    'Our team will contact you shortly to activate your BlueTap so you can accept payments as soon as your device arrives.' => 'Pasukan kami akan menghubungi anda sebentar lagi untuk mengaktifkan BlueTap anda supaya anda boleh menerima pembayaran secepat mungkin apabila peranti anda tiba.',
 ];

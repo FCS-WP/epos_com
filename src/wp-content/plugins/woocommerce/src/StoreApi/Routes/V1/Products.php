@@ -87,8 +87,11 @@ class Products extends AbstractRoute {
 			$query_results = $product_query->get_results( $request );
 		}
 
-		$response = ( new Pagination() )->add_headers( $response, $request, $query_results['total'], $query_results['pages'] );
-		$response->header( 'Last-Modified', $product_query->get_last_modified() );
+		$response      = ( new Pagination() )->add_headers( $response, $request, $query_results['total'], $query_results['pages'] );
+		$last_modified = $product_query->get_last_modified();
+		if ( $last_modified ) {
+			$response->header( 'Last-Modified', $last_modified );
+		}
 
 		return $response;
 	}
@@ -139,10 +142,10 @@ class Products extends AbstractRoute {
 		);
 
 		$params['per_page'] = array(
-			'description'       => __( 'Maximum number of items to be returned in result set. Defaults to no limit if left blank.', 'woocommerce' ),
+			'description'       => __( 'Maximum number of items to be returned in result set.', 'woocommerce' ),
 			'type'              => 'integer',
 			'default'           => 10,
-			'minimum'           => 0,
+			'minimum'           => 1,
 			'maximum'           => 100,
 			'sanitize_callback' => 'absint',
 			'validate_callback' => 'rest_validate_request_arg',

@@ -185,7 +185,7 @@ class LaunchYourStore {
 		}
 
 		$store_pages_only = get_option( 'woocommerce_store_pages_only' ) === 'yes';
-		if ( $store_pages_only && ! WCAdminHelper::is_store_page() ) {
+		if ( $store_pages_only && ! WCAdminHelper::is_current_page_store_page() ) {
 			return false;
 		}
 
@@ -354,6 +354,6 @@ class LaunchYourStore {
 		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResourceParameters.NotInFooter
 		wp_register_script( 'coming-soon-newsletter-mailpoet', '' );
 		wp_enqueue_script( 'coming-soon-newsletter-mailpoet' );
-		wp_add_inline_script( 'coming-soon-newsletter-mailpoet', 'var comingSoonNewsletter = ' . wp_json_encode( $mailpoet ) . ';' );
+		wp_add_inline_script( 'coming-soon-newsletter-mailpoet', 'var comingSoonNewsletter = ' . wp_json_encode( $mailpoet, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) . ';' );
 	}
 }

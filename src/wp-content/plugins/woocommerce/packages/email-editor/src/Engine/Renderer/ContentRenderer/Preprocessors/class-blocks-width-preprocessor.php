@@ -1,12 +1,12 @@
 <?php
 /**
- * This file is part of the MailPoet plugin.
+ * This file is part of the WooCommerce Email Editor package
  *
- * @package MailPoet\EmailEditor
+ * @package Automattic\WooCommerce\EmailEditor
  */
 
 declare(strict_types = 1);
-namespace MailPoet\EmailEditor\Engine\Renderer\ContentRenderer\Preprocessors;
+namespace Automattic\WooCommerce\EmailEditor\Engine\Renderer\ContentRenderer\Preprocessors;
 
 /**
  * This class sets the width of the blocks based on the layout width or column count.
@@ -36,6 +36,7 @@ class Blocks_Width_Preprocessor implements Preprocessor {
 			// Currently we support only % and px units in case only the number is provided we assume it's %
 			// because editor saves percent values as a number.
 			$width_input = is_numeric( $width_input ) ? "$width_input%" : $width_input;
+			$width_input = is_string( $width_input ) ? $width_input : '100%';
 			$width       = $this->convert_width_to_pixels( $width_input, $layout_width );
 
 			if ( 'core/columns' === $block['blockName'] ) {

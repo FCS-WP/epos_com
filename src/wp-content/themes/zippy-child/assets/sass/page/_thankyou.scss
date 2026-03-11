@@ -1,0 +1,55 @@
+.woocommerce-order-received {
+  .thankyou-banner-section {
+    background: #def9dd80;
+    margin-top: 40px;
+    padding: 18px 25px !important;
+    border-radius: 16px;
+    text-align: left;
+    display: flex;
+    gap: 20px;
+
+    .thankyou-banner-image {
+      width: 45px;
+      height: auto;
+    }
+
+    .thankyou-banner-content {
+      width: 100%;
+      h3 {
+        color: #167b10 !important;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 20px;
+        letter-spacing: -0.5px;
+        margin-bottom: 10px !important;
+      }
+      p {
+        color: #167b10 !important;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 24px;
+        letter-spacing: 0px;
+        margin-bottom: 0 !important;
+      }
+    }
+  }
+
+  @include tablet {
+    .thankyou-banner-section {
+      padding: 20px 80px !important;
+      .thankyou-banner-image {
+        width: 35px;
+        height: auto;
+      }
+      .thankyou-banner-content {
+        h3 {
+          font-size: 20px;
+          margin-bottom: 22px !important;
+        }
+        p {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

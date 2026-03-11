@@ -366,7 +366,8 @@ function is_monthly_target_valid($monthly_target) {
  */
 function calculate_mtd_sold_and_run_rate($orders) {
   // Monthly Target
-  $monthly_target = get_field('target', 'option') ?: 565;
+  $monthly_target = get_field('monthly_target', 'option') ?: 565;
+  $monthly_target = (int)$monthly_target;
   // MTD
   $total_devices = 0;
 

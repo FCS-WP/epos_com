@@ -707,7 +707,7 @@
 		var wc_order_lock = {
 			init: function() {
 				// Order screen.
-				this.$lock_dialog = $( '.woocommerce_page_wc-orders #post-lock-dialog.order-lock-dialog' );
+				this.$lock_dialog = $( '#post-lock-dialog.order-lock-dialog' );
 				if ( 0 !== this.$lock_dialog.length && 'undefined' !== typeof woocommerce_admin_meta_boxes ) {
 					// We do not want WP's lock to interfere.
 					$( document ).off( 'heartbeat-send.refresh-lock' );
@@ -718,7 +718,7 @@
 				}
 
 				// Orders list table.
-				this.$list_table = $( '.woocommerce_page_wc-orders table.wc-orders-list-table' );
+				this.$list_table = $( 'table.wc-orders-list-table' );
 				if ( 0 !== this.$list_table.length ) {
 					$( document ).on( 'heartbeat-send', this.send_orders_in_list );
 					$( document ).on( 'heartbeat-tick', this.check_orders_in_list );
@@ -789,6 +789,51 @@
 		};
 
 		wc_order_lock.init();
+	} );
+
+	// Function to handle selected product export
+	$( function () {
+		const $exportButton = $( 'a.page-title-action[href*="page=product_exporter"]');
+		// bail out early.
+		if ( !$exportButton.length ) {
+			return;
+		}
+
+		const originalExportHref = $exportButton.attr( 'href' );
+		const originalExportText = $exportButton.text();
+
+		// Use event delegation on the form containing the list table.
+		$( '#posts-filter' ).on(
+			'change',
+			'#the-list input[type="checkbox"][name="post[]"], #cb-select-all-1, #cb-select-all-2',
+			function () {
+				// Use a minimal timeout to ensure the checked state is updated in the DOM.
+				setTimeout( function () {
+					const selectedProductIds = $(
+						'#the-list input[type="checkbox"][name="post[]"]:checked'
+					)
+						.map( function () {
+							return $( this ).val();
+						} )
+						.get(); // .get() converts the jQuery object to a standard array.
+
+					// Update Export button.
+					if ( selectedProductIds.length > 0 ) {
+						// Construct the new href with product_ids and nonce.
+						const url = new URL( originalExportHref );
+						url.searchParams.set( 'product_ids', selectedProductIds.join(','));
+						url.searchParams.set( '_wpnonce', woocommerce_admin.nonces.export_selected_products_nonce);
+						const newHref = url.toString();
+						// Construct the text with the count of selected products.
+						const count      = selectedProductIds.length;
+						const buttonText = woocommerce_admin.strings.export_selected_products.replace( '%d', count );
+						$exportButton.text( buttonText ).attr( 'href', newHref );
+					} else {
+						$exportButton.text( originalExportText ).attr( 'href', originalExportHref );
+					}
+				}, 0 );
+			}
+		);
 	} );
 
 } )( jQuery, woocommerce_admin );

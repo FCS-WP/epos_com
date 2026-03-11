@@ -62,7 +62,9 @@ class WC_Product_Grouped extends WC_Product {
 	 * @return bool
 	 */
 	public function is_on_sale( $context = 'view' ) {
-		$children = array_filter( array_map( 'wc_get_product', $this->get_children( $context ) ), 'wc_products_array_filter_visible_grouped' );
+		$child_ids = $this->get_children( $context );
+		_prime_post_caches( $child_ids );
+		$children = array_filter( array_map( 'wc_get_product', $child_ids ), 'wc_products_array_filter_visible_grouped' );
 		$on_sale  = false;
 
 		foreach ( $children as $child ) {
@@ -142,7 +144,7 @@ class WC_Product_Grouped extends WC_Product {
 	 * Return the children of this product.
 	 *
 	 * @param  string $context What the value is for. Valid values are view and edit.
-	 * @return array
+	 * @return int[]
 	 */
 	public function get_children( $context = 'view' ) {
 		return $this->get_prop( 'children', $context );
@@ -152,11 +154,48 @@ class WC_Product_Grouped extends WC_Product {
 	 * Return the product's children - visible only.
 	 *
 	 * @since 9.8.0
-	 * @return array Child products
+	 * @return WC_Product[] Child products
 	 */
 	public function get_visible_children() {
 		$grouped_products = array_map( 'wc_get_product', $this->get_children() );
-		return array_filter( $grouped_products, 'wc_products_array_filter_visible_grouped' );
+		$grouped_products = array_filter( $grouped_products, 'wc_products_array_filter_visible_grouped' );
+		/** @var WC_Product[] $grouped_products */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
+
+		return $grouped_products;
+	}
+
+	/**
+	 * Get the minimum price from visible child products.
+	 *
+	 * @since 10.1.0
+	 * @return string Minimum price or empty string if no children
+	 */
+	public function get_min_price() {
+		$children = array_filter( array_map( 'wc_get_product', $this->get_children() ), 'wc_products_array_filter_visible_grouped' );
+		$prices   = array_map( 'wc_get_price_to_display', $children );
+
+		if ( empty( $prices ) ) {
+			return '';
+		}
+
+		return wc_format_decimal( min( $prices ) );
+	}
+
+	/**
+	 * Get the maximum price from visible child products.
+	 *
+	 * @since 10.1.0
+	 * @return string Maximum price or empty string if no children
+	 */
+	public function get_max_price() {
+		$children = array_filter( array_map( 'wc_get_product', $this->get_children() ), 'wc_products_array_filter_visible_grouped' );
+		$prices   = array_map( 'wc_get_price_to_display', $children );
+
+		if ( empty( $prices ) ) {
+			return '';
+		}
+
+		return wc_format_decimal( max( $prices ) );
 	}
 
 	/*
@@ -168,7 +207,7 @@ class WC_Product_Grouped extends WC_Product {
 	*/
 
 	/**
-	 * Return the children of this product.
+	 * Sets an array of children for the product.
 	 *
 	 * @param array $children List of product children.
 	 */

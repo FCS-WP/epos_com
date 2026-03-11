@@ -101,6 +101,11 @@ class WC_Order_Item extends WC_Data implements ArrayAccess {
 			$this->set_object_read( true );
 		}
 
+		if ( $this->get_id() && __CLASS__ === get_class( $this ) ) {
+			wc_doing_it_wrong( __METHOD__, 'WC_Order_Item should not be instantiated directly.', '9.9.0' );
+			return;
+		}
+
 		$type             = 'line_item' === $this->get_type() ? 'product' : $this->get_type();
 		$this->data_store = WC_Data_Store::load( 'order-item-' . $type );
 		if ( $this->get_id() > 0 ) {
@@ -545,5 +550,161 @@ class WC_Order_Item extends WC_Data implements ArrayAccess {
 		if ( $this->has_cogs() && $this->cogs_is_enabled( __METHOD__ ) ) {
 			$this->set_prop( 'cogs_value', $value );
 		}
+	}
+
+	/**
+	 * Returns the Cost of Goods Sold value in html format.
+	 *
+	 * @return string
+	 */
+	public function get_cogs_value_html(): string {
+		if ( ! $this->cogs_is_enabled( __METHOD__ ) ) {
+			return '';
+		}
+
+		if ( ! $this->has_cogs() ) {
+			/**
+			 * Filter to customize how a non-existing Cost of Goods Sold value for an order item (whose has_cogs method returns false) gets rendered to HTML.
+			 *
+			 * @param string $html The rendered HTML.
+			 * @param WC_Order_Item $product The order item for which the "there's no cost" indication is rendered.
+			 *
+			 * @since 9.9.0
+			 */
+			return apply_filters( 'woocommerce_order_item_no_cogs_html', "<span class='na'>&ndash;</span>", $this );
+		}
+
+		$cogs_value      = $this->get_cogs_value();
+		$cogs_value_html = wc_price( $cogs_value, array( 'currency' => $this->get_order()->get_currency() ) );
+
+		/**
+		 * Filter to customize how the Cost of Goods Sold value for an order item gets rendered to HTML.
+		 *
+		 * @param string $html The rendered HTML.
+		 * @param float $value The cost value that is being rendered.
+		 * @param WC_Order_Item $product The order item.
+		 *
+		 * @since 9.9.0
+		 */
+		return apply_filters( 'woocommerce_order_item_cogs_html', $cogs_value_html, $cogs_value, $this );
+	}
+
+	/**
+	 * Get the "cost per unit" tooltip text for the "Cost" (of Goods Sold) column in the order details page.
+	 *
+	 * @return string "Cost per unit: (formatted cost with currency)" text.
+	 */
+	public function get_cogs_value_per_unit_tooltip_text(): string {
+		if ( ! $this->cogs_is_enabled( __METHOD__ ) || ! $this->has_cogs() ) {
+			return '';
+		}
+
+		$tooltip_text            = '';
+		$quantity                = $this->get_quantity();
+		$cogs_value              = $this->get_cogs_value();
+		$cost_per_item           = 0;
+		$formatted_cost_per_item = '';
+
+		if ( $quantity > 0 && $cogs_value > 0 ) {
+			$cost_per_item           = $cogs_value / $quantity;
+			$formatted_cost_per_item = wc_price(
+				$cost_per_item,
+				array(
+					'currency' => $this->get_order()->get_currency(),
+					'in_span'  => false,
+				)
+			);
+			/* translators: %s = formatted cost with currency symbol. */
+			$tooltip_text = sprintf( __( 'Cost per unit: %s', 'woocommerce' ), $formatted_cost_per_item );
+		}
+
+		/**
+		 * Filter to customize the text of the "Cost per unit" tooltip for the "Cost" (of Goods Sold) column in the order details page.
+		 * If an empty string is returned then the tooltip won't be rendered.
+		 *
+		 * @param string $tooltip_text Original tooltip text, may be an empty string.
+		 * @param float $cost_per_item The numerical value of the unit Cost of Goods Sold of the product.
+		 * @param string $formatted_cost_per_item The unit Cost of Goods Sold of the product already formatted for display.
+		 * @param WC_Order_Item $order_item The order item this filter is being fired for.
+		 *
+		 * @since 9.9.0
+		 */
+		return apply_filters( 'woocommerce_order_item_cogs_per_item_tooltip', $tooltip_text, $cost_per_item, $formatted_cost_per_item, $this );
+	}
+
+	/**
+	 * Returns the refunded Cost of Goods Sold value in html format.
+	 *
+	 * @param float         $refunded_cost The refunded value.
+	 * @param array|null    $wc_price_arg Arguments to be passed to wc_price, defaults to an array containing only the currency symbol.
+	 * @param WC_Order|null $order Order that contains this line item, if null, get_order will be invoked.
+	 *
+	 * @return string
+	 */
+	public function get_cogs_refund_value_html( float $refunded_cost, ?array $wc_price_arg = null, ?WC_Order $order = null ): string {
+		if ( ! $this->cogs_is_enabled( __METHOD__ ) || ! $this->has_cogs() ) {
+			return '';
+		}
+
+		if ( $refunded_cost > 0 ) {
+			$refunded_cost = -$refunded_cost;
+		}
+		$order ??= $this->get_order();
+		$html    = $refunded_cost ? '<small class="refunded">' . wc_price( $refunded_cost, $wc_price_arg ?? array( 'currency' => $order->get_currency() ) ) . '</small>' : '';
+
+		/**
+		 * Filter to customize the refunded Cost of Goods Sold (COGS) value HTML for a given order item.
+		 *
+		 * @since 10.3.0
+		 *
+		 * @param string $refunded_html The formatted refunded COGS HTML.
+		 * @param float  $refunded_cost The refunded cost value (always zero or a negative number).
+		 * @param WC_Order_Item $item   The order item object.
+		 * @param WC_Order $order       The order object.
+		 */
+		return apply_filters( 'woocommerce_order_item_cogs_refunded_html', $html, $refunded_cost, $this, $order );
+	}
+
+	/**
+	 * Convert a legacy scalar tax value to array format.
+	 *
+	 * Legacy orders may have tax data stored as floats/strings
+	 * instead of arrays keyed by tax rate ID. This method attempts to infer the
+	 * appropriate tax rate ID from the order context.
+	 *
+	 * @since 10.5.0
+	 *
+	 * @param float|string   $value The legacy scalar tax value.
+	 * @param WC_Order|false $order The order object, or false/null if unavailable.
+	 * @return array Tax data as array, keyed by tax rate ID (or 0 if unknown).
+	 */
+	protected function convert_legacy_tax_value_to_array( $value, $order = null ) {
+		$rate_id = 0;
+
+		// Try to infer tax rate ID from order context.
+		$tax_items = $order ? $order->get_taxes() : array();
+		if ( ! empty( $tax_items ) ) {
+			// Use the first tax rate ID from the order as a best-effort match.
+			$first_tax_item = reset( $tax_items );
+			if ( $first_tax_item ) {
+				$rate_id = $first_tax_item->get_rate_id();
+			}
+		}
+
+		$converted = array( $rate_id => $value );
+
+		/**
+		 * Filter the converted legacy tax value.
+		 *
+		 * Allows plugins to customize how legacy scalar tax values are converted
+		 * to the expected array format.
+		 *
+		 * @since 10.5.0
+		 *
+		 * @param array        $converted The converted tax data array.
+		 * @param float|string $value     The original legacy scalar value.
+		 * @param WC_Order_Item $item     The order item being processed.
+		 */
+		return apply_filters( 'woocommerce_order_item_legacy_tax_conversion', $converted, $value, $this );
 	}
 }

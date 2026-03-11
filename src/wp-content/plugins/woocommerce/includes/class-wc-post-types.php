@@ -212,6 +212,35 @@ class WC_Post_Types {
 			)
 		);
 
+		register_taxonomy(
+			'pos_product_visibility',
+			/**
+			 * Filter the post types that the POS product visibility taxonomy is attached to.
+			 *
+			 * @since 10.5.0
+			 * @param array $post_types Array of post types.
+			 */
+			apply_filters( 'woocommerce_taxonomy_objects_pos_product_visibility', array( 'product', 'product_variation' ) ),
+			/**
+			 * Filter the arguments for the POS product visibility taxonomy.
+			 *
+			 * @since 10.5.0
+			 * @param array $args Array of taxonomy arguments.
+			 */
+			apply_filters(
+				'woocommerce_taxonomy_args_pos_product_visibility',
+				array(
+					'hierarchical'      => false,
+					'show_ui'           => false,
+					'show_in_nav_menus' => false,
+					'query_var'         => false,
+					'rewrite'           => false,
+					'public'            => false,
+					'label'             => _x( 'POS Product visibility', 'Taxonomy name', 'woocommerce' ),
+				)
+			)
+		);
+
 		global $wc_product_attributes;
 
 		$wc_product_attributes = array();
@@ -373,7 +402,7 @@ class WC_Post_Types {
 			)
 		);
 
-		// Register the product form post type wne the feature is enabled.
+		// Register the product form post type when the feature is enabled.
 		if ( Features::is_enabled( 'product-editor-template-system' ) ) {
 			register_post_type(
 				'product_form',

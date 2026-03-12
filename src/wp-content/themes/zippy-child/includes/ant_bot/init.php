@@ -1,5 +1,80 @@
 <?php
 use Automattic\WooCommerce\Admin\Overrides\OrderRefund;
+
+if (!defined('BOT_DEBUG')) {
+  define('BOT_DEBUG', true);
+}
+
+/**
+ * Manage and calculate date based on a single input
+ */
+class DateManager {
+  private static $input;
+  private static $today;
+  private static $start_yesterday;
+  private static $end_yesterday;
+  private static $first_day_of_month;
+
+  public static function init($date = false) {
+    $tz = wp_timezone();
+    self::$input = $date ? $date : new DateTime('today 00:00:00', $tz);
+    self::$today = (clone self::$input);
+    $elapsed = (int)self::$today->format('j');
+
+    if ($elapsed == 1) {
+      // today is the first day of the new month
+      // so rollback to 1 day to calculate last month data
+      self::$today->modify('-1 day');
+      // in this case yesterday should be the same as today
+      // so MTD run rate calculation doesn't need to exclude today explicitly
+      self::$start_yesterday = (clone self::$today);
+    } else {
+      self::$start_yesterday = (clone self::$today)->modify('-1 day');
+    }
+    
+    self::$end_yesterday = (clone self::$start_yesterday)->setTime(23, 59, 59);
+    self::$first_day_of_month = (clone self::$start_yesterday)
+      ->modify('first day of this month')
+      ->setTime(0, 0, 0);
+  }
+
+  public static function get_today() {
+    return self::$today;
+  }
+
+  public static function get_start_yesterday() {
+    return self::$start_yesterday;
+  }
+
+  public static function get_end_yesterday() {
+    return self::$end_yesterday;
+  }
+
+  public static function get_first_day_of_month() {
+    return self::$first_day_of_month;
+  }
+
+  public static function display_month_range() {
+    $start = self::$first_day_of_month->format('Y-m-d H:i:s');
+    $end = self::$end_yesterday->format('Y-m-d H:i:s');
+
+    return "[$start to $end]:<br>";
+  }
+
+  public static function display_yesterday_range() {
+    $start = self::$start_yesterday->format('Y-m-d H:i:s');
+    $end = self::$end_yesterday->format('Y-m-d H:i:s');
+    
+    return "[$start to $end]:<br>";
+  }
+
+  public static function display_date_input() {
+    $output = self::$input->format('Y-m-d H:i:s');
+
+    return "[$output]:<br>";
+  }
+}
+
 /**
  * Signs the request and sends the message to Ant Group Bot.
  * * @param string $content The text message to be sent.
@@ -171,6 +246,33 @@ function ad_format_antbot_markdown($report_data)
 }
 
 /**
+ * Check if debug mode is on
+ */
+function debug_on() {
+  return defined('BOT_DEBUG') && BOT_DEBUG;
+}
+
+/**
+ * Wrapper
+ */
+function ad_collect_orders_and_build_report() {
+  if (!isset($_GET['ad_run_server_cron_sync'])) {
+    return;
+  }
+  
+  $message = prepare_orders_and_build_report();
+ 
+  if (debug_on()) {
+    echo $message;
+  } else {
+    // Send to Antding BOT
+    ad_send_to_ant_group_bot("Daily Sales Summary", $message);
+  }
+
+  wp_die('Ant Group Bot: Reports Synchronized Successfully.');
+}
+
+/**
  * Daily Report:
  * Send at 8:00 AM
  * Include yesterday perforamnce (00:00:00 to 23:59:59)
@@ -199,20 +301,17 @@ function ad_format_antbot_markdown($report_data)
  *  MTD devices sold: 200 (35% of 565 target)
  *  MTD run rate: 110%
  */
-function ad_collect_orders_and_build_report() {
-  if (!isset($_GET['ad_run_server_cron_sync'])) {
-    return;
+function prepare_orders_and_build_report() {
+  if (debug_on()) {
+    $tz = wp_timezone();
+    DateManager::init(new DateTime('2026-01-23 00:00:00', $tz));
+  } else {
+    DateManager::init();
   }
 
-  $tz = wp_timezone();
-
-  // $first_day_of_month = new DateTime('first day of this month 00:00:00', $tz);
-  // $start_yesterday    = new DateTime('yesterday 00:00:00', $tz);
-  // $end_yesterday      = new DateTime('yesterday 23:59:59', $tz);
-
-  $first_day_of_month = new DateTime('2026-01-01 00:00:00', $tz);
-  $start_yesterday    = new DateTime('2026-01-22 00:00:00', $tz);
-  $end_yesterday      = new DateTime('2026-01-22 23:59:59', $tz);
+  $first_day_of_month = DateManager::get_first_day_of_month();
+  $start_yesterday    = DateManager::get_start_yesterday();
+  $end_yesterday      = DateManager::get_end_yesterday();
 
   // Fetch all orders covering the widest range to minimize database calls
   $orders = wc_get_orders(array(
@@ -225,41 +324,36 @@ function ad_collect_orders_and_build_report() {
   $total_orders_yesterday = [];
 
   foreach ($orders as $order) {
-    // if ($order->get_id() === 758) {
-    //   echo 'updating';
-    //   $order->update_meta_data('_wc_order_attribution_utm_source', 'empire');
-    //   $order->save();
-    // }
-    // if ($order->get_id() === 757) {
-    //   echo 'updating';
-    //   $order->update_meta_data('_wc_order_attribution_utm_source', 'amazon');
-    //   $order->save();
-    // }
-    // if ($order->get_id() === 756) {
-    //   echo 'updating';
-    //   $order->update_meta_data('_wc_order_attribution_utm_source', 'shein');
-    //   $order->save();
-    // }
-    // if ($order->get_id() === 755) {
-    //   echo 'updating';
-    //   $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
-    //   $order->save();
-    // }
-    // if ($order->get_id() === 754) {
-    //   echo 'updating';
-    //   $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
-    //   $order->save();
-    // }
-    // if ($order->get_id() === 753) {
-    //   echo 'updating';
-    //   $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
-    //   $order->save();
-    // }
-    // if ($order->get_id() === 752) {
-    //   echo 'updating';
-    //   $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
-    //   $order->save();
-    // }
+    if (debug_on()) {
+      if ($order->get_id() === 758) {
+        $order->update_meta_data('_wc_order_attribution_utm_source', 'empire');
+        // $order->save();
+      }
+      if ($order->get_id() === 757) {
+        $order->update_meta_data('_wc_order_attribution_utm_source', 'amazon');
+        // $order->save();
+      }
+      if ($order->get_id() === 756) {
+        $order->update_meta_data('_wc_order_attribution_utm_source', 'shein');
+        // $order->save();
+      }
+      if ($order->get_id() === 755) {
+        $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
+        // $order->save();
+      }
+      if ($order->get_id() === 754) {
+        $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
+        // $order->save();
+      }
+      if ($order->get_id() === 753) {
+        $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
+        // $order->save();
+      }
+      if ($order->get_id() === 752) {
+        $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
+        // $order->save();
+      }
+    }
 
     if ($order instanceof OrderRefund || $order->has_status('refunded')) {
       continue;
@@ -278,12 +372,7 @@ function ad_collect_orders_and_build_report() {
   // Generate Markdown content
   $message = build_daily_report($total_orders_yesterday, $total_orders_since_first_of_month);
 
-  // Send to Antding BOT
-  ad_send_to_ant_group_bot("Daily Sales Summary", $message);
-
-  // echo $message;
-
-  wp_die('Ant Group Bot: Reports Synchronized Successfully.');
+  return $message;
 }
 
 /**
@@ -299,7 +388,13 @@ function collect_total_devices_and_orders($orders) {
     $total_devices += $qty;
   }
 
-  return "- Total devices sold & paid orders: $total_devices | $total_orders<br>";
+  $output = "- Total devices sold & paid orders: $total_devices | $total_orders<br>";
+
+  if (debug_on()) {
+    $output = DateManager::display_yesterday_range() . $output;
+  }
+
+  return $output;
 }
 
 /**
@@ -342,13 +437,17 @@ function collect_and_combine_channels($orders) {
   }
 
   // Build string
-  $channel_breakdown = "- Channel breakdown:";
+  $output = "- Channel breakdown:";
   foreach ($compound_channels as $name => $count) {
-    $channel_breakdown .= " $name ($count),";
+    $output .= " $name ($count),";
   }
-  $channel_breakdown = rtrim($channel_breakdown, ',');
+  $output = rtrim($output, ',') . "<br>";
 
-  return $channel_breakdown . "<br>";
+  if (debug_on()) {
+    $output = DateManager::display_yesterday_range() . $output;
+  }
+
+  return $output;
 }
 
 /**
@@ -376,22 +475,26 @@ function calculate_mtd_sold_and_run_rate($orders) {
     $total_devices += $qty;
   }
 
-  $mtd_devices_sold = "- MTD devices sold: $total_devices";
+  $output = "- MTD devices sold: $total_devices";
 
   if (is_monthly_target_valid($monthly_target)) {
     $percentage = round(($total_devices / $monthly_target) * 100, 2);
     if ($percentage == 0) {
       $percentage = "less than 1";
     }
-    $mtd_devices_sold .= " ($percentage% of $monthly_target target)";
+    $output .= " ($percentage% of $monthly_target target)";
   }
 
-  $mtd_devices_sold .= "<br>";
+  $output .= "<br>";
+
+  if (debug_on()) {
+    $output = DateManager::display_month_range() . $output;
+  }
 
   $run_rate = calculate_run_rate($total_devices, $monthly_target);
-  $mtd_devices_sold .= $run_rate; 
+  $output .= $run_rate; 
 
-  return $mtd_devices_sold;
+  return $output;
 }
 
 /**
@@ -411,16 +514,9 @@ function calculate_run_rate($actual_mtd_sales, $monthly_target) {
     return "- MTD run rate: N/A (Monthly Rate was not set)<br>";
   }
 
-  $tz = wp_timezone();
-  // $today = new DateTime('now', $tz);
-  $today = new DateTime('2026-01-23 00:00:00', $tz);
+  $today = DateManager::get_today();
   // Days Elapsed
   $days_elapsed = (int)$today->format('j');
-  // TBD: what if today is the first of the new month?
-  if ($days_elapsed == 1) {
-    $today = new DateTime('yesterday 00:00:00', $tz);
-    $days_elapsed = (int)$today->format('j');
-  }
   // Total Days in Month
   $total_days_in_month = (int)$today->format('t');
 
@@ -433,7 +529,13 @@ function calculate_run_rate($actual_mtd_sales, $monthly_target) {
     $run_rate = "less than 1";
   }
 
-  return "- MTD run rate: $run_rate%<br>";
+  $output = "- MTD run rate: $run_rate%<br>";
+
+  if (debug_on()) {
+    $output = DateManager::display_month_range() . $output;
+  }
+
+  return $output;
 }
 
 /**
@@ -446,6 +548,9 @@ function calculate_run_rate($actual_mtd_sales, $monthly_target) {
  */
 function build_daily_report($total_orders_yesterday, $total_orders_since_first_of_month) {
   $output = "**MALAYSIA**<br>";
+  if (debug_on()) {
+    $output = DateManager::display_date_input() . $output;
+  }
   // Total devices sold & paid orders: 17 | 16
   $output .= collect_total_devices_and_orders($total_orders_yesterday);
   // Channel breakdown: TNGD (7), Direct (4), googlesem,googleadwords (3), Google (1), Others (2)
@@ -461,9 +566,47 @@ function build_daily_report($total_orders_yesterday, $total_orders_since_first_o
   return $output;
 }
 
+/**
+ * Collect SG daily report from predefined endpoint
+ */
 function collect_sg_report() {
-  $output = "**SINGAPORE**<br>";
-  $output .= "- Comming Soon";
+  $sg_access_token = get_field('sg_report_token', 'option');
 
-  return $output;
+  if (!$sg_access_token) {
+    return "- N/A (Missing Token)";
+  }
+
+  $host = 'https://epos.com.sg';
+
+  if (debug_on()) {
+    $host = 'http://epos_sg';
+  }
+
+  $url = "$host/wp-json/reports/v1/daily";
+
+  $response = wp_remote_post($url, array(
+    'method'    => 'POST',
+    'headers'   => array(
+      'Authorization' => "Bearer $sg_access_token",
+      'Content-Type' => 'application/json; charset=utf-8'
+    ),
+    'timeout'   => 30,
+    'sslverify' => false,
+  ));
+
+  if (is_wp_error($response)) {
+    error_log('API request failed: ' . $response->get_error_message());
+    return;
+  }
+
+  $status = wp_remote_retrieve_response_code($response);
+  $body   = wp_remote_retrieve_body($response);
+
+  if ($status !== 200) {
+    error_log('API returned status ' . $status);
+  }
+
+  $data = json_decode($body, true);
+
+  return isset($data['content']) ? $data['content'] : '';
 }

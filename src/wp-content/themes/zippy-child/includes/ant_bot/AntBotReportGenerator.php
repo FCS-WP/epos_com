@@ -37,6 +37,7 @@ class AntBotReportGenerator {
   private $print = false;
   private $debug_date = '';
   private $need_sg_report = false;
+  private $origin_sg = false;
   private $country_name = '';
 
   public function __construct($name = '') {
@@ -59,12 +60,24 @@ class AntBotReportGenerator {
     $this->need_sg_report = true;
   }
 
+  public function set_origin_sg() {
+    $this->origin_sg = true;
+  }
+
   public function is_debug_on() {
     return $this->debug_mode;
   }
 
   public function is_print_on() {
     return $this->print;
+  }
+
+  public function is_origin_sg() {
+    return $this->origin_sg;
+  }
+
+  public function is_sg_report_needed() {
+    return $this->need_sg_report;
   }
 
   public function generate_report() {
@@ -88,13 +101,24 @@ class AntBotReportGenerator {
     $end_yesterday      = $this->date_manager->get_end_yesterday();
     $three_days_ago     = $this->date_manager->get_three_days_ago();
     $original_today     = $this->date_manager->get_original_today();
-  
+
     // Fetch all orders covering the widest range to minimize database calls
-    $orders = wc_get_orders(array(
+    $args = [
       'limit'        => -1,
       'status'       => ['completed', 'processing', 'pending', 'failed', 'cancelled'],
       'date_created' => $first_day_of_month->getTimestamp() . '...' . $original_today->getTimestamp(),
-    ));
+    ];
+
+    if ($this->is_origin_sg()) {
+      $args['meta_query'] = [
+        [
+          'key'   => 'bluetap360_order',
+          'value' => 'yes'
+        ]
+      ];
+    };
+
+    $orders = wc_get_orders($args);
   
     // first of month -> yesterday
     $total_orders_since_first_of_month = [];
@@ -103,9 +127,11 @@ class AntBotReportGenerator {
     // 3 days ago -> today
     $total_orders_since_3_days_ago = [];
   
+    // $ids = '';
     foreach ($orders as $order) {
       // temporarily set order data for testing purposes
       if ($this->is_debug_on()) {
+        // $ids .= $order->get_id() . ' ' . $order->get_meta('bluetap360_order') . '<br>';
         if ($order->get_id() === 758) {
           $order->update_meta_data('_wc_order_attribution_utm_source', 'empire');
           $order->set_status('completed');
@@ -142,7 +168,7 @@ class AntBotReportGenerator {
           // $order->save();
         }
       }
-  
+
       if ($order instanceof OrderRefund || $order->has_status('refunded')) {
         continue;
       }
@@ -163,6 +189,10 @@ class AntBotReportGenerator {
   
     // Generate Markdown content
     $message = $this->build_daily_report($total_orders_yesterday, $total_orders_since_first_of_month, $total_orders_since_3_days_ago);
+
+    // if ($this->is_debug_on()) {
+    //   $message .= $ids;
+    // }
   
     return $message;
   }
@@ -190,12 +220,35 @@ class AntBotReportGenerator {
     // The status for the last 3 days
     $output .= $this->calculate_last_three_days_order_status_counts($total_orders_since_3_days_ago);
     // Collect SG report
-    if ($this->need_sg_report) {
+    if ($this->is_sg_report_needed()) {
       $output .= "\n\n---\n\n";
       $output .= $this->collect_sg_report();
     }
   
     return $output;
+  }
+
+  /**
+   * Get BlueTap product count only
+   */
+  private function get_product_count_in_order($order) {
+    $total = 0;
+
+    if ($this->is_origin_sg()) {
+      foreach ($order->get_items() as $item) {
+        $product_id = $item->get_product_id();
+        // global check from ../epos_bluetap_config.php
+        if (is_bluetap_product($product_id)) {
+          $qty = $item->get_quantity();
+          $total += $qty;
+        }
+      }
+    } else {
+      $qty = $order->get_item_count();
+      $total += $qty;
+    }
+
+    return $total;
   }
   
   /**
@@ -207,10 +260,9 @@ class AntBotReportGenerator {
     $total_devices = 0;
   
     foreach ($orders as $order) {
-      $qty = $order->get_item_count();
-      $total_devices += $qty;
+      $total_devices += $this->get_product_count_in_order($order);
     }
-  
+
     $output = "- Total devices sold & paid orders: $total_devices | $total_orders<br>";
   
     if ($this->is_debug_on() && $this->is_print_on()) {
@@ -243,7 +295,7 @@ class AntBotReportGenerator {
       if (in_array($source, $tngd_sources)) {
         $source = 'TNGD';
       }
-      $channels[$source] = ($channels[$source] ?? 0) + $order->get_item_count();
+      $channels[$source] = ($channels[$source] ?? 0) + $this->get_product_count_in_order($order);
     }
     arsort($channels);
   
@@ -294,8 +346,7 @@ class AntBotReportGenerator {
     $total_devices = 0;
   
     foreach ($orders as $order) {
-      $qty = $order->get_item_count();
-      $total_devices += $qty;
+      $total_devices += $this->get_product_count_in_order($order);
     }
   
     $output = "- MTD devices sold: $total_devices";

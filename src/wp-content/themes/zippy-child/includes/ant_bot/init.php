@@ -1,5 +1,7 @@
 <?php
 use Automattic\WooCommerce\Admin\Overrides\OrderRefund;
+require_once __DIR__ . '/AntBotReportGenerator.php';
+
 /**
  * Signs the request and sends the message to Ant Group Bot.
  * * @param string $content The text message to be sent.
@@ -42,7 +44,8 @@ function ad_send_to_ant_group_bot($title, $content)
   ));
 }
 
-add_action('wp_loaded', 'ad_handle_daily_order_sync');
+// add_action('wp_loaded', 'ad_handle_daily_order_sync');
+add_action('wp_loaded', 'ad_collect_orders_and_build_report');
 
 /**
  * Daily Order Sync to fetch two specific reports:
@@ -167,4 +170,30 @@ function ad_format_antbot_markdown($report_data)
   $output .= "- Top " . count($top_states) . " states for delivery address = " . implode(", ", $state_parts);
 
   return $output;
+}
+
+/**
+ * Generate report
+ */
+function ad_collect_orders_and_build_report() {
+  if (!isset($_GET['ad_run_server_cron_sync'])) {
+    return;
+  }
+
+  $report_generator = new AntBotReportGenerator('MALAYSIA');
+  // $report_generator->turn_debug_mode_on();
+  // $report_generator->turn_print_on();
+  // $report_generator->set_debug_date('2026-01-23 00:00:00');
+  $report_generator->turn_sg_report_on();
+  
+  $message = $report_generator->generate_report();
+ 
+  if ($report_generator->is_debug_on()) {
+    echo $message;
+  } else {
+    // Send to Antding BOT
+    ad_send_to_ant_group_bot("Daily Sales Summary", $message);
+  }
+
+  wp_die('Ant Group Bot: Reports Synchronized Successfully.');
 }

@@ -508,17 +508,22 @@ class AntBotReportGenerator {
    */
   private function collect_sg_report() {
     $sg_access_token = get_field('sg_report_token', 'option');
+    $host = get_field('sg_host', 'option');
   
     if (!$sg_access_token) {
       return "- N/A (Missing Token)";
     }
-  
-    $host = 'https://epos.com.sg';
-  
-    if ($this->is_debug_on()) {
-      // docker container's name
-      $host = 'http://epos_sg';
+
+    if (!$host) {
+      return "- N/A (Missing SG Host URL)";
     }
+  
+    // $host = 'https://epos.com.sg';
+  
+    // if ($this->is_debug_on()) {
+    //   // docker container's name
+    //   $host = 'http://epos_sg';
+    // }
   
     $url = "$host/wp-json/reports/v1/daily";
   

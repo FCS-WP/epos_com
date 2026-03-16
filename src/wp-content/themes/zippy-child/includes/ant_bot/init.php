@@ -183,7 +183,7 @@ function ad_collect_orders_and_build_report() {
   $report_generator = new AntBotReportGenerator('MALAYSIA');
   // $report_generator->turn_debug_mode_on();
   // $report_generator->turn_print_on();
-  // $report_generator->set_debug_date('2026-01-23 00:00:00');
+  $report_generator->set_debug_date('2026-01-23 00:00:00');
   $report_generator->turn_sg_report_on();
   
   $message = $report_generator->generate_report();

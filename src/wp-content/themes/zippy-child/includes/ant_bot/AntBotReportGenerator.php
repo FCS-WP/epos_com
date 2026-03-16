@@ -99,14 +99,14 @@ class AntBotReportGenerator {
     $first_day_of_month = $this->date_manager->get_first_day_of_month();
     $start_yesterday    = $this->date_manager->get_start_yesterday();
     $end_yesterday      = $this->date_manager->get_end_yesterday();
-    $three_days_ago     = $this->date_manager->get_three_days_ago();
-    $original_today     = $this->date_manager->get_original_today();
+    // $three_days_ago     = $this->date_manager->get_three_days_ago();
+    // $original_today     = $this->date_manager->get_original_today();
 
     // Fetch all orders covering the widest range to minimize database calls
     $args = [
       'limit'        => -1,
       'status'       => ['completed', 'processing', 'pending', 'failed', 'cancelled'],
-      'date_created' => $first_day_of_month->getTimestamp() . '...' . $original_today->getTimestamp(),
+      'date_created' => $first_day_of_month->getTimestamp() . '...' . $end_yesterday->getTimestamp(),
     ];
 
     if ($this->is_origin_sg()) {
@@ -130,44 +130,44 @@ class AntBotReportGenerator {
     // $ids = '';
     foreach ($orders as $order) {
       // temporarily set order data for testing purposes
-      if ($this->is_debug_on()) {
-        // $ids .= $order->get_id() . ' ' . $order->get_meta('bluetap360_order') . '<br>';
-        if ($order->get_id() === 758) {
-          $order->update_meta_data('_wc_order_attribution_utm_source', 'empire');
-          $order->set_status('completed');
-          // $order->save();
-        }
-        if ($order->get_id() === 757) {
-          $order->update_meta_data('_wc_order_attribution_utm_source', 'amazon');
-          $order->set_status('pending');
-          // $order->save();
-        }
-        if ($order->get_id() === 756) {
-          $order->update_meta_data('_wc_order_attribution_utm_source', 'shein');
-          $order->set_status('failed');
-          // $order->save();
-        }
-        if ($order->get_id() === 755) {
-          $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
-          $order->set_status('cancelled');
-          // $order->save();
-        }
-        if ($order->get_id() === 754) {
-          $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
-          $order->set_status('completed');
-          // $order->save();
-        }
-        if ($order->get_id() === 753) {
-          $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
-          $order->set_status('pending');
-          // $order->save();
-        }
-        if ($order->get_id() === 752) {
-          $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
-          $order->set_status('cancelled');
-          // $order->save();
-        }
-      }
+      // if ($this->is_debug_on() && !$this->is_origin_sg()) {
+      //   // $ids .= $order->get_id() . ' ' . $order->get_meta('bluetap360_order') . '<br>';
+      //   if ($order->get_id() === 758) {
+      //     $order->update_meta_data('_wc_order_attribution_utm_source', 'empire');
+      //     $order->set_status('completed');
+      //     // $order->save();
+      //   }
+      //   if ($order->get_id() === 757) {
+      //     $order->update_meta_data('_wc_order_attribution_utm_source', 'amazon');
+      //     $order->set_status('pending');
+      //     // $order->save();
+      //   }
+      //   if ($order->get_id() === 756) {
+      //     $order->update_meta_data('_wc_order_attribution_utm_source', 'shein');
+      //     $order->set_status('failed');
+      //     // $order->save();
+      //   }
+      //   if ($order->get_id() === 755) {
+      //     $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
+      //     $order->set_status('cancelled');
+      //     // $order->save();
+      //   }
+      //   if ($order->get_id() === 754) {
+      //     $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
+      //     $order->set_status('completed');
+      //     // $order->save();
+      //   }
+      //   if ($order->get_id() === 753) {
+      //     $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
+      //     $order->set_status('pending');
+      //     // $order->save();
+      //   }
+      //   if ($order->get_id() === 752) {
+      //     $order->update_meta_data('_wc_order_attribution_utm_source', '(direct)');
+      //     $order->set_status('cancelled');
+      //     // $order->save();
+      //   }
+      // }
 
       if ($order instanceof OrderRefund || $order->has_status('refunded')) {
         continue;
@@ -182,13 +182,13 @@ class AntBotReportGenerator {
         $total_orders_yesterday[] = $order;
       }
       // 3 days ago -> today
-      if ($order_ts >= $three_days_ago->getTimestamp() && $order_ts <= $original_today->getTimestamp()) {
-        $total_orders_since_3_days_ago[] = $order;
-      }
+      // if ($order_ts >= $three_days_ago->getTimestamp() && $order_ts <= $original_today->getTimestamp()) {
+      //   $total_orders_since_3_days_ago[] = $order;
+      // }
     }
   
     // Generate Markdown content
-    $message = $this->build_daily_report($total_orders_yesterday, $total_orders_since_first_of_month, $total_orders_since_3_days_ago);
+    $message = $this->build_daily_report($total_orders_yesterday, $total_orders_since_first_of_month);
 
     // if ($this->is_debug_on()) {
     //   $message .= $ids;
@@ -205,7 +205,7 @@ class AntBotReportGenerator {
    *  MTD devices sold: 200 (35% of 565 target)
    *  MTD run rate: 110%
    */
-  private function build_daily_report($total_orders_yesterday, $total_orders_since_first_of_month, $total_orders_since_3_days_ago) {
+  private function build_daily_report($total_orders_yesterday, $total_orders_since_first_of_month) {
     $output = "**$this->country_name**<br>";
     if ($this->is_debug_on() && $this->is_print_on()) {
       $output = $this->date_manager->display_original_today() . $output;
@@ -217,8 +217,10 @@ class AntBotReportGenerator {
     // MTD devices sold: 200 (35% of 565 target)
     // MTD run rate: 110%
     $output .= $this->calculate_mtd_sold_and_run_rate($total_orders_since_first_of_month);
-    // The status for the last 3 days
-    $output .= $this->calculate_last_three_days_order_status_counts($total_orders_since_3_days_ago);
+    // Collecting order statuses for the last 3 days
+    // $output .= $this->calculate_last_three_days_order_status_counts($total_orders_since_3_days_ago);
+    // Collecting order statuses for yesterday
+    $output .= $this->calculate_yesterday_order_status_counts($total_orders_yesterday);
     // Collect SG report
     if ($this->is_sg_report_needed()) {
       $output .= "\n\n---\n\n";
@@ -340,8 +342,9 @@ class AntBotReportGenerator {
    */
   private function calculate_mtd_sold_and_run_rate($orders) {
     // Monthly Target
-    $monthly_target = get_field('monthly_target', 'option') ?: 565;
-    $monthly_target = (int)$monthly_target;
+    $monthly_targets = get_field('monthly_targets', 'option') ?: [];
+    $this_month = (int)$this->date_manager->get_current_month();
+    $monthly_target = !empty($monthly_targets) && isset($monthly_targets[$this_month]) && isset($monthly_targets[$this_month]['target']) ? (int)$monthly_targets[$this_month]['target'] : 0;
     // MTD
     $total_devices = 0;
   
@@ -428,11 +431,11 @@ class AntBotReportGenerator {
     $last_3_days = $this->date_manager->get_last_three_days();
     $order_status_counts = [];
     $status_map = [
-      'cancelled'  => 'Cancelled',
-      'failed'     => 'Failed',
-      'pending'    => 'Pending Payment',
-      'processing' => 'Processing',
       'completed'  => 'Completed',
+      'processing' => 'Processing',
+      'pending'    => 'Pending Payment',
+      'failed'     => 'Failed',
+      'cancelled'  => 'Cancelled',
     ];
 
     $labels = array_values($status_map);
@@ -498,6 +501,59 @@ class AntBotReportGenerator {
 
     if ($this->is_debug_on() && $this->is_print_on()) {
       $output = $this->date_manager->display_days_range() . $output;
+    }
+
+    return $output;
+  }
+
+  /**
+   * Status count for yesterday
+   */
+  private function calculate_yesterday_order_status_counts($orders) {
+    $yesterday_display  = $this->date_manager->get_yesterday_display();
+    $order_status_counts = [];
+    $order_status_range = '';
+    $status_map = [
+      'completed'  => 'Completed',
+      'processing' => 'Processing',
+      'pending'    => 'Pending Payment',
+      'cancelled'  => 'Cancelled',
+      'failed'     => 'Failed',
+    ];
+
+    $labels = array_values($status_map);
+
+    // Prepare yesterday list
+    $order_status_counts = $this->create_status_counter($labels);
+
+    if ($this->is_debug_on() && $this->is_print_on()) {
+      $order_status_range = $this->date_manager->display_yesterday_range();
+    }
+    
+    foreach ($orders as $order) {
+      $status = $order->get_status();
+
+      if (!isset($status_map[$status])) {
+        continue;
+      }
+
+      $label = $status_map[$status];
+
+      $order_status_counts[$label]++;
+      $order_status_counts['Total']++;
+    }
+
+    // Output
+    $output = "- Yesterday status count ($yesterday_display): ";
+    foreach ($order_status_counts as $label => $count) {
+      if ($count != 0) {
+        $output .= " $count ($label),";
+      }
+    }
+    $output = rtrim($output, ',') . "<br>";
+
+    if ($this->is_debug_on() && $this->is_print_on()) {
+      $output = $order_status_range . $output;
     }
 
     return $output;

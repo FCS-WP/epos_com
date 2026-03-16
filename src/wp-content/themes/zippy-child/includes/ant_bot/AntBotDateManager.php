@@ -89,6 +89,14 @@ class AntBotDateManager {
     return $this->the_last_three_days;
   }
 
+  public function get_current_month() {
+    return $this->today->format('n');
+  }
+
+  public function get_yesterday_display() {
+    return $this->start_yesterday->format('M d');
+  }
+
   public function display_original_today() {
     $output = $this->original_today->format('Y-m-d H:i:s');
 

@@ -3,28 +3,6 @@
     "title": "Daily Report Settings",
     "fields": [
         {
-            "key": "field_69b152fd41cef",
-            "label": "Monthly Target",
-            "name": "monthly_target",
-            "aria-label": "",
-            "type": "number",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "min": "",
-            "max": "",
-            "step": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
             "key": "field_69b279aab07b3",
             "label": "SG Report Token",
             "name": "sg_report_token",
@@ -60,6 +38,53 @@
             },
             "default_value": "",
             "placeholder": ""
+        },
+        {
+            "key": "field_69b152fd41cef",
+            "label": "Monthly Targets",
+            "name": "monthly_targets",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 12,
+            "max": 12,
+            "collapsed": "",
+            "button_label": "Add Row",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_69b7aa2c1ec54",
+                    "label": "Target",
+                    "name": "target",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "min": "",
+                    "max": "",
+                    "placeholder": "",
+                    "step": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_69b152fd41cef"
+                }
+            ]
         }
     ],
     "location": [
@@ -80,5 +105,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1773636575
+    "modified": 1773644838
 }

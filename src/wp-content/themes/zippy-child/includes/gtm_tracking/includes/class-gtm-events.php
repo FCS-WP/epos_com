@@ -27,6 +27,7 @@ class GMT_Events
         };
         console.log(data)
         window.dataLayer.push(data);
+        window.location.href = '/cart';
       });
     </script>
 <?php

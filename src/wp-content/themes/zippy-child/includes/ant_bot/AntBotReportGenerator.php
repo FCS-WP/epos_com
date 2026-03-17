@@ -343,7 +343,7 @@ class AntBotReportGenerator {
   private function calculate_mtd_sold_and_run_rate($orders) {
     // Monthly Target
     $monthly_targets = get_field('monthly_targets', 'option') ?: [];
-    $this_month = (int)$this->date_manager->get_current_month();
+    $this_month = (int)$this->date_manager->get_current_month() - 1;
     $monthly_target = !empty($monthly_targets) && isset($monthly_targets[$this_month]) && isset($monthly_targets[$this_month]['target']) ? (int)$monthly_targets[$this_month]['target'] : 0;
     // MTD
     $total_devices = 0;
@@ -411,6 +411,8 @@ class AntBotReportGenerator {
     $output = "- MTD run rate: $run_rate%<br>";
   
     if ($this->is_debug_on() && $this->is_print_on()) {
+      $output .= "expected_mtd_sales = ($days_elapsed / $total_days_in_month) * $monthly_target = $expected_mtd_sales<br>";
+      $output .= "run_rate = round(($actual_mtd_sales / $expected_mtd_sales) * 100, 2) = $run_rate<br>";
       $output = $this->date_manager->display_month_range() . $output;
     }
   

@@ -124,8 +124,10 @@ class AntBotReportGenerator {
     $total_orders_since_first_of_month = [];
     // just yesterday
     $total_orders_yesterday = [];
+    // yesterday with all statuses
+    $total_orders_yesterday_statuses = [];
     // 3 days ago -> today
-    $total_orders_since_3_days_ago = [];
+    // $total_orders_since_3_days_ago = [];
   
     // $ids = '';
     foreach ($orders as $order) {
@@ -181,6 +183,10 @@ class AntBotReportGenerator {
       if ($order_ts >= $start_yesterday->getTimestamp() && $order_ts <= $end_yesterday->getTimestamp() && in_array($order->get_status(), ['completed', 'processing'])) {
         $total_orders_yesterday[] = $order;
       }
+      // yesterday with all statues
+      if ($order_ts >= $start_yesterday->getTimestamp() && $order_ts <= $end_yesterday->getTimestamp() && in_array($order->get_status(), ['completed', 'processing', 'pending', 'failed', 'cancelled'])) {
+        $total_orders_yesterday_statuses[] = $order;
+      }
       // 3 days ago -> today
       // if ($order_ts >= $three_days_ago->getTimestamp() && $order_ts <= $original_today->getTimestamp()) {
       //   $total_orders_since_3_days_ago[] = $order;
@@ -188,7 +194,7 @@ class AntBotReportGenerator {
     }
   
     // Generate Markdown content
-    $message = $this->build_daily_report($total_orders_yesterday, $total_orders_since_first_of_month);
+    $message = $this->build_daily_report($total_orders_yesterday, $total_orders_since_first_of_month, $total_orders_yesterday_statuses);
 
     // if ($this->is_debug_on()) {
     //   $message .= $ids;
@@ -205,7 +211,7 @@ class AntBotReportGenerator {
    *  MTD devices sold: 200 (35% of 565 target)
    *  MTD run rate: 110%
    */
-  private function build_daily_report($total_orders_yesterday, $total_orders_since_first_of_month) {
+  private function build_daily_report($total_orders_yesterday, $total_orders_since_first_of_month, $total_orders_yesterday_statuses) {
     $output = "**$this->country_name**<br>";
     if ($this->is_debug_on() && $this->is_print_on()) {
       $output = $this->date_manager->display_original_today() . $output;
@@ -220,7 +226,7 @@ class AntBotReportGenerator {
     // Collecting order statuses for the last 3 days
     // $output .= $this->calculate_last_three_days_order_status_counts($total_orders_since_3_days_ago);
     // Collecting order statuses for yesterday
-    $output .= $this->calculate_yesterday_order_status_counts($total_orders_yesterday);
+    $output .= $this->calculate_yesterday_order_status_counts($total_orders_yesterday_statuses);
     // Collect SG report
     if ($this->is_sg_report_needed()) {
       $output .= "\n\n---\n\n";

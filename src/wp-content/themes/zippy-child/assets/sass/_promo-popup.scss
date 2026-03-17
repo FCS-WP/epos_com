@@ -32,8 +32,8 @@
 
 .bluetap-promo-close {
   position: absolute;
-  top: 6px;
-  right: 10px;
+  top: 0;
+  right: 28px;
   background: transparent;
   border: none;
   font-size: 38px;
@@ -45,4 +45,9 @@
   color: black;
   cursor: pointer;
   z-index: 3;
+
+  @include tablet {
+    top: 6px;
+    right: 10px;
+  }
 }

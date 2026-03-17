@@ -37,17 +37,32 @@ add_action('woocommerce_after_checkout_billing_form', function ($checkout) {
 // Show in order dashboard
 add_action('woocommerce_admin_order_data_after_billing_address', function ($order) {
   $eg = $order->get_meta('referral_code');
+  $coupon = $order->get_meta('_distributor_coupon');
+  $distributor = $order->get_meta('_distributor_name');
   if ($eg) {
     echo '<p><strong>' . __('Referral Code', 'woocommerce') . ':</strong> ' . esc_html($eg) . '</p>';
+  }
+  if ($coupon) {
+    echo '<p><strong>' . __('Distributor Coupon', 'woocommerce') . ':</strong> ' . esc_html($coupon) . '<br>';
+    echo '<strong>' . __('Distributor Name', 'woocommerce') . ':</strong> ' . esc_html($distributor) . '</p>';
   }
 });
 
 
 // Show in order detail
 add_action('woocommerce_order_details_after_customer_details', function ($order) {
+  $coupon = $order->get_meta('_distributor_coupon');
+  $distributor = $order->get_meta('_distributor_name');
   $eg = $order->get_meta('referral_code');
   if ($eg) {
     echo '<p><strong>' . __('Referral Code', 'woocommerce') . ':</strong> ' . esc_html($eg) . '</p>';
+  }
+  if ($coupon) {
+    echo '<section class="woocommerce-distributor-info">';
+    echo '<h2>' . __('Distributor Information', 'woocommerce') . '</h2>';
+    echo '<p><strong>' . __('Coupon', 'woocommerce') . ':</strong> ' . esc_html($coupon) . '<br>';
+    echo '<strong>' . __('Distributor', 'woocommerce') . ':</strong> ' . esc_html($distributor) . '</p>';
+    echo '</section>';
   }
 });
 
@@ -74,5 +89,18 @@ add_action('woocommerce_checkout_create_order', function ($order, $data) {
       'referral_code',
       sanitize_text_field($_POST['referral_code'])
     );
+  }
+
+  foreach (WC()->cart->get_applied_coupons() as $coupon_code) {
+    $coupon = new WC_Coupon($coupon_code);
+
+    if ($coupon->get_meta('is_distributor_coupon') !== 'yes') {
+        continue;
+    }
+
+    $distributor_name = $coupon->get_meta('distributor_name');
+
+    $order->update_meta_data('_distributor_coupon', $coupon_code);
+    $order->update_meta_data('_distributor_name', $distributor_name);
   }
 }, 99, 2);

@@ -1,10 +1,30 @@
-#billing_phone_field {
-  .woocommerce-input-wrapper {
-    .iti {
-      width: 100%;
+.woocommerce-checkout {
+  #billing_phone_field {
+    .woocommerce-input-wrapper {
+      .iti {
+        width: 100%;
+      }
     }
   }
-}
-.zippy-paynow-payment-mess{
-  display:none;
+  .zippy-paynow-payment-mess {
+    display: none;
+  }
+
+  // Coupoin field
+  .checkout_coupon {
+    .coupon {
+      .flex-row {
+        align-items: start;
+        gap: 10px;
+
+        .input-text.has-error {
+          margin-bottom: 10px !important;
+        }
+
+        .coupon-error-notice {
+          color: #b20000 !important;
+        }
+      }
+    }
+  }
 }

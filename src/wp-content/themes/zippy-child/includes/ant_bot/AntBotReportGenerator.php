@@ -352,17 +352,19 @@ class AntBotReportGenerator {
       $total_devices += $this->get_product_count_in_order($order);
     }
   
-    $output = "- MTD devices sold: $total_devices";
+    // $output = "- MTD devices sold: $total_devices";
   
-    if ($this->is_monthly_target_valid($monthly_target)) {
-      $percentage = round(($total_devices / $monthly_target) * 100, 2);
-      if ($percentage == 0) {
-        $percentage = "less than 1";
-      }
-      $output .= " ($percentage% of $monthly_target target)";
-    }
+    // if ($this->is_monthly_target_valid($monthly_target)) {
+    //   $percentage = round(($total_devices / $monthly_target) * 100, 2);
+    //   if ($percentage == 0) {
+    //     $percentage = "less than 1";
+    //   }
+    //   $output .= " ($percentage% of $monthly_target target)";
+    // }
   
-    $output .= "<br>";
+    // $output .= "<br>";
+
+    $output = "- MTD devices: $total_devices (vs $monthly_target target)<br>";
   
     if ($this->is_debug_on() && $this->is_print_on()) {
       $output = $this->date_manager->display_month_range() . $output;
@@ -544,10 +546,11 @@ class AntBotReportGenerator {
     }
 
     // Output
-    $output = "- Yesterday status count ($yesterday_display): ";
+    // $output = "- Yesterday status count ($yesterday_display): ";
+    $output = "- Status:";
     foreach ($order_status_counts as $label => $count) {
       if ($count != 0) {
-        $output .= " $count ($label),";
+        $output .= " $label ($count),";
       }
     }
     $output = rtrim($output, ',') . "<br>";

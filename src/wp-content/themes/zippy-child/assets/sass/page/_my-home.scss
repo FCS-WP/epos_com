@@ -33,6 +33,7 @@
 
   .carousel-cell {
     .carousel-cell-col {
+      padding: 4rem 10px !important;
       .col-inner {
         position: relative;
         height: 100%;
@@ -55,6 +56,7 @@
         }
       }
       @include tablet {
+        padding: 4rem 30px !important;
         .col-inner {
           .carousel-cell-img {
             top: -110px;
@@ -153,6 +155,19 @@
             }
           }
         }
+      }
+    }
+  }
+
+  .featured-on-sliders {
+    .slider-nav-outside {
+      .flickity-prev-next-button.previous {
+        top: 35% !important;
+        left: -2% !important;
+      }
+      .flickity-prev-next-button.next {
+        top: 35% !important;
+        right: -2% !important;
       }
     }
   }

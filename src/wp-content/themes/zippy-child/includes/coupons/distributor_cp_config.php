@@ -71,3 +71,31 @@ add_action('manage_shop_coupon_posts_custom_column', function ($column, $post_id
         }
     }
 }, 10, 2);
+
+
+// Filter coupon
+add_action('restrict_manage_posts', function () {
+    global $typenow;
+    if ($typenow !== 'shop_coupon') return;
+    $value = $_GET['is_distributor_coupon'] ?? '';
+    ?>
+    <select name="is_distributor_coupon">
+        <option value="">All coupons</option>
+        <option value="yes" <?php selected($value, 'yes'); ?>>Distributor coupon</option>
+    </select>
+    <?php
+});
+
+add_action('pre_get_posts', function ($query) {
+    global $pagenow;
+    if (!is_admin() || $pagenow !== 'edit.php') return;
+    if ($query->get('post_type') !== 'shop_coupon') return;
+    if (!empty($_GET['is_distributor_coupon']) && $_GET['is_distributor_coupon'] === 'yes') {
+        $meta_query = $query->get('meta_query') ?: [];
+        $meta_query[] = [
+            'key'   => 'is_distributor_coupon',
+            'value' => 'yes',
+        ];
+        $query->set('meta_query', $meta_query);
+    }
+});

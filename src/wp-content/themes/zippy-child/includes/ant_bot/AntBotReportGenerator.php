@@ -349,7 +349,7 @@ class AntBotReportGenerator {
   private function calculate_mtd_sold_and_run_rate($orders) {
     // Monthly Target
     $monthly_targets = get_field('monthly_targets', 'option') ?: [];
-    $this_month = (int)$this->date_manager->get_current_month() - 1;
+    $this_month = (int)$this->date_manager->get_yesterday_month() - 1;
     $monthly_target = !empty($monthly_targets) && isset($monthly_targets[$this_month]) && isset($monthly_targets[$this_month]['target']) ? (int)$monthly_targets[$this_month]['target'] : 0;
     // MTD
     $total_devices = 0;
@@ -389,7 +389,7 @@ class AntBotReportGenerator {
    * Notations:
    *  - Actual MTD Sales = devices sold from 1st of month -> yesterday
    *  - Expected MTD Sales = (Days Elapsed / Total Days in Month) * Monthly Target
-   *   - Days Elapsed = number of days passed in the current month + today
+   *   - Days Elapsed = number of days passed in the current month [start of month -> yesterday]
    * 
    * Example:
    *  MTD run rate: 110%
@@ -399,11 +399,11 @@ class AntBotReportGenerator {
       return "- MTD run rate: N/A (Monthly Rate was not set)<br>";
     }
   
-    $today = $this->date_manager->get_today();
+    $yesterday = $this->date_manager->get_start_yesterday();
     // Days Elapsed
-    $days_elapsed = (int)$today->format('j');
+    $days_elapsed = (int)$yesterday->format('j');
     // Total Days in Month
-    $total_days_in_month = (int)$today->format('t');
+    $total_days_in_month = (int)$yesterday->format('t');
   
     // Expected MTD Sales
     $expected_mtd_sales = ($days_elapsed / $total_days_in_month) * $monthly_target;

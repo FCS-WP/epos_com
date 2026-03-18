@@ -18,17 +18,18 @@ class AntBotDateManager {
     $this->today = (clone $this->original_today);
     $elapsed = (int)$this->today->format('j');
 
-    if ($elapsed == 1) {
-      // today is the first day of the new month
-      // so rollback to 1 day to calculate last month data
-      $this->today->modify('-1 day');
-      // in this case yesterday should be the same as today
-      // so MTD run rate calculation doesn't need to exclude today explicitly
-      $this->start_yesterday = (clone $this->today)->setTime(0, 0, 0);
-    } else {
-      $this->start_yesterday = (clone $this->today)->modify('-1 day')->setTime(0, 0, 0);
-    }
+    // if ($elapsed == 1) {
+    //   // today is the first day of the new month
+    //   // so rollback to 1 day to calculate last month data
+    //   $this->today->modify('-1 day');
+    //   // in this case yesterday should be the same as today
+    //   // so MTD run rate calculation doesn't need to exclude today explicitly
+    //   $this->start_yesterday = (clone $this->today)->setTime(0, 0, 0);
+    // } else {
+    //   $this->start_yesterday = (clone $this->today)->modify('-1 day')->setTime(0, 0, 0);
+    // }
     
+    $this->start_yesterday = (clone $this->today)->modify('-1 day')->setTime(0, 0, 0);
     $this->end_yesterday = (clone $this->start_yesterday)->setTime(23, 59, 59);
     $this->first_day_of_month = (clone $this->start_yesterday)->modify('first day of this month');
 
@@ -89,8 +90,8 @@ class AntBotDateManager {
     return $this->the_last_three_days;
   }
 
-  public function get_current_month() {
-    return $this->today->format('n');
+  public function get_yesterday_month() {
+    return $this->start_yesterday->format('n');
   }
 
   public function get_yesterday_display() {

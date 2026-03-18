@@ -107,7 +107,7 @@ add_action('wp_footer', function () {
             let $apply_btn = $('button[name="apply_coupon"]');
             if (val === '') {
                 $apply_btn.prop('disabled', true);
-                $('#woocommerce-form-coupon-toggle').after('<p id="company-note" style="color:#d63638; display:none;">Please enter your company before applying a distributor coupon.</p>');
+                $('#coupon_code').after('<p id="company-note" style="color:#d63638; display:none;">Please enter your company before applying a coupon.</p>');
                 $('#company-note').show();
             } else {
                 $apply_btn.prop('disabled', false);

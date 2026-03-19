@@ -1,7 +1,7 @@
 <?php
 // Hide default coupon error message for distributor coupon
 add_filter('woocommerce_coupon_error', function ($msg, $code, $coupon) {
-    if ($coupon && $coupon->get_meta('is_distributor_coupon') === 'yes') {
+    if ($coupon && is_distributor_coupon($coupon)) {
         return '';
     }
     return $msg;
@@ -9,7 +9,7 @@ add_filter('woocommerce_coupon_error', function ($msg, $code, $coupon) {
 
 // Success message for distributor coupon
 add_filter('woocommerce_coupon_message', function ($msg, $msg_code, $coupon) {
-    if (!$coupon || $coupon->get_meta('is_distributor_coupon') !== 'yes') {
+    if (!$coupon || !is_distributor_coupon($coupon)) {
         return $msg;
     }
     if ($msg_code !== WC_Coupon::WC_COUPON_SUCCESS) {
@@ -26,6 +26,12 @@ add_filter('woocommerce_coupon_message', function ($msg, $msg_code, $coupon) {
 }, 20, 3);
 
 // Functions
+// check valid distributor coupon
+function is_distributor_coupon(WC_Coupon $coupon): bool {
+    return $coupon->get_meta('is_distributor_coupon') === 'yes';
+}
+
+// get billing company name
 function get_checkout_billing_company() {
     if (function_exists('WC') && WC()->checkout()) {
         $posted_data = WC()->checkout()->get_posted_data();
@@ -44,8 +50,24 @@ function get_checkout_billing_company() {
 
 // distributor coupon validation
 add_filter('woocommerce_coupon_is_valid', function ($is_valid, $coupon) {
-    if ($coupon->get_meta('is_distributor_coupon') !== 'yes') {
+    if (!is_distributor_coupon($coupon)) {
         return $is_valid;
+    }
+
+    // Only 1 distributor coupon can be applied at a time
+    $applied = WC()->cart ? WC()->cart->get_applied_coupons() : [];
+    foreach ($applied as $applied_code) {
+        if ($applied_code === $coupon->get_code()) {
+            continue;
+        }
+        $applied_coupon = new WC_Coupon($applied_code);
+        if (is_distributor_coupon($applied_coupon)) {
+            wc_add_notice(
+                __( 'Only one distributor coupon can be applied at a time.', 'woocommerce' ),
+                'error'
+            );
+            return false;
+        }
     }
   
     $distributor_name = strtolower(trim($coupon->get_meta('distributor_name')));

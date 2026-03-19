@@ -10,16 +10,19 @@ document.addEventListener("DOMContentLoaded", () => {
 (function ($) {
   if (!document.body.classList.contains("woocommerce-checkout")) return;
 
-  $(document).on("click", "#place_order", function (e) {
+  $(document).on("click", "#place_order[name='woocommerce_checkout_place_order']", function (e) {
     if (!window.PhoneValidation) return;
 
     $(".woocommerce-error").remove();
+
+    const checkoutForm = $("form.checkout");
+    if (!checkoutForm.length) return;
 
     if (PhoneValidation.isEmpty()) {
       e.preventDefault();
       e.stopImmediatePropagation();
 
-      $("form.checkout").prepend(`
+      checkoutForm.prepend(`
         <ul class="woocommerce-error" role="alert">
           <li class="alert-color"><strong>Phone number</strong> is required</li>
         </ul>
@@ -33,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       e.stopImmediatePropagation();
 
-      $("form.checkout").prepend(`
+      checkoutForm.prepend(`
         <ul class="woocommerce-error" role="alert">
           <li class="alert-color"><strong>Phone number</strong> is not valid</li>
         </ul>

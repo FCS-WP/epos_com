@@ -74,9 +74,11 @@ defined( 'ABSPATH' ) || exit;
 
 			if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) {
 				foreach ( WC()->cart->get_tax_totals() as $code => $tax ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+					$rate = WC_Tax::_get_tax_rate( $tax->tax_rate_id );
+					$percent = $rate['tax_rate'] ?? '';
 					?>
 					<tr class="tax-rate tax-rate-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
-						<th><?php echo esc_html( $tax->label ) . $estimated_text; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></th>
+						<th><?php echo esc_html( $tax->label ) . $estimated_text . ' (' . (int)$percent . '%)'; ?></th>
 						<td data-title="<?php echo esc_attr( $tax->label ); ?>"><?php echo wp_kses_post( $tax->formatted_amount ); ?></td>
 					</tr>
 					<?php

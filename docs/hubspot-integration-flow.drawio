@@ -1,0 +1,306 @@
+<mxfile host="app.diagrams.net" modified="2026-03-24T00:00:00.000Z" agent="Claude Code" version="24.0.0" type="device">
+  <diagram id="hubspot-order-flow" name="HubSpot Order Flow">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ============================================ -->
+        <!-- TITLE -->
+        <!-- ============================================ -->
+        <mxCell id="title" value="EPOS.com — HubSpot Integration Flow" style="text;html=1;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="500" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================ -->
+        <!-- PHASE 1: ORDER CREATED -->
+        <!-- ============================================ -->
+        <mxCell id="phase1_label" value="PHASE 1: Order Created" style="text;html=1;fontSize=16;fontStyle=5;align=left;verticalAlign=middle;fontColor=#1A73E8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="300" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Customer Places Order -->
+        <mxCell id="start1" value="Customer Places Order" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="130" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Hook -->
+        <mxCell id="hook1" value="Hook: woocommerce_checkout_order_processed&lt;br&gt;(priority 20)" style="shape=note;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;size=14;" vertex="1" parent="1">
+          <mxGeometry x="500" y="125" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="hook1_edge" style="dashed=1;strokeColor=#d6b656;" edge="1" source="start1" target="hook1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Collect Order Data -->
+        <mxCell id="collect" value="Collect Order Data" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="220" width="160" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="start1" target="collect" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Data Box -->
+        <mxCell id="databox1" value="&lt;b&gt;Contact Properties:&lt;/b&gt;&lt;br&gt;email, firstname, lastname&lt;br&gt;phone, company&lt;br&gt;address, city, state, zip, country&lt;br&gt;&lt;br&gt;&lt;b&gt;Order Data:&lt;/b&gt;&lt;br&gt;total_pricing, product_name&lt;br&gt;referral_code, message&lt;br&gt;&lt;br&gt;&lt;b&gt;Attribution:&lt;/b&gt;&lt;br&gt;utm_source, utm_medium, utm_campaign&lt;br&gt;hs_latest_source = &quot;OTHER_CAMPAIGNS&quot;&lt;br&gt;&lt;br&gt;&lt;b&gt;Status:&lt;/b&gt;&lt;br&gt;payment_status = &quot;INITIATED CHECKOUT&quot;&lt;br&gt;lifecyclestage = &quot;customer&quot;" style="shape=document;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=10;verticalAlign=top;spacingTop=8;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="500" y="200" width="280" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="e_data1" style="dashed=1;strokeColor=#999999;" edge="1" source="collect" target="databox1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- PATCH Contact -->
+        <mxCell id="patch1" value="PATCH /crm/v3/objects/contacts/&lt;br&gt;{email}?idProperty=email&lt;br&gt;&lt;b&gt;(Update Contact)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="105" y="310" width="250" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="collect" target="patch1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Decision: 404? -->
+        <mxCell id="d1" value="Response&lt;br&gt;404?" style="rhombus;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="170" y="410" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="patch1" target="d1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Create Contact -->
+        <mxCell id="create1" value="POST /crm/v3/objects/contacts&lt;br&gt;&lt;b&gt;(Create New Contact)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="20" y="540" width="230" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="Yes" style="edgeStyle=orthogonalEdgeStyle;fontStyle=1;fontSize=11;" edge="1" source="d1" target="create1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="135" y="450" />
+              <mxPoint x="135" y="565" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Done 1 -->
+        <mxCell id="done1" value="Contact Synced ✓" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="540" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="No (200 OK)" style="edgeStyle=orthogonalEdgeStyle;fontStyle=0;fontSize=11;" edge="1" source="d1" target="done1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="450" />
+              <mxPoint x="410" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5b" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="create1" target="done1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- File reference -->
+        <mxCell id="file1" value="📄 order_infomation.php" style="text;html=1;fontSize=11;fontStyle=2;fontColor=#666666;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="600" width="200" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================ -->
+        <!-- DIVIDER -->
+        <!-- ============================================ -->
+        <mxCell id="divider" value="" style="line;strokeWidth=2;strokeColor=#CCCCCC;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="640" width="760" height="10" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================ -->
+        <!-- PHASE 2: PAYMENT CONFIRMED -->
+        <!-- ============================================ -->
+        <mxCell id="phase2_label" value="PHASE 2: Payment Confirmed" style="text;html=1;fontSize=16;fontStyle=5;align=left;verticalAlign=middle;fontColor=#E8391A;" vertex="1" parent="1">
+          <mxGeometry x="40" y="660" width="300" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Payment Complete Trigger -->
+        <mxCell id="start2" value="Order Status → Processing&lt;br&gt;(payment_complete)" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=13;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="710" width="260" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Hook 2 -->
+        <mxCell id="hook2" value="Hook: woocommerce_order_status_processing&lt;br&gt;(priority 10)" style="shape=note;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;size=14;" vertex="1" parent="1">
+          <mxGeometry x="580" y="705" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="hook2_edge" style="dashed=1;strokeColor=#d6b656;" edge="1" source="start2" target="hook2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Split into two parallel paths -->
+        <!-- LEFT PATH: Update Contact -->
+        <mxCell id="update_contact" value="Update Contact&lt;br&gt;&lt;b&gt;payment_status = &quot;PAID&quot;&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="50" y="810" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- RIGHT PATH: Create Deal -->
+        <mxCell id="upsert_for_deal" value="Upsert Contact&lt;br&gt;(get HubSpot contact_id)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="500" y="810" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_split1" value="updata_payment_status.php" style="edgeStyle=orthogonalEdgeStyle;fontSize=10;fontStyle=2;fontColor=#666666;" edge="1" source="start2" target="update_contact" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_split2" value="deal_information.php" style="edgeStyle=orthogonalEdgeStyle;fontSize=10;fontStyle=2;fontColor=#666666;" edge="1" source="start2" target="upsert_for_deal" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Left: PATCH -->
+        <mxCell id="patch2" value="PATCH /crm/v3/objects/contacts/&lt;br&gt;{email}?idProperty=email" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="50" y="900" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e_l1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="update_contact" target="patch2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Left: Decision 404 -->
+        <mxCell id="d2" value="404?" style="rhombus;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="110" y="985" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e_l2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="patch2" target="d2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Left: Create if 404 -->
+        <mxCell id="create2" value="POST /contacts&lt;br&gt;(Create New)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="20" y="1090" width="140" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e_l3" value="Yes" style="edgeStyle=orthogonalEdgeStyle;fontStyle=1;fontSize=11;" edge="1" source="d2" target="create2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Left: Done -->
+        <mxCell id="done_left" value="Contact Updated ✓" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="1095" width="150" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e_l4" value="No" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;" edge="1" source="d2" target="done_left" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_l5" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="create2" target="done_left" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Right: PATCH for ID -->
+        <mxCell id="patch3" value="PATCH /crm/v3/objects/contacts/&lt;br&gt;{email}?idProperty=email&lt;br&gt;(full billing + UTM data)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="490" y="895" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_r1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="upsert_for_deal" target="patch3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Right: Decision 404 -->
+        <mxCell id="d3" value="404?" style="rhombus;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="560" y="990" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e_r2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="patch3" target="d3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Right: Create if 404 -->
+        <mxCell id="create3" value="POST /contacts&lt;br&gt;(Create New)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="470" y="1090" width="140" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e_r3" value="Yes" style="edgeStyle=orthogonalEdgeStyle;fontStyle=1;fontSize=11;" edge="1" source="d3" target="create3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Right: Extract contact_id -->
+        <mxCell id="extract_id" value="Extract contact_id&lt;br&gt;from response body" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="640" y="1090" width="160" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e_r4" value="No" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;" edge="1" source="d3" target="extract_id" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_r4b" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="create3" target="extract_id" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Right: Has contact_id? -->
+        <mxCell id="d4" value="Has&lt;br&gt;contact_id?" style="rhombus;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="665" y="1170" width="110" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e_r5" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="extract_id" target="d4" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Abort if no contact_id -->
+        <mxCell id="abort" value="Abort" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="530" y="1190" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="e_r6" value="No" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;" edge="1" source="d4" target="abort" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Create Deal -->
+        <mxCell id="create_deal" value="POST /crm/v3/objects/deals&lt;br&gt;&lt;b&gt;Create Deal&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=#FF8C00;strokeColor=#C66A00;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="630" y="1280" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e_r7" value="Yes" style="edgeStyle=orthogonalEdgeStyle;fontStyle=1;fontSize=11;" edge="1" source="d4" target="create_deal" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Deal Properties Box -->
+        <mxCell id="deal_props" value="&lt;b&gt;Deal Properties:&lt;/b&gt;&lt;br&gt;&lt;br&gt;dealname: &quot;EPOS Bluetap Checkout&lt;br&gt;  - Order #&amp;lt;order_number&amp;gt;&quot;&lt;br&gt;amount: order total&lt;br&gt;pipeline: 781854069&lt;br&gt;dealstage: 1142728054&lt;br&gt;pi_number: order number&lt;br&gt;referral_code: from order meta&lt;br&gt;merchat_name: billing company&lt;br&gt;closedate: completion date&lt;br&gt;&lt;br&gt;&lt;b&gt;Association:&lt;/b&gt;&lt;br&gt;Contact → Deal&lt;br&gt;associationTypeId: 3" style="shape=document;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=10;verticalAlign=top;spacingTop=8;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="890" y="1210" width="240" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="e_deal_props" style="dashed=1;strokeColor=#999999;" edge="1" source="create_deal" target="deal_props" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Done Right -->
+        <mxCell id="done_right" value="Deal Created ✓&lt;br&gt;Associated to Contact" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="1370" width="200" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e_r8" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="create_deal" target="done_right" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================ -->
+        <!-- LEGEND -->
+        <!-- ============================================ -->
+        <mxCell id="legend_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="890" y="80" width="260" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_title" value="&lt;b&gt;Legend&lt;/b&gt;" style="text;html=1;fontSize=13;align=center;" vertex="1" parent="1">
+          <mxGeometry x="960" y="85" width="120" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="910" y="115" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1t" value="Start / End" style="text;html=1;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="950" y="115" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="910" y="145" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2t" value="HubSpot API Call" style="text;html=1;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="950" y="145" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="910" y="175" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3t" value="Data Processing" style="text;html=1;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="950" y="175" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="910" y="200" width="30" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4t" value="Decision" style="text;html=1;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="950" y="203" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF8C00;strokeColor=#C66A00;" vertex="1" parent="1">
+          <mxGeometry x="910" y="233" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5t" value="Deal Creation" style="text;html=1;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="950" y="233" width="120" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================ -->
+        <!-- API BASE URL NOTE -->
+        <!-- ============================================ -->
+        <mxCell id="api_note" value="&lt;b&gt;HubSpot API Base:&lt;/b&gt; https://api.hubapi.com&lt;br&gt;&lt;b&gt;Auth:&lt;/b&gt; Bearer token (from ACF option: hubspot_token)&lt;br&gt;&lt;b&gt;Helper file:&lt;/b&gt; services.php" style="shape=note;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;size=14;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="890" y="300" width="280" height="70" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

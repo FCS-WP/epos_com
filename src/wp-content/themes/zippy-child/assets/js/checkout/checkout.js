@@ -71,4 +71,125 @@ document.addEventListener("DOMContentLoaded", () => {
   // });
   
   // $(document.body).trigger('wc_address_i18n_ready');
+
+  let $country = $('#billing_country');
+  // $country.prop("disabled", true);
+
+  // ------------- Expand / Collapse form fields -------------
+  let $blocks = $('.js-checkout-block');
+
+  $(window).resize(function() {
+    $blocks.each(function() {
+      let $block = $(this);
+      let $content = $block.children('.js-checkout-content');
+      let $inner = $content.children('.js-checkout-inner');
+      let innerHeight = $inner.outerHeight();
+
+      $content.css('height', innerHeight);
+
+      $block.on('click', function(e) {
+        let $target = $(e.target).closest('.js-checkout-content');
+
+        if (!$target.hasClass('js-checkout-content')) {
+          $block.toggleClass('is-collapsed');
+        }
+      });
+    });
+  });
+
+  setTimeout(function() {
+    $(window).trigger('resize');
+  }, 300);
+
+
+  // ------------- Populate recipient field -------------
+  let $fullname = $('#billing_full_name');
+  let $recipient = $('#billing_recipient');
+  let edited = false;
+
+  $fullname.on('input', function() {
+    let value = $fullname.val();
+    
+    if (!$recipient.val() || !edited) {
+      $recipient.val(value);
+    }
+  });
+
+  $fullname.trigger('input');
+
+  $recipient.on('input', function() {
+    edited = true;
+  });
+
+
+  // ------------- Auto scroll to the next form section -------------
+  let $secondBlock = $blocks.last();
+  let $header = $('#header');
+  let $email = $('#billing_email');
+  let $phone = $('#billing_phone');
+  let isFullnameEmpty = !$fullname.val();
+  let isEmailEmpty = !$email.val();
+  let isPhoneEmpty = !$phone.val();
+  let fullnameTimeout;
+  let emailTimeout;
+  let phoneTimeout;
+
+  const scrollToFormBlock = function() {
+    let headerheight = $header.outerHeight(); 
+    let top = $secondBlock.offset().top - headerheight;
+
+    $('html, body').animate({
+      scrollTop: top,
+    }, 1000);
+
+    $secondBlock.removeClass('is-collapsed');
+  };
+
+  const clearAllTimeOut = function() {
+    if (fullnameTimeout) {
+      clearTimeout(fullnameTimeout);
+    }
+    if (emailTimeout) {
+      clearTimeout(emailTimeout);
+    }
+    if (phoneTimeout) {
+      clearTimeout(phoneTimeout);
+    }
+  }
+  
+  $fullname.on('input', function() {
+    isFullnameEmpty = !$(this).val();
+
+    clearAllTimeOut();
+
+    fullnameTimeout = setTimeout(function() {
+      if (!isFullnameEmpty && !isEmailEmpty && !isPhoneEmpty) {
+        scrollToFormBlock();
+      }
+    }, 1000);
+  });
+
+  $email.on('input', function() {
+    isEmailEmpty = !$(this).val();
+
+    clearAllTimeOut();
+
+    emailTimeout = setTimeout(function() {
+      if (!isFullnameEmpty && !isEmailEmpty && !isPhoneEmpty) {
+        scrollToFormBlock();
+      }
+    }, 1000);
+  });
+
+  $phone.on('input', function() {
+    isPhoneEmpty = !$(this).val();
+
+    clearAllTimeOut();
+
+    phoneTimeout = setTimeout(function() {
+      if (!isFullnameEmpty && !isEmailEmpty && !isPhoneEmpty) {
+        scrollToFormBlock();
+      }
+    }, 1000);
+  });
 })(jQuery);

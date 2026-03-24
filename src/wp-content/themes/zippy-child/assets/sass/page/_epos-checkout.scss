@@ -171,6 +171,10 @@
       padding-top: 34px;
     }
   }
+
+  .alert-color {
+    color: $checkout-red;
+  }
 }
 
 .woocommerce-checkout .epos-checkout-form {
@@ -198,7 +202,7 @@
       margin-bottom: 24px;
     }
 
-    &:first-child .epos-checkout__content {
+    &:first-child .epos-checkout__content-inner {
       gap: 16px;
 
       @include tablet {
@@ -231,11 +235,25 @@
       position: absolute;
       top: 2px;
       right: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .epos-checkout__block.is-collapsed &::after {
+      transform: rotate(180deg);
     }
   }
 
   &__content {
-    margin-top: 24px;
+    overflow: hidden;
+    transition: height 0.3s ease;
+    
+    .epos-checkout__block.is-collapsed & {
+      height: 0 !important;
+    }
+  }
+  
+  &__content-inner {
+    padding-top: 24px;
     display: flex;
     flex-wrap: wrap;
     gap: 16px 24px;
@@ -326,6 +344,7 @@
       // position: absolute;
       box-shadow: none;
 
+      &[readonly="readonly"],
       &:disabled {
         background-color: $checkout-gray-alt;
         color: $checkout-black;
@@ -356,6 +375,16 @@
 
     .optional {
       display: none;
+    }
+
+    .checkout-inline-error-message {
+      color: $checkout-red;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px;
+      margin: 0;
+      margin-top: 8px;
     }
   }
 }
@@ -403,6 +432,10 @@
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
+    }
+
+    tr.order-total {
+      align-items: flex-end;
     }
   }
 

@@ -121,3 +121,26 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+
+jQuery(document).ready(function($) {
+    function updateMinusButton($input) {
+        var qty = parseInt($input.val());
+        var $minus = $input.siblings('.ux-quantity__button--minus');
+        
+        if (qty === 1) {
+            $minus.addClass('is-delete');
+        } else {
+            $minus.removeClass('is-delete');
+        }
+    }
+
+    // Check lúc load
+    $('input.qty').each(function() {
+        updateMinusButton($(this));
+    });
+
+    // Check khi thay đổi
+    $(document).on('change input', 'input.qty', function() {
+        updateMinusButton($(this));
+    });
+});

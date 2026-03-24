@@ -169,6 +169,28 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
 });
 
 /**
+ * Display recipient in order received page
+ */
+add_action('woocommerce_order_details_after_customer_address', function($group, $order) {
+  echo '
+  <p>
+    <strong>Recipient:</strong>
+    '.esc_html($order->get_meta( '_billing_recipient' )).'
+  </p>';
+}, 10, 2);
+
+/**
+ * Display recipient in admin order page
+ */
+add_action('woocommerce_admin_order_data_after_billing_address', function($order) {
+  echo '
+  <p>
+    <strong>Recipient:</strong>
+    '.esc_html($order->get_meta('_billing_recipient')).'
+  </p>';
+});
+
+/**
  * Reposition checkout fields
  */
 add_filter('woocommerce_checkout_fields', function($fields) {
@@ -180,8 +202,8 @@ add_filter('woocommerce_checkout_fields', function($fields) {
   $fields['billing']['billing_phone']['class'] = 'form-row-first';
   $fields['billing']['billing_country']['priority'] = 3; // Country
   $fields['billing']['billing_country']['class'] = 'form-row-last';
-  // $fields['billing']['billing_country']['custom_attributes']['readonly'] = 'readonly';
-  $fields['billing']['billing_country']['custom_attributes']['disabled'] = 'disabled';
+  $fields['billing']['billing_country']['custom_attributes']['readonly'] = 'readonly';
+  // $fields['billing']['billing_country']['custom_attributes']['disabled'] = 'disabled';
 
   // 4. Recipient
   $fields['billing']['billing_company']['priority'] = 5; // Company name
@@ -214,22 +236,25 @@ function start_wrapper($key) {
   switch($key) {
     case 'billing_full_name':
       return '
-      <div class="epos-checkout__block">
-        <div class="epos-checkout__header">
+      <div class="epos-checkout__block js-checkout-block">
+        <div class="epos-checkout__header js-checkout-header">
           <span>1. '.__('Contact Information', 'flatsome').'</span>
         </div>
-        <div class="epos-checkout__content">
+        <div class="epos-checkout__content js-checkout-content">
+          <div class="epos-checkout__content-inner js-checkout-inner">
       ';
       break;
     case 'billing_recipient':
       return '
+          </div>
         </div>
       </div>
-      <div class="epos-checkout__block">
-        <div class="epos-checkout__header">
+      <div class="epos-checkout__block js-checkout-block">
+        <div class="epos-checkout__header js-checkout-header">
           <span>2. '.__('Delivery Information', 'flatsome').'</span>
         </div>
-        <div class="epos-checkout__content">
+        <div class="epos-checkout__content js-checkout-content">
+          <div class="epos-checkout__content-inner js-checkout-inner">
       ';
       break;
     default:
@@ -244,7 +269,7 @@ function start_wrapper($key) {
 function end_wrapper($key) {
   switch($key) {
     case 'referral_code':
-      return '</div></div>';
+      return '</div></div></div>';
       break;
     default:
       return '';

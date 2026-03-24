@@ -15,9 +15,11 @@
  */
 function flatsome_checkout_breadcrumb_class( $endpoint ) {
 	$classes = array();
-	if ( $endpoint == 'cart' && is_cart() ||
-		 $endpoint == 'checkout' && is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ||
-		 $endpoint == 'order-received' && is_wc_endpoint_url( 'order-received' ) ) {
+	if ( $endpoint == 'cart' && is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ) {
+		$classes[] = 'previous';
+	} else if ( $endpoint == 'cart' && is_cart() ||
+		$endpoint == 'checkout' && is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ||
+		$endpoint == 'order-received' && is_wc_endpoint_url( 'order-received' ) ) {
 		$classes[] = 'current';
 	} else {
 		$classes[] = 'hide-for-small';
@@ -47,27 +49,58 @@ if (is_wc_endpoint_url('order-received')) {
 }
 ?>
 
-<?php if (!is_cart()) { ?>
-	<div class="checkout-page-title page-title">
-		<div class="page-title-inner flex-row medium-flex-wrap container">
-		<div class="flex-col flex-grow medium-text-center">
-			<nav class="breadcrumbs flex-row flex-row-center heading-font checkout-breadcrumbs text-center strong <?php echo get_theme_mod('cart_steps_size','h2'); ?> <?php echo get_theme_mod('cart_steps_case','uppercase'); ?>">
-		<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="<?php echo flatsome_checkout_breadcrumb_class('cart'); ?>">
-				<?php if($steps) { echo '<span class="breadcrumb-step hide-for-small">1</span>'; } ?>
-			<?php _e('Shopping Cart', 'flatsome'); ?>
-			</a>
-		<span class="divider hide-for-small"><?php echo get_flatsome_icon('icon-angle-right');?></span>
-		<a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="<?php echo flatsome_checkout_breadcrumb_class('checkout') ?>">
-				<?php if($steps) { echo '<span class="breadcrumb-step hide-for-small">2</span>'; } ?>
-			<?php _e('Checkout details', 'flatsome'); ?>
-		</a>
-		<span class="divider hide-for-small"><?php echo get_flatsome_icon('icon-angle-right');?></span>
-		<a href="#" class="no-click <?php echo flatsome_checkout_breadcrumb_class('order-received'); ?>">
-			<?php if($steps) { echo '<span class="breadcrumb-step hide-for-small">3</span>'; } ?>
-			<?php _e('Order Complete', 'flatsome'); ?>
-		</a>
-			</nav>
-		</div>
-		</div>
+<?php if (!is_cart() && !is_checkout()) : ?>
+<div class="checkout-page-title page-title">
+  <div class="page-title-inner flex-row medium-flex-wrap container">
+    <div class="flex-col flex-grow medium-text-center">
+      <nav class="breadcrumbs flex-row flex-row-center heading-font checkout-breadcrumbs text-center strong <?php echo get_theme_mod('cart_steps_size','h2'); ?> <?php echo get_theme_mod('cart_steps_case','uppercase'); ?>">
+        <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="<?php echo flatsome_checkout_breadcrumb_class('cart'); ?>">
+            <?php if($steps) { echo '<span class="breadcrumb-step hide-for-small">1</span>'; } ?>
+          <?php _e('Shopping Cart', 'flatsome'); ?>
+          </a>
+        <span class="divider hide-for-small"><?php echo get_flatsome_icon('icon-angle-right');?></span>
+        <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="<?php echo flatsome_checkout_breadcrumb_class('checkout') ?>">
+            <?php if($steps) { echo '<span class="breadcrumb-step hide-for-small">2</span>'; } ?>
+          <?php _e('Checkout details', 'flatsome'); ?>
+        </a>
+        <span class="divider hide-for-small"><?php echo get_flatsome_icon('icon-angle-right');?></span>
+        <a href="#" class="no-click <?php echo flatsome_checkout_breadcrumb_class('order-received'); ?>">
+          <?php if($steps) { echo '<span class="breadcrumb-step hide-for-small">3</span>'; } ?>
+          <?php _e('Order Complete', 'flatsome'); ?>
+        </a>
+      </nav>
+    </div>
+  </div>
+</div>
+<?php elseif (is_checkout()) : ?>
+<div class="checkout-page-title page-title">
+	<div class="page-title-inner flex-row medium-flex-wrap container">
+	  <div class="checkout-page-title__inner flex-col flex-grow medium-text-center">
+      <a class="back-to-product" href="<?php echo get_permalink( wc_get_page_id( 'shop' ) ); ?>">
+        <span><?php _e('Back to Product', 'flatsome'); ?></span>
+      </a>
+      <nav class="breadcrumbs flex-row flex-row-center heading-font checkout-breadcrumbs text-center strong <?php echo get_theme_mod('cart_steps_size','h2'); ?> <?php echo get_theme_mod('cart_steps_case'); ?>">
+        <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="<?php echo flatsome_checkout_breadcrumb_class('cart'); ?>">
+          <?php if($steps) { echo '<span class="breadcrumb-step hide-for-small">1</span>'; } ?>
+          <?php _e('My Cart', 'flatsome'); ?>
+        </a>
+        <span class="divider hide-for-small"><?php echo get_flatsome_icon('icon-angle-right');?></span>
+        <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="<?php echo flatsome_checkout_breadcrumb_class('checkout') ?>">
+          <?php if($steps) { echo '<span class="breadcrumb-step hide-for-small">2</span>'; } ?>
+          <?php _e('Checkout', 'flatsome'); ?>
+        </a>
+        <span class="divider hide-for-small"><?php echo get_flatsome_icon('icon-angle-right');?></span>
+        <a href="#" class="no-click <?php echo flatsome_checkout_breadcrumb_class('order-received'); ?>">
+          <?php if($steps) { echo '<span class="breadcrumb-step hide-for-small">3</span>'; } ?>
+          <?php _e('Payment', 'flatsome'); ?>
+        </a>
+        <span class="divider hide-for-small"><?php echo get_flatsome_icon('icon-angle-right');?></span>
+        <a href="#" class="no-click <?php echo flatsome_checkout_breadcrumb_class('order-received'); ?>">
+          <?php if($steps) { echo '<span class="breadcrumb-step hide-for-small">4</span>'; } ?>
+          <?php _e('Order Complete', 'flatsome'); ?>
+        </a>
+      </nav>
+	  </div>
 	</div>
-<?php } ?>
+</div>
+<?php endif; ?>

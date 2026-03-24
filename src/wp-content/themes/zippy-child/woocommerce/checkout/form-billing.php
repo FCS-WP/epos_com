@@ -27,7 +27,6 @@ defined('ABSPATH') || exit;
 	<?php else : ?>
 
 		<h3><?php esc_html_e('Delivery Details', 'woocommerce'); ?></h3>
-		<p class="ck-delivery-note"><?php echo Lang::translate('Delivery Address is your actual shop’s address. BlueTap will start shipping from late February 2026.'); ?></p>
 
 	<?php endif; ?>
 

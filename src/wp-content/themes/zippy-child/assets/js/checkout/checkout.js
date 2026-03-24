@@ -45,4 +45,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     PhoneValidation.format();
   });
+
+  // $(document.body).on('wc_address_i18n_ready', function() {
+  //   setTimeout(function() {
+
+  //     console.log('yeah');
+    
+  //     const $fields = $([
+  //       '#billing_recipient',
+  //       '#billing_company',
+  //       '#billing_address_1',
+  //       '#billing_address_2',
+  //       '#billing_city',
+  //       '#billing_state',
+  //       '#billing_postcode',
+  //       '#referral_code'
+  //     ].join(',')).closest('.form-row');
+  
+  //     console.log($fields);
+  
+  //     // if (!$fields.parent().hasClass('epos-checkout__content')) {
+  //       $fields.wrapAll('<div class="epos-checkout__content"></div>');
+  //     // }
+  //   }, 0);
+  // });
+  
+  // $(document.body).trigger('wc_address_i18n_ready');
 })(jQuery);

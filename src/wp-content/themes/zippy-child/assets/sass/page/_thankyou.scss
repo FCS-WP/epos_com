@@ -1,56 +1,365 @@
+// ── Variables ─────────────────────────────────────────
+$blue: #0a22aa;
+$green: #35aa2f;
+$grey-line: #e5e7eb;
+$grey-text: #767e93;
+$text: #212121;
+$white: #ffffff;
+
 .woocommerce-order-received {
-  .thankyou-banner-section {
-    background: #def9dd80;
-    margin-top: 40px;
-    padding: 18px 25px !important;
-    border-radius: 16px;
-    text-align: left;
-    display: flex;
-    gap: 20px;
+  .my-main {
+    background-color: #f6f7fc !important;
+    .page-wrapper {
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
 
+  // ── Wrapper ───────────────────────────────────────────
+  .woo-thankyou-wrapper {
+    min-height: 74vh;
+    padding: 40px 10px 80px;
+  }
 
-    .thankyou-banner-image {
-      width: 45px;
-      height: auto;
+  // ── 2-col grid ────────────────────────────────────────
+  .woo-thankyou-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 36px;
+    margin: 0 auto;
+    align-items: start;
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // ── Header ────────────────────────────────────────────
+  .woo-thankyou-header {
+    margin-bottom: 36px;
+
+    .woo-thankyou-title {
+      font-size: 36px;
+      font-weight: 500;
+      color: $blue;
+      margin: 0 0 10px;
+      line-height: 1.2;
     }
 
-    .thankyou-banner-content {
-      width: 100%;
-      h3 {
-        color: #167b10 !important;
-        font-weight: 600;
-        font-size: 18px;
-        line-height: 20px;
-        letter-spacing: -0.5px;
-        margin-bottom: 10px !important;
+    .woo-thankyou-subtitle {
+      font-size: 16px;
+      color: $blue;
+      margin: 0;
+      opacity: 0.75;
+    }
+  }
+
+  // ── Steps heading ─────────────────────────────────────
+  .woo-steps-title {
+    font-size: 24px;
+    font-weight: 500;
+    color: $text;
+    margin: 0 0 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid $grey-line;
+  }
+
+  // ── Timeline ──────────────────────────────────────────
+  .woo-steps-timeline {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .woo-step {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "icon content"
+      "line content";
+
+    &.woo-step--last .woo-step__connector {
+      display: none;
+    }
+
+    // icon circle
+    &__icon {
+      grid-area: icon;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: #9ea8be;
+
+      svg {
+        width: 18px;
+        height: 18px;
       }
-      p {
-        color: #167b10 !important;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 24px;
-        letter-spacing: 0px;
-        margin-bottom: 0 !important;
+    }
+
+    // vertical line
+    &__connector {
+      grid-area: line;
+      width: 2px;
+      min-height: 28px;
+      background: #9ea8be;
+      margin: 2px auto 0;
+      justify-self: center;
+    }
+
+    // text block
+    &__content {
+      grid-area: content;
+      padding: 0 0 40px 16px;
+    }
+
+    &__title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 8px;
+      color: $grey-text;
+    }
+
+    &__desc {
+      font-size: 16px;
+      color: $grey-text;
+      margin: 0;
+      line-height: 1.65;
+    }
+
+    // ── states ──
+
+    &--done {
+      .woo-step__icon {
+        background: $green;
+        svg {
+          stroke: $white;
+        }
+      }
+      .woo-step__connector {
+        background: $green;
+      }
+      .woo-step__title {
+        color: $green;
+      }
+      .woo-step__desc {
+        color: #555;
+      }
+    }
+
+    &--active {
+      .woo-step__icon {
+        background: $white;
+        img {
+          width: 100px;
+          height: 100px;
+          max-width: 100px;
+        }
+      }
+      .woo-step__icon-inner {
+        display: block;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: $blue;
+      }
+      .woo-step__connector {
+        background-color: $blue;
+      }
+      .woo-step__title {
+        color: $blue;
+      }
+      .woo-step__desc {
+        color: #444;
+      }
+    }
+
+    &--pending {
+      .woo-step__icon {
+        background: $white;
+        border: 2px solid #9ea8be;
       }
     }
   }
 
-  @include tablet {
-    .thankyou-banner-section {
-      padding: 20px 80px !important;
-      .thankyou-banner-image {
-        width: 35px;
-        height: auto;
-      }
-      .thankyou-banner-content {
-        h3 {
-          font-size: 20px;
-          margin-bottom: 22px !important;
-        }
-        p {
-          font-size: 16px;
-        }
+  // ── Right column ──────────────────────────────────────
+  .woo-thankyou-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  // ── Card base ─────────────────────────────────────────
+  .woo-summary-card {
+    background: $white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+    &__title {
+      font-size: 20px;
+      font-weight: 500;
+      color: $blue;
+      margin: 0 0 20px;
+    }
+
+  }
+
+  // ── Order items ───────────────────────────────────────
+  .woo-summary-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 24px;
+  }
+
+  .woo-summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__name {
+      font-size: 16px;
+      font-weight: 600;
+      color: $text;
+    }
+
+    &__meta {
+      font-size: 14px;
+      font-weight: 400;
+      color: $text;
+      span.amount {
+        font-weight: 400;
       }
     }
+
+    &__total {
+      font-size: 16px;
+      font-weight: 600;
+      color: $text;
+      white-space: nowrap;
+    }
+  }
+
+  // ── Totals rows ───────────────────────────────────────
+  .woo-summary-totals {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid $grey-line;
+    margin-bottom: 24px;
+  }
+
+  .woo-summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    color: #555;
+
+    &__label {
+      color: $text;
+      font-weight: 600;
+      font-size: 16px;
+      p {
+        font-weight: 400;
+        font-size: 14px;
+      }
+    }
+
+    &--sub {
+      font-size: 0.8rem;
+      color: $grey-text;
+      justify-content: flex-start;
+      padding-left: 4px;
+    }
+
+    &__value {
+      color: $green;
+      font-weight: 600;
+      font-size: 16px;
+    }
+  }
+
+  // ── Grand total ───────────────────────────────────────
+  .woo-summary-grand-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    &__label {
+      font-size: 16px;
+      font-weight: 500;
+      color: $text;
+    }
+
+    &__value {
+      font-size: 16px;
+      font-weight: 800;
+      color: $text;
+    }
+  }
+
+  // ── Delivery card ─────────────────────────────────────
+  .woo-delivery-card {
+    .woo-delivery-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+
+      & + .woo-delivery-row {
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px solid $grey-line;
+      }
+    }
+
+    .woo-delivery-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      color: $blue;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .woo-delivery-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      strong {
+        font-size: 16px;
+        color: $text;
+      }
+
+      span {
+        font-size: 14px;
+        color: #666;
+      }
+    }
+  }
+
+  // ── Failed state ──────────────────────────────────────
+  .woo-thankyou-failed {
+    max-width: 600px;
+    margin: 60px auto;
+    text-align: center;
   }
 }

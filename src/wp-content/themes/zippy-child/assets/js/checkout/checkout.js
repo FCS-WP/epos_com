@@ -75,8 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // $(document.body).trigger('wc_address_i18n_ready');
 
-  let $country = $('#billing_country');
-  // $country.prop("disabled", true);
 
   // ------------- Expand / Collapse form fields -------------
   let $blocks = $('.js-checkout-block');

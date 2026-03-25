@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit; ?>
 <div class="empty-cart-section text-center pt pb">
-	<?php wc_get_template( 'cart/cart-breadcrumb.php' ); ?>
+	<?php //wc_get_template( 'cart/cart-breadcrumb.php' ); ?>
 
 	<div class="empty-cart-content">
 		<div class="empty-cart-message">

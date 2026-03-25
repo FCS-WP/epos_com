@@ -35,10 +35,10 @@ $sidebar_classes = implode( ' ', $sidebar_classes );
 ?>
 
 <div class="woocommerce row cart-section <?php echo $row_classes; ?>">
-	<?php wc_get_template( 'cart/cart-breadcrumb.php' ); ?>
+	<?php // wc_get_template( 'cart/cart-breadcrumb.php' ); ?>
 
 	<!-- Left column -->
-	<div class="left-col col large-7 pb-0 <?php echo $main_classes; ?>">
+	<div class="left-col col large-8 pb-0 <?php echo $main_classes; ?>">
 		<?php wc_print_notices(); ?>
 		<form class="woocommerce-cart-form" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
 		<div class="cart-wrapper sm-touch-scroll">
@@ -157,7 +157,7 @@ $sidebar_classes = implode( ' ', $sidebar_classes );
 	<?php do_action( 'woocommerce_before_cart_collaterals' ); ?>
 
 	<!-- Right column -->
-	<div class="right-col cart-collaterals large-5 col pb-0">
+	<div class="right-col cart-collaterals large-4 col pb-0">
 		<?php flatsome_sticky_column_open( 'cart_sticky_sidebar' ); ?>
 
 		<div class="cart-sidebar-card">

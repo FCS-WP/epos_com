@@ -35,8 +35,6 @@ $sidebar_classes = implode( ' ', $sidebar_classes );
 ?>
 
 <div class="woocommerce row cart-section <?php echo $row_classes; ?>">
-	<?php // wc_get_template( 'cart/cart-breadcrumb.php' ); ?>
-
 	<!-- Left column -->
 	<div class="left-col col large-8 pb-0 <?php echo $main_classes; ?>">
 		<?php wc_print_notices(); ?>

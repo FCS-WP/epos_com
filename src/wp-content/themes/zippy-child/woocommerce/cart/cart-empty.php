@@ -18,8 +18,6 @@
 
 defined( 'ABSPATH' ) || exit; ?>
 <div class="empty-cart-section text-center pt pb">
-	<?php //wc_get_template( 'cart/cart-breadcrumb.php' ); ?>
-
 	<div class="empty-cart-content">
 		<div class="empty-cart-message">
 			<img src="/wp-content/uploads/2026/03/404.png" alt="Empty Cart">

@@ -34,7 +34,7 @@ $steps = get_theme_mod( 'cart_steps_numbers', 0 );
 <div class="checkout-page-title page-title">
 	<div class="page-title-inner flex-row medium-flex-wrap container">
 	  <div class="checkout-page-title__inner flex-col flex-grow medium-text-center">
-      <a class="back-to-product" href="<?php echo get_permalink( wc_get_page_id( 'shop' ) ); ?>">
+      <a class="back-to-product" href="<?php echo esc_url( home_url( '/my/bluetap' ) ); ?>">
         <span><?php _e('Back to Product', 'flatsome'); ?></span>
       </a>
       <nav class="breadcrumbs flex-row flex-row-center heading-font checkout-breadcrumbs text-center strong <?php echo get_theme_mod('cart_steps_size','h2'); ?> <?php echo get_theme_mod('cart_steps_case'); ?>">

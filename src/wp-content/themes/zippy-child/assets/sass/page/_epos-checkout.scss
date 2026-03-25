@@ -414,6 +414,7 @@
       font-style: normal;
       font-weight: 400;
       line-height: 24px;
+      cursor: not-allowed;
     }
 
     .iti__selected-flag > .iti__flag {
@@ -429,6 +430,10 @@
       padding-left: 10px;
       padding-right: 10px;
       border-right: 1px solid $checkout-border;
+    }
+
+    .iti__dropdown-content {
+      position: fixed;
     }
 
     #billing_address_2_field > label {
@@ -553,8 +558,22 @@
     display: none;
   }
 
+  .shop_table .cart-discount th {
+    padding-left: 0;
+    padding-right: 8px;
+  }
+
+  .shop_table .cart-discount td {
+    padding-right: 0;
+    padding-left: 8px;
+  }
+
   .cart-shipping td {
     color: $checkout-green;
+  }
+
+  .woocommerce-remove-coupon {
+    color: $checkout-red;
   }
 
   .tax-rate th,
@@ -600,7 +619,7 @@
     }
   }
 
-  #coupon_code {
+  input.coupon-btn {
     padding: 8px 12px;
     border-radius: 8px;
     border: 1.2px solid $checkout-coupon;
@@ -716,4 +735,13 @@
 .select2-results__option[aria-selected],
 .select2-results__option[data-selected] {
   @extend %inter-important;
+}
+
+.woocommerce-message,
+.woocommerce-message > .message-container {
+  outline: 0;
+}
+
+.woocommerce-message.message-wrapper {
+  padding-bottom: 24px;
 }

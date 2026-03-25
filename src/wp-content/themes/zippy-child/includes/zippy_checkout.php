@@ -143,8 +143,21 @@ add_filter( 'gettext', function( $translated_text, $text, $domain ) {
 /**
  * Adjust coupon form placement
  */
-remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10 );
-add_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_coupon_form', 10 );
+// remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10 );
+// add_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_coupon_form', 10 );
+add_action( 'woocommerce_checkout_order_review', function() {
+  echo '
+  <div class="coupon">
+		<div class="flex-row">
+			<div class="flex-col flex-grow">
+				<input type="text" class="input-text coupon-btn js-coupon-input" placeholder="Have a promo code?" value="">
+			</div>
+			<div class="flex-col">
+				<button class="button expand js-coupon-submit" name="apply_coupon" value="Apply">Apply</button>
+			</div>
+		</div>
+	</div>';
+}, 10 );
 
 /**
  * Add Checkout page title
@@ -299,3 +312,13 @@ add_action( 'woocommerce_checkout_order_review', function() {
     <span>'.esc_html( 'Secure checkout powered by Antom', 'woocommerce' ).'</span>
   </div>';
 }, 30 );
+
+/**
+ * Hide message on cart page 
+ */
+// add_filter('woocommerce_add_success', function($message) {
+//   if (is_cart()) {
+//     return false;
+//   }
+//   return $message;
+// });

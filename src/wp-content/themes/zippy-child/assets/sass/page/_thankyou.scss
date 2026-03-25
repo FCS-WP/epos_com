@@ -15,22 +15,31 @@ $white: #ffffff;
     }
   }
 
+  .checkout-page-title {
+    display: none;
+  }
+
   // ── Wrapper ───────────────────────────────────────────
   .woo-thankyou-wrapper {
     min-height: 74vh;
-    padding: 40px 10px 80px;
+    padding: 24px 0 30px;
   }
 
   // ── 2-col grid ────────────────────────────────────────
   .woo-thankyou-layout {
     display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 36px;
+    // grid-template-columns: 1fr 400px;
+    grid-template-columns: 1fr 385.66px;
+    gap: 24px;
     margin: 0 auto;
     align-items: start;
 
     @media (max-width: 960px) {
       grid-template-columns: 1fr;
+    }
+
+    @include tablet {
+      gap: 36px;
     }
   }
 
@@ -38,30 +47,64 @@ $white: #ffffff;
   .woo-thankyou-header {
     margin-bottom: 36px;
 
+    @include only-mobile {
+      margin-bottom: 40px;
+      text-align: center;
+
+      &::before {
+        content: '';
+        display: block;
+        width: 64px;
+        height: 64px;
+        background-image: url('#{$assets_path}/../icons/big-checked.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        margin: 0 auto 16px;
+      }
+    }
+
     .woo-thankyou-title {
       font-size: 36px;
-      font-weight: 500;
+      font-weight: 600;
       color: $blue;
-      margin: 0 0 10px;
+      margin: 0 0 16px;
       line-height: 1.2;
+
+      @include only-mobile {
+        margin-bottom: 8px;
+      }
     }
 
     .woo-thankyou-subtitle {
       font-size: 16px;
       color: $blue;
       margin: 0;
-      opacity: 0.75;
     }
   }
 
   // ── Steps heading ─────────────────────────────────────
+  .woo-thankyou-steps {
+    @include only-mobile {
+      padding: 24px 16px;
+      border-radius: 16px;
+      border: 1px solid $checkout-gray-alt;
+      background: white;
+      box-shadow: 0 4px 8px 0 rgba(black, 0.05);
+    }
+  }
+
   .woo-steps-title {
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 600;
     color: $text;
-    margin: 0 0 28px;
-    padding-bottom: 14px;
+    margin: 0 0 18px;
+    padding-bottom: 16px;
     border-bottom: 1px solid $grey-line;
+
+    @include tablet {
+      font-size: 24px;
+    }
   }
 
   // ── Timeline ──────────────────────────────────────────
@@ -80,6 +123,10 @@ $white: #ffffff;
 
     &.woo-step--last .woo-step__connector {
       display: none;
+    }
+
+    &.woo-step--last .woo-step__content {
+      padding-bottom: 0;
     }
 
     // icon circle
@@ -106,7 +153,7 @@ $white: #ffffff;
       width: 2px;
       min-height: 28px;
       background: #9ea8be;
-      margin: 2px auto 0;
+      margin: 0 auto;
       justify-self: center;
     }
 
@@ -114,6 +161,10 @@ $white: #ffffff;
     &__content {
       grid-area: content;
       padding: 0 0 40px 16px;
+
+      @include only-mobile {
+        padding-bottom: 22px;
+      }
     }
 
     &__title {
@@ -140,10 +191,10 @@ $white: #ffffff;
         }
       }
       .woo-step__connector {
-        background: $green;
+        background: $blue;
       }
       .woo-step__title {
-        color: $green;
+        color: $breadcrumb-green;
       }
       .woo-step__desc {
         color: #555;
@@ -166,9 +217,6 @@ $white: #ffffff;
         border-radius: 50%;
         background: $blue;
       }
-      .woo-step__connector {
-        background-color: $blue;
-      }
       .woo-step__title {
         color: $blue;
       }
@@ -189,21 +237,31 @@ $white: #ffffff;
   .woo-thankyou-right {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 24px;
   }
 
   // ── Card base ─────────────────────────────────────────
   .woo-summary-card {
     background: $white;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
+    padding: 24px 16px;
+    // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 8px 0 rgba(black, 0.05);
+
+    @include tablet {
+      padding: 24px;
+    }
 
     &__title {
-      font-size: 20px;
-      font-weight: 500;
+      font-size: 18px;
+      font-weight: 600;
       color: $blue;
-      margin: 0 0 20px;
+      margin: 0 0 16px;
+
+      @include tablet {
+        font-size: 20px;
+        margin: 0 0 24px;
+      }
     }
 
   }
@@ -213,7 +271,11 @@ $white: #ffffff;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding-bottom: 24px;
+    padding-bottom: 16px;
+
+    @include tablet {
+      padding-bottom: 24px;
+    }
   }
 
   .woo-summary-item {
@@ -229,7 +291,7 @@ $white: #ffffff;
 
     &__name {
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 500;
       color: $text;
     }
 
@@ -244,9 +306,13 @@ $white: #ffffff;
 
     &__total {
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 500;
       color: $text;
       white-space: nowrap;
+
+      span.amount {
+        font-weight: 500;
+      }
     }
   }
 
@@ -254,10 +320,16 @@ $white: #ffffff;
   .woo-summary-totals {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding-bottom: 24px;
+    gap: 16px;
+    padding-bottom: 16px;
     border-bottom: 1px solid $grey-line;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
+
+    @include tablet {
+      gap: 24px;
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+    }
   }
 
   .woo-summary-row {
@@ -268,11 +340,13 @@ $white: #ffffff;
 
     &__label {
       color: $text;
-      font-weight: 600;
+      font-weight: 500;
       font-size: 16px;
+
       p {
         font-weight: 400;
         font-size: 14px;
+        margin: 0;
       }
     }
 
@@ -285,8 +359,12 @@ $white: #ffffff;
 
     &__value {
       color: $green;
-      font-weight: 600;
+      font-weight: 500;
       font-size: 16px;
+
+      span.amount {
+        font-weight: 500;
+      }
     }
   }
 
@@ -303,9 +381,22 @@ $white: #ffffff;
     }
 
     &__value {
-      font-size: 16px;
-      font-weight: 800;
-      color: $text;
+      color: $checkout-total;
+      text-align: right;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 32px;
+      letter-spacing: -0.25px;
+
+      @include tablet {
+        font-size: 30px;
+        line-height: 38px;
+      }
+
+      span.amount {
+        font-weight: 600;
+      }
     }
   }
 
@@ -313,20 +404,25 @@ $white: #ffffff;
   .woo-delivery-card {
     .woo-delivery-row {
       display: flex;
-      gap: 14px;
+      gap: 8px;
       align-items: flex-start;
 
       & + .woo-delivery-row {
-        margin-top: 18px;
-        padding-top: 18px;
-        border-top: 1px solid $grey-line;
+        margin-top: 16px;
+      }
+
+      @include tablet {
+        & + .woo-delivery-row {
+          margin-top: 18px;
+          padding-top: 18px;
+          border-top: 1px solid $grey-line;
+        }
       }
     }
 
     .woo-delivery-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
+      width: 24px;
+      height: 24px;
       color: $blue;
       display: flex;
       align-items: center;
@@ -346,12 +442,15 @@ $white: #ffffff;
 
       strong {
         font-size: 16px;
-        color: $text;
+        line-height: 24px;
+        color: $checkout-black;
+        font-weight: 500;
       }
 
       span {
-        font-size: 14px;
-        color: #666;
+        font-size: 16px;
+        line-height: 24px;
+        color: $checkout-black;
       }
     }
   }

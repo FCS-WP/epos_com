@@ -167,4 +167,24 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 1000);
   });
+
+
+  // ------------- Prevent the coupon from submitting -------------
+  let $couponInput = $('.js-coupon-input');
+  let $couponBtn = $('.js-coupon-submit');
+  let $formCoupon = $('form.checkout_coupon');
+  let $realCouponInput = $formCoupon.find('#coupon_code');
+  let $realCouponBtn = $formCoupon.find('button[name="apply_coupon"]');
+
+  if ($couponBtn.length && $formCoupon.length) {
+    $couponBtn.on('click', function(e) {
+      e.preventDefault(); // Prevent form submission
+      let value = $couponInput.val();
+
+      if (value) {
+        $realCouponInput.val(value);
+        $realCouponBtn.trigger('click');
+      }
+    });
+  }
 })(jQuery);

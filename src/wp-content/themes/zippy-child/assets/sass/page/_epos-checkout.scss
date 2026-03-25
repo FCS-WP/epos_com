@@ -15,12 +15,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .medium-flex-wrap &.flex-col {
+      @include only-mobile() {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
   }
 
   .page-title-inner {
     min-height: 32px;
-    padding-top: 0;
-    padding-top: 48px;
+    padding-top: 24px;
+    
+    @include tablet {
+      padding-top: 48px;
+    }
   }
 }
 
@@ -136,10 +146,18 @@
 }
 
 .woocommerce-checkout {
-  @extend %inter;
+  @extend %inter-important;
   
   #main {
     background-color: $checkout-background;
+  }
+
+  .cart-container.page-checkout {
+    padding-top: 24px;
+
+    @include tablet {
+      padding-top: 40px;
+    }
   }
 
   .woocommerce-form-coupon-toggle,
@@ -166,10 +184,6 @@
     border-color: $checkout-gray;
     border-width: 1px;
     padding-top: 24px;
-
-    @include tablet {
-      padding-top: 34px;
-    }
   }
 
   .alert-color {
@@ -189,10 +203,11 @@
 .epos-checkout {
   &__block {
     padding: 24px 16px;
-    border-radius: 12px;
+    border-radius: 16px;
     border: 1px solid $checkout-gray-alt;
     background: white;
-    box-shadow: 0 1px 2px 0 rgba(black, 0.05);
+    // box-shadow: 0 1px 2px 0 rgba(black, 0.05);
+    box-shadow: 0 4px 8px 0 rgba(black, 0.05);
 
     @include tablet {
       padding: 32px;
@@ -306,6 +321,7 @@
       border: 1px solid $checkout-border;
       background-color: white;
       margin-bottom: 0;
+      height: auto;
 
       color: $checkout-black;
       font-size: 16px;
@@ -353,6 +369,26 @@
       }
     }
 
+    #billing_country_field .woocommerce-input-wrapper {
+      display: block;
+      width: 100%;
+      padding: 8px 12px;
+      
+      border-radius: 8px;
+      border: 1px solid $checkout-border;
+      background-color: $checkout-gray-alt;
+
+      color: $checkout-black;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px;
+
+      strong {
+        font-weight: 400;
+      }
+    }
+
     .iti__selected-flag > .iti__flag {
       display: none;
     }
@@ -394,18 +430,18 @@
   padding-right: 16px !important;
 
   @include tablet {
-    padding-left: 0 !important;
     padding-right: 15px !important;
   }
   
   & > .col-inner {
-    border-radius: 12px;
+    border-radius: 16px;
     background: white;
     border: 0;
     padding: 24px 16px;
     border: 1px solid $checkout-gray-alt;
     background: white;
-    box-shadow: 0 1px 2px 0 rgba(black, 0.05);
+    // box-shadow: 0 1px 2px 0 rgba(black, 0.05);
+    box-shadow: 0 4px 8px 0 rgba(black, 0.05);
 
     @include tablet {
       padding: 24px;
@@ -482,7 +518,7 @@
     display: block;
   }
 
-  .cart-subtotal {
+  .shop_table .cart-subtotal {
     display: none;
   }
 
@@ -572,9 +608,14 @@
     display: none;
   }
 
+  .coupon {
+    margin-bottom: 24px;
+  }
+
   .woocommerce-terms-and-conditions-wrapper {
     padding-bottom: 24px;
     margin: 0;
+    display: none;
   }
 
   button#place_order {

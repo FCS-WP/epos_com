@@ -1,4 +1,6 @@
 .woocommerce-cart {
+  @extend %inter-important;
+
   .my-main {
     background-color: #f6f7fc !important;
     .page-wrapper {
@@ -8,7 +10,7 @@
 
     @include tablet {
       .page-wrapper {
-        padding-top: 48px;
+        padding-top: 40px;
         padding-bottom: 48px;
       }
     }
@@ -20,6 +22,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: 16px 16px;
+    transition-delay: 0s;
   }
 
   .empty-cart-section {
@@ -182,7 +185,19 @@
 
         h1 {
           margin-bottom: 0;
+          font-weight: 700;
+          font-size: 24px;
+          line-height: 32px;
+          color: $checkout-black;
+          // margin-bottom: 16px;
+          letter-spacing: -0.25px;
+
+          @include tablet {
+            font-size: 30px;
+            line-height: 36px;
+          }
         }
+
         span {
           flex-shrink: 0;
           font-size: 14px;
@@ -191,19 +206,22 @@
       }
 
       .shop_table {
-        margin-top: 17px !important;
+        margin-top: 24px !important;
 
         tbody {
           display: flex;
           flex-direction: column;
           gap: 17px;
         }
+        
         tr.cart_item {
           background-color: #fff;
           border-radius: 16px;
           overflow: hidden;
           display: flex;
           flex-wrap: wrap;
+          border: 1px solid $checkout-gray-alt;
+          box-shadow: 0 4px 8px 0 rgba(black, 0.05);
         }
 
         td {
@@ -269,6 +287,7 @@
             display: flex;
             justify-content: end;
             align-items: end;
+            margin-left: auto;
             .amount {
               font-weight: 600;
               font-size: 14px;
@@ -342,12 +361,17 @@
         background: #fff;
         border-radius: 16px;
         padding: 24px;
+        border: 1px solid $checkout-gray-alt;
+        box-shadow: 0 4px 8px 0 rgba(black, 0.05);
 
         &__title {
+          text-transform: capitalize;
+          color: $blue-primary;
           font-size: 20px;
-          font-weight: 700;
-          color: #0a22aa;
-          margin-bottom: 24px;
+          line-height: 28px;
+          font-weight: 600;
+          font-style: normal;
+          margin-bottom: 12px;
         }
 
         // WooCommerce totals table
@@ -364,7 +388,7 @@
             th,
             td {
               border: 0 !important;
-              padding: 11px 0;
+              padding: 12px 0;
               background: transparent !important;
             }
 
@@ -373,6 +397,7 @@
               font-weight: 500;
               font-size: 16px;
             }
+
             td {
               text-align: right;
               font-weight: 500;
@@ -396,6 +421,7 @@
               td {
                 color: #35aa2f;
                 font-weight: 600;
+                vertical-align: top;
               }
             }
 
@@ -417,10 +443,18 @@
                 font-size: 16px;
                 font-weight: 500;
                 color: #111827;
+                vertical-align: baseline;
               }
               td {
+                vertical-align: baseline;
                 font-size: 24px;
                 color: #111827;
+
+                @include tablet {
+                  font-size: 30px;
+                  line-height: 38px;
+                }
+
                 span.amount {
                   font-weight: 600;
                 }
@@ -475,11 +509,20 @@
           background: #0a22aa;
           color: #fff !important;
           border-radius: 10px;
-          font-size: 15px;
-          font-weight: 700;
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 600;
           text-decoration: none !important;
           margin-top: 24px;
           margin-bottom: 24px;
+          min-height: 48px;
+
+          @include tablet {
+            min-height: 56px;
+            font-size: 18px;
+            line-height: 26px;
+          }
+
           &:hover {
             background: #0c28cc;
           }

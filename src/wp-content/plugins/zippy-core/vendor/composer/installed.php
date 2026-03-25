@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'zippy/core',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => 'd6de6a296db98a2f7e7c5c3180fb6f96874f3d5e',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'a9a8123a53a779adf6b4214f27b899c1f701248b',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -209,9 +209,9 @@
             'dev_requirement' => false,
         ),
         'zippy/core' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => 'd6de6a296db98a2f7e7c5c3180fb6f96874f3d5e',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'a9a8123a53a779adf6b4214f27b899c1f701248b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -9,6 +9,7 @@ use WC_Coupon;
 use WC_Order;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Exception;
 use Zippy_Core\Core_Settings;
 
 class Order_Detail_Services
@@ -32,7 +33,7 @@ class Order_Detail_Services
 
         $result = [];
 
-        [$result['products'], $subtotalOrder, $taxTotalOrder] = self::get_products_info($items);
+        [$result['products'], $subtotalOrder, $taxTotalOrder] = self::get_products_info($items, $order);
         [$result['shipping'], $totalShipping, $taxShipping] = self::get_shipping_info($shipping_items);
         [$result['fees'], $totalFee, $taxFee] = self::get_fees_info($fee);
         [$result['coupons'], $totalCoupon] = self::get_coupons_info($coupon_items);
@@ -51,16 +52,37 @@ class Order_Detail_Services
         return ['data' => $result];
     }
 
-    private static function get_products_info($items)
+    private static function get_products_info($items, $order = null)
     {
         $products = [];
         $subtotal = 0;
         $taxTotal = 0;
 
+        // Get refunded items info if order is provided
+        $refunded_items = [];
+        if ($order) {
+            $refunds = $order->get_refunds();
+            foreach ($refunds as $refund) {
+                foreach ($refund->get_items() as $refund_item) {
+                    $refunded_item_id = $refund_item->get_meta('_refunded_item_id');
+                    if ($refunded_item_id) {
+                        if (!isset($refunded_items[$refunded_item_id])) {
+                            $refunded_items[$refunded_item_id] = 0;
+                        }
+                        $refunded_items[$refunded_item_id] += abs($refund_item->get_quantity());
+                    }
+                }
+            }
+        }
+
         foreach ($items as $item_id => $item) {
             $product = $item->get_product();
             $price_total = Zippy_Wc_Calculate_Helper::round_price_wc($item->get_subtotal());
             $tax_total = $item->get_subtotal_tax();
+
+            // Check if item has been refunded
+            $refunded_qty = isset($refunded_items[$item_id]) ? $refunded_items[$item_id] : 0;
+            $is_refunded = $refunded_qty > 0;
 
             $products[$item_id] = [
                 'product_id'        => $product ? $product->get_id() : 0,
@@ -73,6 +95,8 @@ class Order_Detail_Services
                 'price_per_item'    => Zippy_Wc_Calculate_Helper::round_price_wc($item->get_subtotal() / max(1, $item->get_quantity())),
                 'tax_per_item'      => Zippy_Wc_Calculate_Helper::round_price_wc($item->get_subtotal_tax() / max(1, $item->get_quantity())),
                 'min_order'         => get_post_meta($product->get_id(), '_custom_minimum_order_qty', true) ?: 0,
+                'refunded_qty'      => $refunded_qty,
+                'is_refunded'       => $is_refunded,
             ];
 
             $subtotal += ($price_total + Zippy_Wc_Calculate_Helper::round_price_wc($tax_total));
@@ -447,7 +471,7 @@ class Order_Detail_Services
         $coupon_items = $order->get_items('coupon');
         $result = [];
 
-        [$result['products'], $subtotalOrder, $taxTotalOrder] = self::get_products_info($items);
+        [$result['products'], $subtotalOrder, $taxTotalOrder] = self::get_products_info($items, $order);
         [$result['shipping'], $totalShipping, $taxShipping] = self::get_shipping_info($shipping_items);
         [$result['fees'], $totalFee, $taxFee] = self::get_fees_info($fee);
         [$result['coupons'], $totalCoupon] = self::get_coupons_info($coupon_items);
@@ -503,5 +527,69 @@ class Order_Detail_Services
             }
         }
         return $options;
+    }
+
+    public static function refund_full_order(array $infos)
+    {
+        $order_id = $infos['order_id'] ?? null;
+        $reason = $infos['reason'] ?? 'Refund full order';
+
+        if (!$order_id) {
+            return new WP_Error('invalid_order', 'Invalid order ID');
+        }
+
+        $order = wc_get_order($order_id);
+
+        if (!$order) {
+            return new WP_Error('order_not_found', 'Order not found');
+        }
+
+        if ($order->get_status() === 'refunded') {
+            return new WP_Error('already_refunded', 'Order already refunded');
+        }
+
+        $refund_amount = $order->get_total();
+
+        $line_items = [];
+
+        foreach ($order->get_items() as $item_id => $item) {
+
+            if (!$item instanceof WC_Order_Item_Product) {
+                continue;
+            }
+
+            $taxes = $item->get_taxes();
+
+            $line_items[$item_id] = [
+                'qty'          => $item->get_quantity(),
+                'refund_total' => $item->get_total(),
+                'refund_tax'   => isset($taxes['total']) ? $taxes['total'] : [],
+            ];
+        }
+
+
+        try {
+            $refund = wc_create_refund([
+                'amount'         => $refund_amount,
+                'reason'         => $reason,
+                'order_id'       => $order_id,
+                'line_items'     => $line_items,
+                'refund_payment' => false,
+                'restock_items'  => true,
+            ]);
+
+            if (is_wp_error($refund)) {
+                return $refund;
+            }
+
+            return [
+                'refund_id' => $refund->get_id(),
+                'order_id'  => $order_id,
+                'amount'    => $refund_amount,
+                'reason'    => $reason,
+            ];
+        } catch (Exception $e) {
+            return new WP_Error('refund_failed', $e->getMessage());
+        }
     }
 }

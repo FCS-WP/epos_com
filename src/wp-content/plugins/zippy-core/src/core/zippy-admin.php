@@ -39,7 +39,7 @@ class Zippy_Admin
 
 		add_filter('pre_site_transient_update_core', [$this, 'remove_core_updates']);
 
-		// add_filter('site_transient_update_plugins', [$this, 'allow_only_zippy_updates']);
+		add_filter('site_transient_update_plugins', [$this, 'allow_only_zippy_updates']);
 
 		add_filter('pre_site_transient_update_themes', [$this, 'remove_core_updates']);
 

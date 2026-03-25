@@ -4,7 +4,7 @@ import {
   orderSettingCells,
 } from "../../helper/table-helper";
 import { Box, Button, Switch, Typography } from "@mui/material";
-import TableViewV2 from "./ TableViewV2";
+import TableViewV2 from "./TableViewV2";
 import { useSettingsProvider } from "../../../providers/SettingsProvider";
 import { SettingApi } from "../../api/admin";
 import { toast } from "react-toastify";

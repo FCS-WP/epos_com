@@ -18,6 +18,7 @@ import OrderSummary from "./OrderSummary";
 import { Api } from "../../../../api/admin";
 import ButtonAddProducts from "../products/ButtonAddProducts";
 import DownloadInvoiceButton from "../DownloadInvoiceButton";
+import RefundButton from "./RefundButton";
 
 const TableOrderInfo = ({ orderId, enableEdit }) => {
   const [orderInfo, setOrderInfo] = useState(null);
@@ -92,19 +93,19 @@ const TableOrderInfo = ({ orderId, enableEdit }) => {
   // Calculate for shipping
   const shippingTotal = shipping.reduce(
     (sum, s) => sum + parseFloat(s.total || 0),
-    0
+    0,
   );
 
   // Calculate for fees
   const feesTotal = fees.reduce(
     (sum, fee) => sum + parseFloat(fee.total || 0),
-    0
+    0,
   );
 
   // Calculate for coupons
   const couponsTotal = coupons.reduce(
     (sum, coupon) => sum + parseFloat(coupon.total || 0),
-    0
+    0,
   );
 
   // Calculate total
@@ -203,13 +204,19 @@ const TableOrderInfo = ({ orderId, enableEdit }) => {
         total={total}
       />
 
-      {enableEdit ? (
-        <Box sx={{ p: 2, display: "flex", justifyContent: "flex-end", gap: 2 }}>
-          <ApplyCouponButton onApply={handleApplyCoupon} />
-          <ButtonAddProducts orderID={orderId} />
-          <DownloadInvoiceButton orderID={orderId} />
-        </Box>
-      ) : (
+      <Box sx={{ p: 2, display: "flex", justifyContent: "flex-end", gap: 2 }}>
+        {enableEdit && (
+          <>
+            <RefundButton orderID={orderId} onRefundSuccess={getOrderInfo} />
+            <ApplyCouponButton onApply={handleApplyCoupon} />
+            <ButtonAddProducts orderID={orderId} />
+          </>
+        )}
+
+        <DownloadInvoiceButton orderID={orderId} />
+      </Box>
+
+      {!enableEdit && (
         <Box
           sx={{
             p: 2,

@@ -12,23 +12,44 @@ class Setting_Services
      */
     public static function init_modules_option()
     {
-        $modules = [
-            'orders'      => 'no',
-            'products'    => 'no',
-            'analytics'   => 'no',
-            'postal_code' => 'no',
-        ];
+        $option_key = Core_Settings::OPTIONS_KEY_CORE_MODULES;
 
-        $option_key = 'core_module_configs';
-        $existing = get_option($option_key);
+        $existing = get_option($option_key, []);
 
         if (! is_array($existing)) {
-            add_option($option_key, $modules);
-            $existing = $modules;
+            $existing = [];
+        }
+
+        $modules_dir = dirname(__FILE__) . '/../../';
+        $scanned_modules = [];
+
+        if (is_dir($modules_dir)) {
+            $dirs = array_filter(glob($modules_dir . '*'), 'is_dir');
+
+            foreach ($dirs as $dir) {
+                $folder_name = basename($dir);
+
+                if (!in_array($folder_name, ['settings'])) {
+                    $scanned_modules[] = $folder_name;
+                }
+            }
+        }
+
+        $updated = false;
+        foreach ($scanned_modules as $module_key) {
+            if (!isset($existing[$module_key])) {
+                $existing[$module_key] = 'no';
+                $updated = true;
+            }
+        }
+
+        if (empty(get_option($option_key)) || $updated) {
+            update_option($option_key, $existing);
         }
 
         return $existing;
     }
+
 
     /**
      * Get configs
@@ -60,7 +81,7 @@ class Setting_Services
 
     public static function update_module_config_by_key($module_key, $status)
     {
-        $option_key = 'core_module_configs';
+        $option_key = Core_Settings::OPTIONS_KEY_CORE_MODULES;
 
         // Get current config
         $configs = get_option($option_key, []);

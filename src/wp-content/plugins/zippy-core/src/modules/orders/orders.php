@@ -5,6 +5,8 @@ namespace Zippy_Core;
 use Zippy_Core\Core_Module;
 use Zippy_Core\Orders\Controllers\Order_Controllers;
 use Zippy_Core\Orders\Routes\Order_Route;
+use Zippy_Core\Orders\Services\Order_Setting_Services;
+use Zippy_Core\Utils\Zippy_String_Helpers;
 
 class Core_Orders extends Core_Module
 {
@@ -34,6 +36,8 @@ class Core_Orders extends Core_Module
     {
         Order_Route::get_instance();
 
+        $this->init_required_options();
+
         /**
          * Add cutomize orders pages
          * 
@@ -46,7 +50,14 @@ class Core_Orders extends Core_Module
             add_shortcode('admin_order_table', array($this, 'generate_admin_order_table_div'));
             add_action('woocommerce_admin_order_items_after_line_items', [$this, 'render_admin_order_table']);
             add_action('admin_head', [$this, 'custom_admin_order_styles']);
+            add_action('woocommerce_admin_order_data_after_shipping_address', [$this, 'custom_display_order_meta'], 10, 1);
         }
+    }
+
+    public function init_required_options()
+    {
+        Order_Setting_Services::init_invoices_option();
+        Order_Setting_Services::init_order_detail_option();
     }
 
     protected function is_custom_order_items_active()
@@ -59,6 +70,27 @@ class Core_Orders extends Core_Module
 
         $status = isset($configs['custom_order_items']) ? $configs['custom_order_items'] : 'no';
         return $status === 'yes';
+    }
+
+    function custom_display_order_meta($order)
+    {
+        $action = $_GET['action'];
+
+        if ($action === "edit") {
+            $meta_data = $order->get_meta_data();
+            //Example to exclude keys
+            $include_keys = ['_billing_address_index'];
+            if (!empty($meta_data)) {
+                echo '<h4>' . __('Details', 'woocommerce') . '</h4>';
+                foreach ($meta_data as $meta) {
+                    if (!in_array($meta->key, $include_keys)) {
+                        continue;
+                    }
+
+                    echo '<p><strong>' . Zippy_String_Helpers::convert_slug_to_name($meta->key) . ':</strong> ' . esc_html($meta->value) . '</p>';
+                }
+            }
+        }
     }
 
     function custom_admin_order_styles()
@@ -124,7 +156,8 @@ class Core_Orders extends Core_Module
 
     function add_scripts_to_hide_menu_items()
     {
-        wp_enqueue_script('ordee-admin-scripts', ZIPPY_CORE_URL . '/assets/admin/js/custom-order-scripts.js', [], '1.0', true);
+        $version = time();
+        wp_enqueue_script('ordee-admin-scripts', ZIPPY_CORE_URL . '/assets/admin/js/custom-order-scripts.js', [], $version, true);
     }
 
     /**

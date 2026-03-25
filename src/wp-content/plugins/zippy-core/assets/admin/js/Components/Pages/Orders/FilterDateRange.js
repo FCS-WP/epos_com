@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DatePicker from "react-datepicker";
 
 export default function FilterDateRange({
@@ -36,16 +36,19 @@ export default function FilterDateRange({
   return (
     <>
       <DatePicker
-        selected={fromDate ? new Date(fromDate) : null}
-        onChange={(date) => handleSetFromDate(date)}
+        selected={fromDate}
+        onChange={setFromDate}
         isClearable
         placeholderText="From"
+        wrapperClassName="date-input"
       />
+
       <DatePicker
-        selected={toDate ? new Date(toDate) : null}
-        onChange={(date) => handleSetToDate(date)}
+        selected={toDate}
+        onChange={setToDate}
         isClearable
         placeholderText="To"
+        wrapperClassName="date-input"
       />
     </>
 

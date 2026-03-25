@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Box,
   TableCell,
@@ -28,7 +29,7 @@ const OrderProductRow = ({
   };
 
   const unitPriceInclTax = roundUp2dp(
-    parseFloat(item.price_per_item) + parseFloat(item.tax_per_item)
+    parseFloat(item.price_per_item) + parseFloat(item.tax_per_item),
   );
 
   const saveQuantity = async () => {
@@ -46,7 +47,7 @@ const OrderProductRow = ({
           item_id,
           quantity: tempQuantity,
           addons,
-        }
+        },
       );
 
       if (res.status === "success") {
@@ -66,18 +67,35 @@ const OrderProductRow = ({
         <img src={item.img_url} alt={item.name} width={50} />
       </TableCell>
       <TableCell>
-        <Typography
-          component="a"
-          href={`/wp-admin/post.php?post=${item.product_id}&action=edit`}
-          target="_blank"
-          sx={{
-            textDecoration: "none",
-            color: "primary.main",
-            "&:hover": { textDecoration: "underline" },
-          }}
-        >
-          {item.name}
-        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography
+            component="a"
+            href={`/wp-admin/post.php?post=${item.product_id}&action=edit`}
+            target="_blank"
+            sx={{
+              textDecoration: "none",
+              color: "primary.main",
+              "&:hover": { textDecoration: "underline" },
+            }}
+          >
+            {item.name}
+          </Typography>
+          {item.is_refunded && (
+            <Typography
+              component="span"
+              sx={{
+                backgroundColor: "#ff5252",
+                color: "white",
+                padding: "2px 8px",
+                borderRadius: "4px",
+                fontSize: "0.7rem",
+                fontWeight: "bold",
+              }}
+            >
+              REFUNDED
+            </Typography>
+          )}
+        </Box>
         <Box sx={{ mt: 0.5 }}>
           <Typography
             variant="body2"
@@ -87,6 +105,16 @@ const OrderProductRow = ({
             SKU: {item.sku || "N/A"}
           </Typography>
         </Box>
+        {item.is_refunded && item.refunded_qty > 0 && (
+          <Box sx={{ mt: 0.5 }}>
+            <Typography
+              variant="body2"
+              sx={{ fontSize: "0.75rem", color: "#ff5252", fontWeight: "500" }}
+            >
+              Refunded Quantity: {item.refunded_qty}
+            </Typography>
+          </Box>
+        )}
         {item.addons?.length > 0 && (
           <Box sx={{ ml: 1, mt: 0.5 }}>
             <Typography
@@ -148,7 +176,7 @@ const OrderProductRow = ({
               }}
               onClick={() =>
                 setTempQuantity((prev) =>
-                  Math.max(item.min_order, Number(prev || item.min_order) - 1)
+                  Math.max(item.min_order, Number(prev || item.min_order) - 1),
                 )
               }
             >

@@ -26,10 +26,13 @@ export default function DownloadInvoiceButton({ orderID }) {
     <>
       <Button
         variant="contained"
-        color="error"
         size="small"
         onClick={handleApply}
         className="button add_new_product"
+        style={{
+          backgroundColor: "#1976d2",
+          color: "#fff",
+        }}
       >
         Download Invoice
       </Button>

@@ -10,6 +10,7 @@ use Zippy_Core\Utils\Zippy_Request_Helper;
 use Zippy_Core\Utils\Zippy_Response_Handler;
 use Zippy_Core\Utils\Zippy_Wc_Calculate_Helper;
 use WC_Coupon;
+use Zippy_Core\Src\Modules\Orders\Services\Batch_Export_Service;
 use Zippy_Core\Orders\Services\Order_Detail_Services;
 
 class Order_Controllers
@@ -46,6 +47,11 @@ class Order_Controllers
     {
         $infos = Zippy_Request_Helper::get_params($request);
         $result = Order_Services::bulk_action_update_order_status($infos);
+
+        if (empty($result)) {
+            return Zippy_Response_Handler::error('Orders updated fail');
+        }
+
         return Zippy_Response_Handler::success($result, 'Orders updated successfully.');
     }
 
@@ -183,11 +189,103 @@ class Order_Controllers
 
     public static function get_orders_by_keyword(WP_REST_Request $request)
     {
-       try {
+        try {
             $infos = Zippy_Request_Helper::get_params($request);
             $data = Order_Services::search_orders($infos);
 
             return Zippy_Response_Handler::success($data, 'Get orders successfully!');
+        } catch (\Exception $e) {
+            return Zippy_Response_Handler::error($e->getMessage());
+        }
+    }
+
+    public static function get_summary_orders(WP_REST_Request $request)
+    {
+        try {
+            $filterParams = Zippy_Request_Helper::get_params($request);
+            $data = Order_Services::get_summary_orders($filterParams);
+            return Zippy_Response_Handler::success($data, 'Get summary orders successfully!');
+        } catch (\Exception $e) {
+            return Zippy_Response_Handler::error($e->getMessage());
+        }
+    }
+
+    public static function search_customers(WP_REST_Request $request)
+    {
+        try {
+            $q = $request->get_param('q');
+            $data = Order_Services::search_customers($q);
+
+            if (empty($data)) {
+                return Zippy_Response_Handler::error('Customer not found.');
+            }
+
+            return Zippy_Response_Handler::success($data, 'Get customer successfully!');
+        } catch (\Exception $e) {
+            return Zippy_Response_Handler::error($e->getMessage());
+        }
+    }
+
+    public static function refund_order(WP_REST_Request $request)
+    {
+        try {
+            $paramsInfo = Zippy_Request_Helper::get_params($request);
+            $result = Order_Detail_Services::refund_full_order($paramsInfo);
+
+            if (is_wp_error($result)) {
+                return Zippy_Response_Handler::error($result->get_error_message());
+            }
+
+            return Zippy_Response_Handler::success($result, 'Order refunded successfully.');
+        } catch (\Exception $e) {
+            return Zippy_Response_Handler::error('An error occurred while processing the refund.');
+        }
+    }
+
+
+    public static function export_start(WP_REST_Request $request)
+    {
+        try {
+            $paramInfos = Zippy_Request_Helper::get_params($request);
+            $result = Batch_Export_Service::start_export($paramInfos);
+            
+            if (is_wp_error($result)) {
+                return Zippy_Response_Handler::error($result->get_error_message());
+            }
+
+            return Zippy_Response_Handler::success(['data' => $result], 'Export started.');
+        } catch (\Exception $e) {
+            return Zippy_Response_Handler::error($e->getMessage());
+        }
+    }
+
+    public static function export_process_chunk(WP_REST_Request $request)
+    {
+        try {
+            $paramInfos = Zippy_Request_Helper::get_params($request);
+            $result = Batch_Export_Service::process_chunk($paramInfos);
+            
+            if (is_wp_error($result)) {
+                return Zippy_Response_Handler::error($result->get_error_message());
+            }
+
+            return Zippy_Response_Handler::success(['data' => $result], 'Chunk processed.');
+        } catch (\Exception $e) {
+            return Zippy_Response_Handler::error($e->getMessage());
+        }
+    }
+
+    public static function export_finalize(WP_REST_Request $request)
+    {
+        try {
+            $export_id = $request->get_param('export_id');
+            $result = Batch_Export_Service::finalize_export($export_id);
+            
+            if (is_wp_error($result)) {
+                return Zippy_Response_Handler::error($result->get_error_message());
+            }
+
+            return Zippy_Response_Handler::success(['data' => $result], 'Export finalized.');
         } catch (\Exception $e) {
             return Zippy_Response_Handler::error($e->getMessage());
         }

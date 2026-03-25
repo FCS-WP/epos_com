@@ -15,7 +15,6 @@ import {
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import theme from "../../../theme/theme";
 import ProductDetails from "../Pages/Orders/products/ProductDetails";
-import PackingInstruction from "../Pages/Orders/products/PackingInstruction";
 
 const CustomTableRow = ({
   hideCheckbox = false,
@@ -37,8 +36,7 @@ const CustomTableRow = ({
   const minOrder = row.MinOrder ?? 0;
   const [disabled, setDisabled] = useState(true && minOrder <= 0);
   const [showCollapse, setShowCollapse] = useState(showCollapseProp);
-  const [showCollapseAddToOrder, setShowCollapseAddToOrder] =
-    useState(false);
+  const [showCollapseAddToOrder, setShowCollapseAddToOrder] = useState(false);
   const handleToggleCollapse = () => {
     setShowCollapse((prev) => !prev);
   };
@@ -190,11 +188,7 @@ const CustomTableRow = ({
       colSpan={cols.length}
       style={{ paddingBottom: 0, paddingTop: 0 }}
     >
-      <Collapse
-        in={showCollapseAddToOrder}
-        timeout="auto"
-        unmountOnExit
-      >
+      <Collapse in={showCollapseAddToOrder} timeout="auto" unmountOnExit>
         <Stack
           direction="row"
           justifyContent="flex-end"
@@ -233,11 +227,6 @@ const CustomTableRow = ({
       style={{ paddingBottom: 0, paddingTop: 0 }}
     >
       <Collapse in={showCollapse} timeout="auto" unmountOnExit>
-        <PackingInstruction
-          value={packingInstructions}
-          onChange={handleSubTableChange}
-        />
-
         <ProductDetails
           productID={row.productID}
           orderID={row.orderID}

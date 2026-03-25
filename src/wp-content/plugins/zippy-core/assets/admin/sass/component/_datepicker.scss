@@ -1,0 +1,15 @@
+.date-input {
+  width: 160px;
+}
+
+@media (max-width: 600px) {
+  .date-input {
+    width: 120px !important;
+  }
+}
+
+.date-input {
+  input {
+    width: 100%;
+  }
+}

@@ -5,21 +5,18 @@ import { OrderContext } from "./CoreContext";
 export const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
   const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [searchQuery, setSearchQuery] = useState('');
   const [totalOrders, setTotalOrders] = useState(0);
   const [loadingOrders, setLoadingOrders] = useState(true);
-  const [status, setStatus] = useState("");
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filteredOrders, setFilteredOrders] = useState(null);
 
-  //Filter
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
-
-  const fetchOrders = async () => {
+  const fetchOrders = async (s = "") => {
     try {
       setLoadingOrders(true);
       const params = {
         ...filteredOrders,
+        search: s,
         page: page + 1,
         per_page: rowsPerPage,
       };
@@ -36,7 +33,7 @@ export const OrderProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchOrders();
+    fetchOrders(searchQuery);
   }, [page, rowsPerPage, filteredOrders]);
 
   const handleFilterOrder = (filters) => {
@@ -44,23 +41,24 @@ export const OrderProvider = ({ children }) => {
     setFilteredOrders(filters);
   };
 
+  const fetchSearchOrders = (query) => {
+    setSearchQuery(query);
+    fetchOrders(query);
+  }
+
   const value = {
     orders,
     totalOrders,
     loadingOrders,
-    fromDate,
-    toDate,
     page,
+    searchQuery,
     rowsPerPage,
-    status,
     filteredOrders,
     setRowsPerPage,
-    setStatus,
     setPage,
     setOrders,
-    setFromDate,
-    setToDate,
     handleFilterOrder,
+    fetchSearchOrders,
     fetchOrders,
   };
 

@@ -2,19 +2,11 @@ import React, { useState } from "react";
 import { Button, Select, MenuItem, FormControl, Stack } from "@mui/material";
 import { toast } from "react-toastify";
 import { Api } from "../../../api/admin";
+import { statusWooCommerceOrders } from "../../../const/pages/orders/order-constants";
 
 const BulkAction = ({ selectedOrders, setOrders }) => {
   const [action, setAction] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const statusOptions = {
-    "wc-pending": "Pending payment",
-    "wc-processing": "Processing",
-    "wc-on-hold": "On hold",
-    "wc-packed": "Packed",
-    "wc-completed": "Completed",
-    "wc-cancelled": "Cancelled",
-  };
 
   const getStatusFromAction = (action) => {
     return action.replace(/^wc-/, "");
@@ -24,44 +16,59 @@ const BulkAction = ({ selectedOrders, setOrders }) => {
     setLoading(true);
 
     try {
+      let apiFunc = Api.updateOrderStatus;
+      let payload = {
+        order_ids: selectedOrders,
+        status: action,
+        action: "change_status",
+      };
+      let successMsg = "Orders updated!";
+      let onSuccess = (data) => {
+        const updatedOrders = data.updated_orders || [];
+        if (updatedOrders.length) {
+          const statusText = getStatusFromAction(action);
+          setOrders((prev) =>
+            prev.map((order) =>
+              updatedOrders.includes(order.id)
+                ? { ...order, status: statusText }
+                : order
+            )
+          );
+        }
+      };
+
+      //Trash
       if (action === "trash") {
-        const { data } = await Api.moveToTrashOrder({
-          order_ids: selectedOrders,
-        });
+        apiFunc = Api.moveToTrashOrder;
+        payload = { order_ids: selectedOrders };
+        successMsg = "Orders moved to trash!";
+        onSuccess = (data) => {
+          const trashed = data.trashed_orders || [];
+          setOrders((prev) => prev.filter((o) => !trashed.includes(o.id)));
+        };
+      }
 
-        if (data.status === "success") {
-          toast.success("Orders moved to trash!");
-          data.trashed_orders.forEach((orderId) => {
-            setOrders((prevOrders) =>
-              prevOrders.filter((o) => o.id !== orderId)
-            );
-          });
-        } else {
-          toast.error(data.message || "Failed to move orders to trash.");
-        }
+      //Restore
+      if (action === "restore") {
+        payload = {
+          order_ids: selectedOrders,
+          status: "wc-pending",
+          action: "restore",
+        };
+        successMsg = "Orders restored from trash!";
+        onSuccess = (data) => {
+          const restored = data.updated_orders || [];
+          setOrders((prev) => prev.filter((o) => !restored.includes(o.id)));
+        };
+      }
+
+      const { data } = await apiFunc(payload);
+
+      if (data.status === "success") {
+        toast.success(successMsg);
+        onSuccess(data);
       } else {
-        const { data } = await Api.updateOrderStatus({
-          order_ids: selectedOrders,
-          status: action,
-        });
-
-        if (data.status === "success") {
-          toast.success("Orders updated!");
-
-          const updatedOrders = data.updated_orders || [];
-          if (updatedOrders.length > 0) {
-            const statusText = getStatusFromAction(action);
-            setOrders((prevOrders) =>
-              prevOrders.map((order) =>
-                updatedOrders.includes(order.id)
-                  ? { ...order, status: statusText }
-                  : order
-              )
-            );
-          }
-        } else {
-          toast.error(data.message || "Failed to update orders.");
-        }
+        toast.error(data.message || "Failed to process orders.");
       }
     } catch (err) {
       toast.error("Error: " + err.message);
@@ -73,8 +80,10 @@ const BulkAction = ({ selectedOrders, setOrders }) => {
   const selectedLabel =
     action === "trash"
       ? "Move to Trash"
-      : statusOptions[action]
-      ? `Change to ${statusOptions[action]}`
+      : action === "restore"
+      ? "Restore from Trash"
+      : statusWooCommerceOrders[action]
+      ? `Change to ${statusWooCommerceOrders[action]}`
       : "Apply Action";
 
   return (
@@ -95,12 +104,13 @@ const BulkAction = ({ selectedOrders, setOrders }) => {
           }}
         >
           <MenuItem value="">Bulk Actions</MenuItem>
-          {Object.entries(statusOptions).map(([key, label]) => (
+          {Object.entries(statusWooCommerceOrders).map(([key, label]) => (
             <MenuItem key={key} value={key}>
               Change status to {label}
             </MenuItem>
           ))}
           <MenuItem value="trash">Move to Trash</MenuItem>
+          <MenuItem value="restore">Restore from Trash</MenuItem>
         </Select>
       </FormControl>
 
@@ -116,7 +126,7 @@ const BulkAction = ({ selectedOrders, setOrders }) => {
           boxShadow: "none",
           "&:hover": { background: "#e1e4e6", boxShadow: "none" },
           "@media (max-width: 600px)": {
-            height: "40px",
+            height: "32px",
             fontSize: "10px",
           },
         }}

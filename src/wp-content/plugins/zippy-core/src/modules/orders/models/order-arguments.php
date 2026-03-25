@@ -16,7 +16,7 @@ class Order_Arguments
             'per_page' => [
                 'default'           => 10,
                 'sanitize_callback' => 'absint',
-                'validate_callback' => fn($value) => $value > 0 && $value <= 100,
+                'validate_callback' => fn($value) => $value > 0 && $value <= 200,
             ],
             'orderby' => [
                 'sanitize_callback' => 'sanitize_text_field',
@@ -33,6 +33,9 @@ class Order_Arguments
             'date_to' => [
                 'sanitize_callback' => 'sanitize_text_field',
             ],
+            'customer_id' => [
+                'sanitize_callback' => 'absint',
+            ],
         ];
     }
 
@@ -47,6 +50,10 @@ class Order_Arguments
                 ],
             ],
             'status' => [
+                'required' => true,
+                'type' => 'string',
+            ],
+            'action' => [
                 'required' => true,
                 'type' => 'string',
             ],
@@ -139,17 +146,17 @@ class Order_Arguments
     public static function get_export_orders_args()
     {
         return [
-            'date_from' => [
+            'filter' => [
                 'required' => false,
-                'type' => 'string',
-            ],
-            'date_to' => [
-                'required' => false,
-                'type' => 'string',
+                'type' => 'object',
             ],
             'format' => [
                 'required' => false,
                 'type' => 'string',
+            ],
+            'limit' => [
+                'required' => true,
+                'type' => 'integer',
             ],
         ];
     }
@@ -194,6 +201,87 @@ class Order_Arguments
                     'customer_refunded_order',
                     'customer_note',
                 ],
+            ],
+        ];
+    }
+
+    public static function get_summary_orders_args()
+    {
+        return [
+            'date_from' => [
+                'required' => false,
+                'type' => 'string',
+            ],
+            'date_to' => [
+                'required' => false,
+                'type' => 'string',
+            ],
+        ];
+    }
+
+    public static function get_search_customers_args()
+    {
+        return [
+            'q' => [
+                'required' => true,
+                'type' => 'string',
+            ],
+        ];
+    }
+
+    public static function get_refund_order_args()
+    {
+        return [
+            'order_id' => [
+                'required' => true,
+                'type' => 'integer',
+            ],
+            'reason' => [
+                'required' => false,
+                'type' => 'string',
+                'default' => 'Refund full order',
+            ],
+        ];
+    }
+
+    public static function get_export_start_args()
+    {
+        return [
+            'filter' => [
+                'required' => false,
+                'type' => 'object',
+            ],
+        ];
+    }
+
+    public static function get_export_process_chunk_args()
+    {
+        return [
+            'export_id' => [
+                'required' => true,
+                'type' => 'string',
+            ],
+            'offset' => [
+                'required' => true,
+                'type' => 'integer',
+            ],
+            'limit' => [
+                'required' => true,
+                'type' => 'integer',
+            ],
+            'filter' => [
+                'required' => false,
+                'type' => 'object',
+            ],
+        ];
+    }
+
+    public static function get_export_finalize_args()
+    {
+        return [
+            'export_id' => [
+                'required' => true,
+                'type' => 'string',
             ],
         ];
     }

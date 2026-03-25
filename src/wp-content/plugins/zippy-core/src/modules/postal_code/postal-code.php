@@ -8,6 +8,8 @@ use Zippy_Core\Utils\Zippy_Utils_Core;
 
 class Core_Postal_Code extends Core_Module
 {
+    protected $module_key = 'postal_code';
+
     public function __construct()
     {
         if (!Zippy_Utils_Core::check_exits_woocommerce()) return;

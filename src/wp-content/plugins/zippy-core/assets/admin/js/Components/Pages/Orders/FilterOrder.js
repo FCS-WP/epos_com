@@ -10,75 +10,99 @@ import {
 } from "@mui/material";
 import FilterDateRange from "./FilterDateRange";
 import { useOrderProvider } from "../../../context/OrderContext";
-
-const getStatusOptions = () => [
-  { value: "", label: "All statuses" },
-  { value: "pending", label: "Pending" },
-  { value: "processing", label: "Processing" },
-  { value: "completed", label: "Completed" },
-  { value: "on-hold", label: "On Hold" },
-  { value: "cancelled", label: "Cancelled" },
-  { value: "refunded", label: "Refunded" },
-  { value: "failed", label: "Failed" },
-];
+import { getStatusOptions } from "../../../const/pages/orders/order-constants";
+import CustomerFilterOrder from "./CustomerFilterOrder";
 
 const formatDate = (dateStr) => {
   if (!dateStr) return "";
+
+  dateStr = `${dateStr.getFullYear()}-${String(dateStr.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${String(dateStr.getDate()).padStart(2, "0")}`;
+
   const [y, m, d] = dateStr.split("-");
   return `${y}-${m}-${d}`;
 };
 
 const FilterOrder = () => {
-  const {
-    handleFilterOrder,
-    fromDate,
-    toDate,
-    setFromDate,
-    setToDate,
-    status,
-    setStatus,
-  } = useOrderProvider();
+  const { filteredOrders, handleFilterOrder } = useOrderProvider();
+
+  const [status, setStatus] = useState("");
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
+  const [customerSearchSelected, setCustomerSearchSelected] = useState(null);
 
   const onFilter = () => {
     handleFilterOrder({
       date_from: formatDate(fromDate),
       date_to: formatDate(toDate),
       order_status: status,
+      customer_id: customerSearchSelected ? customerSearchSelected.id : null,
+      customer_selected: customerSearchSelected,
     });
   };
 
+  useEffect(() => {
+    if (filteredOrders) {
+      setStatus(filteredOrders.order_status || "");
+      setFromDate(
+        filteredOrders.date_from ? new Date(filteredOrders.date_from) : null
+      );
+      setToDate(
+        filteredOrders.date_to ? new Date(filteredOrders.date_to) : null
+      );
+      setCustomerSearchSelected(filteredOrders.customer_selected || null);
+    }
+  }, [filteredOrders]);
+
   return (
-    <Stack direction="row" spacing={1} alignItems="center">
+    <Stack
+      direction="row"
+      alignItems="center"
+      flexWrap="wrap"
+      gap={1}
+      rowGap={1}
+    >
+      {/* Filter date created order */}
       <FilterDateRange
         fromDate={fromDate}
         setFromDate={setFromDate}
         toDate={toDate}
         setToDate={setToDate}
       />
-      <Stack direction="row" spacing={1} alignItems="center">
-        <FormControl size="small">
-          <Select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            displayEmpty
-            sx={{ height: "32px", fontSize: "14px", minWidth: "180px" }}
-            MenuProps={{
-              PaperProps: {
-                sx: {
-                  mt: 1,
-                  ml: 8,
-                },
+
+      {/* Filter by status */}
+      <FormControl size="small">
+        <Select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          displayEmpty
+          sx={{ height: "32px", fontSize: "14px", minWidth: "180px" }}
+          MenuProps={{
+            PaperProps: {
+              sx: {
+                mt: 1,
+                ml: 8,
               },
-            }}
-          >
-            {getStatusOptions().map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Stack>
+            },
+          }}
+        >
+          {getStatusOptions().map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      {/* Filter by customer email */}
+      {/* <CustomerFilterOrder
+        customerSearchSelected={customerSearchSelected}
+        setCustomerSearchSelected={setCustomerSearchSelected}
+      /> */}
+
+      {/* Filter button */}
       <Button
         variant="outlined"
         sx={{
@@ -91,7 +115,7 @@ const FilterOrder = () => {
           boxShadow: "none",
           "&:hover": { background: "#e1e4e6", boxShadow: "none" },
           "@media (max-width: 600px)": {
-            height: "40px",
+            height: "32px",
             fontSize: "10px",
           },
         }}

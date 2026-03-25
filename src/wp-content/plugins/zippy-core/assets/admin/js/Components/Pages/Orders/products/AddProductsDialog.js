@@ -17,6 +17,7 @@ import {
 
 import { toast } from "react-toastify";
 import { Api } from "../../../../api/admin";
+import TablePaginationCustom from "../../../Table/TablePaginationCustom";
 
 const productListOrder = ["IMAGE", "ID", "NAME", "INVENTORY", "ACTIONS"];
 const AddProductsDialog = ({ onClose, open, orderID }) => {
@@ -284,13 +285,13 @@ const AddProductsDialog = ({ onClose, open, orderID }) => {
                 addAddonProduct={addAddonProduct} // Add addon product to state before submit
               />
 
-              {/* <TablePaginationCustom
+              <TablePaginationCustom
                 count={pagination.total}
                 rowsPerPage={pagination.rowsPerPage}
                 page={pagination.page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-              /> */}
+              />
             </>
           ) : (
             <Typography

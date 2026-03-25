@@ -4,7 +4,7 @@ namespace Zippy_Core\Settings\Routes;
 
 use Zippy_Core\Core_Middleware;
 use Zippy_Core\Core_Route;
-use Zippy_Core\Settings\Controllers\Order_Setting_Controllers;
+use Zippy_Core\Orders\Controllers\Order_Setting_Controllers;
 use Zippy_Core\Settings\Controllers\Setting_Controllers;
 use Zippy_Core\Settings\Models\Order_Arguments;
 use Zippy_Core\Settings\Models\Setting_Arguments;

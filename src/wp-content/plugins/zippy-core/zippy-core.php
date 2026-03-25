@@ -63,15 +63,6 @@ if (!defined('ZIPPY_CORE_API_PREFIX')) {
   define('ZIPPY_CORE_API_PREFIX', 'zippy-core/v2');
 }
 
-/* Set API Portal prefix url */
-if (!defined('PORTAL_CUSTOM_NAMESPACE')) {
-  define('PORTAL_CUSTOM_NAMESPACE', 'portal/v1');
-}
-if (!defined('PORTAL_INTERNAL_URL')) {
-  define('PORTAL_INTERNAL_URL', 'http://host.docker.internal:8000');
-}
-
-
 
 /* ------------------------------------------
 // i18n
@@ -93,7 +84,6 @@ require ZIPPY_CORE_DIR_PATH . '/includes/autoload.php';
 
 require_once __DIR__ . '/src/core/zippy-activate.php';
 
-require ZIPPY_CORE_DIR_PATH . 'vendor/plugin-update-checker/plugin-update-checker.php';
 register_activation_hook(__FILE__, [Zippy_Activate::class, 'activate']);
 
 use  Zippy_Core\Src\Admin\Zippy_Admin_Setting;
@@ -107,39 +97,7 @@ use Zippy_Core\Src\User\Zippy_MPDA_Consent;
 use Zippy_Core\Src\User\Zippy_User_Account_Expiry;
 
 use Zippy_Core\Src\Analytics\Zippy_Analytics;
-
 use Zippy_Core\Src\Woocommerce\Zippy_Woocommerce;
-
-use YahnisElsts\PluginUpdateChecker\v5p6\PucFactory;
-
-/**
- * Zippy Plugin update
- */
-if (is_admin()) {
-  $zippyUpdateChecker = PucFactory::buildUpdateChecker(
-    'https://main-staging.theshin.info/wp-json/zippy-core/v1/check-update',
-    __FILE__,
-    'zippy-core'
-  );
-
-  add_action(
-    'in_plugin_update_message-' . ZIPPY_CORE_NAME . '/' . ZIPPY_CORE_NAME . '.php',
-    'zippy_show_upgrade_notification',
-    10,
-    2
-  );
-
-  function zippy_show_upgrade_notification($current_plugin_metadata, $new_plugin_metadata)
-  {
-    if (!empty($new_plugin_metadata->upgrade_notice)) {
-      printf(
-        '<div style="background-color:#d54e21;padding:10px;color:#f9f9f9;margin-top:10px;"><strong>%s: </strong>%s</div>',
-        esc_html__('Important Upgrade Notice', 'zippy-core'),
-        esc_html(trim($new_plugin_metadata->upgrade_notice))
-      );
-    }
-  }
-}
 
 /**
  *
@@ -159,7 +117,6 @@ Zippy_User_Account_Expiry::get_instance();
 Zippy_Analytics::get_instance();
 
 Zippy_Woocommerce::get_instance();
-
 
 
 /**

@@ -11,7 +11,7 @@ use Automattic\WooCommerce\Admin\Overrides\OrderRefund;
 
 class Order_Services
 {
-    public static function handle_orders($infos)
+    public static function handle_orders_v1($infos)
     {
         $page         = $infos['page'] ?? null;
         $per_page     = $infos['per_page'] ?? null;
@@ -20,6 +20,7 @@ class Order_Services
         $order_status = $infos['order_status'] ?? null;
         $date_from    = $infos['date_from'] ?? null;
         $date_to      = $infos['date_to'] ?? null;
+        $customer_id  = $infos['customer_id'] ?? null;
 
         $args = [
             'limit'   => $per_page,
@@ -27,6 +28,7 @@ class Order_Services
             'orderby' => $order_by,
             'order'   => $order_val,
             'return'  => 'objects',
+            'type'    => 'shop_order',
         ];
 
         if (!empty($order_status)) {
@@ -42,6 +44,10 @@ class Order_Services
             $args['date_created'] = '<' . $date_to . ' 23:59:59';
         }
 
+        if (!empty($customer_id)) {
+            $args['customer_id'] = $customer_id;
+        }
+
         $orders = wc_get_orders($args);
 
         $data = [];
@@ -50,6 +56,7 @@ class Order_Services
             if ($order instanceof OrderRefund) {
                 continue;
             }
+
             $data[] = self::parse_order_data($order);
         }
 
@@ -78,7 +85,7 @@ class Order_Services
         );
     }
 
-    public static function parse_order_data(\WC_Order $order)
+    public static function parse_order_data($order)
     {
         $billing  = $order->get_address('billing');
         $shipping = !array_filter($order->get_address('shipping')) ? $billing : $order->get_address('shipping');
@@ -127,7 +134,6 @@ class Order_Services
                     'total'      => $item->get_total(),
                 ];
             }, $order->get_items()),
-            'source'      => $order->get_meta('_wc_order_attribution_utm_source') ?: 'website',
         ];
 
         return $data;
@@ -137,6 +143,7 @@ class Order_Services
     {
         $order_ids = $data['order_ids'] ?? [];
         $status    = $data['status'] ?? '';
+        $action    = $data['action'] ?? '';
 
         $valid_statuses = wc_get_order_statuses();
         if (!array_key_exists($status, $valid_statuses)) {
@@ -146,6 +153,10 @@ class Order_Services
         $updated_orders = [];
         foreach ($order_ids as $order_id) {
             $order = wc_get_order($order_id);
+            if ($action == 'restore' && $order && $order->get_status() !== 'trash') {
+                return [];
+            }
+
             if ($order) {
                 $order->update_status($status, 'Order status updated via API', true);
                 $updated_orders[] = $order_id;
@@ -168,6 +179,7 @@ class Order_Services
         $date_from = sanitize_text_field($paramInfos['date_from'] ?? '');
         $date_to   = sanitize_text_field($paramInfos['date_to'] ?? '');
         $format    = sanitize_text_field($paramInfos['format'] ?? 'csv');
+        $search    = isset($paramInfos['search']) ? trim($paramInfos['search']) : '';
 
         $args = [
             'limit'   => -1,
@@ -182,10 +194,27 @@ class Order_Services
             $args['date_created'] = '<' . $date_to . ' 23:59:59';
         }
 
+        if (!empty($search)) {
+            if (is_numeric($search)) {
+                $args['post__in'] = [absint($search)];
+            }
+        }
+
         $orders = wc_get_orders($args);
 
+        if (!empty($search) && !is_numeric($search)) {
+            $filtered = [];
+            foreach ($orders as $order) {
+                if ($order instanceof OrderRefund) continue;
+                if (self::order_matches_search($order, $search)) {
+                    $filtered[] = $order;
+                }
+            }
+            $orders = $filtered;
+        }
+
         if (empty($orders)) {
-            return new \WP_Error('no_orders', 'No orders found for the selected date range.');
+            return new \WP_Error('no_orders', 'No orders found for the selected range/search.');
         }
 
         $order_rows = [];
@@ -240,6 +269,7 @@ class Order_Services
             'file_type'   => $format,
         ];
     }
+
 
     /**
      * Create CSV – return content string
@@ -372,6 +402,7 @@ class Order_Services
         return $dompdf->output();
     }
 
+
     public static function move_orders_to_trash(array $order_ids)
     {
         $trashed = [];
@@ -445,7 +476,7 @@ class Order_Services
 
         // Set recipient based on email type
         $to = in_array($email_type, ['new_order', 'cancelled_order', 'failed_order'])
-            ? 'hau.nguyen@floatingcube.com'
+            ? 'dev@zippy.sg'
             : $order->get_billing_email();
 
         // Wrap email with WooCommerce header/footer
@@ -460,5 +491,266 @@ class Order_Services
 
         $sent = wp_mail($to, $subject, $wrapped_message, $headers);
         return $sent;
+    }
+
+    public static function get_summary_orders($filters)
+    {
+        global $wpdb;
+
+        $start_date = !empty($filters['date_from']) ? $filters['date_from'] : null;
+        $end_date   = !empty($filters['date_to']) ? $filters['date_to'] : null;
+
+        $table = $wpdb->prefix . 'wc_orders';
+        $where = "WHERE 1=1";
+
+        $where .= " AND status NOT IN ('trash', 'auto-draft')";
+
+        if ($start_date) {
+            $end_date = $end_date ?: gmdate('Y-m-d');
+            $where .= $wpdb->prepare(
+                " AND date_created_gmt BETWEEN %s AND %s",
+                $start_date . ' 00:00:00',
+                $end_date . ' 23:59:59'
+            );
+        }
+
+        $total_orders = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table $where");
+
+        $completed_orders = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table $where AND status = 'wc-completed'");
+        $cancelled_orders = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table $where AND status = 'wc-cancelled'");
+        $pending_orders   = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table $where AND status = 'wc-pending'");
+
+        $results = [
+            'total_orders'     => $total_orders,
+            'completed_orders' => $completed_orders,
+            'cancelled_orders' => $cancelled_orders,
+            'pending_orders'   => $pending_orders,
+        ];
+
+        return [
+            'results' => $results,
+        ];
+    }
+
+    public static function search_customers($q)
+    {
+        $customers = get_users([
+            'role'           => 'customer',
+            'search'         => '*' . esc_attr($q) . '*',
+            'search_columns' => ['user_email', 'display_name', 'user_login'],
+            'orderby'        => 'user_registered',
+            'order'          => 'DESC',
+        ]);
+
+        $results = [];
+
+        foreach ($customers as $customer) {
+            $results[] = [
+                'id'    => $customer->ID,
+                'label' =>  $customer->display_name . ' (' . $customer->user_email . ')',
+            ];
+        }
+
+        return [
+            'results' => $results,
+        ];
+    }
+
+    public static function handle_orders($infos)
+    {
+        $page         = $infos['page'] ?? null;
+        $per_page     = $infos['per_page'] ?? null;
+        $order_by     = $infos['order_by'] ?? 'date';
+        $order_val    = $infos['order_val'] ?? 'DESC';
+        $order_status = $infos['order_status'] ?? null;
+        $date_from    = $infos['date_from'] ?? null;
+        $date_to      = $infos['date_to'] ?? null;
+        $customer_id  = $infos['customer_id'] ?? null;
+        $search       = isset($infos['search']) ? trim($infos['search']) : null;
+
+        $base_args = [
+            'orderby' => $order_by,
+            'order'   => $order_val,
+            'type'    => 'shop_order',
+            'return'  => 'objects',
+        ];
+
+        if (!empty($order_status)) {
+            $base_args['status'] = array_map('trim', explode(',', $order_status));
+        }
+
+        if ($date_from && $date_to) {
+            $base_args['date_created'] = "{$date_from}...{$date_to}";
+        } elseif ($date_from) {
+            $base_args['date_created'] = ">{$date_from} 00:00:00";
+        } elseif ($date_to) {
+            $base_args['date_created'] = "<{$date_to} 23:59:59";
+        }
+
+        if (!empty($customer_id)) {
+            $base_args['customer_id'] = $customer_id;
+        }
+
+        if (!empty($search)) {
+            // Numeric = direct order ID lookup, no need to scan everything
+            if (is_numeric($search)) {
+                $base_args['post__in'] = [absint($search)];
+            } else {
+                // Resolve matched WP user IDs from search
+                $matched_customer_ids = self::find_customer_ids_by_search($search);
+
+                if (!empty($matched_customer_ids)) {
+                    if (!empty($customer_id)) {
+                        // Intersect explicit customer_id with search results
+                        if (!in_array((int) $customer_id, $matched_customer_ids, true)) {
+                            return self::empty_result($page, $per_page);
+                        }
+                    } else {
+                        $base_args['customer_id'] = $matched_customer_ids;
+                    }
+                }
+
+                // Always fetch all (no limit) and filter in PHP using decrypted billing data
+                // This is the only reliable approach when order meta is encrypted
+                $base_args['limit'] = -1;
+                unset($base_args['page']);
+            }
+        }
+
+        // -------------------------------------------------------------------------
+        // Fetch orders
+        // -------------------------------------------------------------------------
+        $use_php_search = !empty($search) && !is_numeric($search);
+
+        if ($use_php_search) {
+            // Fetch all matched orders, filter by billing fields in PHP
+            $all_orders = wc_get_orders($base_args);
+            $filtered   = [];
+
+            foreach ($all_orders as $order) {
+                if ($order instanceof OrderRefund) {
+                    continue;
+                }
+
+                if (self::order_matches_search($order, $search)) {
+                    $filtered[] = $order;
+                }
+            }
+
+            $total_orders = count($filtered);
+            $total_pages  = $per_page > 0 ? (int) ceil($total_orders / $per_page) : 1;
+
+            // Manual pagination on filtered results
+            $offset = $per_page > 0 ? ($page - 1) * $per_page : 0;
+            $paged  = array_slice($filtered, $offset, $per_page ?: null);
+
+            return [
+                'page'         => $page,
+                'per_page'     => $per_page,
+                'total_pages'  => $total_pages,
+                'total_orders' => $total_orders,
+                'orders'       => array_map([self::class, 'parse_order_data'], $paged),
+            ];
+        }
+
+        // Normal paginated path (no search or numeric order ID search)
+        $orders = wc_get_orders(array_merge($base_args, [
+            'limit' => $per_page,
+            'page'  => $page,
+        ]));
+
+        $data = [];
+        foreach ($orders as $order) {
+            if (!($order instanceof OrderRefund)) {
+                $data[] = self::parse_order_data($order);
+            }
+        }
+
+        $total_orders = count(wc_get_orders(array_merge($base_args, [
+            'limit'  => -1,
+            'return' => 'ids',
+        ])));
+
+        return [
+            'page'         => $page,
+            'per_page'     => $per_page,
+            'total_pages'  => $per_page > 0 ? (int) ceil($total_orders / $per_page) : 1,
+            'total_orders' => $total_orders,
+            'orders'       => $data,
+        ];
+    }
+
+    /**
+     * Check if an order matches the search string against decrypted billing data.
+     * WooCommerce decrypts values automatically via get_address() / getters.
+     */
+    private static function order_matches_search($order, string $search): bool
+    {
+        $search = strtolower($search);
+
+        $billing = $order->get_address('billing');
+
+        $haystack = strtolower(implode(' ', array_filter([
+            $billing['first_name'] ?? '',
+            $billing['last_name']  ?? '',
+            $billing['email']      ?? '',
+            $billing['phone']      ?? '',
+            $billing['company']    ?? '',
+        ])));
+
+        return strpos($haystack, $search) !== false;
+    }
+
+    /**
+     * Find WP user IDs matching a search string (registered users only).
+     * Does NOT touch order meta — used to pre-filter wc_get_orders by customer_id.
+     */
+    private static function find_customer_ids_by_search(string $search): array
+    {
+        $ids = [];
+
+        foreach (['email', 'login'] as $field) {
+            $user = get_user_by($field, $search);
+            if ($user) {
+                $ids[] = (int) $user->ID;
+            }
+        }
+
+        $user_query = new \WP_User_Query([
+            'search'         => '*' . esc_attr($search) . '*',
+            'search_columns' => ['user_login', 'user_email', 'display_name'],
+            'fields'         => 'ID',
+            'number'         => 50,
+            'meta_query'     => [
+                'relation' => 'OR',
+                [
+                    'key'     => 'first_name',
+                    'value'   => $search,
+                    'compare' => 'LIKE',
+                ],
+                [
+                    'key'     => 'last_name',
+                    'value'   => $search,
+                    'compare' => 'LIKE',
+                ],
+            ],
+        ]);
+
+        foreach ($user_query->get_results() as $uid) {
+            $ids[] = (int) $uid;
+        }
+
+        return array_values(array_unique($ids));
+    }
+
+    private static function empty_result($page, $per_page): array
+    {
+        return [
+            'page'         => $page,
+            'per_page'     => $per_page,
+            'total_pages'  => 0,
+            'total_orders' => 0,
+            'orders'       => [],
+        ];
     }
 }

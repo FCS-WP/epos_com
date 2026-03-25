@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import TableViewV2 from "./ TableViewV2";
+import TableViewV2 from "./TableViewV2";
 import { Box, Button, Switch, Typography } from "@mui/material";
 import { useSettingsProvider } from "../../../providers/SettingsProvider";
 import { settingsHeadcells } from "../../helper/table-helper";

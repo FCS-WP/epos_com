@@ -3,11 +3,11 @@
 namespace Zippy_Core;
 
 use Zippy_Core\Settings\Routes\Setting_Routes;
-use Zippy_Core\Settings\Services\Order_Setting_Services;
 use Zippy_Core\Settings\Services\Setting_Services;
 
 class Core_Settings extends Core_Module
 {
+    protected $module_key = 'settings';
     const OPTIONS_KEY_CORE_MODULES = 'core_module_configs';
     const OPTIONS_KEY_MODULES_CONFIGS = 'core_module_configs_order_details';
     const OPTIONS_KEY_ORDER_INVOICES_CONFIGS = 'core_module_configs_order_invoices';
@@ -45,8 +45,6 @@ class Core_Settings extends Core_Module
     public function init_required_options()
     {
         Setting_Services::init_modules_option();
-        // Order_Setting_Services::init_invoices_option();
-        Order_Setting_Services::init_order_detail_option();
     }
 
     public function register_settings_page()

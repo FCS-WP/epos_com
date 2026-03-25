@@ -19,11 +19,12 @@
 
   .ux-quantity__button--minus.is-delete {
     color: transparent;
+    text-shadow: none;
     background-image: url("/wp-content/uploads/2026/03/Delete.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 16px 16px;
-    transition-delay: 0s;
+    transition: none;
   }
 
   .empty-cart-section {

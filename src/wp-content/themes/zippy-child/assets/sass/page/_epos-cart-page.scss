@@ -20,11 +20,16 @@
   .ux-quantity__button--minus.is-delete {
     color: transparent;
     text-shadow: none;
-    background-image: url('#{$assets_path}/../icons/Delete.png');
+    background-image: url('#{$assets_path}/icons/Delete.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 16px 16px;
     transition: none;
+
+    &:hover {
+      color: transparent;
+      text-shadow: none;
+    }
   }
 
   .empty-cart-section {
@@ -39,9 +44,12 @@
         display: none;
       }
 
+      .message-wrapper {
+        padding: 0;
+      }
+
       .message-container {
         font-weight: 500;
-        font-style: Medium;
         font-size: 18px;
         margin-bottom: 32px;
       }
@@ -51,8 +59,13 @@
         .button {
           background-color: #0a22aa;
           text-transform: capitalize;
+          
           padding: 10px;
+          min-height: 56px;
           width: 95%;
+          font-size: 18px;
+          font-weight: 600;
+          line-height: 34px;
         }
       }
     }
@@ -429,7 +442,7 @@
             .shipping-note {
               th {
                 p {
-                  color: #212121;
+                  color: $checkout-secure-text;
                   line-height: 20px;
                   font-weight: 400;
                   font-size: 14px;

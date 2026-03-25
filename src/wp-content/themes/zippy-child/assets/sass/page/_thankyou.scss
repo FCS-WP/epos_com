@@ -59,7 +59,7 @@ $white: #ffffff;
           display: block;
           width: 64px;
           height: 64px;
-          background-image: url("#{$assets_path}/../icons/big-checked.svg");
+          background-image: url("#{$assets_path}/icons/big-checked.svg");
           background-position: center;
           background-repeat: no-repeat;
           background-size: contain;
@@ -354,6 +354,7 @@ $white: #ffffff;
         font-weight: 400;
         font-size: 14px;
         margin: 0;
+        color: $checkout-secure-text;
       }
     }
 

@@ -173,7 +173,7 @@ defined( 'ABSPATH' ) || exit;
 						<?php endforeach; ?>
 						
 						<div class="woo-summary-row">
-							<span class="woo-summary-row__label"><?php echo esc_html_e( 'Shipping note', 'woocommerce' ) . '<br><p>Ships in 3–5 business days</p>'; ?></span>
+							<span class="woo-summary-row__label"><?php echo esc_html_e( 'Shipping', 'woocommerce' ) . '<br><p>Ships in 3–5 business days</p>'; ?></span>
 							<span class="woo-summary-row__value"><?php esc_html_e( 'Free', 'woocommerce' ); ?></span>
 						</div>
 
@@ -222,7 +222,7 @@ defined( 'ABSPATH' ) || exit;
 							<img src="/wp-content/uploads/2026/03/Location-Pin.png" alt="Location">
 						</span>
 						<div class="woo-delivery-info">
-							<strong><?php echo esc_html( $order->get_formatted_shipping_full_name() ); ?></strong>
+							<strong><?php echo esc_html( $order->get_meta('_billing_recipient') ); ?></strong>
 							<?php if ( $order->get_shipping_company() ) : ?>
 								<span><?php echo esc_html( $order->get_shipping_company() ); ?></span>
 							<?php endif; ?>

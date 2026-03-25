@@ -3,9 +3,10 @@
 
   .my-main {
     background-color: #f6f7fc !important;
+
     .page-wrapper {
       padding-top: 24px;
-      padding-bottom: 24px;
+      padding-bottom: 54px;
     }
 
     @include tablet {
@@ -169,10 +170,20 @@
     min-height: 63vh;
 
     .left-col {
-      padding-right: 15px;
+      padding-right: 16px;
+      
+      @include only-mobile {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+      }
     }
+
     .right-col {
-      padding-left: 15px;
+      padding-left: 16px;
+    }
+
+    .woocommerce-cart-form {
+      margin-bottom: 0;
     }
 
     .cart-wrapper {
@@ -206,12 +217,13 @@
       }
 
       .shop_table {
+        margin: 0;
         margin-top: 24px !important;
 
         tbody {
           display: flex;
           flex-direction: column;
-          gap: 17px;
+          // gap: 17px;
         }
         
         tr.cart_item {
@@ -356,6 +368,12 @@
 
     .cart-collaterals {
       border-left: none !important;
+
+      @include only-mobile {
+        margin-top: 24px;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+      }
 
       .cart-sidebar-card {
         background: #fff;
@@ -532,7 +550,7 @@
           display: flex;
           padding-top: 26px;
           border-top: 1px solid #e7ebf3;
-          align-items: end;
+          align-items: center;
           justify-content: center;
           gap: 8px;
           font-size: 14px;

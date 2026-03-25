@@ -178,7 +178,7 @@ $sidebar_classes = implode( ' ', $sidebar_classes );
 
 			<div class="cart-secure-badge">
 				<img src="/wp-content/uploads/2026/03/Group-2117131011-1.png" alt="Secure checkout">
-				<?php esc_html_e( 'Secure checkout powered by', 'woocommerce' ); ?>
+				<?php esc_html_e( 'Secure checkout powered by Antom', 'woocommerce' ); ?>
 			</div>
 
 		</div>

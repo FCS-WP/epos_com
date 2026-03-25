@@ -147,6 +147,10 @@
 
 .woocommerce-checkout {
   @extend %inter-important;
+
+  @include only-mobile {
+    margin-bottom: 0;
+  }
   
   #main {
     background-color: $checkout-background;
@@ -154,6 +158,10 @@
 
   .cart-container.page-checkout {
     padding-top: 24px;
+    
+    @include only-mobile {
+      padding-bottom: 54px;
+    }
 
     @include tablet {
       padding-top: 40px;
@@ -369,7 +377,7 @@
       }
     }
 
-    #billing_country_field .woocommerce-input-wrapper {
+    #billing_country_field .woocommerce-input-wrapper strong {
       display: block;
       width: 100%;
       padding: 8px 12px;
@@ -383,10 +391,6 @@
       font-style: normal;
       font-weight: 400;
       line-height: 24px;
-
-      strong {
-        font-weight: 400;
-      }
     }
 
     .iti__selected-flag > .iti__flag {
@@ -428,6 +432,10 @@
 .woocommerce-checkout .epos-order-summary {
   padding-left: 16px !important;
   padding-right: 16px !important;
+
+  @include only-mobile {
+    padding-bottom: 0 !important;
+  }
 
   @include tablet {
     padding-right: 15px !important;

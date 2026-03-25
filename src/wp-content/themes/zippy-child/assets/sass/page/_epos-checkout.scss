@@ -46,7 +46,7 @@
     display: block;
     width: 24px;
     height: 24px;
-    background-image: url('#{$assets_path}/../icons/back.svg');
+    background-image: url('#{$assets_path}/icons/back.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -136,7 +136,7 @@
         display: block;
         width: 13px;
         height: 10px;
-        background-image: url('#{$assets_path}/../icons/checked.svg');
+        background-image: url('#{$assets_path}/icons/checked.svg');
         background-position: center;
         background-repeat: no-repeat;
         background-size: contain;
@@ -251,7 +251,7 @@
       display: block;
       width: 24px;
       height: 24px;
-      background-image: url('#{$assets_path}/../icons/arrow.svg');
+      background-image: url('#{$assets_path}/icons/arrow.svg');
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
@@ -360,7 +360,7 @@
     .select2-container .select2-choice,
     .select2-container .select2-selection,
     select {
-      background-image: url('#{$assets_path}/../icons/arrow-black.svg');
+      background-image: url('#{$assets_path}/icons/arrow-black.svg');
       background-size: 24px;
       // background-position: center;
       // background-repeat: no-repeat;
@@ -461,6 +461,20 @@
     }
   }
 
+  .woocommerce-privacy-policy-text {
+    margin-top: 24px;
+    
+    p {
+      margin-bottom: 0;
+      color: $checkout-black;
+      text-align: center;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 20px;
+    }
+  }
+
   #order_review_heading {
     padding: 0;
     text-transform: capitalize;
@@ -529,6 +543,7 @@
 
   .cart-shipping span.amount {
     display: block;
+    color: $checkout-secure-text;
   }
 
   .shop_table .cart-subtotal {
@@ -657,22 +672,22 @@
 
   button#place_order {
     margin: 0;
-    min-height: 48px;
+    min-height: 48px !important;
     padding: 8px;
-    border-radius: 8px;
+    border-radius: 8px !important;
     background: rgba($checkout-coupon-text, 1);
     color: white;
     text-align: center;
-    font-size: 16px;
+    font-size: 16px !important;
     font-style: normal;
     font-weight: 600;
-    line-height: 24px;
+    line-height: 24px !important;
     text-transform: capitalize;
 
     @include tablet {
-      min-height: 56px;
-      font-size: 18px;
-      line-height: 26px;
+      min-height: 56px !important;
+      font-size: 18px !important;
+      line-height: 26px !important;
     }
   }
 
@@ -698,7 +713,7 @@
       display: block;
       width: 24px;
       height: 24px;
-      background-image: url('#{$assets_path}/../icons/safe.svg');
+      background-image: url('#{$assets_path}/icons/safe.svg');
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;

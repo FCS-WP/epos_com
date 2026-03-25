@@ -20,7 +20,7 @@
   .ux-quantity__button--minus.is-delete {
     color: transparent;
     text-shadow: none;
-    background-image: url("/wp-content/uploads/2026/03/Delete.png");
+    background-image: url('#{$assets_path}/../icons/Delete.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 16px 16px;

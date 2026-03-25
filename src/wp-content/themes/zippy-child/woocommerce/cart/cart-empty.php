@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="empty-cart-section text-center pt pb">
 	<div class="empty-cart-content">
 		<div class="empty-cart-message">
-			<img src="/wp-content/uploads/2026/03/404.png" alt="Empty Cart">
+			<img src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/icons/empty-cart.png" alt="Empty Cart">
 			<?php do_action( 'woocommerce_cart_is_empty' ); ?>
 		</div>
 		<p class="return-to-shop">

@@ -36,7 +36,7 @@ $totals = $order->get_order_item_totals(); // phpcs:ignore WordPress.WP.GlobalVa
 			<div class="woo-steps-timeline">
 				<div class="woo-step woo-step--active">
 					<div class="woo-step__icon">
-						<img src="/wp-content/uploads/2026/03/activating-step.gif" alt="" />
+						<img src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/icons/activating-step.gif" alt="Activating" />
 					</div>
 					<div class="woo-step__connector"></div>
 					<div class="woo-step__content">
@@ -198,7 +198,7 @@ $totals = $order->get_order_item_totals(); // phpcs:ignore WordPress.WP.GlobalVa
 
 				<div class="woo-delivery-row">
 					<span class="woo-delivery-icon woo-delivery-icon--person">
-						<img src="/wp-content/uploads/2026/03/User.png" alt="Person">
+						<img src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/icons/User.png" alt="Person">
 					</span>
 					<div class="woo-delivery-info">
 						<strong><?php echo esc_html( $order->get_formatted_billing_full_name() ); ?></strong>
@@ -216,7 +216,7 @@ $totals = $order->get_order_item_totals(); // phpcs:ignore WordPress.WP.GlobalVa
 
 				<div class="woo-delivery-row">
 					<span class="woo-delivery-icon woo-delivery-icon--location">
-						<img src="/wp-content/uploads/2026/03/Location-Pin.png" alt="Location">
+						<img src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/icons/Location-Pin.png" alt="Location">
 					</span>
 					<div class="woo-delivery-info">
 						<strong><?php echo esc_html( $order->get_meta('_billing_recipient') ); ?></strong>

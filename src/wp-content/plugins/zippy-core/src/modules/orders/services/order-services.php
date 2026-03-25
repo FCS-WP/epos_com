@@ -134,6 +134,7 @@ class Order_Services
                     'total'      => $item->get_total(),
                 ];
             }, $order->get_items()),
+            'source'      => $order->get_meta('_wc_order_attribution_utm_source') ?: 'website',
         ];
 
         return $data;

@@ -6,7 +6,8 @@ $grey-text: #767e93;
 $text: #212121;
 $white: #ffffff;
 
-.woocommerce-order-received {
+.woocommerce-order-received,
+.woocommerce-order-pay {
   .my-main {
     background-color: #f6f7fc !important;
     .page-wrapper {
@@ -44,191 +45,194 @@ $white: #ffffff;
   }
 
   // ── Header ────────────────────────────────────────────
-  .woo-thankyou-header {
-    margin-bottom: 36px;
-
-    @include only-mobile {
-      margin-bottom: 40px;
-      text-align: center;
-
-      &::before {
-        content: '';
-        display: block;
-        width: 64px;
-        height: 64px;
-        background-image: url('#{$assets_path}/../icons/big-checked.svg');
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        margin: 0 auto 16px;
-      }
-    }
-
-    .woo-thankyou-title {
-      font-size: 36px;
-      font-weight: 600;
-      color: $blue;
-      margin: 0 0 16px;
-      line-height: 1.2;
+  .woo-thankyou-left,
+  .pre-order-left {
+    .woo-thankyou-header {
+      margin-bottom: 36px;
 
       @include only-mobile {
-        margin-bottom: 8px;
-      }
-    }
+        margin-bottom: 40px;
+        text-align: center;
 
-    .woo-thankyou-subtitle {
-      font-size: 16px;
-      color: $blue;
-      margin: 0;
-    }
-  }
-
-  // ── Steps heading ─────────────────────────────────────
-  .woo-thankyou-steps {
-    @include only-mobile {
-      padding: 24px 16px;
-      border-radius: 16px;
-      border: 1px solid $checkout-gray-alt;
-      background: white;
-      box-shadow: 0 4px 8px 0 rgba(black, 0.05);
-    }
-  }
-
-  .woo-steps-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: $text;
-    margin: 0 0 18px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid $grey-line;
-
-    @include tablet {
-      font-size: 24px;
-    }
-  }
-
-  // ── Timeline ──────────────────────────────────────────
-  .woo-steps-timeline {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .woo-step {
-    display: grid;
-    grid-template-columns: 30px 1fr;
-    grid-template-rows: auto 1fr;
-    grid-template-areas:
-      "icon content"
-      "line content";
-
-    &.woo-step--last .woo-step__connector {
-      display: none;
-    }
-
-    &.woo-step--last .woo-step__content {
-      padding-bottom: 0;
-    }
-
-    // icon circle
-    &__icon {
-      grid-area: icon;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      background: #9ea8be;
-
-      svg {
-        width: 18px;
-        height: 18px;
-      }
-    }
-
-    // vertical line
-    &__connector {
-      grid-area: line;
-      width: 2px;
-      min-height: 28px;
-      background: #9ea8be;
-      margin: 0 auto;
-      justify-self: center;
-    }
-
-    // text block
-    &__content {
-      grid-area: content;
-      padding: 0 0 40px 16px;
-
-      @include only-mobile {
-        padding-bottom: 22px;
-      }
-    }
-
-    &__title {
-      font-size: 18px;
-      font-weight: 600;
-      margin: 0 0 8px;
-      color: $grey-text;
-    }
-
-    &__desc {
-      font-size: 16px;
-      color: $grey-text;
-      margin: 0;
-      line-height: 1.65;
-    }
-
-    // ── states ──
-
-    &--done {
-      .woo-step__icon {
-        background: $green;
-        svg {
-          stroke: $white;
+        &::before {
+          content: '';
+          display: block;
+          width: 64px;
+          height: 64px;
+          background-image: url('#{$assets_path}/../icons/big-checked.svg');
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: contain;
+          margin: 0 auto 16px;
         }
       }
-      .woo-step__connector {
-        background: $blue;
-      }
-      .woo-step__title {
-        color: $breadcrumb-green;
-      }
-      .woo-step__desc {
-        color: #555;
-      }
-    }
 
-    &--active {
-      .woo-step__icon {
-        background: $white;
-        img {
-          width: 100px;
-          height: 100px;
-          max-width: 100px;
-        }
-      }
-      .woo-step__icon-inner {
-        display: block;
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        background: $blue;
-      }
-      .woo-step__title {
+      .woo-thankyou-title {
+        font-size: 36px;
+        font-weight: 600;
         color: $blue;
+        margin: 0 0 16px;
+        line-height: 1.2;
+
+        @include only-mobile {
+          margin-bottom: 8px;
+        }
       }
-      .woo-step__desc {
-        color: #444;
+
+      .woo-thankyou-subtitle {
+        font-size: 16px;
+        color: $blue;
+        margin: 0;
       }
     }
 
-    &--pending {
-      .woo-step__icon {
-        background: $white;
-        border: 2px solid #9ea8be;
+    // ── Steps heading ─────────────────────────────────────
+    .woo-thankyou-steps {
+      @include only-mobile {
+        padding: 24px 16px;
+        border-radius: 16px;
+        border: 1px solid $checkout-gray-alt;
+        background: white;
+        box-shadow: 0 4px 8px 0 rgba(black, 0.05);
+      }
+    }
+
+    .woo-steps-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: $text;
+      margin: 0 0 18px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid $grey-line;
+
+      @include tablet {
+        font-size: 24px;
+      }
+    }
+
+    // ── Timeline ──────────────────────────────────────────
+    .woo-steps-timeline {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .woo-step {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        "icon content"
+        "line content";
+
+      &.woo-step--last .woo-step__connector {
+        display: none;
+      }
+
+      &.woo-step--last .woo-step__content {
+        padding-bottom: 0;
+      }
+
+      // icon circle
+      &__icon {
+        grid-area: icon;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background: #9ea8be;
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      // vertical line
+      &__connector {
+        grid-area: line;
+        width: 2px;
+        min-height: 28px;
+        background: #9ea8be;
+        margin: 0 auto;
+        justify-self: center;
+      }
+
+      // text block
+      &__content {
+        grid-area: content;
+        padding: 0 0 40px 16px;
+
+        @include only-mobile {
+          padding-bottom: 22px;
+        }
+      }
+
+      &__title {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0 0 8px;
+        color: $grey-text;
+      }
+
+      &__desc {
+        font-size: 16px;
+        color: $grey-text;
+        margin: 0;
+        line-height: 1.65;
+      }
+
+      // ── states ──
+
+      &--done {
+        .woo-step__icon {
+          background: $green;
+          svg {
+            stroke: $white;
+          }
+        }
+        .woo-step__connector {
+          background: $blue;
+        }
+        .woo-step__title {
+          color: $breadcrumb-green;
+        }
+        .woo-step__desc {
+          color: #555;
+        }
+      }
+
+      &--active {
+        .woo-step__icon {
+          background: $white;
+          img {
+            width: 100px;
+            height: 100px;
+            max-width: 100px;
+          }
+        }
+        .woo-step__icon-inner {
+          display: block;
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background: $blue;
+        }
+        .woo-step__title {
+          color: $blue;
+        }
+        .woo-step__desc {
+          color: #444;
+        }
+      }
+
+      &--pending {
+        .woo-step__icon {
+          background: $white;
+          border: 2px solid #9ea8be;
+        }
       }
     }
   }
@@ -460,5 +464,82 @@ $white: #ffffff;
     max-width: 600px;
     margin: 60px auto;
     text-align: center;
+  }
+}
+
+.pre-order-right {
+  #order_review {
+    display: flex;
+    flex-flow: column;
+    gap: 24px;
+  }
+
+  .woocommerce-terms-and-conditions-wrapper {
+    display: none;
+  }
+
+  button#place_order {
+    margin: 0;
+    min-height: 48px;
+    padding: 8px;
+    border-radius: 8px;
+    background: rgba($checkout-coupon-text, 1);
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    text-transform: capitalize;
+    margin-top: 24px;
+
+    @include tablet {
+      min-height: 56px;
+      font-size: 18px;
+      line-height: 26px;
+    }
+  }
+}
+
+// Pre-order details
+.pre-order-details {
+  padding: 40px 0;
+  display: flex;
+  gap: 32px;
+
+  .pre-order-left {
+    // width: 65%;
+    width: 100%;
+  }
+
+  .pre-order-right {
+    // width: 35%;
+    width: 385.66px;
+    flex-shrink: 0;
+
+    .payment_methods {
+      display: none;
+    }
+
+    .button {
+      background-color: #0a22aa;
+      text-transform: capitalize;
+      padding: 10px;
+      margin: 16px 0;
+    }
+  }
+
+  @include only-mobile {
+    flex-direction: column;
+    padding: 10px;
+    gap: 24px;
+
+    .pre-order-left {
+      width: 100%;
+    }
+
+    .pre-order-right {
+      width: 100%;
+    }
   }
 }

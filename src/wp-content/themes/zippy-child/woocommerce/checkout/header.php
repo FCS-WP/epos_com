@@ -27,27 +27,9 @@ function flatsome_checkout_breadcrumb_class( $endpoint ) {
 }
 
 $steps = get_theme_mod( 'cart_steps_numbers', 0 );
-
-if (is_wc_endpoint_url('order-received')) {
-	global $wp;
-    $order = wc_get_order($wp->query_vars['order-received'] ?? 0);
-    if ($order && $order->is_paid()) {
-		?>
-			<div class="container thankyou-banner-section">
-				<div class="thankyou-banner-image">
-					<img src="https://www.epos.com/wp-content/uploads/2026/03/Success-1.png" alt="Thank you banner">
-				</div>
-				<div class="thankyou-banner-content">
-					<h3><?php echo Lang::translate('Payment Confirmed'); ?></h3>
-					<p><?php echo Lang::translate('Our team will contact you shortly to activate your BlueTap so you can accept payments as soon as your device arrives.'); ?></p>
-				</div>
-			</div>
-		<?php
-    }
-}
 ?>
 
-<?php if (!is_cart()) { ?>
+<?php if (!is_cart() && !is_checkout()) { ?>
 	<div class="checkout-page-title page-title">
 		<div class="page-title-inner flex-row medium-flex-wrap container">
 		<div class="flex-col flex-grow medium-text-center">

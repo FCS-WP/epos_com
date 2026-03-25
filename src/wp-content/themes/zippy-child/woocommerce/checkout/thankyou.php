@@ -223,20 +223,23 @@ defined( 'ABSPATH' ) || exit;
 						</span>
 						<div class="woo-delivery-info">
 							<strong><?php echo esc_html( $order->get_meta('_billing_recipient') ); ?></strong>
-							<?php if ( $order->get_shipping_company() ) : ?>
-								<span><?php echo esc_html( $order->get_shipping_company() ); ?></span>
+							<?php if ( $order->get_billing_company() ) : ?>
+								<span><?php echo esc_html( $order->get_billing_company() ); ?></span>
 							<?php endif; ?>
-							<?php if ( $order->get_shipping_address_1() ) : ?>
-								<span><?php echo esc_html( $order->get_shipping_address_1() ); ?></span>
+							<?php if ( $order->get_billing_address_1() ) : ?>
+								<span><?php echo esc_html( $order->get_billing_address_1() ); ?></span>
 							<?php endif; ?>
-							<?php if ( $order->get_shipping_address_2() ) : ?>
-								<span><?php echo esc_html( $order->get_shipping_address_2() ); ?></span>
+							<?php if ( $order->get_billing_address_2() ) : ?>
+								<span><?php echo esc_html( $order->get_billing_address_2() ); ?></span>
 							<?php endif; ?>
-							<?php if ( $order->get_shipping_postcode() ) : ?>
-								<span><?php echo esc_html( $order->get_shipping_postcode() ); ?></span>
+							<?php if ( $order->get_billing_postcode() ) : ?>
+								<span><?php echo esc_html( $order->get_billing_postcode() ); ?></span>
 							<?php endif; ?>
-							<?php if ( $order->get_shipping_city() ) : ?>
-								<span><?php echo esc_html( $order->get_shipping_city() ); ?></span>
+							<?php if ( $order->get_billing_city() ) : ?>
+								<span><?php echo esc_html( $order->get_billing_city() ); ?></span>
+							<?php endif; ?>
+							<?php if ( $order->get_meta('referral_code') ) : ?>
+								<span><?php echo esc_html( $order->get_meta('referral_code') ); ?></span>
 							<?php endif; ?>
 						</div>
 					</div>

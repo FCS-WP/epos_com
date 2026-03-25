@@ -631,9 +631,19 @@
     gap: 8px;
   }
 
-  .wc_payment_methods {
-    display: none;
-  }
+  #payment {
+      margin-top: 24px;
+      .payment_methods {
+        list-style: none;
+        label {
+          font-size: 16px;
+          font-weight: 500;
+        }
+        p {
+          padding: 0 5px;
+        }
+      }
+    }
 
   .coupon {
     margin-bottom: 24px;

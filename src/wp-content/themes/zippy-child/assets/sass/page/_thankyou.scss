@@ -55,11 +55,11 @@ $white: #ffffff;
         text-align: center;
 
         &::before {
-          content: '';
+          content: "";
           display: block;
           width: 64px;
           height: 64px;
-          background-image: url('#{$assets_path}/../icons/big-checked.svg');
+          background-image: url("#{$assets_path}/../icons/big-checked.svg");
           background-position: center;
           background-repeat: no-repeat;
           background-size: contain;
@@ -130,6 +130,10 @@ $white: #ffffff;
 
       &.woo-step--last .woo-step__content {
         padding-bottom: 0;
+      }
+
+      img {
+        z-index: 10;
       }
 
       // icon circle
@@ -267,7 +271,6 @@ $white: #ffffff;
         margin: 0 0 24px;
       }
     }
-
   }
 
   // ── Order items ───────────────────────────────────────
@@ -491,7 +494,6 @@ $white: #ffffff;
     font-weight: 600;
     line-height: 24px;
     text-transform: capitalize;
-    margin-top: 24px;
 
     @include tablet {
       min-height: 56px;
@@ -517,8 +519,18 @@ $white: #ffffff;
     width: 385.66px;
     flex-shrink: 0;
 
-    .payment_methods {
-      display: none;
+    #payment {
+      margin-top: 24px;
+      .wc_payment_method {
+        list-style: none;
+        label {
+          font-size: 16px;
+          font-weight: 500;
+        }
+        p {
+          padding: 0 5px;
+        }
+      }
     }
 
     .button {

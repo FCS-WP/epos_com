@@ -174,8 +174,15 @@ defined( 'ABSPATH' ) || exit;
 						
 						<div class="woo-summary-row">
 							<span class="woo-summary-row__label"><?php echo esc_html_e( 'Shipping', 'woocommerce' ) . '<br><p>Ships in 3–5 business days</p>'; ?></span>
-							<span class="woo-summary-row__value"><?php esc_html_e( 'Free', 'woocommerce' ); ?></span>
+							<span class="woo-summary-row__value-free"><?php esc_html_e( 'Free', 'woocommerce' ); ?></span>
 						</div>
+
+						<?php foreach ( $order->get_coupons() as $coupons ) : ?>
+							<div class="woo-summary-row cart-discount coupon-<?php echo esc_attr( sanitize_title( $coupons->get_code() ) ); ?>">
+								<span class="woo-summary-row__label"><?php echo esc_html__( 'Coupon:', 'woocommerce' ) . ' ' . esc_html( strtolower( $coupons->get_code() ) ); ?></span>
+								<span class="woo-summary-row__value">-<?php echo wp_kses_post( wc_price( $coupons->get_discount() ) ); ?></span>
+							</div>
+						<?php endforeach; ?>
 
 						<?php foreach ( $order->get_tax_totals() as $code => $tax ) : 
 							$rate = WC_Tax::_get_tax_rate( $tax->rate_id );

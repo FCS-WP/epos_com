@@ -118,10 +118,10 @@ add_filter( 'gettext', function( $translated_text, $text, $domain ) {
 add_action( 'woocommerce_checkout_order_review', function() {
   if ( wc_coupons_enabled() ) {
     echo '
-    <div class="coupon">
+    <div class="coupon js-coupon">
       <div class="flex-row">
         <div class="flex-col flex-grow">
-          <input type="text" class="input-text coupon-btn js-coupon-input" placeholder="Have a promo code?" value="">
+          <input type="text" name="epos_coupon" class="input-text coupon-btn js-coupon-input" placeholder="Have a promo code?" value="">
         </div>
         <div class="flex-col">
           <button class="button expand js-coupon-submit" name="apply_coupon" value="Apply">Apply</button>
@@ -188,7 +188,6 @@ add_filter('woocommerce_checkout_fields', function($fields) {
   $fields['billing']['billing_country']['priority'] = 3; // Country
   $fields['billing']['billing_country']['class'] = 'form-row-last';
   $fields['billing']['billing_country']['custom_attributes']['readonly'] = 'readonly';
-  // $fields['billing']['billing_country']['custom_attributes']['disabled'] = 'disabled';
 
   // 4. Recipient
   $fields['billing']['billing_company']['priority'] = 5; // Company name

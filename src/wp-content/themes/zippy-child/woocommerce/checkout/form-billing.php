@@ -27,13 +27,12 @@ defined('ABSPATH') || exit;
 	<?php else : ?>
 
 		<h3><?php esc_html_e('Delivery Details', 'woocommerce'); ?></h3>
-		<p class="ck-delivery-note"><?php echo Lang::translate('Delivery Address is your actual shop’s address. BlueTap will start shipping from late February 2026.'); ?></p>
 
 	<?php endif; ?>
 
 	<?php do_action('woocommerce_before_checkout_billing_form', $checkout); ?>
 
-	<div class="woocommerce-billing-fields__field-wrapper">
+	<div class="woocommerce-billing-fields__field-wrapper_custom">
 		<?php
 		$fields = $checkout->get_checkout_fields('billing');
 
@@ -41,9 +40,9 @@ defined('ABSPATH') || exit;
 			woocommerce_form_field($key, $field, $checkout->get_value($key));
 		}
 		?>
-	</div>
 
-	<?php do_action('woocommerce_after_checkout_billing_form', $checkout); ?>
+		<?php do_action('woocommerce_after_checkout_billing_form', $checkout); ?>
+	</div>
 </div>
 
 <?php if (! is_user_logged_in() && $checkout->is_registration_enabled()) : ?>

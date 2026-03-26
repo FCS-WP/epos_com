@@ -127,17 +127,7 @@ add_filter('woocommerce_order_item_name', function($name, $item, $is_visible) {
 
 
 // validate url add to cart has quantity
-add_filter('woocommerce_cart_item_name', 'custom_cart_item_name', 10, 3);
-function custom_cart_item_name($product_name, $cart_item, $cart_item_key)
-{
-    $product = $cart_item['data'];
-    if ($product && is_a($product, 'WC_Product')) {
-        if ($product->get_id() == BLUETAP_PRODUCT_ID) {
-            $product_name =  $product_name . '<div class="cart-pre-order">' . Lang::translate('Pre-order - Delivery starts from late February') . '</div>';
-        }
-    }
-    return $product_name;
-}
+
 
 add_filter('woocommerce_add_to_cart_validation', function ($passed, $product_id, $qty) {
     if (empty($_REQUEST['add-to-cart']) || !WC()->cart) {

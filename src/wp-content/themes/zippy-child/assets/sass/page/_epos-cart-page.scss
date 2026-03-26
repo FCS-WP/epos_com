@@ -36,7 +36,6 @@
     .ux-quantity__button--plus {
       color: transparent;
       text-shadow: none;
-      background-image: url("#{$assets_path}/icons/plus.png");
       background-repeat: no-repeat;
       background-position: center;
       background-size: 16px 16px;
@@ -45,6 +44,8 @@
       width: 36px;
       height: 36px;
       border: none;
+      margin: 0 !important;
+      padding: 8px !important;
 
       &:hover {
         color: transparent;
@@ -56,7 +57,6 @@
       color: transparent;
       text-shadow: none;
       background-repeat: no-repeat;
-      background-image: url("#{$assets_path}/icons/minus.png");
       background-position: center;
       background-size: 16px 16px;
       transition: none;
@@ -64,9 +64,10 @@
       width: 36px;
       height: 36px;
       border: none;
+      margin: 0 !important;
+      padding: 8px !important;
 
       &.is-delete {
-        background-image: url("#{$assets_path}/icons/Delete.png");
         &:hover {
           color: transparent;
           text-shadow: none;
@@ -375,7 +376,7 @@
             justify-content: end;
             align-items: end;
             margin-left: auto;
-            
+
             @include only-mobile {
               padding-top: 27px;
             }
@@ -556,7 +557,7 @@
 
                 span.amount {
                   font-weight: 600;
-                  
+
                   @include only-mobile {
                     font-size: 30px;
                   }

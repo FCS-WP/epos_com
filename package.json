@@ -23,7 +23,6 @@
     "css-minimizer-webpack-plugin": "^5.0.1",
     "dotenv-webpack": "^8.1.0",
     "file-loader": "^6.2.0",
-    "jquery": "^3.7.1",
     "mini-css-extract-plugin": "^2.7.6",
     "sass": "^1.69.3",
     "sass-loader": "^13.3.2",

@@ -76,3 +76,210 @@ add_action('woocommerce_checkout_create_order', function ($order, $data) {
     );
   }
 }, 99, 2);
+
+/**
+ * Update some texts
+ */
+add_filter( 'gettext', function( $translated_text, $text, $domain ) {
+  if ( is_checkout() && 'woocommerce' === $domain ) {
+    switch($text) {
+      case 'Place order':
+        return __( 'Continue To Payment', 'flatsome' );
+        break;
+      case 'Phone':
+        return __( 'Phone number', 'flatsome' );
+        break;
+      case 'Country / Region':
+        return __( 'Country', 'flatsome' );
+        break;
+      case 'State / County':
+        return __( 'State / Region', 'flatsome' );
+        break;
+      case 'Your order':
+        return __( 'Order summary', 'flatsome' );
+        break;
+      case 'Apply coupon':
+        return __( 'Apply', 'flatsome' );
+        break;
+      case 'Coupon code':
+        return __( 'Have a promo code?', 'flatsome' );
+        break;
+      case 'Apartment, suite, unit, etc.':
+        return __( 'Apartment / Unit', 'flatsome' );
+        break;
+    }
+  }
+  return $translated_text;
+}, 10, 3 );
+
+/**
+ * Adjust coupon form placement
+ */
+add_action( 'woocommerce_checkout_order_review', function() {
+  if ( wc_coupons_enabled() ) {
+    echo '
+    <div class="coupon js-coupon">
+      <div class="flex-row">
+        <div class="flex-col flex-grow">
+          <input type="text" name="epos_coupon" class="input-text coupon-btn js-coupon-input" placeholder="Have a promo code?" value="">
+        </div>
+        <div class="flex-col">
+          <button class="button expand js-coupon-submit" name="apply_coupon" value="Apply">Apply</button>
+        </div>
+      </div>
+    </div>';
+  }
+}, 10 );
+
+/**
+ * Add Checkout page title
+ */
+add_action( 'woocommerce_checkout_before_customer_details', function() {
+  echo '<h1 class="checkout-title">'._('Checkout Details', 'flatsome').'</h1>';
+}, 10 );
+
+/**
+ * Add recipient
+ */
+add_filter('woocommerce_checkout_fields', function ($fields) {
+  $fields['billing']['billing_recipient'] = [
+    'type'        => 'text',
+    'label'       => 'Recipient',
+    'required'    => true,
+    'priority'    => 4,
+    'class'       => ['form-row-first'],
+    'autocomplete'=> 'name',
+  ];
+  return $fields;
+});
+
+/**
+ * Display recipient in order received page
+ */
+add_action('woocommerce_order_details_after_customer_address', function($group, $order) {
+  echo '
+  <p>
+    <strong>Recipient:</strong>
+    '.esc_html($order->get_meta( '_billing_recipient' )).'
+  </p>';
+}, 10, 2);
+
+/**
+ * Display recipient in admin order page
+ */
+add_action('woocommerce_admin_order_data_after_billing_address', function($order) {
+  echo '
+  <p>
+    <strong>Recipient:</strong>
+    '.esc_html($order->get_meta('_billing_recipient')).'
+  </p>';
+});
+
+/**
+ * Reposition checkout fields
+ */
+add_filter('woocommerce_checkout_fields', function($fields) {
+  $fields['billing']['billing_full_name']['priority'] = 0; // Full name
+  $fields['billing']['billing_full_name']['class'] = 'form-row-first';
+  $fields['billing']['billing_email']['priority'] = 1; // Email address
+  $fields['billing']['billing_email']['class'] = 'form-row-last';
+  $fields['billing']['billing_phone']['priority'] = 2; // Phone number
+  $fields['billing']['billing_phone']['class'] = 'form-row-first';
+  $fields['billing']['billing_country']['priority'] = 3; // Country
+  $fields['billing']['billing_country']['class'] = 'form-row-last';
+  $fields['billing']['billing_country']['custom_attributes']['readonly'] = 'readonly';
+
+  // 4. Recipient
+  $fields['billing']['billing_company']['priority'] = 5; // Company name
+  $fields['billing']['billing_company']['class'] = 'form-row-last';
+
+  return $fields;
+}, 99, 1);
+
+add_filter('woocommerce_default_address_fields', function($fields) {
+  $fields['state']['priority'] = 6; // State / Region
+  $fields['address_1']['priority'] = 7; // Street address
+  $fields['address_2']['priority'] = 8; // Apartment / Unit
+  $fields['postcode']['priority'] = 9; // Postcode / ZIP
+  $fields['city']['priority'] = 10; // Town / City
+  $fields['postcode']['class'] = 'form-row-first';
+  $fields['city']['class'] = 'form-row-last';
+
+  return $fields;
+}, 10, 1);
+
+add_filter('woocommerce_form_field', function($field, $key, $args, $value) {
+  $field = start_wrapper($key) . $field . end_wrapper($key);
+  return $field;
+}, 10, 4);
+
+/**
+ * Add wrapper
+ */
+function start_wrapper($key) {
+  switch($key) {
+    case 'billing_full_name':
+      return '
+      <div class="epos-checkout__block js-checkout-block">
+        <div class="epos-checkout__header js-checkout-header">
+          <span>1. '.__('Contact Information', 'flatsome').'</span>
+        </div>
+        <div class="epos-checkout__content js-checkout-content">
+          <div class="epos-checkout__content-inner js-checkout-inner">
+      ';
+      break;
+    case 'billing_recipient':
+      return '
+          </div>
+        </div>
+      </div>
+      <div class="epos-checkout__block js-checkout-block">
+        <div class="epos-checkout__header js-checkout-header">
+          <span>2. '.__('Delivery Information', 'flatsome').'</span>
+        </div>
+        <div class="epos-checkout__content js-checkout-content">
+          <div class="epos-checkout__content-inner js-checkout-inner">
+      ';
+      break;
+    default:
+      return '';
+      break;
+  }
+}
+
+/**
+ * Add end of wrapper
+ */
+function end_wrapper($key) {
+  switch($key) {
+    case 'referral_code':
+      return '</div></div></div>';
+      break;
+    default:
+      return '';
+      break;
+  }
+}
+
+/**
+ * Add individual item price
+ */
+add_filter( 'woocommerce_checkout_cart_item_quantity', function($html, $cart_item, $cart_item_key) {
+  $product = $cart_item['data'];
+  $single_price = wc_price( wc_get_price_to_display( $product ) ) . $product->get_price_suffix();
+  
+  return '
+  <strong class="product-quantity">'
+    .sprintf( '%s&nbsp;&times;&nbsp;%s', $single_price, $cart_item['quantity'] ).
+  '</strong>';
+}, 10, 3 );
+
+/**
+ * Add secure checkout label
+ */
+add_action( 'woocommerce_checkout_order_review', function() {
+  echo '
+  <div class="order-secure-checkout">
+    <span>'.esc_html( 'Secure checkout powered by Antom', 'woocommerce' ).'</span>
+  </div>';
+}, 30 );

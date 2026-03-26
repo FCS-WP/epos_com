@@ -17,18 +17,59 @@
     }
   }
 
-  .ux-quantity__button--minus.is-delete {
-    color: transparent;
-    text-shadow: none;
-    background-image: url('#{$assets_path}/icons/Delete.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 16px 16px;
-    transition: none;
+  .ux-quantity {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 
-    &:hover {
+    .input-text.qty {
+      border-top: none;
+      border-bottom: none;
+      font-size: 18px;
+      width: 36px;
+      height: 36px;
+    }
+
+    .ux-quantity__button--plus {
       color: transparent;
       text-shadow: none;
+      background-image: url("#{$assets_path}/icons/plus.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 16px 16px;
+      transition: none;
+      background-color: #fff !important;
+      width: 36px;
+      height: 36px;
+      border: none;
+
+      &:hover {
+        color: transparent;
+        text-shadow: none;
+      }
+    }
+
+    .ux-quantity__button--minus {
+      color: transparent;
+      text-shadow: none;
+      background-repeat: no-repeat;
+      background-image: url("#{$assets_path}/icons/minus.png");
+      background-position: center;
+      background-size: 16px 16px;
+      transition: none;
+      background-color: #fff !important;
+      width: 36px;
+      height: 36px;
+      border: none;
+
+      &.is-delete {
+        background-image: url("#{$assets_path}/icons/Delete.png");
+        &:hover {
+          color: transparent;
+          text-shadow: none;
+        }
+      }
     }
   }
 
@@ -59,7 +100,7 @@
         .button {
           background-color: #0a22aa;
           text-transform: capitalize;
-          
+
           padding: 10px;
           min-height: 56px;
           width: 95%;
@@ -185,7 +226,7 @@
 
     .left-col {
       padding-right: 16px;
-      
+
       @include only-mobile {
         padding-left: 16px !important;
         padding-right: 16px !important;
@@ -239,7 +280,7 @@
           flex-direction: column;
           // gap: 17px;
         }
-        
+
         tr.cart_item {
           background-color: #fff;
           border-radius: 16px;

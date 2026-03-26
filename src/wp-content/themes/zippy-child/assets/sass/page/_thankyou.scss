@@ -366,13 +366,17 @@ $white: #ffffff;
     }
 
     &__value {
-      color: $green;
+      color: $text;
       font-weight: 500;
       font-size: 16px;
 
       span.amount {
         font-weight: 500;
       }
+    }
+
+    &__value-free {
+      color: $green;
     }
   }
 

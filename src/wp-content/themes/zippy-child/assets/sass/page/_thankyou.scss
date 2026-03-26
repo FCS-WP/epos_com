@@ -560,3 +560,75 @@ $white: #ffffff;
     }
   }
 }
+
+// Order-receipt
+.woocommerce-order-pay {
+  .order-receipt {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    display: flex;
+
+    @include only-mobile {
+      flex-flow: column-reverse;
+    }
+
+    .payment-method-details {
+      width: 100%;
+    }
+
+    .order-details {
+      width: 385.66px;
+      flex-shrink: 0;
+      margin-bottom: 16px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      padding: 24px;
+
+      @include only-mobile {
+        width: 100%;
+      }
+
+      .order-details-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #0a22aa;
+        margin: 0;
+        padding-bottom: 12px;
+      }
+
+      ul.order-details-content {
+        list-style: none;
+        margin: 0;
+
+        li {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          gap: 24px;
+          padding: 12px 0;
+          margin: 0;
+
+          p {
+            margin: 0;
+            font-size: 16px;
+            color: #111827;
+            font-weight: 500;
+          }
+
+          strong {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+            white-space: nowrap;
+          }
+
+          .amount {
+            font-size: 30px;
+          }
+        }
+      }
+    }
+  }
+}

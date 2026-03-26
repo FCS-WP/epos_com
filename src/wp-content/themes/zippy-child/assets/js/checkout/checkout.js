@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (runOnce) {
       return;
     }
-    
+
     isPhoneEmpty = !$(this).val();
 
     clearAllTimeOut();
@@ -226,4 +226,76 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+
+  // ------------- Move error messages to below the fields -------------
+  let $checkoutForm = $('form.checkout');
+
+  // Hide all errors on submit
+  $checkoutForm.on('submit', function() {
+    $('.js-epos-error').slideUp();
+
+    setTimeout(function() {
+      $window.trigger('resize');
+    }, 400);
+  });
+
+  $(document.body).on('checkout_error', function(e, messages) {
+    let $errorWrapper = $(messages);
+
+    // Remove all previously created errors
+    $('.js-epos-error').remove();
+
+    if ($errorWrapper.length) {
+      let $errorNodes = $errorWrapper.find('li');
+  
+      $errorNodes.each(function() {
+        let $node = $(this);
+        let id = $node.data('id');
+        let error = $node.text().trim();
+        let $field = $('input#'+id);
+        let $domError = $('.woocommerce-error li[data-id="'+id+'"]');
+        
+        // Some error messages are email address related
+        // despite having no id
+        if (!$field.length && error.includes('email address')) {
+          id = 'billing_email';
+          $field = $('input#'+id);
+
+          if ($field.length) {
+            let $wrapper = $field.closest('.form-row');
+            
+            // Add error class to input field
+            $wrapper.addClass('woocommerce-invalid-email');
+            // Look for the error message inserted by Woo
+            $domError = $('.woocommerce-error li:contains("'+error+'")');
+          }
+        }
+
+        // Hide matched original error message inserted by Woo
+        if ($domError.length) {
+          $domError.hide();
+        }
+
+        // Insert custom error message to below input
+        if ($field.length) {
+          let $parent = $field.parent();
+          
+          $parent.append(`
+            <p class="js-epos-error checkout-inline-error-message">
+              ${error}
+            </p>
+          `);
+        }
+      });
+
+      // Slide down all error messages
+      $('.js-epos-error').slideDown();
+
+      // $.scroll_to_notices( $('.js-epos-error').first().closest('.form-row') );
+    }
+
+    // Resize window to make sure all the form wrappers are properly sized
+    $window.trigger('resize');
+  });
 })(jQuery);

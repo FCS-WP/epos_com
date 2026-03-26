@@ -312,13 +312,3 @@ add_action( 'woocommerce_checkout_order_review', function() {
     <span>'.esc_html( 'Secure checkout powered by Antom', 'woocommerce' ).'</span>
   </div>';
 }, 30 );
-
-/**
- * Hide message on cart page 
- */
-// add_filter('woocommerce_add_success', function($message) {
-//   if (is_cart()) {
-//     return false;
-//   }
-//   return $message;
-// });

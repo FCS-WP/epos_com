@@ -24,11 +24,15 @@ defined( 'ABSPATH' ) || exit;
 /* translators: %s: Quantity. */
 $label = ! empty( $args['product_name'] ) ? sprintf( esc_html__( '%s quantity', 'woocommerce' ), wp_strip_all_tags( $args['product_name'] ) ) : esc_html__( 'Quantity', 'woocommerce' );
 
-$qty_start       = '<input type="button" value="" class="ux-quantity__button ux-quantity__button--minus button minus is-form">';
+$delete_icon = '/wp-content/themes/zippy-child/assets/icons/Delete.png';
+$minus_icon = '/wp-content/themes/zippy-child/assets/icons/minus.png';
+$plus_icon = '/wp-content/themes/zippy-child/assets/icons/plus.png';
+
+$qty_start       = '<img class="ux-quantity__button ux-quantity__button--minus button minus is-form" src="' . $minus_icon . '" alt="Minus">';
 if ($input_value === 1) {
-	$qty_start       = '<input type="button" value="" class="ux-quantity__button ux-quantity__button--minus is-delete button minus is-form">';
+	$qty_start       = '<img class="ux-quantity__button ux-quantity__button--minus button minus is-form" src="' . $delete_icon . '" alt="Delete">';
 }
-$qty_end         = '<input type="button" value="" class="ux-quantity__button ux-quantity__button--plus button plus is-form">';
+$qty_end         = '<img class="ux-quantity__button ux-quantity__button--plus button plus is-form" src="' . $plus_icon . '" alt="Plus">';
 $wrapper_classes = array( 'ux-quantity', 'quantity', 'buttons_added' );
 if ( $type === 'hidden' ) {
 	$wrapper_classes[] = 'hidden';

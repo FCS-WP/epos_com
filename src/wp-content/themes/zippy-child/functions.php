@@ -44,3 +44,11 @@ foreach (glob(THEME_DIR . '-child' . "/includes/epos_my_custom_flow/*.php") as $
 foreach (glob(THEME_DIR . '-child' . "/includes/page/*.php") as $file_name) {
     require_once($file_name);
 }
+
+// Include language translate files
+require_once(THEME_DIR . '-child' . "/includes/language_translate/init.php");
+
+// Include coupon distributor files
+foreach (glob(THEME_DIR . '-child' . "/includes/coupons/*.php") as $file_name) {
+    require_once($file_name);
+}

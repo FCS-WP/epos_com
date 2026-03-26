@@ -19,6 +19,7 @@
 @import "components/spacing";
 @import "components/icon_box";
 @import "components/scrollToBullets";
+@import "components/language-switch";
 
 // slider
 @import "../lib/slick/slick-theme.css";
@@ -41,6 +42,8 @@
 @import "page/epos-bluetap-faq";
 @import "page/epos-partner-program";
 @import "page/my-epos360-mini-programme";
+@import "page/thankyou";
+@import "page/epos-cart-page.scss";
 
 //Epos 360
 // @import "page/epos360";

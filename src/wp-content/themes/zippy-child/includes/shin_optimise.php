@@ -66,7 +66,7 @@ function authentication_rest_api_not_logged_in($errors)
 	return $errors;
 }
 
-add_action('init', 'block_wp_json_root_only');
+// add_action('init', 'block_wp_json_root_only');
 
 function block_wp_json_root_only()
 {

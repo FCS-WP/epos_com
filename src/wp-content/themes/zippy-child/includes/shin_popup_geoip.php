@@ -56,9 +56,9 @@ function geoip_redirect_popup_shortcode()
 add_shortcode('geoip_popup', 'geoip_redirect_popup_shortcode');
 
 add_action('wp_footer', function () {
-    echo do_shortcode('[geoip_popup]');
+    // echo do_shortcode('[geoip_popup]');
 ?>
-    <script>
+    <!-- <script>
         jQuery(document).ready(function($) {
             function setCookie(name, value, days) {
                 const expires = new Date();
@@ -145,6 +145,6 @@ add_action('wp_footer', function () {
                     console.error("Error fetching location data:", error);
                 });
         });
-    </script>
+    </script> -->
 <?php
 });

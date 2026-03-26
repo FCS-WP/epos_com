@@ -18,6 +18,14 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// Hide coupons apply on cart page
+add_filter('woocommerce_coupons_enabled', function ($enabled) {
+    if (is_cart()) {
+        return false;
+    }
+    return $enabled;
+});
+
 $row_classes     = array();
 $main_classes    = array();
 $sidebar_classes = array();

@@ -233,7 +233,7 @@
 
 .epos-checkout {
   &__block {
-    padding: 24px 16px;
+    padding: 21px 13px;
     border-radius: 16px;
     border: 1px solid $checkout-gray-alt;
     background: white;
@@ -241,7 +241,7 @@
     box-shadow: 0 4px 8px 0 rgba(black, 0.05);
 
     @include tablet {
-      padding: 32px;
+      padding: 29px;
     }
 
     &:first-child {
@@ -260,6 +260,24 @@
   &__header {
     position: relative;
     cursor: pointer;
+    padding: 3px;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -21px;
+      left: -13px;
+      right: -13px;
+      bottom: -21px;
+      cursor: pointer;
+
+      @include tablet {
+        top: -29px;
+        left: -29px;
+        right: -29px;
+        bottom: -29px;
+      }
+    }
 
     span {
       color: $blue-primary;
@@ -299,10 +317,11 @@
   }
   
   &__content-inner {
-    padding-top: 24px;
+    padding-top: 21px;
     display: flex;
     flex-wrap: wrap;
     gap: 16px 24px;
+    padding: 3px;
 
     label {
       color: $checkout-black;

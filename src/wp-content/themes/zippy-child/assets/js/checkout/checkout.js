@@ -50,31 +50,55 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
+  // ------------- Init -------------
+  $window = $(window);
+
+
   // ------------- Expand / Collapse form fields -------------
   let $blocks = $('.js-checkout-block');
 
-  $(window).resize(function() {
+  $window.resize(function() {
     $blocks.each(function() {
       let $block = $(this);
+      let $header = $block.children('.js-checkout-header');
       let $content = $block.children('.js-checkout-content');
       let $inner = $content.children('.js-checkout-inner');
       let innerHeight = $inner.outerHeight();
 
       $content.css('height', innerHeight);
 
-      $block.on('click', function(e) {
-        let $target = $(e.target).closest('.js-checkout-content');
-
-        if (!$target.hasClass('js-checkout-content')) {
-          $block.toggleClass('is-collapsed');
-        }
+      $header.on('click', function() {
+        $block.toggleClass('is-collapsed');
       });
     });
   });
 
   setTimeout(function() {
-    $(window).trigger('resize');
+    $window.trigger('resize');
   }, 300);
+
+
+  // ------------- Fix phone field dropdown -------------
+  setTimeout(function() {
+    let $phoneSelects = $blocks.find('.iti__flag-container');
+
+    $window.scroll(function() {
+      $phoneSelects.each(function() {
+        let $select = $(this);
+        let $option = $select.children('.iti__dropdown-content');
+        let windowTop = $window.scrollTop();
+        let top = $select.offset().top + $select.outerHeight() - windowTop - 1;
+        let left = $select.offset().left;
+
+        $option.css('top', top);
+        $option.css('left', left);
+      });
+    });
+  
+    setTimeout(function() {
+      $window.trigger('scroll');
+    }, 300);
+  }, 1000);
 
 
   // ------------- Populate recipient field -------------
@@ -108,16 +132,19 @@ document.addEventListener("DOMContentLoaded", () => {
   let fullnameTimeout;
   let emailTimeout;
   let phoneTimeout;
+  let runOnce = false;
 
   const scrollToFormBlock = function() {
     let headerheight = $header.outerHeight(); 
     let top = $secondBlock.offset().top - headerheight;
 
+    $secondBlock.removeClass('is-collapsed');
+
     $('html, body').animate({
       scrollTop: top,
-    }, 1000);
-
-    $secondBlock.removeClass('is-collapsed');
+    }, 1000, function() {
+      runOnce = true;
+    });
   };
 
   const clearAllTimeOut = function() {
@@ -133,6 +160,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   $fullname.on('input', function() {
+    if (runOnce) {
+      return;
+    }
+
     isFullnameEmpty = !$(this).val();
 
     clearAllTimeOut();
@@ -145,6 +176,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $email.on('input', function() {
+    if (runOnce) {
+      return;
+    }
+
     isEmailEmpty = !$(this).val();
 
     clearAllTimeOut();
@@ -157,6 +192,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $phone.on('input', function() {
+    if (runOnce) {
+      return;
+    }
+    
     isPhoneEmpty = !$(this).val();
 
     clearAllTimeOut();

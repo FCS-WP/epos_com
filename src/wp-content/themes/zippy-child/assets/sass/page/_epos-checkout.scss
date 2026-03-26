@@ -294,11 +294,11 @@
   }
   
   &__content-inner {
-    padding-top: 21px;
     display: flex;
     flex-wrap: wrap;
     gap: 16px 24px;
     padding: 3px;
+    padding-top: 21px;
 
     label {
       color: $checkout-black;
@@ -442,13 +442,35 @@
     }
 
     .checkout-inline-error-message {
+      display: none;
       color: $checkout-red;
-      font-size: 16px;
+      font-size: 12px;
       font-style: normal;
       font-weight: 400;
       line-height: 24px;
       margin: 0;
-      margin-top: 8px;
+      margin-top: 4px;
+    }
+
+    .woocommerce-invalid,
+    .woocommerce-invalid-required-field,
+    .woocommerce-invalid-email,
+    .woocommerce-invalid-phone {
+      .select-resize-ghost,
+      .select2-container .select2-choice,
+      .select2-container .select2-selection,
+      input[type=date],
+      input[type=email],
+      input[type=number],
+      input[type=password],
+      input[type=search],
+      input[type=tel],
+      input[type=text],
+      input[type=url],
+      select,
+      textarea {
+        border-color: $checkout-red;
+      }
     }
   }
 }
@@ -482,6 +504,10 @@
 
   .woocommerce-privacy-policy-text {
     margin-top: 24px;
+
+    &:not(:has(*)) {
+      display: none;
+    }
     
     p {
       margin-bottom: 0;

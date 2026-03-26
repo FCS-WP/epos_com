@@ -1,0 +1,779 @@
+<mxfile host="app.diagrams.net" modified="2026-03-26T00:00:00.000Z" agent="Claude Code" version="24.0.0" type="device">
+  <diagram id="branch-strategy" name="1. Branch Strategy">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="EPOS.com — Git Branch Strategy &amp; Deployment Triggers" style="text;html=1;fontSize=22;fontStyle=1;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="600" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- ===== BRANCH FLOW ===== -->
+
+        <!-- Developer -->
+        <mxCell id="dev" value="Developer" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="110" width="30" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Feature branch -->
+        <mxCell id="feature" value="&lt;b&gt;update-*&lt;/b&gt;&lt;br&gt;Feature branch" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=#C8E6C9;strokeColor=#388E3C;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="170" y="110" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e_dev" value="push" style="edgeStyle=orthogonalEdgeStyle;fontStyle=1;fontSize=10;" edge="1" source="dev" target="feature" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Auto PR -->
+        <mxCell id="auto_pr" value="&lt;b&gt;Auto PR Created&lt;/b&gt;&lt;br&gt;git_action_noti.yml&lt;br&gt;&lt;br&gt;Reviewer: ThanhNha&lt;br&gt;Template: pull_request_template.md" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E8F5E9;strokeColor=#388E3C;align=left;spacingLeft=10;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="170" y="200" width="250" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="e_auto" value="triggers" style="edgeStyle=orthogonalEdgeStyle;fontSize=10;fontStyle=2;fontColor=#388E3C;strokeColor=#388E3C;" edge="1" source="feature" target="auto_pr" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Telegram noti -->
+        <mxCell id="tg_pr" value="Telegram&lt;br&gt;PR notification" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#E0F2F1;strokeColor=#00695C;" vertex="1" parent="1">
+          <mxGeometry x="80" y="220" width="80" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e_tg_pr" style="dashed=1;strokeColor=#00695C;" edge="1" source="auto_pr" target="tg_pr" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Master branch -->
+        <mxCell id="master" value="&lt;b&gt;master&lt;/b&gt;&lt;br&gt;Integration branch&lt;br&gt;(PR target)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=#BBDEFB;strokeColor=#1976D2;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="520" y="110" width="200" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e_pr_master" value="PR merge" style="edgeStyle=orthogonalEdgeStyle;fontStyle=1;fontSize=11;strokeWidth=2;strokeColor=#1976D2;" edge="1" source="feature" target="master" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Production branch -->
+        <mxCell id="production" value="&lt;b&gt;production&lt;/b&gt;&lt;br&gt;Current production state" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=#FFE0B2;strokeColor=#E65100;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="820" y="110" width="220" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e_master_prod" value="merge" style="edgeStyle=orthogonalEdgeStyle;fontStyle=1;fontSize=11;strokeWidth=2;strokeColor=#E65100;" edge="1" source="master" target="production" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Tag: production-* -->
+        <mxCell id="tag_sftp" value="&lt;b&gt;Tag: production-*&lt;/b&gt;" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;size=0.15;" vertex="1" parent="1">
+          <mxGeometry x="830" y="220" width="200" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e_tag_sftp" value="git tag" style="fontSize=10;fontStyle=2;strokeColor=#b85450;" edge="1" source="production" target="tag_sftp" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Tag: deploy-* -->
+        <mxCell id="tag_docker" value="&lt;b&gt;Tag: deploy-*&lt;/b&gt;" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fontSize=12;fillColor=#E1BEE7;strokeColor=#7B1FA2;strokeWidth=2;size=0.15;" vertex="1" parent="1">
+          <mxGeometry x="830" y="290" width="200" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e_tag_docker" value="git tag" style="fontSize=10;fontStyle=2;strokeColor=#7B1FA2;" edge="1" source="production" target="tag_docker" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1090" y="137" />
+              <mxPoint x="1090" y="312" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- SFTP Deploy -->
+        <mxCell id="sftp_deploy" value="&lt;b&gt;Production SFTP Deploy&lt;/b&gt;&lt;br&gt;git_action_deploy.yml&lt;br&gt;&lt;br&gt;GitHub Actions → SFTP sync" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=10;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="195" width="230" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sftp" value="triggers" style="edgeStyle=orthogonalEdgeStyle;fontStyle=2;fontSize=10;strokeColor=#b85450;strokeWidth=2;" edge="1" source="tag_sftp" target="sftp_deploy" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Docker Deploy -->
+        <mxCell id="docker_deploy" value="&lt;b&gt;DigitalOcean Docker Deploy&lt;/b&gt;&lt;br&gt;digital_deploy.yml&lt;br&gt;&lt;br&gt;SSH → docker compose up" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E1BEE7;strokeColor=#7B1FA2;align=left;spacingLeft=10;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="285" width="230" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e_docker" value="triggers" style="edgeStyle=orthogonalEdgeStyle;fontStyle=2;fontSize=10;strokeColor=#7B1FA2;strokeWidth=2;" edge="1" source="tag_docker" target="docker_deploy" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Servers -->
+        <mxCell id="server_sftp" value="SFTP Server&lt;br&gt;(Production)" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1430" y="197" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s1" style="strokeColor=#b85450;strokeWidth=2;" edge="1" source="sftp_deploy" target="server_sftp" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="server_do" value="DigitalOcean&lt;br&gt;(Docker)" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fontSize=10;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="1430" y="287" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_s2" style="strokeColor=#7B1FA2;strokeWidth=2;" edge="1" source="docker_deploy" target="server_do" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Telegram notifications -->
+        <mxCell id="tg_deploy" value="Telegram" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#E0F2F1;strokeColor=#00695C;" vertex="1" parent="1">
+          <mxGeometry x="1430" y="380" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="e_tg1" style="dashed=1;strokeColor=#00695C;" edge="1" source="sftp_deploy" target="tg_deploy" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_tg2" style="dashed=1;strokeColor=#00695C;" edge="1" source="docker_deploy" target="tg_deploy" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="380" width="300" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_title" value="&lt;b&gt;Summary&lt;/b&gt;" style="text;html=1;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="610" y="385" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="push to update-* → Auto PR to master + Telegram" style="text;html=1;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="535" y="410" width="280" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="merge PR → master → merge to production" style="text;html=1;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="535" y="432" width="280" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="tag production-* → SFTP deploy + Telegram" style="text;html=1;fontSize=10;align=left;spacingLeft=5;fontColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="535" y="454" width="280" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="tag deploy-* → Docker deploy + Telegram" style="text;html=1;fontSize=10;align=left;spacingLeft=5;fontColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="535" y="476" width="280" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5" value="Both deploys notify via Telegram bot" style="text;html=1;fontSize=10;align=left;spacingLeft=5;fontColor=#00695C;" vertex="1" parent="1">
+          <mxGeometry x="535" y="498" width="280" height="18" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="sftp-workflow" name="2. SFTP Deploy (production-*)">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="git_action_deploy.yml — Production SFTP Deploy" style="text;html=1;fontSize=22;fontStyle=1;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="550" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Trigger: tag push matching &lt;b&gt;production-*&lt;/b&gt;" style="text;html=1;fontSize=13;align=center;fontColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="400" y="55" width="350" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- Start -->
+        <mxCell id="start" value="Tag &lt;b&gt;production-*&lt;/b&gt;&lt;br&gt;pushed to GitHub" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="100" width="220" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Step 1: Telegram start -->
+        <mxCell id="s1" value="1. Send Telegram notification&lt;br&gt;&lt;b&gt;&quot;Deployment started&quot;&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E0F2F1;strokeColor=#00695C;" vertex="1" parent="1">
+          <mxGeometry x="200" y="180" width="220" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" style="" edge="1" source="start" target="s1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Step 2: Checkout -->
+        <mxCell id="s2" value="2. Checkout code&lt;br&gt;&lt;b&gt;actions/checkout@v4&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#BBDEFB;strokeColor=#1976D2;" vertex="1" parent="1">
+          <mxGeometry x="200" y="260" width="220" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="" edge="1" source="s1" target="s2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Step 3: Setup Node -->
+        <mxCell id="s3" value="3. Setup Node.js v20&lt;br&gt;&lt;b&gt;actions/setup-node@v4&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#BBDEFB;strokeColor=#1976D2;" vertex="1" parent="1">
+          <mxGeometry x="200" y="340" width="220" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="" edge="1" source="s2" target="s3" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Step 4: Build -->
+        <mxCell id="s4" value="4. npm install &amp;&amp; npm run build" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#FFE0B2;strokeColor=#E65100;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="420" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="" edge="1" source="s3" target="s4" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Step 5: SFTP sync -->
+        <mxCell id="s5" value="5. SFTP sync to production server&lt;br&gt;&lt;b&gt;SamKirkland/FTP-Deploy-Action@v4.3.5&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=0;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="180" y="500" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="" edge="1" source="s4" target="s5" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- SFTP config note -->
+        <mxCell id="sftp_note" value="&lt;b&gt;SFTP Configuration:&lt;/b&gt;&lt;br&gt;Server: ${{ secrets.FPT_SERVER }}&lt;br&gt;Username: ${{ secrets.FPT_USERNAME }}&lt;br&gt;Password: ${{ secrets.FTP_PASSWORD }}&lt;br&gt;Directory: ${{ secrets.FPT_DIR_PATH }}&lt;br&gt;&lt;br&gt;&lt;b&gt;Excluded:&lt;/b&gt;&lt;br&gt;.git, node_modules, wp-content/plugins" style="shape=note;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;size=14;align=left;spacingLeft=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="530" y="420" width="260" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sftp_note" style="dashed=1;strokeColor=#d6b656;" edge="1" source="s5" target="sftp_note" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Step 6: Telegram done -->
+        <mxCell id="s6" value="6. Send Telegram notification&lt;br&gt;&lt;b&gt;&quot;Deployment complete&quot;&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E0F2F1;strokeColor=#00695C;" vertex="1" parent="1">
+          <mxGeometry x="200" y="590" width="220" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="" edge="1" source="s5" target="s6" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- End -->
+        <mxCell id="end" value="Deploy Complete" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="670" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="" edge="1" source="s6" target="end" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Telegram config -->
+        <mxCell id="tg_config" value="&lt;b&gt;Telegram Bot:&lt;/b&gt;&lt;br&gt;Chat ID: -1002034905977&lt;br&gt;Messages: HTML formatted&lt;br&gt;Includes: commit info, tag, repo" style="shape=note;whiteSpace=wrap;html=1;fontSize=10;fillColor=#E0F2F1;strokeColor=#00695C;size=12;align=left;spacingLeft=8;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="530" y="160" width="230" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- Files synced -->
+        <mxCell id="sync_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#E65100;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="530" y="260" width="260" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="sync_title" value="Files Synced to SFTP" style="text;html=1;fontSize=11;fontStyle=1;fontColor=#E65100;" vertex="1" parent="1">
+          <mxGeometry x="540" y="265" width="180" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="sync_body" value="src/.htaccess&lt;br&gt;src/wp-content/themes/ (compiled assets)&lt;br&gt;src/wp-content/uploads/&lt;br&gt;Webpack output: assets/dist/&lt;br&gt;&lt;br&gt;&lt;b&gt;NOT synced:&lt;/b&gt;&lt;br&gt;.git/, node_modules/, wp-content/plugins/" style="text;html=1;fontSize=10;align=left;spacingLeft=5;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="540" y="288" width="240" height="85" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="docker-workflow" name="3. Docker Deploy (deploy-*)">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="digital_deploy.yml — DigitalOcean Docker Deploy" style="text;html=1;fontSize=22;fontStyle=1;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="550" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Trigger: tag push matching &lt;b&gt;deploy-*&lt;/b&gt;" style="text;html=1;fontSize=13;align=center;fontColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="420" y="55" width="300" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- Start -->
+        <mxCell id="start" value="Tag &lt;b&gt;deploy-*&lt;/b&gt;&lt;br&gt;pushed to GitHub" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="220" y="95" width="200" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- SSH Box -->
+        <mxCell id="ssh_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#7B1FA2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="170" width="480" height="870" as="geometry" />
+        </mxCell>
+        <mxCell id="ssh_title" value="SSH Session (appleboy/ssh-action@v1.0.3)" style="text;html=1;fontSize=13;fontStyle=1;fillColor=#7B1FA2;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="120" y="170" width="380" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="ssh_info" value="Host: ${{ secrets.DO_HOST }}&lt;br&gt;User: deployer&lt;br&gt;Key: ${{ secrets.DO_SSH_KEY }}&lt;br&gt;Path: /var/www/epos_com" style="text;html=1;fontSize=10;align=left;spacingLeft=5;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="510" y="172" width="200" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e_start" style="strokeWidth=2;strokeColor=#7B1FA2;" edge="1" source="start" target="ssh_box" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Step 1: Fetch code -->
+        <mxCell id="s1" value="1. cd /var/www/epos_com &amp;&amp;&lt;br&gt;&lt;b&gt;git fetch --all --tags&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="210" y="215" width="280" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Step 2: Reset to tag -->
+        <mxCell id="s2" value="2. git reset --hard origin/production" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E1BEE7;strokeColor=#7B1FA2;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="275" width="280" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="" edge="1" source="s1" target="s2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Step 3: Check Node -->
+        <mxCell id="s3" value="3. Check node version (via NVM)&lt;br&gt;export NVM_DIR, nvm use" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="210" y="330" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="" edge="1" source="s2" target="s3" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Step 4: Generate .env -->
+        <mxCell id="s4" value="4. Generate .env from GitHub Secrets" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#FFE0B2;strokeColor=#E65100;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="395" width="280" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="" edge="1" source="s3" target="s4" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- .env contents -->
+        <mxCell id="env_note" value="&lt;b&gt;Generated .env:&lt;/b&gt;&lt;br&gt;PROJECT_ID=${{ secrets.PROJECT_ID }}&lt;br&gt;THEME_NAME=${{ secrets.THEME_NAME }}&lt;br&gt;WORDPRESS_DB_HOST=${{ secrets.WORDPRESS_DB_HOST }}&lt;br&gt;WORDPRESS_DB_NAME=${{ secrets.DB_NAME }}&lt;br&gt;WORDPRESS_DB_USER=${{ secrets.DB_USER }}&lt;br&gt;WORDPRESS_DB_PASSWORD=${{ secrets.DB_PASSWORD }}&lt;br&gt;PORT, PROJECT_HOST, TABLE_PREFIX&lt;br&gt;WP_MEMORY_LIMIT, WP_MAX_MEMORY_LIMIT&lt;br&gt;WP_POST_REVISIONS=false&lt;br&gt;FS_METHOD=direct" style="shape=note;whiteSpace=wrap;html=1;fontSize=9;fillColor=#fff2cc;strokeColor=#d6b656;size=12;align=left;spacingLeft=8;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="670" y="330" width="280" height="175" as="geometry" />
+        </mxCell>
+        <mxCell id="e_env" style="dashed=1;strokeColor=#d6b656;" edge="1" source="s4" target="env_note" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Step 5: Install -->
+        <mxCell id="s5" value="5. yarn install --frozen-lockfile" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#E1BEE7;strokeColor=#7B1FA2;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="455" width="280" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="" edge="1" source="s4" target="s5" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Step 6: Build -->
+        <mxCell id="s6" value="6. yarn build" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#FFE0B2;strokeColor=#E65100;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="510" width="280" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="" edge="1" source="s5" target="s6" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Build note -->
+        <mxCell id="build_note" value="Webpack compiles:&lt;br&gt;SCSS → assets/dist/css/main.min.css&lt;br&gt;JS → assets/dist/js/main.min.js" style="shape=note;whiteSpace=wrap;html=1;fontSize=9;fillColor=#FFF9C4;strokeColor=#F9A825;size=12;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="670" y="535" width="240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e_build" style="dashed=1;strokeColor=#F9A825;" edge="1" source="s6" target="build_note" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Step 7: Cleanup -->
+        <mxCell id="s7" value="7. rm -rf node_modules &amp;&amp; yarn cache clean" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="210" y="570" width="280" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="" edge="1" source="s6" target="s7" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Step 8: Docker -->
+        <mxCell id="s8" value="8. docker compose up -d --build" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=#E1BEE7;strokeColor=#7B1FA2;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="195" y="630" width="310" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" style="" edge="1" source="s7" target="s8" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Docker note -->
+        <mxCell id="docker_note" value="&lt;b&gt;docker-compose.yml:&lt;/b&gt;&lt;br&gt;Image: wordpress:6.9&lt;br&gt;Container: ${PROJECT_ID}&lt;br&gt;Network: webnet (external)&lt;br&gt;DB: mysql service (shared)" style="shape=note;whiteSpace=wrap;html=1;fontSize=9;fillColor=#E8F5E9;strokeColor=#4CAF50;size=12;align=left;spacingLeft=8;verticalAlign=top;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="670" y="620" width="220" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="e_docker" style="dashed=1;strokeColor=#4CAF50;" edge="1" source="s8" target="docker_note" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Step 9: Permissions -->
+        <mxCell id="s9" value="9. Fix permissions&lt;br&gt;&lt;b&gt;chown -R 33:33 src/wp-content&lt;/b&gt;&lt;br&gt;&lt;b&gt;chmod -R 775 src/wp-content&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="210" y="700" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" style="" edge="1" source="s8" target="s9" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Permissions note -->
+        <mxCell id="perm_note" value="UID 33 = www-data&lt;br&gt;(Apache user inside container)" style="text;html=1;fontSize=9;fontStyle=2;fontColor=#888888;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="510" y="720" width="200" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Step 10: Prune -->
+        <mxCell id="s10" value="10. docker image prune -f" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="210" y="780" width="280" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" style="" edge="1" source="s9" target="s10" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Step 11: Telegram -->
+        <mxCell id="s11" value="11. Send Telegram&lt;br&gt;&lt;b&gt;&quot;Deploy success&quot;&lt;/b&gt; + live link" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E0F2F1;strokeColor=#00695C;" vertex="1" parent="1">
+          <mxGeometry x="210" y="840" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" style="" edge="1" source="s10" target="s11" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- End -->
+        <mxCell id="end" value="Deploy Complete" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="910" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" style="" edge="1" source="s11" target="end" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Phase labels -->
+        <mxCell id="phase1" value="CODE" style="text;html=1;fontSize=10;fontStyle=1;fontColor=#7B1FA2;rotation=-90;" vertex="1" parent="1">
+          <mxGeometry x="130" y="270" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="phase2" value="ENV" style="text;html=1;fontSize=10;fontStyle=1;fontColor=#E65100;rotation=-90;" vertex="1" parent="1">
+          <mxGeometry x="130" y="400" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="phase3" value="BUILD" style="text;html=1;fontSize=10;fontStyle=1;fontColor=#F9A825;rotation=-90;" vertex="1" parent="1">
+          <mxGeometry x="130" y="510" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="phase4" value="DEPLOY" style="text;html=1;fontSize=10;fontStyle=1;fontColor=#4CAF50;rotation=-90;" vertex="1" parent="1">
+          <mxGeometry x="130" y="670" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="phase5" value="NOTIFY" style="text;html=1;fontSize=10;fontStyle=1;fontColor=#00695C;rotation=-90;" vertex="1" parent="1">
+          <mxGeometry x="130" y="845" width="50" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Phase dividers -->
+        <mxCell id="div1" value="" style="line;strokeWidth=1;strokeColor=#E0E0E0;html=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="385" width="430" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="div2" value="" style="line;strokeWidth=1;strokeColor=#E0E0E0;html=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="445" width="430" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="div3" value="" style="line;strokeWidth=1;strokeColor=#E0E0E0;html=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="615" width="430" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="div4" value="" style="line;strokeWidth=1;strokeColor=#E0E0E0;html=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="830" width="430" height="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="auto-pr" name="4. Auto PR (update-*)">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="git_action_noti.yml — Auto PR Creation &amp; Notification" style="text;html=1;fontSize=22;fontStyle=1;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="560" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Trigger: push to branches matching &lt;b&gt;update-*&lt;/b&gt; or &lt;b&gt;main&lt;/b&gt;" style="text;html=1;fontSize=13;align=center;fontColor=#388E3C;" vertex="1" parent="1">
+          <mxGeometry x="380" y="55" width="400" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- Start -->
+        <mxCell id="start" value="Push to &lt;b&gt;update-*&lt;/b&gt;&lt;br&gt;or &lt;b&gt;main&lt;/b&gt; branch" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="130" y="110" width="200" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Step 1: Checkout -->
+        <mxCell id="s1" value="1. Checkout code" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#C8E6C9;strokeColor=#388E3C;" vertex="1" parent="1">
+          <mxGeometry x="145" y="190" width="170" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" style="" edge="1" source="start" target="s1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Step 2: Create PR -->
+        <mxCell id="s2" value="2. Create Pull Request&lt;br&gt;&lt;b&gt;peter-evans/create-pull-request@v6&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#C8E6C9;strokeColor=#388E3C;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="120" y="260" width="220" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="" edge="1" source="s1" target="s2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- PR config -->
+        <mxCell id="pr_config" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#388E3C;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="130" width="320" height="195" as="geometry" />
+        </mxCell>
+        <mxCell id="pr_title2" value="PR Configuration" style="text;html=1;fontSize=12;fontStyle=1;fillColor=#388E3C;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="420" y="130" width="160" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="pr_body" value="&lt;b&gt;Base branch:&lt;/b&gt; master&lt;br&gt;&lt;b&gt;Title:&lt;/b&gt; Auto: {branch_name}&lt;br&gt;&lt;b&gt;Body:&lt;/b&gt; from pull_request_template.md&lt;br&gt;&lt;b&gt;Reviewers:&lt;/b&gt; ThanhNha&lt;br&gt;&lt;b&gt;Labels:&lt;/b&gt; auto-pr&lt;br&gt;&lt;br&gt;&lt;b&gt;Permissions required:&lt;/b&gt;&lt;br&gt;contents: write&lt;br&gt;pull-requests: write" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#C8E6C9;strokeColor=#388E3C;align=left;spacingLeft=10;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="430" y="160" width="300" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="e_pr" style="dashed=1;strokeColor=#388E3C;" edge="1" source="s2" target="pr_config" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Step 3: Get PR URL -->
+        <mxCell id="s3" value="3. Extract PR URL from output" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#C8E6C9;strokeColor=#388E3C;" vertex="1" parent="1">
+          <mxGeometry x="130" y="340" width="200" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="" edge="1" source="s2" target="s3" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Step 4: Telegram -->
+        <mxCell id="s4" value="4. Send Telegram notification" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E0F2F1;strokeColor=#00695C;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="410" width="200" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="" edge="1" source="s3" target="s4" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Telegram message -->
+        <mxCell id="tg_msg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2F1;strokeColor=#00695C;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="370" width="320" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="tg_title2" value="Telegram Message Content" style="text;html=1;fontSize=11;fontStyle=1;fillColor=#00695C;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="420" y="370" width="220" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="tg_body" value="&lt;b&gt;Format:&lt;/b&gt; HTML&lt;br&gt;&lt;br&gt;&lt;b&gt;Includes:&lt;/b&gt;&lt;br&gt;• Repository name&lt;br&gt;• Branch name&lt;br&gt;• Commit message&lt;br&gt;• Committer name&lt;br&gt;• PR URL (clickable link)&lt;br&gt;• Timestamp" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#B2DFDB;strokeColor=#00695C;align=left;spacingLeft=10;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="430" y="398" width="300" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="e_tg" style="dashed=1;strokeColor=#00695C;" edge="1" source="s4" target="tg_msg" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- End -->
+        <mxCell id="end" value="PR Created + Team Notified" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="480" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="" edge="1" source="s4" target="end" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- GitHub Secrets -->
+        <mxCell id="secrets" value="&lt;b&gt;GitHub Secrets Used Across All Workflows:&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;table style='font-size:10px;'&gt;&lt;tr&gt;&lt;th align='left'&gt;Category&lt;/th&gt;&lt;th align='left'&gt;Secrets&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;SFTP&lt;/td&gt;&lt;td&gt;FPT_SERVER, FPT_USERNAME, FTP_PASSWORD, FPT_DIR_PATH&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;DigitalOcean&lt;/td&gt;&lt;td&gt;DO_HOST, DO_SSH_KEY&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Database&lt;/td&gt;&lt;td&gt;WORDPRESS_DB_HOST, DB_NAME, DB_USER, DB_PASSWORD&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;App Config&lt;/td&gt;&lt;td&gt;PROJECT_ID, THEME_NAME&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="shape=note;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;size=14;align=left;spacingLeft=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="820" y="110" width="380" height="155" as="geometry" />
+        </mxCell>
+
+        <!-- Workflow summary -->
+        <mxCell id="summary" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECEFF1;strokeColor=#455A64;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="820" y="300" width="380" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="sum_title" value="All Workflows Summary" style="text;html=1;fontSize=12;fontStyle=1;fillColor=#455A64;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="820" y="300" width="200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="sum1" value="" style="rounded=1;fillColor=#C8E6C9;strokeColor=#388E3C;" vertex="1" parent="1">
+          <mxGeometry x="840" y="335" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="sum1t" value="&lt;b&gt;git_action_noti.yml&lt;/b&gt; — Auto PR + Telegram&lt;br&gt;Trigger: push update-* | main" style="text;html=1;fontSize=10;align=left;spacingLeft=3;" vertex="1" parent="1">
+          <mxGeometry x="870" y="330" width="320" height="28" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sum2" value="" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="840" y="375" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="sum2t" value="&lt;b&gt;git_action_deploy.yml&lt;/b&gt; — SFTP Deploy&lt;br&gt;Trigger: tag production-*&lt;br&gt;Steps: checkout → build → SFTP sync" style="text;html=1;fontSize=10;align=left;spacingLeft=3;" vertex="1" parent="1">
+          <mxGeometry x="870" y="367" width="320" height="38" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sum3" value="" style="rounded=1;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="840" y="420" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="sum3t" value="&lt;b&gt;digital_deploy.yml&lt;/b&gt; — Docker Deploy&lt;br&gt;Trigger: tag deploy-*&lt;br&gt;Steps: SSH → fetch → .env → build → docker compose&lt;br&gt;→ permissions → prune" style="text;html=1;fontSize=10;align=left;spacingLeft=3;" vertex="1" parent="1">
+          <mxGeometry x="870" y="412" width="320" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sum4" value="" style="rounded=1;fillColor=#E0F2F1;strokeColor=#00695C;" vertex="1" parent="1">
+          <mxGeometry x="840" y="475" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="sum4t" value="&lt;b&gt;Telegram Bot&lt;/b&gt; — Notification for all workflows&lt;br&gt;Chat: -1002034905977 | HTML format" style="text;html=1;fontSize=10;align=left;spacingLeft=3;" vertex="1" parent="1">
+          <mxGeometry x="870" y="470" width="320" height="28" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="backup-monitor" name="5. Backup &amp; Monitoring">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="EPOS.com — Backup &amp; Server Monitoring" style="text;html=1;fontSize=22;fontStyle=1;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="600" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- ============================= -->
+        <!-- BACKUP SECTION -->
+        <!-- ============================= -->
+        <mxCell id="backup_section" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1976D2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="720" height="850" as="geometry" />
+        </mxCell>
+        <mxCell id="backup_title" value="backup.sh — Automated Backup" style="text;html=1;fontSize=16;fontStyle=1;fillColor=#1976D2;fontColor=#FFFFFF;rounded=1;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="350" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- Cron trigger -->
+        <mxCell id="cron_trigger" value="Cron Schedule&lt;br&gt;(server crontab)" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="130" width="200" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Step 1: Load env -->
+        <mxCell id="b1" value="1. Load .env variables&lt;br&gt;&lt;b&gt;DB credentials, PROJECT_NAME&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#BBDEFB;strokeColor=#1976D2;" vertex="1" parent="1">
+          <mxGeometry x="190" y="210" width="260" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e_b0" style="" edge="1" source="cron_trigger" target="b1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Step 2: DB dump -->
+        <mxCell id="b2" value="2. Database Backup&lt;br&gt;&lt;b&gt;docker exec mysql mysqldump&lt;/b&gt; | gzip" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#BBDEFB;strokeColor=#1976D2;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="175" y="280" width="290" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e_b1" style="" edge="1" source="b1" target="b2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- DB output -->
+        <mxCell id="db_file" value="epos_com_db_&lt;br&gt;YYYY-MM-DD_HHMMSS&lt;b&gt;.sql.gz&lt;/b&gt;" style="shape=mxgraph.flowchart.document;whiteSpace=wrap;html=1;fontSize=10;fillColor=#FFF9C4;strokeColor=#F9A825;" vertex="1" parent="1">
+          <mxGeometry x="510" y="270" width="180" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e_db" style="dashed=1;strokeColor=#F9A825;" edge="1" source="b2" target="db_file" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Step 3: Files backup -->
+        <mxCell id="b3" value="3. Files Backup&lt;br&gt;&lt;b&gt;tar -czf&lt;/b&gt; src/wp-content/uploads" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#BBDEFB;strokeColor=#1976D2;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="175" y="360" width="290" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e_b2" style="" edge="1" source="b2" target="b3" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Files output -->
+        <mxCell id="files_file" value="epos_com_files_&lt;br&gt;YYYY-MM-DD_HHMMSS&lt;b&gt;.tar.gz&lt;/b&gt;" style="shape=mxgraph.flowchart.document;whiteSpace=wrap;html=1;fontSize=10;fillColor=#FFF9C4;strokeColor=#F9A825;" vertex="1" parent="1">
+          <mxGeometry x="510" y="350" width="180" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e_files" style="dashed=1;strokeColor=#F9A825;" edge="1" source="b3" target="files_file" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Step 4: Telegram -->
+        <mxCell id="b4" value="4. Send DB dump to Telegram&lt;br&gt;&lt;b&gt;/sendDocument&lt;/b&gt; (file attachment)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E0F2F1;strokeColor=#00695C;" vertex="1" parent="1">
+          <mxGeometry x="190" y="440" width="260" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e_b3" style="" edge="1" source="b3" target="b4" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Telegram icon -->
+        <mxCell id="tg_backup" value="&lt;b&gt;Telegram&lt;/b&gt;&lt;br&gt;Chat: -1002034905977&lt;br&gt;Topic: 6433 (Backup)&lt;br&gt;&lt;br&gt;Caption: &quot;DB Backup:&lt;br&gt;epos_com (date)&quot;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#B2DFDB;strokeColor=#00695C;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="510" y="430" width="190" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="e_tg_b" style="strokeColor=#00695C;strokeWidth=2;" edge="1" source="b4" target="tg_backup" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Step 5: Cleanup -->
+        <mxCell id="b5" value="5. Cleanup old backups" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="520" width="200" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e_b4" style="" edge="1" source="b4" target="b5" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Cleanup rules -->
+        <mxCell id="cleanup_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4EC;strokeColor=#C62828;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="580" width="380" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="cleanup_title" value="Retention Policy" style="text;html=1;fontSize=12;fontStyle=1;fillColor=#C62828;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="130" y="580" width="150" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="cleanup1" value="&lt;b&gt;Database backups:&lt;/b&gt; keep 7 days&lt;br&gt;find ... -name &quot;*_db_*.sql.gz&quot; -mtime +7 -delete" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#F8BBD0;strokeColor=#C62828;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="145" y="610" width="350" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cleanup2" value="&lt;b&gt;Upload backups:&lt;/b&gt; keep 2 latest only&lt;br&gt;find ... -name &quot;*_files_*.tar.gz&quot; -mtime +2 -delete" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#F8BBD0;strokeColor=#C62828;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="145" y="645" width="350" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="e_b5" style="" edge="1" source="b5" target="cleanup_box" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- End backup -->
+        <mxCell id="end_backup" value="Backup Complete" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="225" y="710" width="190" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e_b6" style="" edge="1" source="cleanup_box" target="end_backup" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Storage note -->
+        <mxCell id="storage_note" value="&lt;b&gt;Backup Directory:&lt;/b&gt;&lt;br&gt;/backups/wordpress/&lt;br&gt;&lt;br&gt;&lt;b&gt;Files stored:&lt;/b&gt;&lt;br&gt;epos_com_db_*.sql.gz&lt;br&gt;epos_com_files_*.tar.gz" style="shape=note;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;size=12;align=left;spacingLeft=8;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="510" y="560" width="200" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Config note -->
+        <mxCell id="config_note" value="&lt;b&gt;Configuration:&lt;/b&gt;&lt;br&gt;PROJECT_NAME = &quot;epos_com&quot;&lt;br&gt;CONTAINER_DB = &quot;mysql&quot;&lt;br&gt;DB creds loaded from .env&lt;br&gt;(WORDPRESS_DB_USER, etc.)" style="shape=note;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;size=12;align=left;spacingLeft=8;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="510" y="690" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ============================= -->
+        <!-- MONITORING SECTION -->
+        <!-- ============================= -->
+        <mxCell id="monitor_section" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#E65100;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="80" width="520" height="850" as="geometry" />
+        </mxCell>
+        <mxCell id="monitor_title" value="mornitor.sh — Server Health Check" style="text;html=1;fontSize=16;fontStyle=1;fillColor=#E65100;fontColor=#FFFFFF;rounded=1;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="800" y="80" width="380" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- Cron trigger -->
+        <mxCell id="mon_cron" value="Cron Schedule&lt;br&gt;(periodic check)" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="940" y="130" width="200" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- ===== DISK CHECK ===== -->
+        <mxCell id="disk_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4EC;strokeColor=#C62828;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="830" y="210" width="220" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="disk_title" value="Disk Usage Check" style="text;html=1;fontSize=12;fontStyle=1;fillColor=#C62828;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="830" y="210" width="160" height="22" as="geometry" />
+        </mxCell>
+
+        <mxCell id="disk_cmd" value="&lt;b&gt;df /&lt;/b&gt;&lt;br&gt;Get disk usage %" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#F8BBD0;strokeColor=#C62828;" vertex="1" parent="1">
+          <mxGeometry x="855" y="245" width="170" height="35" as="geometry" />
+        </mxCell>
+
+        <mxCell id="disk_check" value="Usage&lt;br&gt;&gt; 90%?" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="888" y="300" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_d1" style="" edge="1" source="disk_cmd" target="disk_check" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="disk_alert" value="CRITICAL&lt;br&gt;&lt;b&gt;&quot;Disk Space Low&lt;br&gt;on {hostname}&lt;br&gt;Now: {usage}% full&quot;&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="855" y="380" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_d2" value="Yes" style="fontStyle=1;fontSize=10;fontColor=#C62828;" edge="1" source="disk_check" target="disk_alert" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="disk_ok" value="OK (skip)" style="text;html=1;fontSize=9;fontStyle=2;fontColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="838" y="455" width="60" height="15" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_mon1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="mon_cron" target="disk_box" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="940" y="195" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ===== RAM CHECK ===== -->
+        <mxCell id="ram_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#F9A825;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="210" width="220" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="ram_title" value="RAM Usage Check" style="text;html=1;fontSize=12;fontStyle=1;fillColor=#F9A825;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="210" width="160" height="22" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ram_cmd" value="&lt;b&gt;free&lt;/b&gt;&lt;br&gt;Calculate used/total %" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#FFF9C4;strokeColor=#F9A825;" vertex="1" parent="1">
+          <mxGeometry x="1095" y="245" width="170" height="35" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ram_check" value="Usage&lt;br&gt;&gt; 90%?" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1128" y="300" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_r1" style="" edge="1" source="ram_cmd" target="ram_check" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="ram_alert" value="WARNING&lt;br&gt;&lt;b&gt;&quot;High RAM Usage&lt;br&gt;on {hostname}&lt;br&gt;Now: {usage}%&lt;br&gt;Build might fail!&quot;&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#F9A825;" vertex="1" parent="1">
+          <mxGeometry x="1095" y="380" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e_r2" value="Yes" style="fontStyle=1;fontSize=10;fontColor=#F9A825;" edge="1" source="ram_check" target="ram_alert" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="ram_ok" value="OK (skip)" style="text;html=1;fontSize=9;fontStyle=2;fontColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="455" width="60" height="15" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_mon2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="mon_cron" target="ram_box" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1140" y="195" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Telegram for monitoring -->
+        <mxCell id="tg_monitor" value="&lt;b&gt;Telegram Alerts&lt;/b&gt;&lt;br&gt;Chat: -1002034905977&lt;br&gt;Topic: 6436 (Monitoring)&lt;br&gt;Format: Markdown" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#B2DFDB;strokeColor=#00695C;align=left;spacingLeft=10;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="910" y="530" width="240" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="e_tg_d" style="strokeColor=#C62828;" edge="1" source="disk_alert" target="tg_monitor" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_tg_r" style="strokeColor=#F9A825;" edge="1" source="ram_alert" target="tg_monitor" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Thresholds summary -->
+        <mxCell id="thresh_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECEFF1;strokeColor=#455A64;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="850" y="630" width="420" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="thresh_title" value="Monitoring Thresholds" style="text;html=1;fontSize=12;fontStyle=1;fillColor=#455A64;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="850" y="630" width="200" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="thresh_body" value="&lt;table style='font-size:11px;width:100%;'&gt;&lt;tr&gt;&lt;th align='left'&gt;Metric&lt;/th&gt;&lt;th align='left'&gt;Command&lt;/th&gt;&lt;th align='left'&gt;Threshold&lt;/th&gt;&lt;th align='left'&gt;Alert&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Disk&lt;/td&gt;&lt;td&gt;df /&lt;/td&gt;&lt;td&gt;&gt; 90%&lt;/td&gt;&lt;td&gt;CRITICAL&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;RAM&lt;/td&gt;&lt;td&gt;free (used/total)&lt;/td&gt;&lt;td&gt;&gt; 90%&lt;/td&gt;&lt;td&gt;WARNING&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;br&gt;&lt;b&gt;Why RAM matters:&lt;/b&gt; Asset building (webpack) needs&lt;br&gt;sufficient RAM — high usage can cause build failures" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#CFD8DC;strokeColor=#455A64;align=left;spacingLeft=10;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="860" y="658" width="400" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- ============================= -->
+        <!-- TELEGRAM TOPICS OVERVIEW -->
+        <!-- ============================= -->
+        <mxCell id="topics_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2F1;strokeColor=#00695C;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="850" y="780" width="420" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="topics_title" value="Telegram Topics (Chat: -1002034905977)" style="text;html=1;fontSize=12;fontStyle=1;fillColor=#00695C;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="850" y="780" width="350" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="topics_body" value="&lt;table style='font-size:11px;width:100%;'&gt;&lt;tr&gt;&lt;th align='left'&gt;Topic ID&lt;/th&gt;&lt;th align='left'&gt;Purpose&lt;/th&gt;&lt;th align='left'&gt;Source&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;(default)&lt;/td&gt;&lt;td&gt;CI/CD deploy notifications&lt;/td&gt;&lt;td&gt;GitHub Actions&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;6433&lt;/td&gt;&lt;td&gt;Backup files (DB dump attachments)&lt;/td&gt;&lt;td&gt;backup.sh&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;6436&lt;/td&gt;&lt;td&gt;Server health alerts (disk, RAM)&lt;/td&gt;&lt;td&gt;mornitor.sh&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#B2DFDB;strokeColor=#00695C;align=left;spacingLeft=10;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="860" y="808" width="400" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ============================= -->
+        <!-- ACTIVITY LOGGING -->
+        <!-- ============================= -->
+        <mxCell id="logging_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#7B1FA2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="780" width="640" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="logging_title" value="Application Logging" style="text;html=1;fontSize=12;fontStyle=1;fillColor=#7B1FA2;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="80" y="780" width="170" height="22" as="geometry" />
+        </mxCell>
+
+        <mxCell id="log1" value="&lt;b&gt;Admin Activity&lt;/b&gt;&lt;br&gt;Aryo Activity Log&lt;br&gt;(WP plugin)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="815" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="log2" value="&lt;b&gt;Payment Events&lt;/b&gt;&lt;br&gt;ZIPPY_Pay_Logger&lt;br&gt;::log_checkout()" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="235" y="815" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="log3" value="&lt;b&gt;Order Sync&lt;/b&gt;&lt;br&gt;HubSpot CRM&lt;br&gt;API call logs" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="380" y="815" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="log4" value="&lt;b&gt;Daily Reports&lt;/b&gt;&lt;br&gt;DingTalk Ant Bot&lt;br&gt;Order summary" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="505" y="815" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="log5" value="&lt;b&gt;Deploy Events&lt;/b&gt;&lt;br&gt;Telegram noti&lt;br&gt;(CI/CD)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="80" y="875" width="110" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="log6" value="&lt;b&gt;FB CAPI&lt;/b&gt;&lt;br&gt;_fb_capi_sent&lt;br&gt;dedup flag" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="205" y="875" width="110" height="45" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,492 @@
+<mxfile host="app.diagrams.net" modified="2026-03-26T00:00:00.000Z" agent="Claude Code" version="24.0.0" type="device">
+  <diagram id="2c2p-overview" name="1. Architecture Overview">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="2C2P Payment Integration — Architecture Overview" style="text;html=1;fontSize=22;fontStyle=1;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="600" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- ===== SWIM LANES ===== -->
+        <mxCell id="lane_wp" value="WordPress / WooCommerce" style="text;html=1;fontSize=13;fontStyle=1;align=center;fillColor=#E3F2FD;strokeColor=#1976D2;rounded=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="480" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_browser" value="Customer Browser" style="text;html=1;fontSize=13;fontStyle=1;align=center;fillColor=#E8F5E9;strokeColor=#388E3C;rounded=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="560" y="70" width="200" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_2c2p" value="2C2P Gateway" style="text;html=1;fontSize=13;fontStyle=1;align=center;fillColor=#FFF3E0;strokeColor=#E65100;rounded=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="800" y="70" width="200" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- ===== CONFIGURATION BOX ===== -->
+        <mxCell id="config_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECEFF1;strokeColor=#455A64;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="70" width="260" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="config_title" value="Configuration" style="text;html=1;fontSize=12;fontStyle=1;fillColor=#455A64;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="70" width="130" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="config_body" value="&lt;b&gt;Constants:&lt;/b&gt;&lt;br&gt;PAYMENT_2C2P_ID = 'zippy_2c2p_payment'&lt;br&gt;&lt;br&gt;&lt;b&gt;API Endpoints:&lt;/b&gt;&lt;br&gt;Base: pgw.2c2p.com/payment/4.3&lt;br&gt;UI: pgw-ui.2c2p.com/payment/4.1&lt;br&gt;&lt;br&gt;&lt;b&gt;WP Options:&lt;/b&gt;&lt;br&gt;zippy_payment_2c2p_merchant_id&lt;br&gt;zippy_payment_2c2p_secret_key&lt;br&gt;&lt;br&gt;&lt;b&gt;JWT:&lt;/b&gt; HS256 (HMAC-SHA256)&lt;br&gt;&lt;br&gt;&lt;b&gt;Payment Channels:&lt;/b&gt;&lt;br&gt;CC (Credit Card), TNG (Touch 'n Go)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#CFD8DC;strokeColor=#455A64;align=left;spacingLeft=8;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="100" width="240" height="210" as="geometry" />
+        </mxCell>
+
+        <!-- ===== FILE STRUCTURE ===== -->
+        <mxCell id="files_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#7B1FA2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="340" width="260" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="files_title" value="Plugin Files" style="text;html=1;fontSize=12;fontStyle=1;fillColor=#7B1FA2;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="340" width="120" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="files_body" value="&lt;b&gt;zippy-pay/core/tctp/&lt;/b&gt;&lt;br&gt;&lt;br&gt;zippy-2c2p-gateway.php&lt;br&gt;  ├ ZIPPY_2c2p_Gateway&lt;br&gt;  ├ process_payment()&lt;br&gt;  ├ request_payment_token()&lt;br&gt;  ├ receipt_page()&lt;br&gt;  ├ handle_callback()&lt;br&gt;  ├ handle_redirect_page()&lt;br&gt;  ├ get_transaction_status()&lt;br&gt;  └ get_payment_status()&lt;br&gt;&lt;br&gt;zippy-2c2p-pay-integration.php&lt;br&gt;  ├ Hook registration&lt;br&gt;  └ AJAX handler&lt;br&gt;&lt;br&gt;zippy-2c2p-cron.php&lt;br&gt;  ├ schedule_retry()&lt;br&gt;  └ retry_payment_check()&lt;br&gt;&lt;br&gt;&lt;b&gt;zippy-pay/includes/assets/js/&lt;/b&gt;&lt;br&gt;dropin-init.js (polling + UI init)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#E1BEE7;strokeColor=#7B1FA2;align=left;spacingLeft=8;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="370" width="240" height="240" as="geometry" />
+        </mxCell>
+
+        <!-- ===== MAIN FLOW ===== -->
+
+        <!-- 1. Checkout -->
+        <mxCell id="checkout" value="Customer clicks&lt;br&gt;&lt;b&gt;&quot;Place Order&quot;&lt;/b&gt;" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="560" y="120" width="200" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- 2. process_payment -->
+        <mxCell id="process" value="&lt;b&gt;process_payment()&lt;/b&gt;&lt;br&gt;Build JWT payload" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#BBDEFB;strokeColor=#1976D2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="120" width="200" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="checkout" target="process" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- JWT Payload note -->
+        <mxCell id="jwt_note" value="&lt;b&gt;JWT Payload:&lt;/b&gt;&lt;br&gt;merchantID, invoiceNo ({order_id}_{ts}),&lt;br&gt;description, amount, currencyCode,&lt;br&gt;frontendReturnUrl, backendReturnUrl,&lt;br&gt;nonceStr (12 chars),&lt;br&gt;uiParams.userInfo {email, name},&lt;br&gt;paymentChannel [&quot;CC&quot;, &quot;TNG&quot;]" style="shape=note;whiteSpace=wrap;html=1;fontSize=9;fillColor=#fff2cc;strokeColor=#d6b656;size=12;align=left;spacingLeft=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="190" width="230" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="e_jwt_note" style="dashed=1;strokeColor=#d6b656;" edge="1" source="process" target="jwt_note" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 3. POST /paymentToken -->
+        <mxCell id="api_token" value="&lt;b&gt;POST /paymentToken&lt;/b&gt;&lt;br&gt;{payload: JWT}" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#FFE0B2;strokeColor=#E65100;" vertex="1" parent="1">
+          <mxGeometry x="800" y="200" width="200" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;strokeColor=#E65100;" edge="1" source="process" target="api_token" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="142" />
+              <mxPoint x="400" y="222" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 4. Response: paymentToken -->
+        <mxCell id="token_resp" value="Response:&lt;br&gt;&lt;b&gt;paymentToken&lt;/b&gt; (JWT)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#FFE0B2;strokeColor=#E65100;" vertex="1" parent="1">
+          <mxGeometry x="800" y="270" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="strokeColor=#E65100;" edge="1" source="api_token" target="token_resp" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 5. Store meta -->
+        <mxCell id="store_meta" value="Store in order meta:&lt;br&gt;&lt;b&gt;_2c2p_payment_token&lt;/b&gt;&lt;br&gt;&lt;b&gt;_2c2p_invoice_no&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#BBDEFB;strokeColor=#1976D2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="340" width="200" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="token_resp" target="store_meta" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="290" />
+              <mxPoint x="750" y="367" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 6. Redirect to receipt -->
+        <mxCell id="redirect_receipt" value="Redirect to&lt;br&gt;&lt;b&gt;receipt page&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#BBDEFB;strokeColor=#1976D2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="420" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="" edge="1" source="store_meta" target="redirect_receipt" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 7. Drop-in UI -->
+        <mxCell id="dropin_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#388E3C;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="410" width="320" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="dropin_title" value="2C2P Drop-in UI" style="text;html=1;fontSize=12;fontStyle=1;fillColor=#388E3C;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="500" y="410" width="160" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="dropin_detail" value="&lt;b&gt;receipt_page()&lt;/b&gt; loads:&lt;br&gt;• pgw-sdk-4.2.1.js (2C2P SDK)&lt;br&gt;• dropin-init.js (custom init)&lt;br&gt;• pgw-sdk-style-4.2.1.css&lt;br&gt;&lt;br&gt;URL: pgw-ui.2c2p.com/payment/4.1/#/token/{token}&lt;br&gt;Template: &quot;ikea&quot; | Mode: &quot;DropIn&quot; | Container: 600px" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#C8E6C9;strokeColor=#388E3C;align=left;spacingLeft=8;verticalAlign=top;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="510" y="440" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="redirect_receipt" target="dropin_box" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 8. Customer pays -->
+        <mxCell id="customer_pays" value="Customer enters&lt;br&gt;card / selects TNG" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#C8E6C9;strokeColor=#388E3C;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="570" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="" edge="1" source="dropin_box" target="customer_pays" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 9. Three parallel paths -->
+        <mxCell id="fork_label" value="Three parallel response paths:" style="text;html=1;fontSize=11;fontStyle=5;fontColor=#C62828;align=center;" vertex="1" parent="1">
+          <mxGeometry x="400" y="630" width="250" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- PATH A: Backend Callback -->
+        <mxCell id="cb_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4EC;strokeColor=#C62828;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="670" width="300" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="cb_title" value="A. Backend Callback (async)" style="text;html=1;fontSize=11;fontStyle=1;fillColor=#C62828;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="670" width="250" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="cb1" value="2C2P POSTs to:&lt;br&gt;&lt;b&gt;?wc-api=zippy_2c2p_transaction&lt;/b&gt;&lt;br&gt;{payload: JWT_response}" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#F8BBD0;strokeColor=#C62828;" vertex="1" parent="1">
+          <mxGeometry x="55" y="700" width="270" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="cb2" value="&lt;b&gt;handle_callback()&lt;/b&gt;&lt;br&gt;Decode JWT + verify signature" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#F8BBD0;strokeColor=#C62828;" vertex="1" parent="1">
+          <mxGeometry x="55" y="758" width="270" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="cb_decision" value="respCode?" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="808" width="100" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="cb_0000" value="&lt;b&gt;0000&lt;/b&gt;&lt;br&gt;payment_complete()&lt;br&gt;→ processing" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="55" y="880" width="115" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="cb_0001" value="&lt;b&gt;0001&lt;/b&gt;&lt;br&gt;on-hold&lt;br&gt;+ retry #1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="180" y="880" width="75" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="cb_other" value="&lt;b&gt;Other&lt;/b&gt;&lt;br&gt;Log +&lt;br&gt;retry #1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="265" y="880" width="65" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e_cb1" style="" edge="1" source="cb1" target="cb2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_cb2" style="" edge="1" source="cb2" target="cb_decision" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_cb3" style="fontSize=9;" edge="1" source="cb_decision" target="cb_0000" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_cb4" style="fontSize=9;" edge="1" source="cb_decision" target="cb_0001" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_cb5" style="fontSize=9;" edge="1" source="cb_decision" target="cb_other" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- PATH B: Frontend Redirect -->
+        <mxCell id="rd_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="670" width="300" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="rd_title" value="B. Frontend Redirect (SDK code 2000)" style="text;html=1;fontSize=11;fontStyle=1;fillColor=#1565C0;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="370" y="670" width="300" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="rd1" value="SDK returns code &lt;b&gt;2000&lt;/b&gt;&lt;br&gt;JS redirects to returnUrl" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#BBDEFB;strokeColor=#1565C0;" vertex="1" parent="1">
+          <mxGeometry x="385" y="700" width="270" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="rd2" value="&lt;b&gt;?wc-api=zippy_2c2p_redirect&lt;/b&gt;&lt;br&gt;handle_redirect_page()" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#BBDEFB;strokeColor=#1565C0;" vertex="1" parent="1">
+          <mxGeometry x="385" y="748" width="270" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="rd3" value="get_transaction_status()&lt;br&gt;&lt;b&gt;POST /transactionStatus&lt;/b&gt;&lt;br&gt;(check if respCode = 2000)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#FFE0B2;strokeColor=#E65100;" vertex="1" parent="1">
+          <mxGeometry x="385" y="798" width="270" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="rd4" value="get_payment_status()&lt;br&gt;&lt;b&gt;POST /paymentInquiry&lt;/b&gt;&lt;br&gt;{merchantID, invoiceNo}" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#FFE0B2;strokeColor=#E65100;" vertex="1" parent="1">
+          <mxGeometry x="385" y="858" width="270" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="rd5" value="0000 → payment_complete()&lt;br&gt;→ redirect order-received" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="400" y="918" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rd1" style="" edge="1" source="rd1" target="rd2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_rd2" style="" edge="1" source="rd2" target="rd3" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_rd3" style="" edge="1" source="rd3" target="rd4" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_rd4" style="" edge="1" source="rd4" target="rd5" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- PATH C: AJAX Polling -->
+        <mxCell id="poll_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="670" width="300" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="poll_title" value="C. AJAX Polling (dropin-init.js)" style="text;html=1;fontSize=11;fontStyle=1;fillColor=#2E7D32;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="670" width="280" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="poll1" value="Start after &lt;b&gt;5 seconds&lt;/b&gt;&lt;br&gt;AJAX: zippy_check_payment_status" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#C8E6C9;strokeColor=#2E7D32;" vertex="1" parent="1">
+          <mxGeometry x="715" y="700" width="270" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="poll2" value="&lt;b&gt;Backoff:&lt;/b&gt; 5s → 10s → 15s → 20s → 30s max&lt;br&gt;&lt;b&gt;Max duration:&lt;/b&gt; 5 minutes" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#C8E6C9;strokeColor=#2E7D32;" vertex="1" parent="1">
+          <mxGeometry x="715" y="748" width="270" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="poll3" value="Server checks:&lt;br&gt;1. Order already paid? → return 'paid'&lt;br&gt;2. Call get_payment_status()&lt;br&gt;3. Return current status" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#C8E6C9;strokeColor=#2E7D32;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="715" y="798" width="270" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="poll4" value="On 'paid' response:&lt;br&gt;JS redirects to order-received page" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="715" y="870" width="270" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="poll_cancel" value="SDK code &lt;b&gt;0003&lt;/b&gt;:&lt;br&gt;Reload checkout page" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="745" y="920" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="e_p1" style="" edge="1" source="poll1" target="poll2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_p2" style="" edge="1" source="poll2" target="poll3" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_p3" style="" edge="1" source="poll3" target="poll4" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Connect customer pays to 3 paths -->
+        <mxCell id="e_fork1" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#C62828;strokeWidth=1;dashed=1;" edge="1" source="customer_pays" target="cb_box" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_fork2" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#1565C0;strokeWidth=1;dashed=1;" edge="1" source="customer_pays" target="rd_box" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_fork3" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#2E7D32;strokeWidth=1;dashed=1;" edge="1" source="customer_pays" target="poll_box" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="2c2p-retry" name="2. Retry &amp; Cron Logic">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="2C2P — Cron Retry Logic (zippy-2c2p-cron.php)" style="text;html=1;fontSize=22;fontStyle=1;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="550" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Trigger -->
+        <mxCell id="trigger" value="Backend callback returns&lt;br&gt;&lt;b&gt;respCode 0001 or non-0000&lt;/b&gt;" style="shape=mxgraph.flowchart.terminator;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="170" y="80" width="260" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Schedule -->
+        <mxCell id="schedule" value="schedule_retry(order_id, attempt=1)&lt;br&gt;&lt;b&gt;WP Cron: zippy_2c2p_retry_payment_check&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#BBDEFB;strokeColor=#1976D2;" vertex="1" parent="1">
+          <mxGeometry x="120" y="160" width="360" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" style="" edge="1" source="trigger" target="schedule" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Retry timing box -->
+        <mxCell id="timing_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#F9A825;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="80" width="280" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="timing_title" value="Retry Schedule" style="text;html=1;fontSize=12;fontStyle=1;fillColor=#F9A825;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="560" y="80" width="140" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="timing_body" value="&lt;table style='font-size:11px;'&gt;&lt;tr&gt;&lt;th align='left'&gt;Attempt&lt;/th&gt;&lt;th align='left'&gt;Delay&lt;/th&gt;&lt;th align='left'&gt;Cumulative&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;#1&lt;/td&gt;&lt;td&gt;60 seconds&lt;/td&gt;&lt;td&gt;~1 min&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;#2&lt;/td&gt;&lt;td&gt;300 seconds&lt;/td&gt;&lt;td&gt;~6 min&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;#3&lt;/td&gt;&lt;td&gt;900 seconds&lt;/td&gt;&lt;td&gt;~21 min&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;br&gt;&lt;b&gt;Max retries: 3&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F9A825;align=left;spacingLeft=10;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="570" y="110" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="e_timing" style="dashed=1;strokeColor=#F9A825;" edge="1" source="schedule" target="timing_box" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Wait -->
+        <mxCell id="wait" value="WP Cron fires after delay" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#E1BEE7;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="180" y="240" width="240" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="" edge="1" source="schedule" target="wait" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- retry_payment_check -->
+        <mxCell id="retry_fn" value="&lt;b&gt;retry_payment_check(order_id, attempt)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#BBDEFB;strokeColor=#1976D2;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="130" y="310" width="340" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="" edge="1" source="wait" target="retry_fn" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Check already paid -->
+        <mxCell id="d1" value="Order&lt;br&gt;already&lt;br&gt;paid?" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="245" y="375" width="110" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="" edge="1" source="retry_fn" target="d1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="skip" value="Skip (exit)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="450" y="393" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="Yes" style="fontStyle=1;fontSize=10;" edge="1" source="d1" target="skip" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Call paymentInquiry -->
+        <mxCell id="inquiry" value="&lt;b&gt;POST /paymentInquiry&lt;/b&gt;&lt;br&gt;{merchantID, invoiceNo}" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#FFE0B2;strokeColor=#E65100;" vertex="1" parent="1">
+          <mxGeometry x="200" y="480" width="200" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="No" style="fontStyle=1;fontSize=10;" edge="1" source="d1" target="inquiry" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Decision: 0000? -->
+        <mxCell id="d2" value="respCode&lt;br&gt;= 0000?" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="245" y="560" width="110" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="" edge="1" source="inquiry" target="d2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Success -->
+        <mxCell id="success" value="&lt;b&gt;payment_complete()&lt;/b&gt;&lt;br&gt;Order → processing" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="660" width="210" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="Yes" style="fontStyle=1;fontSize=10;fontColor=#82b366;" edge="1" source="d2" target="success" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Attempt < 3? -->
+        <mxCell id="d3" value="attempt&lt;br&gt;&lt; 3?" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="415" y="560" width="100" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="No" style="fontStyle=1;fontSize=10;fontColor=#b85450;" edge="1" source="d2" target="d3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Schedule next retry -->
+        <mxCell id="next_retry" value="Schedule retry&lt;br&gt;&lt;b&gt;attempt + 1&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#BBDEFB;strokeColor=#1976D2;" vertex="1" parent="1">
+          <mxGeometry x="395" y="660" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="Yes" style="fontStyle=1;fontSize=10;" edge="1" source="d3" target="next_retry" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Loop arrow back to wait -->
+        <mxCell id="e_loop" style="edgeStyle=orthogonalEdgeStyle;curved=1;strokeColor=#1976D2;dashed=1;" edge="1" source="next_retry" target="wait" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="680" />
+              <mxPoint x="540" y="257" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Failed -->
+        <mxCell id="failed" value="&lt;b&gt;Order → failed&lt;/b&gt;&lt;br&gt;Add note: &quot;Payment not confirmed&lt;br&gt;after 3 retries. Last code: {respCode}&quot;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="570" y="650" width="280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="No (max retries)" style="fontStyle=1;fontSize=10;fontColor=#b85450;" edge="1" source="d3" target="failed" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Order Notes Reference -->
+        <mxCell id="notes_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECEFF1;strokeColor=#455A64;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="900" y="250" width="300" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="notes_title" value="Order Notes Added" style="text;html=1;fontSize=12;fontStyle=1;fillColor=#455A64;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="900" y="250" width="170" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="notes_body" value="&lt;b&gt;On callback (non-0000):&lt;/b&gt;&lt;br&gt;&quot;2C2P: Callback returned code {respCode}.&lt;br&gt;Scheduling payment re-check.&quot;&lt;br&gt;&lt;br&gt;&lt;b&gt;On hold (0001):&lt;/b&gt;&lt;br&gt;&quot;2C2P: Payment is pending/waiting.&quot;&lt;br&gt;&lt;br&gt;&lt;b&gt;On success:&lt;/b&gt;&lt;br&gt;&quot;2C2P payment completed.&quot;&lt;br&gt;&lt;br&gt;&lt;b&gt;On redirect check:&lt;/b&gt;&lt;br&gt;&quot;Inquiry on Redirect: Payment not&lt;br&gt;completed yet. Code: {respCode}&quot;&lt;br&gt;&lt;br&gt;&lt;b&gt;After 3 retries failed:&lt;/b&gt;&lt;br&gt;&quot;2C2P: Payment not confirmed after&lt;br&gt;3 retries. Last code: {respCode}&quot;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#CFD8DC;strokeColor=#455A64;align=left;spacingLeft=8;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="910" y="280" width="280" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- Logging -->
+        <mxCell id="log_box" value="&lt;b&gt;Logger:&lt;/b&gt; ZIPPY_Pay_Logger::log_checkout()&lt;br&gt;Logs all API calls, retries, and outcomes" style="shape=note;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;size=12;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="900" y="470" width="280" height="45" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="2c2p-api" name="3. API Reference">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="2C2P — API Endpoints &amp; Data Reference" style="text;html=1;fontSize=22;fontStyle=1;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="550" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- API 1: paymentToken -->
+        <mxCell id="api1_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#E65100;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="420" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="api1_title" value="POST /paymentToken" style="text;html=1;fontSize=14;fontStyle=1;fillColor=#E65100;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="420" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="api1_url" value="&lt;b&gt;URL:&lt;/b&gt; https://pgw.2c2p.com/payment/4.3/paymentToken&lt;br&gt;&lt;b&gt;Timeout:&lt;/b&gt; 45s | &lt;b&gt;Header:&lt;/b&gt; Content-Type: application/json&lt;br&gt;&lt;b&gt;Called from:&lt;/b&gt; request_payment_token()" style="text;html=1;fontSize=10;align=left;spacingLeft=5;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="50" y="110" width="400" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="api1_req" value="&lt;b&gt;Request JWT Payload:&lt;/b&gt;&lt;br&gt;{&lt;br&gt;  merchantID: from_settings,&lt;br&gt;  invoiceNo: &quot;{order_id}_{unix_timestamp}&quot;,&lt;br&gt;  description: &quot;Order #{order_id}&quot;,&lt;br&gt;  amount: &quot;1234.56&quot;,&lt;br&gt;  currencyCode: &quot;MYR&quot; / &quot;SGD&quot;,&lt;br&gt;  frontendReturnUrl: &quot;?wc-api=zippy_2c2p_redirect&amp;order_id=X&quot;,&lt;br&gt;  backendReturnUrl: &quot;?wc-api=zippy_2c2p_transaction&quot;,&lt;br&gt;  nonceStr: wp_generate_password(12, false),&lt;br&gt;  uiParams: {userInfo: {email, name}},&lt;br&gt;  paymentChannel: [&quot;CC&quot;, &quot;TNG&quot;]&lt;br&gt;}" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#FFE0B2;strokeColor=#E65100;align=left;spacingLeft=10;fontFamily=monospace;verticalAlign=top;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="50" y="155" width="390" height="185" as="geometry" />
+        </mxCell>
+
+        <!-- API 2: transactionStatus -->
+        <mxCell id="api2_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;" vertex="1" parent="1">
+          <mxGeometry x="490" y="80" width="420" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="api2_title" value="POST /transactionStatus" style="text;html=1;fontSize=14;fontStyle=1;fillColor=#1565C0;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="490" y="80" width="420" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="api2_url" value="&lt;b&gt;URL:&lt;/b&gt; https://pgw.2c2p.com/payment/4.3/transactionStatus&lt;br&gt;&lt;b&gt;Timeout:&lt;/b&gt; 30s | &lt;b&gt;Called from:&lt;/b&gt; get_transaction_status()" style="text;html=1;fontSize=10;align=left;spacingLeft=5;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="500" y="110" width="400" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="api2_req" value="&lt;b&gt;JWT Payload:&lt;/b&gt; { paymentToken, locale: &quot;en&quot; }&lt;br&gt;&lt;b&gt;Success:&lt;/b&gt; respCode 2000 → ready for inquiry" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#BBDEFB;strokeColor=#1565C0;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="500" y="145" width="400" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- API 3: paymentInquiry -->
+        <mxCell id="api3_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;" vertex="1" parent="1">
+          <mxGeometry x="490" y="230" width="420" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="api3_title" value="POST /paymentInquiry" style="text;html=1;fontSize=14;fontStyle=1;fillColor=#2E7D32;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="490" y="230" width="420" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="api3_url" value="&lt;b&gt;URL:&lt;/b&gt; https://pgw.2c2p.com/payment/4.3/paymentInquiry&lt;br&gt;&lt;b&gt;Timeout:&lt;/b&gt; 30s | &lt;b&gt;Called from:&lt;/b&gt; get_payment_status()" style="text;html=1;fontSize=10;align=left;spacingLeft=5;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="500" y="260" width="400" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="api3_req" value="&lt;b&gt;JWT Payload:&lt;/b&gt; { merchantID, invoiceNo, locale: &quot;en&quot; }&lt;br&gt;&lt;b&gt;Success:&lt;/b&gt; respCode 0000 → payment confirmed" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#C8E6C9;strokeColor=#2E7D32;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="500" y="295" width="400" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Response Codes Table -->
+        <mxCell id="codes_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECEFF1;strokeColor=#455A64;" vertex="1" parent="1">
+          <mxGeometry x="40" y="380" width="420" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="codes_title" value="Response Codes Reference" style="text;html=1;fontSize=14;fontStyle=1;fillColor=#455A64;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="380" width="420" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="codes_sub1" value="&lt;b&gt;Backend Callback (respCode):&lt;/b&gt;" style="text;html=1;fontSize=11;align=left;spacingLeft=5;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="50" y="412" width="300" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="code_0000" value="&lt;b&gt;0000&lt;/b&gt; — Success → payment_complete() → processing" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="55" y="435" width="390" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="code_0001" value="&lt;b&gt;0001&lt;/b&gt; — Pending → on-hold + schedule retry #1 (60s)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="55" y="465" width="390" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="code_other" value="&lt;b&gt;Other&lt;/b&gt; — Log error + schedule retry #1 (60s)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="55" y="495" width="390" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="code_9999" value="&lt;b&gt;9999&lt;/b&gt; — API call failed (fallback code)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="55" y="525" width="390" height="25" as="geometry" />
+        </mxCell>
+
+        <mxCell id="codes_sub2" value="&lt;b&gt;SDK UI Callback (JS code):&lt;/b&gt;" style="text;html=1;fontSize=11;align=left;spacingLeft=5;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="50" y="562" width="300" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="sdk_2000" value="&lt;b&gt;2000&lt;/b&gt; — Success → JS redirects to frontendReturnUrl" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="55" y="585" width="390" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="sdk_0003" value="&lt;b&gt;0003&lt;/b&gt; — Cancelled → reload checkout page" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="55" y="615" width="390" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- WooCommerce Hooks -->
+        <mxCell id="hooks_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="490" y="380" width="420" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="hooks_title" value="WooCommerce Hooks" style="text;html=1;fontSize=14;fontStyle=1;fillColor=#7B1FA2;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="490" y="380" width="420" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="hooks_body" value="&lt;b&gt;Gateway Actions:&lt;/b&gt;&lt;br&gt;woocommerce_receipt_zippy_2c2p_payment → receipt_page()&lt;br&gt;woocommerce_api_zippy_2c2p_transaction → handle_callback()&lt;br&gt;woocommerce_api_zippy_2c2p_redirect → handle_redirect_page()&lt;br&gt;&lt;br&gt;&lt;b&gt;AJAX:&lt;/b&gt;&lt;br&gt;wp_ajax_zippy_check_payment_status&lt;br&gt;wp_ajax_nopriv_zippy_check_payment_status&lt;br&gt;&lt;br&gt;&lt;b&gt;Cron:&lt;/b&gt;&lt;br&gt;zippy_2c2p_retry_payment_check (args: order_id, attempt)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#E1BEE7;strokeColor=#7B1FA2;align=left;spacingLeft=10;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="500" y="412" width="400" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- Order Meta -->
+        <mxCell id="meta_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#F9A825;" vertex="1" parent="1">
+          <mxGeometry x="490" y="560" width="420" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="meta_title" value="Order Meta Keys" style="text;html=1;fontSize=14;fontStyle=1;fillColor=#F9A825;fontColor=#FFFFFF;rounded=1;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="490" y="560" width="420" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="meta_body" value="&lt;b&gt;_2c2p_payment_token&lt;/b&gt; — Encoded JWT response from /paymentToken&lt;br&gt;&lt;b&gt;_2c2p_invoice_no&lt;/b&gt; — Invoice number: &quot;{order_id}_{unix_timestamp}&quot;&lt;br&gt;&lt;br&gt;Both stored during process_payment() and used across&lt;br&gt;redirect, polling, and cron retry flows" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#FFF9C4;strokeColor=#F9A825;align=left;spacingLeft=10;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="500" y="592" width="400" height="60" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

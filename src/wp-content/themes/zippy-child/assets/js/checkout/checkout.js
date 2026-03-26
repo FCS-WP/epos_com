@@ -296,6 +296,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Resize window to make sure all the form wrappers are properly sized
-    $window.trigger('resize');
+    setTimeout(function() {
+      $window.trigger('resize');
+    }, 400);
   });
 })(jQuery);

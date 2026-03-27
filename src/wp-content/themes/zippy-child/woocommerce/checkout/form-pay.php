@@ -141,8 +141,8 @@ $totals = $order->get_order_item_totals(); // phpcs:ignore WordPress.WP.GlobalVa
 	
 					<div class="woo-summary-row">
 						<span class="woo-summary-row__label">
-							<?php esc_html_e( 'Shipping note', 'woocommerce' ); ?>
-							<p class="woo-summary-row__sub"><?php esc_html_e( 'Ships in 3–5 business days', 'woocommerce' ); ?></p>
+							<?php esc_html_e( 'Shipping', 'woocommerce' ); ?>
+							<p class="woo-summary-row__sub"><?php esc_html_e( 'Ships in 3-5 business days', 'woocommerce' ); ?></p>
 						</span>
 						<span class="woo-summary-row__value woo-summary-row__value--free"><?php esc_html_e( 'Free', 'woocommerce' ); ?></span>
 					</div>

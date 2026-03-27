@@ -283,3 +283,23 @@ add_action( 'woocommerce_checkout_order_review', function() {
     <span>'.esc_html( 'Secure checkout powered by Antom', 'woocommerce' ).'</span>
   </div>';
 }, 30 );
+
+/**
+ * Override order-receipt.php
+ */
+add_filter('woocommerce_locate_template', function($template, $template_name, $template_path, $default_path) {
+  // Target the specific template
+  if ($template_name === 'checkout/order-receipt.php') {
+      
+    // Build the full file path to your child theme's override
+    $child_theme_template = get_stylesheet_directory() . '/woocommerce/' . $template_name;
+    
+    // Check if the file actually exists in your child theme
+    if (file_exists($child_theme_template)) {
+      return $child_theme_template;
+    }
+  }
+  
+  // If not found or not the right template, return the original $template
+  return $template;
+}, 99, 4);

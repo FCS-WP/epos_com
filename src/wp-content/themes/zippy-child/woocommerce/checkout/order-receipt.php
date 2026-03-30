@@ -20,6 +20,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
+<div class="order-receipt-page-title page-title">
+	<div class="page-title-inner flex-row medium-flex-wrap">
+	  <div class="checkout-page-title__inner flex-col flex-grow medium-text-center">
+      <a class="back-to-checkout" href="<?php echo esc_url( home_url( '/my/checkout' ) ); ?>">
+        <span><?php _e('Back to Checkout', 'flatsome'); ?></span>
+      </a>
+    </div>
+  </div>
+</div>
+
 <div class="order-receipt">
   <div class="payment-method-details">
     <?php do_action( 'woocommerce_receipt_' . $order->get_payment_method(), $order->get_id() ); ?>

@@ -57,7 +57,8 @@
   }
 }
 
-.checkout-page-title .back-to-product {
+.checkout-page-title .back-to-product,
+.order-receipt-page-title .back-to-checkout {
   display: flex;
   align-items: center;
   justify-content: center;

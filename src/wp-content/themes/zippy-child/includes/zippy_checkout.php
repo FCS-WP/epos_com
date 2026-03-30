@@ -308,7 +308,7 @@ add_filter( 'woocommerce_checkout_cart_item_quantity', function($html, $cart_ite
 add_action( 'woocommerce_checkout_order_review', function() {
   echo '
   <div class="order-secure-checkout">
-    <span>'.esc_html( 'Secure checkout powered by Antom', 'woocommerce' ).'</span>
+    <span>'.esc_html( 'Secure checkout powered by 2c2p', 'woocommerce' ).'</span>
   </div>';
 }, 30 );
 

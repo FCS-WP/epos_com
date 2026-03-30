@@ -48,7 +48,7 @@
       if (!input || !this.iti) return;
 
       input.value = this.iti.getNumber(
-        intlTelInputUtils.numberFormat.INTERNATIONAL
+        intlTelInputUtils.numberFormat.E164
       );
     },
   };

@@ -146,10 +146,10 @@ add_filter( 'gettext', function( $translated_text, $text, $domain ) {
 add_action( 'woocommerce_checkout_order_review', function() {
   if ( wc_coupons_enabled() ) {
     echo '
-    <div class="coupon">
+    <div class="coupon js-coupon">
       <div class="flex-row">
         <div class="flex-col flex-grow">
-          <input type="text" class="input-text coupon-btn js-coupon-input" placeholder="Have a promo code?" value="">
+          <input type="text" name="epos_coupon" class="input-text coupon-btn js-coupon-input" placeholder="Have a promo code?" value="">
         </div>
         <div class="flex-col">
           <button class="button expand js-coupon-submit" name="apply_coupon" value="Apply">Apply</button>
@@ -216,7 +216,6 @@ add_filter('woocommerce_checkout_fields', function($fields) {
   $fields['billing']['billing_country']['priority'] = 3; // Country
   $fields['billing']['billing_country']['class'] = 'form-row-last';
   $fields['billing']['billing_country']['custom_attributes']['readonly'] = 'readonly';
-  // $fields['billing']['billing_country']['custom_attributes']['disabled'] = 'disabled';
 
   // 4. Recipient
   $fields['billing']['billing_company']['priority'] = 5; // Company name
@@ -309,6 +308,26 @@ add_filter( 'woocommerce_checkout_cart_item_quantity', function($html, $cart_ite
 add_action( 'woocommerce_checkout_order_review', function() {
   echo '
   <div class="order-secure-checkout">
-    <span>'.esc_html( 'Secure checkout powered by Antom', 'woocommerce' ).'</span>
+    <span>'.esc_html( 'Secure checkout powered by 2c2p', 'woocommerce' ).'</span>
   </div>';
 }, 30 );
+
+/**
+ * Override order-receipt.php
+ */
+add_filter('woocommerce_locate_template', function($template, $template_name, $default_path) {
+  // Target the specific template
+  if ($template_name === 'checkout/order-receipt.php') {
+      
+    // Build the full file path to your child theme's override
+    $child_theme_template = get_stylesheet_directory() . '/woocommerce/' . $template_name;
+    
+    // Check if the file actually exists in your child theme
+    if (file_exists($child_theme_template)) {
+      return $child_theme_template;
+    }
+  }
+  
+  // If not found or not the right template, return the original $template
+  return $template;
+}, 99, 3);

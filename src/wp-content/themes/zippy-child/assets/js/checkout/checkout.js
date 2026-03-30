@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 (function ($) {
   if (!document.body.classList.contains("woocommerce-checkout")) return;
 
-  $(document).on("click", "#place_order[name='woocommerce_checkout_place_order']", function (e) {
+  $(document).on("click", "#place_order[data-value='Place order']", function (e) {
     if (!window.PhoneValidation) return;
 
     $(".woocommerce-error").remove();
@@ -208,7 +208,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  // ------------- Prevent the coupon from submitting -------------
+  // ------------- Handling coupon -------------
+  let $coupon = $('.js-coupon');
   let $couponInput = $('.js-coupon-input');
   let $couponBtn = $('.js-coupon-submit');
   let $formCoupon = $('form.checkout_coupon');
@@ -217,15 +218,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if ($couponBtn.length && $formCoupon.length) {
     $couponBtn.on('click', function(e) {
-      e.preventDefault(); // Prevent form submission
+      e.preventDefault();
       let value = $couponInput.val();
+      let $error = $('.js-epos-coupon-error');
 
-      if (value) {
-        $realCouponInput.val(value);
-        $realCouponBtn.trigger('click');
-      }
+      $couponInput.removeClass('has-error');
+      $error.slideUp(400, function() {
+        $error.remove();
+      });
+      $realCouponInput.val(value);
+      $realCouponBtn.trigger('click');
     });
   }
+
+  $(document.body).on('applied_coupon_in_checkout', function(e, coupon) {
+    let $notice = $('#coupon-error-notice');
+    let notice = $notice.text().trim();
+
+    if (notice) {
+      $couponInput.addClass('has-error');
+
+      $coupon.append(`
+        <p class="js-epos-coupon-error checkout-inline-error-message">
+          ${notice}
+        </p>
+      `);
+
+      $('.js-epos-coupon-error').slideDown();
+    }
+  });
 
 
   // ------------- Move error messages to below the fields -------------
@@ -233,11 +254,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Hide all errors on submit
   $checkoutForm.on('submit', function() {
-    $('.js-epos-error').slideUp();
-
-    setTimeout(function() {
+    $('.js-epos-error').slideUp(400, function() {
       $window.trigger('resize');
-    }, 400);
+    });
   });
 
   $(document.body).on('checkout_error', function(e, messages) {
@@ -279,8 +298,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Insert custom error message to below input
         if ($field.length) {
-          let $parent = $field.parent();
-          
+          let $parent = $field.closest('.woocommerce-input-wrapper');
+
           $parent.append(`
             <p class="js-epos-error checkout-inline-error-message">
               ${error}
@@ -290,12 +309,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       // Slide down all error messages
-      $('.js-epos-error').slideDown();
+      $('.js-epos-error').slideDown(400, function() {
+        // Resize window to make sure all the form wrappers
+        // are properly sized
+        $window.trigger('resize');
+      });
 
       // $.scroll_to_notices( $('.js-epos-error').first().closest('.form-row') );
     }
-
-    // Resize window to make sure all the form wrappers are properly sized
-    $window.trigger('resize');
   });
 })(jQuery);

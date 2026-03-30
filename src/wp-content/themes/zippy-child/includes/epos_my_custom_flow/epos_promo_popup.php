@@ -1,4 +1,5 @@
 <?php
+/*
 add_action('wp_footer', function () {
     if (is_page('my/home')) {
         ?>
@@ -14,3 +15,4 @@ add_action('wp_footer', function () {
         <?php
     }
 });
+*/

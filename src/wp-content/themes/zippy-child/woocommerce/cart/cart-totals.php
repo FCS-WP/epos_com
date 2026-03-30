@@ -51,8 +51,8 @@ defined( 'ABSPATH' ) || exit;
 		<?php endif; ?>
 
 		<tr class="shipping-note">
-			<th><?php echo esc_html_e( 'Shipping note', 'woocommerce' ) . '<br><p>Ships in 3–5 business days</p>'; ?></th>
-			<td data-title="<?php esc_attr_e( 'Shipping note', 'woocommerce' ); ?>"><?php esc_html_e( 'Free', 'woocommerce' ); ?></td>
+			<th><?php echo esc_html_e( 'Shipping', 'woocommerce' ) . '<br><p>Ships in 3-5 business days</p>'; ?></th>
+			<td data-title="<?php esc_attr_e( 'Shipping', 'woocommerce' ); ?>"><?php esc_html_e( 'Free', 'woocommerce' ); ?></td>
 		</tr>
 
 		<?php foreach ( WC()->cart->get_fees() as $fee ) : ?>

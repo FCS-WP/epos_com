@@ -315,7 +315,7 @@ add_action( 'woocommerce_checkout_order_review', function() {
 /**
  * Override order-receipt.php
  */
-add_filter('woocommerce_locate_template', function($template, $template_name, $template_path, $default_path) {
+add_filter('woocommerce_locate_template', function($template, $template_name, $default_path) {
   // Target the specific template
   if ($template_name === 'checkout/order-receipt.php') {
       
@@ -330,4 +330,4 @@ add_filter('woocommerce_locate_template', function($template, $template_name, $t
   
   // If not found or not the right template, return the original $template
   return $template;
-}, 99, 4);
+}, 99, 3);

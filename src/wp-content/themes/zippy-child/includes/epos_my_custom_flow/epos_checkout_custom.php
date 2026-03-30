@@ -46,10 +46,12 @@ add_action('woocommerce_checkout_create_order', function($order, $data) {
     if (empty($data['billing_full_name'])) return;
 
     $name  = trim(preg_replace('/\s+/', ' ', $data['billing_full_name']));
-    if ($name === '') return;
+    $parts = explode(' ', $name, 2);
+    $first = $parts[0];
+    $last  = $parts[1] ?? '';
 
-    $order->set_billing_first_name('');
-    $order->set_billing_last_name($name);
+    $order->set_billing_first_name($first);
+    $order->set_billing_last_name($last);
 }, 99, 2);
 
 

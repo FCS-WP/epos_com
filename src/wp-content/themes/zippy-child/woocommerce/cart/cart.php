@@ -184,7 +184,7 @@ $sidebar_classes = implode( ' ', $sidebar_classes );
 
 			<div class="cart-secure-badge">
 				<img src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/icons/safe.svg" alt="Secure checkout">
-				<?php esc_html_e( 'Secure checkout powered by Antom', 'woocommerce' ); ?>
+				<?php esc_html_e( 'Secure checkout powered by 2c2p', 'woocommerce' ); ?>
 			</div>
 
 		</div>

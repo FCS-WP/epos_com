@@ -280,14 +280,14 @@ add_filter( 'woocommerce_checkout_cart_item_quantity', function($html, $cart_ite
 add_action( 'woocommerce_checkout_order_review', function() {
   echo '
   <div class="order-secure-checkout">
-    <span>'.esc_html( 'Secure checkout powered by Antom', 'woocommerce' ).'</span>
+    <span>'.esc_html( 'Secure checkout powered by 2c2p', 'woocommerce' ).'</span>
   </div>';
 }, 30 );
 
 /**
  * Override order-receipt.php
  */
-add_filter('woocommerce_locate_template', function($template, $template_name, $template_path, $default_path) {
+add_filter('woocommerce_locate_template', function($template, $template_name, $default_path) {
   // Target the specific template
   if ($template_name === 'checkout/order-receipt.php') {
       
@@ -302,4 +302,4 @@ add_filter('woocommerce_locate_template', function($template, $template_name, $t
   
   // If not found or not the right template, return the original $template
   return $template;
-}, 99, 4);
+}, 99, 3);

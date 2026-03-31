@@ -368,6 +368,22 @@
             }
           }
 
+          &.product-subtotal-before-sale {
+            .amount {
+              font-weight: 500;
+              font-size: 14px;
+              text-decoration: line-through;
+              color: #767e93;
+            }
+
+            @include only-mobile {
+              padding-top: 27px;
+              padding-bottom: 2px;
+              text-align: end;
+              width: 100%;
+            }
+          }
+
           &.product-subtotal {
             width: 100%;
             border-bottom-right-radius: 16px;
@@ -378,12 +394,13 @@
             margin-left: auto;
 
             @include only-mobile {
-              padding-top: 27px;
+              padding-top: 2px;
             }
 
             .amount {
+              color: #167b10;
               font-weight: 600;
-              font-size: 20px;
+              font-size: 22px;
             }
           }
         }
@@ -435,13 +452,18 @@
               width: auto;
             }
 
+            &.product-subtotal-before-sale {
+              padding-right: 4px;
+              .amount {
+                font-size: 14px;
+                line-height: 29px;
+              }
+            }
+
             &.product-subtotal {
+              padding-left: 4px;
               width: auto;
               align-items: start;
-
-              .amount {
-                font-size: 16px;
-              }
             }
           }
         }

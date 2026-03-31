@@ -53,8 +53,8 @@ function sync_hubspot_contact_for_deal($order, $token)
   $payment_status = $order->get_status() == 'processing' || $order->get_status() == 'completed' ? 'PAID' : 'INITIATED CHECKOUT';
 
   $email      = $order->get_billing_email();
-  $first_name = $order->get_billing_first_name();
-  $last_name  = $order->get_billing_last_name();
+  $first_name = '';
+  $last_name  = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
   $phone      = $order->get_billing_phone();
   $company    = $order->get_billing_company();
   $address    = $order->get_billing_address_1() . ',' . $order->get_billing_address_2();

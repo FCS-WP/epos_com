@@ -12,7 +12,7 @@
 
     var uiRequest = {
       url: Zippy2C2P.paymentUrl,
-      templateId: "ikea",
+      // templateId: "ikea",
       mode: "DropIn",
       appBar: false,
       cancelConfirmation: false,

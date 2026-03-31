@@ -19,6 +19,17 @@ defined( 'ABSPATH' ) || exit;
 
 $totals = $order->get_order_item_totals(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 ?>
+
+<div class="order-receipt-page-title page-title">
+	<div class="page-title-inner flex-row medium-flex-wrap">
+	  <div class="checkout-page-title__inner flex-col flex-grow medium-text-center">
+      <a class="back-to-checkout" href="<?php echo esc_url( home_url( '/my/checkout' ) ); ?>">
+        <span><?php _e('Back to Checkout', 'flatsome'); ?></span>
+      </a>
+    </div>
+  </div>
+</div>
+
 <div class="pre-order-details">
 	<!-- left column -->
 	<div class="pre-order-left">

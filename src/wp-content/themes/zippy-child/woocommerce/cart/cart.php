@@ -132,6 +132,12 @@ $sidebar_classes = implode( ' ', $sidebar_classes );
 									</div>
 								</td>
 
+								<td class="product-subtotal-before-sale" data-title="<?php esc_attr_e( 'Subtotal Before Sale', 'woocommerce' ); ?>">
+									<?php
+										echo wc_price($_product->get_regular_price() * $cart_item['quantity']);
+									?>
+								</td>
+
 								<td class="product-subtotal" data-title="<?php esc_attr_e( 'Subtotal', 'woocommerce' ); ?>">
 									<?php
 										echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // PHPCS: XSS ok.
@@ -184,7 +190,7 @@ $sidebar_classes = implode( ' ', $sidebar_classes );
 
 			<div class="cart-secure-badge">
 				<img src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/icons/safe.svg" alt="Secure checkout">
-				<?php esc_html_e( 'Secure checkout powered by Antom', 'woocommerce' ); ?>
+				<?php esc_html_e( 'Secure checkout powered by 2c2p', 'woocommerce' ); ?>
 			</div>
 
 		</div>

@@ -1,7 +1,7 @@
 // ── Variables ─────────────────────────────────────────
 $blue: #0a22aa;
 $green: #35aa2f;
-$grey-line: #e5e7eb;
+$grey-line: $checkout-gray;
 $grey-text: #767e93;
 $text: #212121;
 $white: #ffffff;
@@ -564,16 +564,29 @@ $white: #ffffff;
 // Order-receipt
 .woocommerce-order-pay {
   .order-receipt {
-    padding-top: 40px;
+    padding-top: 20px;
     padding-bottom: 40px;
     display: flex;
+    align-items: flex-start;
+    gap: 32px;
 
     @include only-mobile {
       flex-flow: column-reverse;
+      gap: 24px;
     }
 
     .payment-method-details {
       width: 100%;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid $checkout-gray;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .06);
+      padding: 24px;
+
+      @include only-mobile {
+        padding: 24px 16px;
+      }
     }
 
     .order-details {
@@ -581,13 +594,15 @@ $white: #ffffff;
       flex-shrink: 0;
       margin-bottom: 16px;
       background: #fff;
-      border: 1px solid #e5e7eb;
+      border: 1px solid $checkout-gray;
       border-radius: 12px;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
       padding: 24px;
+      margin: 0;
 
       @include only-mobile {
         width: 100%;
+        padding: 24px 16px;
       }
 
       .order-details-title {
@@ -609,6 +624,13 @@ $white: #ffffff;
           gap: 24px;
           padding: 12px 0;
           margin: 0;
+
+          &.total {
+            border-top: 1px solid $checkout-gray;
+            padding-bottom: 0;
+            padding-top: 20px;
+            margin-top: 12px;
+          }
 
           p {
             margin: 0;

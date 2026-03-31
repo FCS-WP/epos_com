@@ -132,6 +132,12 @@ $sidebar_classes = implode( ' ', $sidebar_classes );
 									</div>
 								</td>
 
+								<td class="product-subtotal-before-sale" data-title="<?php esc_attr_e( 'Subtotal Before Sale', 'woocommerce' ); ?>">
+									<?php
+										echo wc_price($_product->get_regular_price() * $cart_item['quantity']);
+									?>
+								</td>
+
 								<td class="product-subtotal" data-title="<?php esc_attr_e( 'Subtotal', 'woocommerce' ); ?>">
 									<?php
 										echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // PHPCS: XSS ok.

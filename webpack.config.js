@@ -20,6 +20,8 @@ const localDomain = process.env.PROJECT_HOST
 // Define Work path
 const destFileCss = destChildTheme + "/assets/sass/app.scss";
 const destFileJs = destChildTheme + "/assets/js/app.js";
+const destExternalFileJs = destChildTheme + "/assets/js/externals/webflow/index.js";
+
 const destOutput = destChildTheme + "/assets/dist";
 
 module.exports = [
@@ -27,6 +29,7 @@ module.exports = [
     stats: "minimal",
     entry: {
       main: [destFileCss, destFileJs],
+      externals: [destExternalFileJs],
     },
     output: {
       filename: destOutput + "/js/[name].min.js",
@@ -87,7 +90,7 @@ module.exports = [
       ],
     },
     externals: {
-      jquery: 'jQuery', 
+      jquery: "jQuery",
     },
     plugins: [
       // Get ENV Variables
@@ -117,7 +120,7 @@ module.exports = [
           ],
           injectCss: true,
         },
-        { reload: false }
+        { reload: false },
       ),
     ],
     optimization: {

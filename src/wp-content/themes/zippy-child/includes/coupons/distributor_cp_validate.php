@@ -124,14 +124,16 @@ add_action('wp_footer', function () {
 ?>
     <script>
         jQuery(function($) {
+            let timer;
+            let $apply_btn = $('button[name="apply_coupon"]');
             $(document.body).on('input', '#billing_company', function() {
                 let val = $(this).val().trim();
-                let $apply_btn = $('button[name="apply_coupon"]');
-                let timer;
+                $apply_btn.prop('disabled', true);
                 
                 clearTimeout(timer);
                 timer = setTimeout(() => {
                     $('form.checkout').trigger('update_checkout');
+                    $apply_btn.prop('disabled', false);
                 }, 750);
             });
         });

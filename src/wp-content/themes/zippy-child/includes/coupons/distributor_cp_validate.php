@@ -123,21 +123,18 @@ add_action('wp_footer', function () {
     if (is_checkout()) {
 ?>
     <script>
-    jQuery(function($) {
-        $(document.body).on('change', '#billing_company', function() {
-            let val = $(this).val().trim();
-            let $apply_btn = $('button[name="apply_coupon"]');
-            if (val === '') {
-                $apply_btn.prop('disabled', true);
-                $('#coupon_code').after('<p id="company-note" style="color:#d63638; display:none;">Please enter your company before applying a coupon.</p>');
-                $('#company-note').show();
-            } else {
-                $apply_btn.prop('disabled', false);
-                $('#company-note').hide();
-            }
-            $('form.checkout').trigger('update_checkout');
+        jQuery(function($) {
+            $(document.body).on('input', '#billing_company', function() {
+                let val = $(this).val().trim();
+                let $apply_btn = $('button[name="apply_coupon"]');
+                let timer;
+                
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    $('form.checkout').trigger('update_checkout');
+                }, 750);
+            });
         });
-    });
     </script>
 <?php
     }

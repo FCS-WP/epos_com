@@ -134,7 +134,7 @@ add_action('wp_footer', function () {
                 timer = setTimeout(() => {
                     $('form.checkout').trigger('update_checkout');
                     $apply_btn.prop('disabled', false);
-                }, 750);
+                }, 1000);
             });
         });
     </script>

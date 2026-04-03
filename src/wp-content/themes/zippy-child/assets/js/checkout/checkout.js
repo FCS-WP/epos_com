@@ -227,8 +227,6 @@ document.addEventListener("DOMContentLoaded", () => {
       let $error = $('.js-epos-coupon-error');
       let billingCompany = $('#billing_company').val().trim() || '';
 
-      console.log(billingCompany, !billingCompany);
-
       if (!billingCompany) {
         let notice = 'Please enter your company name before applying the coupon.';
         

@@ -58,6 +58,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let $blocks = $('.js-checkout-block');
 
   $window.resize(function() {
+    // WooCommerce fragment events break this,
+    // so we need to reinitialize this every time 
+    $blocks = $('.js-checkout-block');
+
     $blocks.each(function() {
       let $block = $(this);
       let $header = $block.children('.js-checkout-header');
@@ -221,13 +225,27 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       let value = $couponInput.val();
       let $error = $('.js-epos-coupon-error');
+      let billingCompany = $('#billing_company').val().trim() || '';
 
-      $couponInput.removeClass('has-error');
-      $error.slideUp(400, function() {
+      if (!billingCompany) {
+        let notice = 'Please enter your company name before applying the coupon.';
+        
+        $couponInput.addClass('has-error');
         $error.remove();
-      });
-      $realCouponInput.val(value);
-      $realCouponBtn.trigger('click');
+        $coupon.append(`
+          <p class="js-epos-coupon-error checkout-inline-error-message">
+            ${notice}
+          </p>
+        `);
+        $('.js-epos-coupon-error').slideDown();
+      } else {
+        $couponInput.removeClass('has-error');
+        $error.slideUp(400, function() {
+          $error.remove();
+        });
+        $realCouponInput.val(value);
+        $realCouponBtn.trigger('click');
+      }
     });
   }
 
@@ -236,8 +254,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let notice = $notice.text().trim();
 
     if (notice) {
-      $couponInput.addClass('has-error');
+      let redundantError = 'Coupon is not valid.';
 
+      if (notice.trim() !== redundantError && notice.includes(redundantError)) {
+        notice = notice.replace(redundantError, '').trim();
+      }
+      
+      $couponInput.addClass('has-error');
       $coupon.append(`
         <p class="js-epos-coupon-error checkout-inline-error-message">
           ${notice}
@@ -245,6 +268,20 @@ document.addEventListener("DOMContentLoaded", () => {
       `);
 
       $('.js-epos-coupon-error').slideDown();
+    }
+  });
+
+  // Intercept apply_coupon ajax to send additional data
+  // This script is mandatory for the distributor coupon feature:
+  // - includes/coupons/distributor_cp_validate.php
+  // - includes/coupons/distributor_cp_config.php
+  $(document).ajaxSend(function(event, jqxhr, settings) {
+    if (settings.url && settings.url.indexOf('wc-ajax=apply_coupon') !== -1) {
+      let billingCompany = $('#billing_company').val() || '';
+
+      if (typeof settings.data === 'string' && settings.data.indexOf('billing_company=') === -1) {
+        settings.data += '&billing_company=' + encodeURIComponent(billingCompany);
+      }
     }
   });
 

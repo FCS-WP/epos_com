@@ -1,12 +1,4 @@
 <?php
-// Hide default coupon error message for distributor coupon
-add_filter('woocommerce_coupon_error', function ($msg, $code, $coupon) {
-    if ($coupon && is_distributor_coupon($coupon)) {
-        return '';
-    }
-    return $msg;
-}, 10, 3);
-
 // Success message for distributor coupon
 add_filter('woocommerce_coupon_message', function ($msg, $msg_code, $coupon) {
     if (!$coupon || !is_distributor_coupon($coupon)) {
@@ -75,16 +67,18 @@ add_filter('woocommerce_coupon_is_valid', function ($is_valid, $coupon) {
 
     if (!$billing_company) {
         wc_add_notice(
-            __('Please enter your company name at form below to apply this coupon.', 'woocommerce'),
+            __('Please enter your company name before applying the coupon.', 'woocommerce'),
             'error'
         );
+        WC()->cart->remove_coupon($coupon->get_code());
         return false;
     }
 
     if ($billing_company !== $distributor_name) {
         wc_add_notice(
             sprintf(
-                __('This coupon is not valid for distributor %s, please check company name again.', 'woocommerce'),
+                __('The coupon %s is not valid for distributor %s and thus has been removed or rejected, please try again with a valid company nane.', 'woocommerce'),
+                $coupon->get_code(),
                 $billing_company
             ),
             'error'
@@ -109,7 +103,6 @@ add_filter('woocommerce_coupon_is_valid', function ($is_valid, $coupon) {
     return $is_valid;
 }, 10, 2);
 
-
 // Hide coupons apply on cart page
 add_filter('woocommerce_coupons_enabled', function ($enabled) {
     if (is_cart()) {
@@ -118,29 +111,7 @@ add_filter('woocommerce_coupons_enabled', function ($enabled) {
     return $enabled;
 });
 
-// Update billing company 
-add_action('wp_footer', function () {
-    if (is_checkout()) {
-?>
-    <script>
-        jQuery(function($) {
-            let timer;
-            let $apply_btn = $('button[name="apply_coupon"]');
-            $(document.body).on('input', '#billing_company', function() {
-                let val = $(this).val().trim();
-                $apply_btn.prop('disabled', true);
-                
-                clearTimeout(timer);
-                timer = setTimeout(() => {
-                    $('form.checkout').trigger('update_checkout');
-                    $apply_btn.prop('disabled', false);
-                }, 1000);
-            });
-        });
-    </script>
-<?php
-    }
-});
+// Set billing company sent along apply_coupon
 add_action('woocommerce_checkout_update_order_review', function ($post_data) {
     parse_str($post_data, $data);
     if (!empty($data['billing_company'])) {

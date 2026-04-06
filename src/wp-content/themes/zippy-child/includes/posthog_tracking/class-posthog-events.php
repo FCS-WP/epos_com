@@ -6,13 +6,51 @@ class PostHog_Events
 {
   public function __construct()
   {
-    // add_action('wp_footer', array($this, 'inject_woocommerce_events'));
     add_action('wp_footer', array($this, 'inject_checkout_events'));
-    // add_action('wp_footer', array($this, 'inject_order_received_identify'));
-    // add_action('wp_footer', array($this, 'inject_promo_popup_events'));
-    // add_action('wp_footer', array($this, 'inject_onboarding_events'));
-    // add_action('wp_footer', array($this, 'inject_homepage_tab_events'));
     add_action('woocommerce_payment_complete', array($this, 'track_purchase'));
+  }
+
+  /**
+   * Track checkout interactions: coupon applied and place order clicked.
+   */
+  public function inject_checkout_events()
+  {
+    if (!function_exists('is_checkout') || !is_checkout() || is_order_received_page()) {
+      return;
+    }
+?>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        if (typeof posthog === 'undefined') return;
+
+        // Identify guest users as soon as they enter their billing email
+        var $billingEmail = jQuery('#billing_email');
+        var identifiedByEmail = false;
+        $billingEmail.on('blur', function() {
+          var email = $billingEmail.val().trim();
+          if (email && !identifiedByEmail) {
+            posthog.identify(email, { email: email });
+            identifiedByEmail = true;
+          }
+        });
+
+        // Track begin_checkout
+        posthog.capture('begin_checkout', {
+          currency: '<?php echo esc_js(get_woocommerce_currency()); ?>',
+          value: <?php echo WC()->cart ? (float) WC()->cart->total : 0; ?>,
+          items: <?php echo wp_json_encode(array_map(function($cart_item) {
+            $product = $cart_item['data'];
+            return [
+              'product_id' => $product->get_id(),
+              'name'       => $product->get_name(),
+              'quantity'   => $cart_item['quantity'],
+              'price'      => (float) $product->get_price(),
+            ];
+          }, WC()->cart ? WC()->cart->get_cart() : [])); ?>
+        });
+      });
+    </script>
+<?php
   }
 
   /**
@@ -49,115 +87,6 @@ class PostHog_Events
       'coupon_codes'    => $coupon_codes,
       'referral_code'   => $order->get_meta('referral_code') ?: null,
     ));
-  }
-
-  /**
-   * Track add_to_cart via the WooCommerce added_to_cart JS event.
-   */
-  public function inject_woocommerce_events()
-  {
-?>
-    <script>
-      jQuery(document.body).on('added_to_cart', function(event, fragments, cart_hash, $button) {
-        if (typeof posthog === 'undefined') return;
-        posthog.capture('add_to_cart', {
-          product_id: String($button.data('product_id') || ''),
-          product_name: $button.attr('aria-label') || '',
-          quantity: parseInt($button.data('quantity')) || 1,
-          price: parseFloat($button.data('price')) || 0,
-          currency: '<?php echo esc_js(get_woocommerce_currency()); ?>',
-        });
-      });
-    </script>
-<?php
-  }
-
-  /**
-   * Track checkout interactions: coupon applied and place order clicked.
-   */
-  public function inject_checkout_events()
-  {
-    if (!function_exists('is_checkout') || !is_checkout() || is_order_received_page()) {
-      return;
-    }
-?>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        if (typeof posthog === 'undefined') return;
-
-        // Track coupon applied
-        // jQuery(document.body).on('applied_coupon_in_checkout', function(e, coupon) {
-        //   posthog.capture('coupon_applied', {
-        //     coupon_code: coupon || '',
-        //   });
-        // });
-
-        // Track place order button click
-        // jQuery(document).on('click', '#place_order', function() {
-        //   posthog.capture('place_order_clicked', {
-        //     page: window.location.href,
-        //   });
-        // });
-
-        // Identify guest users as soon as they enter their billing email
-        var $billingEmail = jQuery('#billing_email');
-        var identifiedByEmail = false;
-        $billingEmail.on('blur', function() {
-          var email = $billingEmail.val().trim();
-          if (email && !identifiedByEmail) {
-            posthog.identify(email, { email: email });
-            identifiedByEmail = true;
-          }
-        });
-
-        // Track begin_checkout
-        // if (!sessionStorage.getItem('ph_begin_checkout_fired')) {
-          console.log('begin_checkout');
-          posthog.capture('begin_checkout', {
-            currency: '<?php echo esc_js(get_woocommerce_currency()); ?>',
-            value: <?php echo WC()->cart ? (float) WC()->cart->total : 0; ?>,
-            items: <?php echo wp_json_encode(array_map(function($cart_item) {
-              $product = $cart_item['data'];
-              return [
-                'product_id' => $product->get_id(),
-                'name'       => $product->get_name(),
-                'quantity'   => $cart_item['quantity'],
-                'price'      => (float) $product->get_price(),
-              ];
-            }, WC()->cart ? WC()->cart->get_cart() : [])); ?>
-          });
-        //   sessionStorage.setItem('ph_begin_checkout_fired', '1');
-        // }
-      });
-    </script>
-<?php
-  }
-
-  /**
-   * Identify guest users on the order received (thank-you) page.
-   * This ensures the purchase server-side event distinct_id matches client-side.
-   */
-  public function inject_order_received_identify()
-  {
-    if (! function_exists('is_order_received_page') || ! is_order_received_page()) return;
-
-    $order_id = absint(get_query_var('order-received'));
-    if (! $order_id) return;
-
-    $order = wc_get_order($order_id);
-    if (! $order) return;
-
-    $email = $order->get_billing_email();
-    if (! $email) return;
-?>
-    <script>
-      if (typeof posthog !== 'undefined') {
-        posthog.identify('<?php echo esc_js($email); ?>', {
-          email: '<?php echo esc_js($email); ?>',
-        });
-      }
-    </script>
-<?php
   }
 
   /**

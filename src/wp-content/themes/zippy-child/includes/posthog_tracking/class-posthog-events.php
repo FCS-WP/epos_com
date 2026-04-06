@@ -8,6 +8,17 @@ class PostHog_Events
   {
     add_action('wp_footer', array($this, 'inject_checkout_events'));
     add_action('woocommerce_payment_complete', array($this, 'track_purchase'));
+    add_action('wp_footer', array($this, 'clear_signatures'));
+  }
+
+  public function clear_signatures() {
+    if (!function_exists('is_order_received_page') || !is_order_received_page()) return;
+?>
+    <script>
+      console.log('clear_signatures');
+      sessionStorage.removeItem('ph_begin_checkout_cart_signature');
+    </script>
+<?php
   }
 
   /**
@@ -18,6 +29,27 @@ class PostHog_Events
     if (!function_exists('is_checkout') || !is_checkout() || is_order_received_page()) {
       return;
     }
+
+    $cart_items = [];
+
+    foreach (WC()->cart->get_cart() as $cart_item) {
+      $product = $cart_item['data'];
+      $cart_items[] = [
+        'product_id'   => $product->get_id(),
+        'variation_id' => !empty($cart_item['variation_id']) ? $cart_item['variation_id'] : 0,
+        'quantity'     => $cart_item['quantity'],
+        'price'        => (float) $product->get_price(),
+        'name'         => $product->get_name(),
+      ];
+    }
+
+    $cart_signature = md5(wp_json_encode(array_map(function($item) {
+      return [
+        'product_id'   => $item['product_id'],
+        'variation_id' => $item['variation_id'],
+        'quantity'     => $item['quantity'],
+      ];
+    }, $cart_items)));
 ?>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -35,19 +67,28 @@ class PostHog_Events
         });
 
         // Track begin_checkout
-        posthog.capture('begin_checkout', {
-          currency: '<?php echo esc_js(get_woocommerce_currency()); ?>',
-          value: <?php echo WC()->cart ? (float) WC()->cart->total : 0; ?>,
-          items: <?php echo wp_json_encode(array_map(function($cart_item) {
-            $product = $cart_item['data'];
-            return [
-              'product_id' => $product->get_id(),
-              'name'       => $product->get_name(),
-              'quantity'   => $cart_item['quantity'],
-              'price'      => (float) $product->get_price(),
-            ];
-          }, WC()->cart ? WC()->cart->get_cart() : [])); ?>
-        });
+        const currentCartSignature = <?php echo wp_json_encode($cart_signature); ?>;
+        const previousCartSignature = sessionStorage.getItem('ph_begin_checkout_cart_signature');
+
+        if (previousCartSignature !== currentCartSignature) {
+          console.log('begin_checkout');
+          posthog.capture('begin_checkout', {
+            currency: '<?php echo esc_js(get_woocommerce_currency()); ?>',
+            value: <?php echo WC()->cart ? (float) WC()->cart->total : 0; ?>,
+            items: <?php echo wp_json_encode(array_map(function($cart_item) {
+              $product = $cart_item['data'];
+              return [
+                'product_id' => $product->get_id(),
+                'name'       => $product->get_name(),
+                'quantity'   => $cart_item['quantity'],
+                'price'      => (float) $product->get_price(),
+                'coupon_codes' => $coupon_codes,
+              ];
+            }, WC()->cart ? WC()->cart->get_cart() : [])); ?>
+          });
+
+          sessionStorage.setItem('ph_begin_checkout_cart_signature', currentCartSignature);
+        }
       });
     </script>
 <?php

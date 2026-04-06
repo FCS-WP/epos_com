@@ -1,0 +1,471 @@
+<?php
+
+namespace EposAffiliate\Controllers;
+
+defined( 'ABSPATH' ) || exit;
+
+use EposAffiliate\Models\BD;
+use EposAffiliate\Models\Reseller;
+use EposAffiliate\Models\OrderAttribution;
+use EposAffiliate\Models\Commission;
+use WP_REST_Request;
+use WP_REST_Response;
+
+class DashboardController {
+
+    /**
+     * Reseller Manager dashboard — scoped to own reseller_id.
+     */
+    public static function reseller( WP_REST_Request $request ) {
+        $reseller = self::get_current_reseller();
+        if ( ! $reseller ) {
+            return new WP_REST_Response( [ 'message' => 'Reseller not found for this user.' ], 403 );
+        }
+
+        $date_from = $request->get_param( 'date_from' );
+        $date_to   = $request->get_param( 'date_to' );
+        $bd_filter = $request->get_param( 'bd_id' );
+
+        // Get all BDs for this reseller.
+        $bds = BD::all( [ 'reseller_id' => $reseller->id ] );
+
+        // Attribution stats grouped by BD.
+        $attr_stats = OrderAttribution::stats_by_reseller( $reseller->id, $date_from, $date_to );
+        $attr_map   = [];
+        foreach ( $attr_stats as $s ) {
+            $attr_map[ $s->bd_id ] = $s;
+        }
+
+        // Sales commission per BD.
+        $sales_commissions = Commission::sum_by_bd_for_reseller( $reseller->id, 'sales', $date_from, $date_to );
+        $sales_map = [];
+        foreach ( $sales_commissions as $sc ) {
+            $sales_map[ $sc->bd_id ] = (float) $sc->total;
+        }
+
+        // Usage bonus per BD (last month).
+        $last_month   = gmdate( 'Y-m', strtotime( '-1 month' ) );
+        $usage_bonuses = Commission::sum_by_bd_for_reseller( $reseller->id, 'usage_bonus' );
+        $usage_map = [];
+        foreach ( $usage_bonuses as $ub ) {
+            $usage_map[ $ub->bd_id ] = (float) $ub->total;
+        }
+
+        // Build BD performance rows.
+        $bd_rows = [];
+        $total_orders           = 0;
+        $total_revenue          = 0;
+        $total_sales_commission = 0;
+        $total_usage_bonus      = 0;
+
+        foreach ( $bds as $bd ) {
+            if ( $bd_filter && (int) $bd->id !== (int) $bd_filter ) {
+                continue;
+            }
+
+            $stats       = $attr_map[ $bd->id ] ?? null;
+            $orders      = $stats ? (int) $stats->total_orders : 0;
+            $revenue     = $stats ? (float) $stats->total_revenue : 0;
+            $sales_comm  = $sales_map[ $bd->id ] ?? 0;
+            $usage_bonus = $usage_map[ $bd->id ] ?? 0;
+
+            $bd_rows[] = [
+                'id'               => $bd->id,
+                'name'             => $bd->name,
+                'tracking_code'    => $bd->tracking_code,
+                'orders'           => $orders,
+                'revenue'          => $revenue,
+                'sales_commission' => $sales_comm,
+                'usage_bonus'      => $usage_bonus,
+                'last_sale_date'   => $stats->last_sale_date ?? null,
+            ];
+
+            $total_orders           += $orders;
+            $total_revenue          += $revenue;
+            $total_sales_commission += $sales_comm;
+            $total_usage_bonus      += $usage_bonus;
+        }
+
+        $active_bd_count = BD::count_by_reseller( $reseller->id, 'active' );
+
+        // BD list for filter dropdown.
+        $bd_list = array_map( function( $bd ) {
+            return [ 'id' => $bd->id, 'name' => $bd->name ];
+        }, $bds );
+
+        return new WP_REST_Response( [
+            'kpis' => [
+                'total_orders'           => $total_orders,
+                'total_revenue'          => $total_revenue,
+                'total_sales_commission' => $total_sales_commission,
+                'total_usage_bonus'      => $total_usage_bonus,
+                'active_bd_count'        => $active_bd_count,
+            ],
+            'bds'     => $bd_rows,
+            'bd_list' => $bd_list,
+        ], 200 );
+    }
+
+    /**
+     * Reseller Manager CSV export.
+     */
+    public static function reseller_export( WP_REST_Request $request ) {
+        $response = self::reseller( $request );
+        $data     = $response->get_data();
+        $rows     = $data['bds'] ?? [];
+
+        header( 'Content-Type: text/csv; charset=utf-8' );
+        header( 'Content-Disposition: attachment; filename="reseller-report.csv"' );
+
+        $output = fopen( 'php://output', 'w' );
+        fputcsv( $output, [ 'BD Name', 'Tracking Code', 'Orders', 'Revenue', 'Sales Commission', 'Usage Bonus', 'Last Sale' ] );
+
+        foreach ( $rows as $row ) {
+            fputcsv( $output, [
+                $row['name'],
+                $row['tracking_code'],
+                $row['orders'],
+                number_format( $row['revenue'], 2, '.', '' ),
+                number_format( $row['sales_commission'], 2, '.', '' ),
+                number_format( $row['usage_bonus'], 2, '.', '' ),
+                $row['last_sale_date'] ?? '',
+            ] );
+        }
+
+        fclose( $output );
+        exit;
+    }
+
+    /**
+     * BD Agent dashboard — scoped to own BD record.
+     */
+    public static function bd( WP_REST_Request $request ) {
+        $bd = self::get_current_bd();
+        if ( ! $bd ) {
+            return new WP_REST_Response( [ 'message' => 'BD not found for this user.' ], 403 );
+        }
+
+        $date_from = $request->get_param( 'date_from' );
+        $date_to   = $request->get_param( 'date_to' );
+
+        // Attribution stats.
+        $stats = OrderAttribution::stats_for_bd( $bd->id, $date_from, $date_to );
+
+        // Commissions.
+        // $commission_paid    = Commission::sum_for_bd( $bd->id, 'sales', 'paid' );
+        // $commission_pending = Commission::sum_for_bd( $bd->id, 'sales', 'pending' )
+                            + Commission::sum_for_bd( $bd->id, 'sales', 'approved' );
+
+        $current_month         = gmdate( 'Y-m' );
+        $last_month            = gmdate( 'Y-m', strtotime( '-1 month' ) );
+        $usage_bonus_current   = Commission::sum_for_bd( $bd->id, 'usage_bonus' );
+        $usage_bonus_last_paid = 0;
+
+        // Order history from attributions.
+        $attributions = OrderAttribution::all( array_filter( [
+            'bd_id'     => $bd->id,
+            'date_from' => $date_from,
+            'date_to'   => $date_to,
+        ] ) );
+
+        $orders = [];
+        foreach ( $attributions as $attr ) {
+            // Get commission for this order.
+            $commission_records = Commission::all( [
+                'bd_id' => $bd->id,
+                'type'  => 'sales',
+            ] );
+            $comm_amount = 0;
+            $comm_status = 'pending';
+            foreach ( $commission_records as $cr ) {
+                if ( (int) $cr->reference_id === (int) $attr->order_id ) {
+                    $comm_amount = (float) $cr->amount;
+                    $comm_status = $cr->status;
+                    break;
+                }
+            }
+
+            // Get item quantity from WC order.
+            $wc_order  = wc_get_order( $attr->order_id );
+            $num_units = 0;
+            if ( $wc_order ) {
+                foreach ( $wc_order->get_items() as $item ) {
+                    $num_units += $item->get_quantity();
+                }
+            }
+
+            $orders[] = [
+                'order_id'           => $attr->order_id,
+                'date'               => $attr->attributed_at,
+                'value'              => (float) $attr->order_value,
+                'num_units'          => $num_units,
+                'usage_target_met'   => false, // Phase 2 placeholder
+                'commission'         => $comm_amount,
+                'usage_bonus'        => 0, // Phase 2
+                'payout_status'      => $comm_status,
+            ];
+        }
+
+        return new WP_REST_Response( [
+            'tracking_code' => $bd->tracking_code,
+            'kpis' => [
+                'total_orders'         => (int) ( $stats->total_orders ?? 0 ),
+                // 'commission_paid'      => $commission_paid,
+                // 'commission_pending'   => $commission_pending,
+                // 'usage_bonus_current'  => $usage_bonus_current,
+                'usage_bonus_last_paid'=> $usage_bonus_last_paid,
+            ],
+            'orders' => $orders,
+        ], 200 );
+    }
+
+    /**
+     * Reseller views orders for a specific BD.
+     */
+    public static function reseller_bd_orders( WP_REST_Request $request ) {
+        $reseller = self::get_current_reseller();
+        if ( ! $reseller ) {
+            return new WP_REST_Response( [ 'message' => 'Reseller not found.' ], 403 );
+        }
+
+        $bd_id = absint( $request->get_param( 'bd_id' ) );
+        $bd    = BD::find( $bd_id );
+
+        if ( ! $bd || (int) $bd->reseller_id !== (int) $reseller->id ) {
+            return new WP_REST_Response( [ 'message' => 'BD not found or not in your organization.' ], 403 );
+        }
+
+        $date_from = $request->get_param( 'date_from' );
+        $date_to   = $request->get_param( 'date_to' );
+
+        $attributions = OrderAttribution::all( array_filter( [
+            'bd_id'     => $bd->id,
+            'date_from' => $date_from,
+            'date_to'   => $date_to,
+        ] ) );
+
+        $commission_records = Commission::all( [
+            'bd_id' => $bd->id,
+            'type'  => 'sales',
+        ] );
+
+        $comm_map = [];
+        foreach ( $commission_records as $cr ) {
+            $comm_map[ (int) $cr->reference_id ] = $cr;
+        }
+
+        $orders = [];
+        foreach ( $attributions as $attr ) {
+            $cr        = $comm_map[ (int) $attr->order_id ] ?? null;
+            $wc_order  = wc_get_order( $attr->order_id );
+            $num_units = 0;
+            if ( $wc_order ) {
+                foreach ( $wc_order->get_items() as $item ) {
+                    $num_units += $item->get_quantity();
+                }
+            }
+            $orders[]  = [
+                'order_id'           => $attr->order_id,
+                'date'               => $attr->attributed_at,
+                'value'              => (float) $attr->order_value,
+                'num_units'          => $num_units,
+                'usage_target_met'   => false, // Phase 2 placeholder
+                'commission'         => $cr ? (float) $cr->amount : 0,
+                'usage_bonus'        => 0, // Phase 2
+                'payout_status'      => $cr ? $cr->status : 'pending',
+            ];
+        }
+
+        return new WP_REST_Response( [
+            'bd' => [
+                'id'            => $bd->id,
+                'name'          => $bd->name,
+                'tracking_code' => $bd->tracking_code,
+            ],
+            'orders' => $orders,
+        ], 200 );
+    }
+
+    /**
+     * BD Agent CSV export.
+     */
+    public static function bd_export( WP_REST_Request $request ) {
+        $response = self::bd( $request );
+        $data     = $response->get_data();
+        $orders   = $data['orders'] ?? [];
+
+        header( 'Content-Type: text/csv; charset=utf-8' );
+        header( 'Content-Disposition: attachment; filename="my-orders.csv"' );
+
+        $output = fopen( 'php://output', 'w' );
+        fputcsv( $output, [ 'Order ID', 'Date', 'Value', 'Number of Units', 'Usage Target Met', 'Sales Commission', 'Usage Bonus', 'Status' ] );
+
+        foreach ( $orders as $order ) {
+            fputcsv( $output, [
+                $order['order_id'],
+                $order['date'] ?? '',
+                number_format( $order['value'], 2, '.', '' ),
+                $order['num_units'] ?? 0,
+                ( $order['usage_target_met'] ?? false ) ? 'Yes' : 'No',
+                number_format( $order['commission'], 2, '.', '' ),
+                number_format( $order['usage_bonus'] ?? 0, 2, '.', '' ),
+                $order['payout_status'],
+            ] );
+        }
+
+        fclose( $output );
+        exit;
+    }
+
+    /**
+     * Reseller views a BD's orders — CSV export.
+     */
+    public static function reseller_bd_orders_export( WP_REST_Request $request ) {
+        $response = self::reseller_bd_orders( $request );
+        $data     = $response->get_data();
+        $orders   = $data['orders'] ?? [];
+        $bd       = $data['bd'] ?? [];
+
+        $filename = 'orders-' . sanitize_file_name( $bd['tracking_code'] ?? 'export' ) . '.csv';
+
+        header( 'Content-Type: text/csv; charset=utf-8' );
+        header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+
+        $output = fopen( 'php://output', 'w' );
+        fputcsv( $output, [ 'Order ID', 'Date', 'Value', 'Number of Units', 'Usage Target Met', 'Sales Commission', 'Usage Bonus', 'Status' ] );
+
+        foreach ( $orders as $order ) {
+            fputcsv( $output, [
+                $order['order_id'],
+                $order['date'] ?? '',
+                number_format( $order['value'], 2, '.', '' ),
+                $order['num_units'] ?? 0,
+                ( $order['usage_target_met'] ?? false ) ? 'Yes' : 'No',
+                number_format( $order['commission'], 2, '.', '' ),
+                number_format( $order['usage_bonus'] ?? 0, 2, '.', '' ),
+                $order['payout_status'],
+            ] );
+        }
+
+        fclose( $output );
+        exit;
+    }
+
+    /**
+     * Admin dashboard — system-wide overview.
+     */
+    public static function admin( WP_REST_Request $request ) {
+        // KPIs.
+        $total_stats      = OrderAttribution::stats_total();
+        $total_resellers  = Reseller::count();
+        $active_resellers = Reseller::count( 'active' );
+        $total_bds        = self::count_all_bds();
+        $active_bds       = self::count_all_bds( 'active' );
+
+        // Pending payouts.
+        $pending_commissions = Commission::all( [ 'status' => 'pending' ] );
+        $approved_commissions = Commission::all( [ 'status' => 'approved' ] );
+        $pending_payout = 0;
+        foreach ( $pending_commissions as $c ) {
+            $pending_payout += (float) $c->amount;
+        }
+        foreach ( $approved_commissions as $c ) {
+            $pending_payout += (float) $c->amount;
+        }
+
+        // Chart data (last 30 days).
+        $chart = OrderAttribution::stats_daily( 30 );
+        $chart_data = [];
+        foreach ( $chart as $row ) {
+            $chart_data[] = [
+                'date'    => $row->date,
+                'revenue' => (float) $row->revenue,
+                'orders'  => (int) $row->orders,
+            ];
+        }
+
+        // Top resellers.
+        $top_resellers_raw = OrderAttribution::top_resellers( 5 );
+        $top_resellers = [];
+        foreach ( $top_resellers_raw as $r ) {
+            $top_resellers[] = [
+                'name'    => $r->name ?: 'Unknown',
+                'revenue' => (float) $r->revenue,
+                'orders'  => (int) $r->orders,
+            ];
+        }
+
+        // Recent transactions.
+        $recent_raw = OrderAttribution::recent( 10 );
+        $recent = [];
+        foreach ( $recent_raw as $r ) {
+            $recent[] = [
+                'order_id'  => $r->order_id,
+                'bd_name'   => $r->bd_name ?: 'Unknown',
+                'reseller'  => $r->reseller_name ?: 'Unknown',
+                'value'     => (float) $r->order_value,
+                'status'    => $r->commission_status ?: 'pending',
+                'date'      => $r->attributed_at,
+                'tracking_code' => $r->tracking_code ?: '',
+            ];
+        }
+
+        return new WP_REST_Response( [
+            'kpis' => [
+                'total_revenue'    => (float) ( $total_stats->total_revenue ?? 0 ),
+                'total_orders'     => (int) ( $total_stats->total_orders ?? 0 ),
+                'total_resellers'  => $total_resellers,
+                'active_resellers' => $active_resellers,
+                'total_bds'        => $total_bds,
+                'active_bds'       => $active_bds,
+                'pending_payouts'  => $pending_payout,
+            ],
+            'chart'          => $chart_data,
+            'top_resellers'  => $top_resellers,
+            'recent'         => $recent,
+        ], 200 );
+    }
+
+    // ── Helpers ──
+
+    /**
+     * Get the reseller record for the current logged-in user.
+     * Admin gets the first reseller (for testing).
+     */
+    private static function get_current_reseller() {
+        $user = wp_get_current_user();
+
+        if ( in_array( 'administrator', $user->roles, true ) ) {
+            $all = Reseller::all();
+            return $all[0] ?? null;
+        }
+
+        return Reseller::find_by_user_id( $user->ID );
+    }
+
+    /**
+     * Get the BD record for the current logged-in user.
+     */
+    private static function get_current_bd() {
+        $user = wp_get_current_user();
+        return BD::find_by_user_id( $user->ID );
+    }
+
+    /**
+     * Count all BDs in the system.
+     */
+    private static function count_all_bds( $status = null ) {
+        global $wpdb;
+        $table = $wpdb->prefix . 'epos_bds';
+
+        if ( $status ) {
+            return (int) $wpdb->get_var(
+                $wpdb->prepare( "SELECT COUNT(*) FROM %i WHERE status = %s", $table, $status )
+            );
+        }
+
+        return (int) $wpdb->get_var(
+            $wpdb->prepare( "SELECT COUNT(*) FROM %i", $table )
+        );
+    }
+}

@@ -15,7 +15,6 @@ class PostHog_Events
     if (!function_exists('is_order_received_page') || !is_order_received_page()) return;
 ?>
     <script>
-      console.log('clear_signatures');
       sessionStorage.removeItem('ph_begin_checkout_cart_signature');
     </script>
 <?php
@@ -71,7 +70,6 @@ class PostHog_Events
         const previousCartSignature = sessionStorage.getItem('ph_begin_checkout_cart_signature');
 
         if (previousCartSignature !== currentCartSignature) {
-          console.log('begin_checkout');
           posthog.capture('begin_checkout', {
             currency: '<?php echo esc_js(get_woocommerce_currency()); ?>',
             value: <?php echo WC()->cart ? (float) WC()->cart->total : 0; ?>,

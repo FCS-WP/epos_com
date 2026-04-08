@@ -303,3 +303,14 @@ add_filter('woocommerce_locate_template', function($template, $template_name, $d
   // If not found or not the right template, return the original $template
   return $template;
 }, 99, 3);
+
+/**
+ * Disable zoom on Checkout page
+ */
+add_filter('flatsome_viewport_meta', function($meta) {
+  if (function_exists('is_checkout') && is_checkout() && !is_order_received_page()) {
+    echo '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">' . "\n";
+  } else {
+    echo $meta . "\n";
+  }
+}, 1);

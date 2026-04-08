@@ -147,6 +147,10 @@
 }
 
 .woocommerce-checkout {
+  .woocommerce-message, .woocommerce-info, div.woocommerce-message {
+    display: none !important;
+  }
+
   @extend %inter-important;
 
   @include only-mobile {

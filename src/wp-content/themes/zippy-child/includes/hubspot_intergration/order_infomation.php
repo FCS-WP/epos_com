@@ -4,10 +4,24 @@
  * Sync WooCommerce Order Data to HubSpot Contacts API with UTM & Address
  */
 
-add_action('woocommerce_checkout_order_processed', 'sync_wc_order_to_hubspot', 20, 3);
+add_action('woocommerce_checkout_order_processed', 'queue_wc_order_to_hubspot_sync', 20, 3);
 
-function sync_wc_order_to_hubspot($order_id, $posted_data, $order)
+function queue_wc_order_to_hubspot_sync($order_id, $posted_data, $order) {
+  if (!$order instanceof WC_Order) {
+    return;
+  }
+
+  // Prevent duplicate queueing if needed
+  if (!as_has_scheduled_action('sync_wc_order_to_hubspot_async', ['order_id' => $order_id], 'hubspot-sync')) {
+    as_enqueue_async_action('sync_wc_order_to_hubspot_async', ['order_id' => $order_id], 'hubspot-sync');
+  }
+}
+
+add_action('sync_wc_order_to_hubspot_async', 'sync_wc_order_to_hubspot', 10, 1);
+
+function sync_wc_order_to_hubspot($order_id)
 {
+  $order = wc_get_order($order_id);
 
   if (!$order instanceof WC_Order) {
     return;

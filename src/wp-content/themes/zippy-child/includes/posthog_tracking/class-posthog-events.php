@@ -80,7 +80,6 @@ class PostHog_Events
                 'name'       => $product->get_name(),
                 'quantity'   => $cart_item['quantity'],
                 'price'      => (float) $product->get_price(),
-                'coupon_codes' => $coupon_codes,
               ];
             }, WC()->cart ? WC()->cart->get_cart() : [])); ?>
           });

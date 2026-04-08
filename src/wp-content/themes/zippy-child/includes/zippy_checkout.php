@@ -303,3 +303,17 @@ add_filter('woocommerce_locate_template', function($template, $template_name, $d
   // If not found or not the right template, return the original $template
   return $template;
 }, 99, 3);
+
+/**
+ * Hidden add to cart message
+ */
+add_action('wp_head', function() {
+  if (is_cart() || is_checkout()) {
+    echo 
+    '<style>
+      .woocommerce-message, .woocommerce-info, div.woocommerce-message {
+          display: none !important;
+      }
+    </style>';
+  }
+});

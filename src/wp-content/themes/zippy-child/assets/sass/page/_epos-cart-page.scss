@@ -1,4 +1,8 @@
 .woocommerce-cart {
+  .woocommerce-message, .woocommerce-info, div.woocommerce-message {
+    display: none !important;
+  }
+  
   @extend %inter-important;
 
   .my-main {

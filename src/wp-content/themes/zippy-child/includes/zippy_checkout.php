@@ -305,15 +305,12 @@ add_filter('woocommerce_locate_template', function($template, $template_name, $d
 }, 99, 3);
 
 /**
- * Hidden add to cart message
+ * Disable zoom on Checkout page
  */
-add_action('wp_head', function() {
-  if (is_cart() || is_checkout()) {
-    echo 
-    '<style>
-      .woocommerce-message, .woocommerce-info, div.woocommerce-message {
-          display: none !important;
-      }
-    </style>';
+add_filter('flatsome_viewport_meta', function($meta) {
+  if (function_exists('is_checkout') && is_checkout() && !is_order_received_page()) {
+    echo '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">' . "\n";
+  } else {
+    echo $meta . "\n";
   }
-});
+}, 1);

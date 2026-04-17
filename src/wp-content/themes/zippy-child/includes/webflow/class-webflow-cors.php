@@ -17,6 +17,37 @@ class Webflow_CORS
     add_action('init', array($this, 'maybe_handle_preflight'), 0);
     add_filter('rest_pre_serve_request', array($this, 'add_rest_cors_headers'), 10, 4);
     add_filter('rest_request_before_callbacks', array($this, 'enforce_origin_policy'), 10, 3);
+    add_filter('woocommerce_set_cookie_options', array($this, 'set_woocommerce_cookie_options_for_webflow'), 10, 3);
+  }
+
+  /**
+   * Ensure WooCommerce cart/session cookies are cross-site compatible for Webflow requests.
+   *
+   * @param array $options
+   * @param string $name
+   * @param string $value
+   * @return array
+   */
+  public function set_woocommerce_cookie_options_for_webflow($options, $name, $value)
+  {
+    if (! is_ssl()) {
+      return $options;
+    }
+
+    $cookie_name = (string) $name;
+    $is_wc_cookie = (
+      0 === strpos($cookie_name, 'wp_woocommerce_session_') ||
+      0 === strpos($cookie_name, 'woocommerce_')
+    );
+
+    if (! $is_wc_cookie) {
+      return $options;
+    }
+
+    $options['secure'] = true;
+    $options['samesite'] = 'None';
+
+    return $options;
   }
 
   /**

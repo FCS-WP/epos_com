@@ -7,9 +7,9 @@ if (!defined('THEME_DIR'))
 if (!defined('THEME_URL'))
     define('THEME_URL', get_template_directory_uri());
 
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 /*
  * Include framework files
@@ -32,7 +32,7 @@ require_once(THEME_DIR . '-child' . "/includes/fb_tracking/init.php");
 require_once(THEME_DIR . '-child' . "/includes/gtm_tracking/init.php");
 
 // Include PostHog Tracking files
-require_once(THEME_DIR . '-child' . "/includes/posthog_tracking/init.php");
+// require_once(THEME_DIR . '-child' . "/includes/posthog_tracking/init.php");
 
 // Include HubSpot Integration files
 foreach (glob(THEME_DIR . '-child' . "/includes/hubspot_intergration/*.php") as $file_name) {

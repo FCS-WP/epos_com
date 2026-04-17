@@ -255,6 +255,13 @@ function end_wrapper($key) {
     case 'referral_code':
       return '</div></div></div>';
       break;
+    case 'billing_city':
+      // If referral field is not rendered (non-BlueTap carts), close wrappers at the last billing field.
+      if (!function_exists('cart_has_product_bluetap360') || !cart_has_product_bluetap360()) {
+        return '</div></div></div>';
+      }
+      return '';
+      break;
     default:
       return '';
       break;

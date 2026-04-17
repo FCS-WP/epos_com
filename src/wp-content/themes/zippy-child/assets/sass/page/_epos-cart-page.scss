@@ -1,8 +1,10 @@
 .woocommerce-cart {
-  .woocommerce-message, .woocommerce-info, div.woocommerce-message {
+  .woocommerce-message,
+  .woocommerce-info,
+  div.woocommerce-message {
     display: none !important;
   }
-  
+
   @extend %inter-important;
 
   .my-main {
@@ -296,6 +298,10 @@
           flex-wrap: wrap;
           border: 1px solid $checkout-gray-alt;
           box-shadow: 0 4px 8px 0 rgba(black, 0.05);
+          margin-bottom: 15px;
+          &:last-child {
+            margin-bottom: 0;
+          }
         }
 
         td {

@@ -47,3 +47,16 @@ foreach (glob(THEME_DIR . '-child' . "/includes/epos_my_custom_flow/*.php") as $
 foreach (glob(THEME_DIR . '-child' . "/includes/page/*.php") as $file_name) {
     require_once($file_name);
 }
+
+// Include Webflow bridge files
+foreach (glob(THEME_DIR . '-child' . "/includes/webflow/class-webflow-*.php") as $file_name) {
+    require_once($file_name);
+}
+
+if (class_exists('Webflow_CORS')) {
+    new Webflow_CORS();
+}
+
+if (class_exists('Webflow_Cart_API') && class_exists('Webflow_Cart_Service')) {
+    new Webflow_Cart_API(new Webflow_Cart_Service());
+}

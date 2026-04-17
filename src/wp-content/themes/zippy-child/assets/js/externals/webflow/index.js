@@ -5,7 +5,7 @@
  *   - UTM: Forward URL params to all internal links
  *   - PostHog: Track clicks via [data-event] attributes
  */
-
+import "./webflow-cart";
 const EPOS = (() => {
   const CONFIG = {
     utm: {

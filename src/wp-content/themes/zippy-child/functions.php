@@ -31,6 +31,9 @@ require_once(THEME_DIR . '-child' . "/includes/fb_tracking/init.php");
 // Include Facebook Tracking files
 require_once(THEME_DIR . '-child' . "/includes/gtm_tracking/init.php");
 
+// Include PostHog Tracking files
+require_once(THEME_DIR . '-child' . "/includes/posthog_tracking/init.php");
+
 // Include HubSpot Integration files
 foreach (glob(THEME_DIR . '-child' . "/includes/hubspot_intergration/*.php") as $file_name) {
     require_once($file_name);
@@ -44,11 +47,15 @@ foreach (glob(THEME_DIR . '-child' . "/includes/epos_my_custom_flow/*.php") as $
 foreach (glob(THEME_DIR . '-child' . "/includes/page/*.php") as $file_name) {
     require_once($file_name);
 }
-
-// Include language translate files
-require_once(THEME_DIR . '-child' . "/includes/language_translate/init.php");
-
-// Include coupon distributor files
-foreach (glob(THEME_DIR . '-child' . "/includes/coupons/*.php") as $file_name) {
+// Include Webflow bridge files
+foreach (glob(THEME_DIR . '-child' . "/includes/webflow/class-webflow-*.php") as $file_name) {
     require_once($file_name);
+}
+
+if (class_exists('Webflow_CORS')) {
+    new Webflow_CORS();
+}
+
+if (class_exists('Webflow_Cart_API') && class_exists('Webflow_Cart_Service')) {
+    new Webflow_Cart_API(new Webflow_Cart_Service());
 }

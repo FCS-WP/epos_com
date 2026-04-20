@@ -9,7 +9,8 @@ class Webflow_CORS
   const ALLOWED_ORIGINS_FILTER = 'bluetap_webflow_allowed_origins';
   const COUNT_ROUTE = '/bluetap/v1/cart/count';
   const DEFAULT_ALLOWED_ORIGINS = array(
-    'https://epos-staging.webflow.io',
+    'https://*.webflow.io',
+    'https://www.epos.com',
   );
 
   public function __construct()
@@ -179,7 +180,17 @@ class Webflow_CORS
     }
 
     $normalized_origin = $this->normalize_origin($origin);
-    return in_array($normalized_origin, $this->get_allowed_origins(), true);
+    if ('' === $normalized_origin) {
+      return false;
+    }
+
+    foreach ($this->get_allowed_origins() as $allowed_origin) {
+      if ($this->origin_matches_rule($normalized_origin, $allowed_origin)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**
@@ -205,6 +216,52 @@ class Webflow_CORS
     }
 
     return $normalized;
+  }
+
+  /**
+   * Allow exact origin rules and wildcard host rules (e.g. https://*.webflow.io).
+   *
+   * @param string $origin
+   * @param string $rule
+   * @return bool
+   */
+  protected function origin_matches_rule($origin, $rule)
+  {
+    if ($origin === $rule) {
+      return true;
+    }
+
+    $origin_parts = wp_parse_url($origin);
+    $rule_parts = wp_parse_url($rule);
+    if (! is_array($origin_parts) || ! is_array($rule_parts)) {
+      return false;
+    }
+
+    $origin_scheme = isset($origin_parts['scheme']) ? strtolower((string) $origin_parts['scheme']) : '';
+    $rule_scheme = isset($rule_parts['scheme']) ? strtolower((string) $rule_parts['scheme']) : '';
+    if ('' === $origin_scheme || '' === $rule_scheme || $origin_scheme !== $rule_scheme) {
+      return false;
+    }
+
+    $origin_host = isset($origin_parts['host']) ? strtolower((string) $origin_parts['host']) : '';
+    $rule_host = isset($rule_parts['host']) ? strtolower((string) $rule_parts['host']) : '';
+    if ('' === $origin_host || '' === $rule_host) {
+      return false;
+    }
+
+    if (isset($rule_parts['port'])) {
+      $origin_port = isset($origin_parts['port']) ? (int) $origin_parts['port'] : 0;
+      if ($origin_port !== (int) $rule_parts['port']) {
+        return false;
+      }
+    }
+
+    if (false === strpos($rule_host, '*')) {
+      return false;
+    }
+
+    $pattern = '/^' . str_replace('\*', '.*', preg_quote($rule_host, '/')) . '$/';
+    return 1 === preg_match($pattern, $origin_host);
   }
 
   /**

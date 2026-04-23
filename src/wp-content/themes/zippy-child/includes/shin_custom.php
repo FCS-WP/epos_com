@@ -3,11 +3,14 @@ add_action('wp_enqueue_scripts', 'shin_scripts');
 
 function shin_scripts()
 {
-  $version = time();
+  $css_path = THEME_DIR . '-child/assets/dist/css/epos.min.css';
+  $js_path  = THEME_DIR . '-child/assets/dist/js/epos.min.js';
+  $css_ver  = file_exists($css_path) ? filemtime($css_path) : null;
+  $js_ver   = file_exists($js_path)  ? filemtime($js_path)  : null;
 
-  wp_enqueue_style('main-style-css', THEME_URL . '-child' . '/assets/dist/css/main.min.css', array(), $version, 'all');
+  wp_enqueue_style('epos-style-css', THEME_URL . '-child/assets/dist/css/epos.min.css', array(), $css_ver, 'all');
 
-  wp_enqueue_script('main-scripts-js', THEME_URL . '-child' . '/assets/dist/js/main.min.js', array('jquery'), $version, true);
+  wp_enqueue_script('epos-scripts-js', THEME_URL . '-child/assets/dist/js/epos.min.js', array('jquery'), $js_ver, true);
 }
 //Add gallery video for product
 function add_product_video_url_meta_box()

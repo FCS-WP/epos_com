@@ -20,8 +20,7 @@ const localDomain = process.env.PROJECT_HOST
 // Define Work path
 const destFileCss = destChildTheme + "/assets/sass/app.scss";
 const destFileJs = destChildTheme + "/assets/js/app.js";
-const destExternalFileJs =
-  destChildTheme + "/assets/js/externals/webflow/index.js";
+const destExternalFileJs = destChildTheme + "/assets/js/externals/webflow/index.js";
 
 const destOutput = destChildTheme + "/assets/dist";
 
@@ -29,7 +28,7 @@ module.exports = [
   {
     stats: "minimal",
     entry: {
-      main: [destFileCss, destFileJs],
+      epos: [destFileCss, destFileJs],
       externals: [destExternalFileJs],
     },
     output: {
@@ -104,7 +103,7 @@ module.exports = [
       }),
       // css extraction into dedicated file
       new MiniCssExtractPlugin({
-        filename: destOutput + "/css/main.min.css",
+        filename: destOutput + "/css/epos.min.css",
       }),
       new webpack.ProvidePlugin({
         $: "jquery",

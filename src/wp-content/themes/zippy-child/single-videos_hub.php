@@ -72,7 +72,7 @@ $thumbnail  = get_field('thumbnail', $video_id);
                 ?>
                         <a href="<?php the_permalink(); ?>" class="related-video-item">
                             <?php if ($thumb): ?>
-                                <img src="<?php echo esc_url($thumb['url']); ?>" alt="<?php the_title_attribute(); ?>">
+                                <img src="<?php echo esc_url($thumb['url']); ?>" alt="<?php the_title_attribute(); ?>" loading="lazy" decoding="async">
                             <?php endif; ?>
                             <h3><?php the_title(); ?></h3>
                         </a>

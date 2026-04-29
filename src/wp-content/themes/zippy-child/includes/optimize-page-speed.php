@@ -258,93 +258,6 @@ function custom_optimize_remove_jquery_migrate($scripts)
   }
 }
 
-function custom_optimize_can_move_jquery_to_footer()
-{
-  if (is_admin() || wp_doing_ajax() || is_customize_preview()) {
-    return false;
-  }
-
-  if (function_exists('ux_builder_is_active') && ux_builder_is_active()) {
-    return false;
-  }
-
-  return !custom_optimize_is_sensitive_woocommerce_page();
-}
-
-function custom_optimize_move_jquery_to_footer()
-{
-  $scripts = wp_scripts();
-
-  if (!custom_optimize_can_move_jquery_to_footer() || !($scripts instanceof WP_Scripts)) {
-    return;
-  }
-
-  $footer_handles = array('jquery', 'jquery-core', 'jquery-migrate');
-  $has_new_handle = true;
-
-  while ($has_new_handle) {
-    $has_new_handle = false;
-
-    foreach ($scripts->registered as $handle => $script) {
-      if (in_array($handle, $footer_handles, true) || empty($script->deps)) {
-        continue;
-      }
-
-      if (array_intersect($script->deps, $footer_handles)) {
-        $footer_handles[] = $handle;
-        $has_new_handle = true;
-      }
-    }
-  }
-
-  foreach ($footer_handles as $handle) {
-    if (!empty($scripts->registered[$handle])) {
-      $scripts->add_data($handle, 'group', 1);
-      $scripts->registered[$handle]->args = 1;
-      $scripts->groups[$handle] = 1;
-    }
-  }
-}
-
-function custom_optimize_hold_direct_jquery_for_footer()
-{
-  $scripts = wp_scripts();
-
-  if (!custom_optimize_can_move_jquery_to_footer() || !($scripts instanceof WP_Scripts)) {
-    return;
-  }
-
-  custom_optimize_move_jquery_to_footer();
-
-  $removed = false;
-
-  foreach (array('jquery', 'jquery-core', 'jquery-migrate') as $handle) {
-    $queue_key = array_search($handle, $scripts->queue, true);
-
-    if ($queue_key === false) {
-      continue;
-    }
-
-    unset($scripts->queue[$queue_key]);
-    $removed = true;
-  }
-
-  if ($removed) {
-    $scripts->queue = array_values($scripts->queue);
-    add_action('wp_footer', 'custom_optimize_enqueue_jquery_in_footer', 0);
-  }
-}
-
-function custom_optimize_enqueue_jquery_in_footer()
-{
-  if (!custom_optimize_can_move_jquery_to_footer()) {
-    return;
-  }
-
-  custom_optimize_move_jquery_to_footer();
-  wp_enqueue_script('jquery');
-}
-
 function custom_optimize_is_sensitive_woocommerce_page()
 {
   if ((function_exists('is_cart') && is_cart())
@@ -456,10 +369,8 @@ add_action('after_setup_theme', function () {
 }, 20);
 
 add_action('wp_enqueue_scripts', 'custom_flatsome_add_icons_css', 999);
-add_action('wp_enqueue_scripts', 'custom_optimize_move_jquery_to_footer', 1);
 add_action('wp_enqueue_scripts', 'custom_optimize_dequeue_noncritical_woocommerce_assets', 999);
 add_action('wp_default_scripts', 'custom_optimize_remove_jquery_migrate', 20);
-add_action('wp_print_scripts', 'custom_optimize_hold_direct_jquery_for_footer', 0);
 
 add_action('wp_head', 'custom_flatsome_preload_icons_font', 1);
 add_action('wp_head', 'custom_optimize_preload_theme_fonts', 1);

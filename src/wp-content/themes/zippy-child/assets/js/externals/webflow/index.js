@@ -38,7 +38,18 @@ const EPOS = (() => {
 
     decorateLinks(utmData);
 
-    new MutationObserver(() => decorateLinks(utmData)).observe(document.body, {
+    // Coalesce bursts of mutations (e.g. WooCommerce update_checkout) into
+    // one decorateLinks call per frame. Already-decorated links are skipped
+    // inside decorateLinks via the data-utm-decorated flag.
+    let scheduled = false;
+    new MutationObserver(() => {
+      if (scheduled) return;
+      scheduled = true;
+      window.requestAnimationFrame(() => {
+        scheduled = false;
+        decorateLinks(utmData);
+      });
+    }).observe(document.body, {
       childList: true,
       subtree: true,
     });

@@ -211,7 +211,13 @@ document.addEventListener("DOMContentLoaded", function () {
     updateLabelGroupVisibility();
   });
 
-  search.addEventListener("input", triggerFilterWithLoading);
+  // Debounce search input so typing "developer" doesn't queue 9 overlapping
+  // 2-second filter cycles.
+  let searchDebounce;
+  search.addEventListener("input", function () {
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(triggerFilterWithLoading, 250);
+  });
 
   // ========== Load More ==========
   loadMoreBtn.addEventListener("click", () => {

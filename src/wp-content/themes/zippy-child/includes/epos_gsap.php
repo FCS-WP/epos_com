@@ -4,7 +4,9 @@ function load_gsap_scrolltrigger_only_page()
 {
     if (is_page('epos360')) {
 
-        $version = time();
+        // File mtime so browsers can cache until the file actually changes.
+        $gsap_custom_path = get_stylesheet_directory() . '/assets/js/gsap/gsap-scroll.js';
+        $version = file_exists($gsap_custom_path) ? filemtime($gsap_custom_path) : null;
 
         /* =====================
          * GSAP

@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div id="logo-360" class="flex-col logo">
                     <a href="<?php echo esc_url(home_url('/')); ?>">
-                     <img width="250" height="72" src="/wp-content/uploads/2026/02/Logo360.svg" class="header_logo header-logo" alt="logo-epos-360">
+                     <img width="250" height="72" src="/wp-content/uploads/2026/02/Logo360.svg" class="header_logo header-logo" alt="logo-epos-360" fetchpriority="high" decoding="async">
                     </a>
                 </div>
 

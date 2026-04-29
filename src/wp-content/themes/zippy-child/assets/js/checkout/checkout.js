@@ -55,47 +55,57 @@ document.addEventListener("DOMContentLoaded", () => {
   // ------------- Expand / Collapse form fields -------------
   let $blocks = $('.js-checkout-block');
 
-  $window.resize(function() {
-    $blocks.each(function() {
-      let $block = $(this);
-      let $header = $block.children('.js-checkout-header');
-      let $content = $block.children('.js-checkout-content');
-      let $inner = $content.children('.js-checkout-inner');
-      let innerHeight = $inner.outerHeight();
-
-      $content.css('height', innerHeight);
-
-      $header.on('click', function() {
-        $block.toggleClass('is-collapsed');
-      });
+  // Bind click handlers once (outside resize) so resizing doesn't stack them.
+  $blocks.each(function() {
+    let $block = $(this);
+    let $header = $block.children('.js-checkout-header');
+    $header.on('click', function() {
+      $block.toggleClass('is-collapsed');
     });
   });
 
-  setTimeout(function() {
-    $window.trigger('resize');
-  }, 300);
+  const recomputeBlockHeights = function() {
+    $blocks.each(function() {
+      let $block = $(this);
+      let $content = $block.children('.js-checkout-content');
+      let $inner = $content.children('.js-checkout-inner');
+      $content.css('height', $inner.outerHeight());
+    });
+  };
+
+  $window.on('resize', recomputeBlockHeights);
+
+  setTimeout(recomputeBlockHeights, 300);
 
 
   // ------------- Fix phone field dropdown -------------
+  // Scroll fires ~every frame; wrap in rAF so we only recompute once per frame.
   setTimeout(function() {
     let $phoneSelects = $blocks.find('.iti__flag-container');
+    let scrollScheduled = false;
 
-    $window.scroll(function() {
+    const updatePhoneDropdownPositions = function() {
+      scrollScheduled = false;
+      let windowTop = $window.scrollTop();
+
       $phoneSelects.each(function() {
         let $select = $(this);
         let $option = $select.children('.iti__dropdown-content');
-        let windowTop = $window.scrollTop();
-        let top = $select.offset().top + $select.outerHeight() - windowTop - 1;
-        let left = $select.offset().left;
-
-        $option.css('top', top);
-        $option.css('left', left);
+        let offset = $select.offset();
+        $option.css({
+          top: offset.top + $select.outerHeight() - windowTop - 1,
+          left: offset.left,
+        });
       });
+    };
+
+    $window.on('scroll', function() {
+      if (scrollScheduled) return;
+      scrollScheduled = true;
+      window.requestAnimationFrame(updatePhoneDropdownPositions);
     });
-  
-    setTimeout(function() {
-      $window.trigger('scroll');
-    }, 300);
+
+    setTimeout(updatePhoneDropdownPositions, 300);
   }, 1000);
 
 

@@ -1,12 +1,24 @@
 <?php
 // Functions
-// Check exist domain using php DNS resolver
+// Check exist domain using php DNS resolver.
+// Cache the MX-record lookup for 24h per domain so the common case
+// (gmail.com, yahoo.com, etc.) doesn't hit the DNS server on every order.
 function email_domain_is_exist($email) {
     if (!is_email($email)) {
         return false;
     }
-    $domain = substr(strrchr($email, "@"), 1);
-    return checkdnsrr($domain, 'MX');
+    $domain = strtolower(substr(strrchr($email, "@"), 1));
+    $cache_key = 'epos_mx_exists_' . md5($domain);
+
+    $cached = get_transient($cache_key);
+    if ($cached !== false) {
+        return $cached === '1';
+    }
+
+    $exists = checkdnsrr($domain, 'MX');
+    set_transient($cache_key, $exists ? '1' : '0', DAY_IN_SECONDS);
+
+    return $exists;
 }
 
 

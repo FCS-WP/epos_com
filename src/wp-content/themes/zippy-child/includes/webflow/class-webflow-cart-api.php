@@ -62,8 +62,45 @@ class Webflow_Cart_API extends WP_REST_Controller
    */
   public function get_cart_count($request)
   {
+    // Fast path: when WC has no session cookie AND the cart-items cookie
+    // is absent or zero, we know the cart is empty without booting WC/session.
+    // Booting WC session + cart costs noticeably on every Webflow page view.
+    if ($this->is_cart_definitely_empty()) {
+      $result = array(
+        'success'    => true,
+        'cart_count' => 0,
+        'cart_url'   => $this->service->get_cart_url(),
+      );
+      return $this->to_response($result);
+    }
+
     $result = $this->service->get_cart_count_payload();
     return $this->to_response($result);
+  }
+
+  /**
+   * Decide whether we can skip booting WC because the cart is obviously empty.
+   *
+   * WC sets `woocommerce_items_in_cart` to the item count on the cookie whenever
+   * the cart is non-empty. It also sets a `wp_woocommerce_session_*` cookie once
+   * a session exists. If neither is present we can safely return 0.
+   *
+   * @return bool
+   */
+  protected function is_cart_definitely_empty()
+  {
+    $items_cookie = isset($_COOKIE['woocommerce_items_in_cart']) ? (int) $_COOKIE['woocommerce_items_in_cart'] : 0;
+    if ($items_cookie > 0) {
+      return false;
+    }
+
+    foreach ($_COOKIE as $name => $value) {
+      if (strpos($name, 'wp_woocommerce_session_') === 0) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   /**

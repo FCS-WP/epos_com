@@ -3,7 +3,7 @@ class My_FB_Init
 {
   public function __construct()
   {
-    add_action('wp_head', array($this, 'inject_base_pixel'));
+    add_action('wp_footer', array($this, 'inject_base_pixel'), 1);
   }
 
   /**

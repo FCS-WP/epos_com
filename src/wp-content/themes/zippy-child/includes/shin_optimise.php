@@ -5,7 +5,7 @@ add_filter('script_loader_tag', 'add_defer_attribute', 10, 2);
 function add_defer_attribute($tag, $handle)
 {
 	// add script handles to the array below
-	$scripts_to_defer = array('main-scripts-js', '');
+	$scripts_to_defer = array('epos-scripts-js', '');
 
 	foreach ($scripts_to_defer as $defer_script) {
 		if ($defer_script === $handle) {

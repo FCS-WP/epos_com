@@ -65,7 +65,7 @@ Font Face
     font-style: $style;
     font-weight: $weight;
     src: $src;
-    font-display: swap; /* or block, swap, fallback, optional */
+    font-display: optional;
   }
 }
 

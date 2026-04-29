@@ -110,6 +110,7 @@ class PostHog_Events
           const checkoutProps = {
             currency: '<?php echo esc_js(get_woocommerce_currency()); ?>',
             value: <?php echo WC()->cart ? (float) WC()->cart->total : 0; ?>,
+            source: '<?php echo esc_js(WC()->session ? WC()->session->get('ph_source') ?: 'direct' : 'direct'); ?>',
             items: <?php echo wp_json_encode(array_map(function($cart_item) {
               $product = $cart_item['data'];
               return [
@@ -192,7 +193,10 @@ class PostHog_Events
       'event'       => $event,
       'distinct_id' => $distinct_id,
       'properties'  => array_merge(
-        array('$lib' => 'posthog-php-wp'),
+        array(
+          '$lib'   => 'posthog-php-wp',
+          'source' => WC()->session ? WC()->session->get('ph_source') ?: 'direct' : 'direct',
+        ),
         $properties
       ),
       'timestamp'   => gmdate('c'),

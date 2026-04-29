@@ -13,6 +13,9 @@ add_action('wp_loaded', function () {
         $phid = sanitize_text_field($_GET['phid']);
         WC()->session->set('posthog_distinct_id', $phid);
     }
+    if (isset($_GET['ph_source'])) {
+        WC()->session->set('ph_source', sanitize_text_field($_GET['ph_source']));
+    }
 });
 
 

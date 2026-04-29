@@ -28,7 +28,7 @@ module.exports = [
   {
     stats: "minimal",
     entry: {
-      main: [destFileCss, destFileJs],
+      epos: [destFileCss, destFileJs],
       externals: [destExternalFileJs],
     },
     output: {
@@ -103,7 +103,7 @@ module.exports = [
       }),
       // css extraction into dedicated file
       new MiniCssExtractPlugin({
-        filename: destOutput + "/css/main.min.css",
+        filename: destOutput + "/css/[name].min.css",
       }),
       new webpack.ProvidePlugin({
         $: "jquery",

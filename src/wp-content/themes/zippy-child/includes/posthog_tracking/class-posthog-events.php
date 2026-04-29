@@ -9,7 +9,7 @@ class PostHog_Events
     add_action('wp_footer', array($this, 'inject_checkout_events'));
     // Save phid to order meta
     add_action('woocommerce_checkout_order_created', array($this, 'save_phid_to_order'), 10, 1);
-    add_action('woocommerce_order_status_processing', array($this, 'track_purchase'));
+    add_action('woocommerce_payment_complete', array($this, 'track_purchase'));
     add_action('wp_footer', array($this, 'clear_signatures'));
   }
 

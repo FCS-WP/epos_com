@@ -7,8 +7,37 @@ class PostHog_Events
   public function __construct()
   {
     add_action('wp_footer', array($this, 'inject_checkout_events'));
+    // Save phid to order meta
+    add_action('woocommerce_checkout_order_created', array($this, 'save_phid_to_order'), 10, 1);
     add_action('woocommerce_payment_complete', array($this, 'track_purchase'));
     add_action('wp_footer', array($this, 'clear_signatures'));
+  }
+
+  /**
+   * Get PostHog session ID from WooCommerce session if available.
+   *
+   * @return string|null The PostHog session ID or null if not set.
+   */
+  private function get_session_phid()
+  {
+    if (WC()->session) {
+      return WC()->session->get('posthog_distinct_id') ?: null;
+    }
+    return null;
+  }
+
+  /**
+   * Save PostHog session ID to order meta when order is created.
+   *
+   * @param WC_Order $order The order object.
+   */
+  public function save_phid_to_order($order)
+  {
+    $phid = $this->get_session_phid();
+    if ($phid && $order) {
+      $order->update_meta_data('posthog_distinct_id', $phid);
+      $order->save();
+    }
   }
 
   public function clear_signatures() {
@@ -54,14 +83,22 @@ class PostHog_Events
       document.addEventListener('DOMContentLoaded', function() {
         if (typeof posthog === 'undefined') return;
 
-        // Identify guest users as soon as they enter their billing email
+        const phid = '<?php echo esc_js($this->get_session_phid() ?: ''); ?>';
         var $billingEmail = jQuery('#billing_email');
-        var identifiedByEmail = false;
+        var identifiedByPhid = false;
+
+        if (phid && !identifiedByPhid) {
+          posthog.identify(phid);
+          identifiedByPhid = true;
+        }
+
         $billingEmail.on('blur', function() {
           var email = $billingEmail.val().trim();
-          if (email && !identifiedByEmail) {
+          if (email && phid) {
+            posthog.setPersonProperties({ email: email });
+          } else if (email && !phid) {
+            // Fallback: if no phid, identify by email
             posthog.identify(email, { email: email });
-            identifiedByEmail = true;
           }
         });
 
@@ -70,9 +107,10 @@ class PostHog_Events
         const previousCartSignature = sessionStorage.getItem('ph_begin_checkout_cart_signature');
 
         if (previousCartSignature !== currentCartSignature) {
-          posthog.capture('begin_checkout', {
+          const checkoutProps = {
             currency: '<?php echo esc_js(get_woocommerce_currency()); ?>',
             value: <?php echo WC()->cart ? (float) WC()->cart->total : 0; ?>,
+            source: '<?php echo esc_js(WC()->session ? WC()->session->get('ph_source') ?: 'direct' : 'direct'); ?>',
             items: <?php echo wp_json_encode(array_map(function($cart_item) {
               $product = $cart_item['data'];
               return [
@@ -82,7 +120,8 @@ class PostHog_Events
                 'price'      => (float) $product->get_price(),
               ];
             }, WC()->cart ? WC()->cart->get_cart() : [])); ?>
-          });
+          };
+          posthog.capture('begin_checkout', checkoutProps);
 
           sessionStorage.setItem('ph_begin_checkout_cart_signature', currentCartSignature);
         }
@@ -93,7 +132,7 @@ class PostHog_Events
 
   /**
    * Track purchase (server-side via PostHog Capture API).
-   * Uses the billing email as distinct_id to correlate with client-side events.
+   * Uses phid from order meta or email as distinct_id.
    */
   public function track_purchase($order_id) {
     if (!$order_id) return;
@@ -116,7 +155,7 @@ class PostHog_Events
       ];
     }
 
-    $this->posthog_capture($email, 'purchase', array(
+    $purchase_props = array(
       'order_id'        => $order_id,
       'order_value'     => (float) $order->get_total(),
       'currency'        => $order->get_currency(),
@@ -124,13 +163,21 @@ class PostHog_Events
       'payment_method'  => $order->get_payment_method_title(),
       'coupon_codes'    => $coupon_codes,
       'referral_code'   => $order->get_meta('referral_code') ?: null,
-    ));
+    );
+
+    // Get phid from order meta (saved when order was created)
+    $phid = $order->get_meta('posthog_distinct_id');
+    if ($email) {
+      $purchase_props['email'] = $email;
+    }
+    $distinct_id = $phid ?: $email;
+    $this->posthog_capture($distinct_id, 'purchase', $purchase_props);
   }
 
   /**
    * Send an event to PostHog via the HTTP capture API.
    *
-   * @param string $distinct_id User identifier (email or anonymous ID).
+   * @param string $distinct_id User identifier (phid, email, or anonymous ID).
    * @param string $event       Event name.
    * @param array  $properties  Additional event properties.
    */
@@ -146,7 +193,10 @@ class PostHog_Events
       'event'       => $event,
       'distinct_id' => $distinct_id,
       'properties'  => array_merge(
-        array('$lib' => 'posthog-php-wp'),
+        array(
+          '$lib'   => 'posthog-php-wp',
+          'source' => WC()->session ? WC()->session->get('ph_source') ?: 'direct' : 'direct',
+        ),
         $properties
       ),
       'timestamp'   => gmdate('c'),
@@ -175,13 +225,20 @@ class PostHog_Events
       $product_names[] = $item->get_name();
     }
 
-    $this->posthog_capture($email, 'order_paid', array(
+    $paid_props = array(
       'order_id'      => $order_id,
       'order_value'   => (float) $order->get_total(),
       'currency'      => $order->get_currency(),
       'products'      => implode(', ', $product_names),
       'payment_method' => $order->get_payment_method_title(),
-    ));
+    );
+
+    $phid = $order->get_meta('posthog_distinct_id');
+    if ($email) {
+      $paid_props['email'] = $email;
+    }
+    $distinct_id = $phid ?: $email;
+    $this->posthog_capture($distinct_id, 'order_paid', $paid_props);
   }
 
   /**
@@ -199,12 +256,19 @@ class PostHog_Events
 
     $email = $order->get_billing_email();
 
-    $this->posthog_capture($email, 'order_status_changed', array(
+    $status_props = array(
       'order_id'   => $order_id,
       'old_status' => $old_status,
       'new_status' => $new_status,
       'order_value' => (float) $order->get_total(),
       'currency'   => $order->get_currency(),
-    ));
+    );
+
+    $phid = $order->get_meta('posthog_distinct_id');
+    if ($email) {
+      $status_props['email'] = $email;
+    }
+    $distinct_id = $phid ?: $email;
+    $this->posthog_capture($distinct_id, 'order_status_changed', $status_props);
   }
 }

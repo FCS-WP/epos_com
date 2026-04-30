@@ -33,7 +33,15 @@ class PostHog_Init
       posthog.init('<?php echo esc_js($api_key); ?>', {
           api_host: '<?php echo esc_js($host); ?>',
           defaults: '2026-01-30',
-          person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+          person_profiles: 'always', // or 'always' to create profiles for anonymous users as well
+          disable_session_recording: false,
+          session_recording: {
+            maskAllInputs: false,
+          },
+          session_recording_sample_rate: 1,
+          loaded: function(posthog) {
+            posthog.startSessionRecording(); // force start ngay khi load xong
+          }
       })
     </script>
     <!-- End PostHog Analytics -->

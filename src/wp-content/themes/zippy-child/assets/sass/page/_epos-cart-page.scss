@@ -402,9 +402,14 @@
             }
 
             .amount {
-              color: #167b10;
+              color: #111;
               font-weight: 600;
               font-size: 22px;
+            }
+
+            // Sale-price highlight (green) only when the row's product is on sale.
+            &.is-on-sale .amount {
+              color: #167b10;
             }
           }
         }

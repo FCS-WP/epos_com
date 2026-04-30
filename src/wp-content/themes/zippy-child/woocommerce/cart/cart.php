@@ -134,11 +134,16 @@ $sidebar_classes = implode( ' ', $sidebar_classes );
 
 								<td class="product-subtotal-before-sale" data-title="<?php esc_attr_e( 'Subtotal Before Sale', 'woocommerce' ); ?>">
 									<?php
-										echo wc_price($_product->get_regular_price() * $cart_item['quantity']);
+										// Only show the strike-through "before sale" subtotal when the
+										// product is actually on sale; otherwise the regular price equals
+										// the live subtotal and rendering it is misleading.
+										if ( $_product->is_on_sale() ) {
+											echo wc_price( $_product->get_regular_price() * $cart_item['quantity'] );
+										}
 									?>
 								</td>
 
-								<td class="product-subtotal" data-title="<?php esc_attr_e( 'Subtotal', 'woocommerce' ); ?>">
+								<td class="product-subtotal<?php echo $_product->is_on_sale() ? ' is-on-sale' : ''; ?>" data-title="<?php esc_attr_e( 'Subtotal', 'woocommerce' ); ?>">
 									<?php
 										echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // PHPCS: XSS ok.
 									?>

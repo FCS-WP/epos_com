@@ -14,11 +14,12 @@ $sub-shell: min(1400px, calc(100% - 48px));
 
 body.page-template-subscription-v2,
 body.page-template-template-subscription-v2 {
-  font-family: "Poppins", sans-serif !important;
+  .floating-mail-btn {
+    display: none !important;
+  }
 }
 
 .sub-page {
-  font-family: "Poppins", sans-serif !important;
   color: $sub-dark;
   background: #fff;
   -webkit-font-smoothing: antialiased;
@@ -86,9 +87,15 @@ body.page-template-template-subscription-v2 {
   &__brand {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
     color: #2c10c8;
     line-height: 1;
+  }
+
+  &__brand-logo {
+    display: block;
+    width: auto;
+    max-width: 92px;
+    height: auto;
   }
 
   &__brand-mark {
@@ -184,12 +191,12 @@ body.page-template-template-subscription-v2 {
 
   &__title {
     font-family: "Poppins", sans-serif;
-    font-size: 76px;
+    font-size: 76px !important;
     font-weight: 500;
     line-height: 0.9;
     letter-spacing: -0.08em;
     color: #05070d;
-    margin: 0 0 16px;
+    margin: 0 0 16px !important;
   }
 
   &__copy {
@@ -316,7 +323,7 @@ body.page-template-template-subscription-v2 {
     height: auto;
     object-fit: contain;
     position: relative;
-    transform: translateY(8px);
+    transform: translateY(20x);
     z-index: 3;
   }
 }
@@ -403,7 +410,7 @@ body.page-template-template-subscription-v2 {
     background: linear-gradient(180deg, #3b67ff 0%, #1f39b5 100%);
     color: #ffd84b;
     text-align: center;
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 800;
     line-height: 0.95;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
@@ -491,7 +498,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__payment--tngpay {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 800;
     line-height: 1.05;
     text-transform: none;
@@ -514,7 +521,7 @@ body.page-template-template-subscription-v2 {
   &__payment--mastercard {
     position: relative;
     padding-left: 34px;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 500;
     letter-spacing: -0.01em;
 
@@ -596,7 +603,6 @@ body.page-template-template-subscription-v2 {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 14px;
-    margin: 0 0 150px;
 
     &.slick-slider {
       display: block;
@@ -658,7 +664,7 @@ body.page-template-template-subscription-v2 {
     li {
       position: relative;
       padding-left: 18px;
-      font-size: 11px;
+      font-size: 12px;
       line-height: 1.55;
       letter-spacing: -0.01em;
       color: #2f3440;
@@ -867,8 +873,8 @@ body.page-template-template-subscription-v2 {
     justify-content: center;
 
     img {
-      width: 30px;
-      height: 30px;
+      width: 50px;
+      height: 50px;
       object-fit: contain;
       display: block;
     }
@@ -1008,15 +1014,15 @@ body.page-template-template-subscription-v2 {
   }
 
   &__badge {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     background: #f8fafc;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 
   &__avatar {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     background: #f1f5f9;
   }
 
@@ -1027,7 +1033,7 @@ body.page-template-template-subscription-v2 {
 
     strong {
       display: block;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 500;
       color: #2141e8;
       margin-bottom: 4px;
@@ -1197,7 +1203,7 @@ body.page-template-template-subscription-v2 {
     height: 35px;
     padding: 0 20px;
     border-radius: 99px;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 700;
     transition: all 0.2s ease;
     flex: 1;
@@ -1234,7 +1240,7 @@ body.page-template-template-subscription-v2 {
     li {
       position: relative;
       padding-left: 18px;
-      font-size: 9.5px;
+      font-size: 12px;
       line-height: 1.35;
       color: #000;
       margin-bottom: 10px;
@@ -1245,7 +1251,7 @@ body.page-template-template-subscription-v2 {
         left: 0;
         color: #2141e8;
         font-weight: 700;
-        font-size: 11px;
+        font-size: 12px;
       }
     }
   }
@@ -1307,6 +1313,7 @@ body.page-template-template-subscription-v2 {
     gap: 18px;
     color: #fff;
     text-align: left;
+    margin-bottom: 0 !important;
 
     span:first-child {
       font-size: 18px;
@@ -1400,7 +1407,7 @@ body.page-template-template-subscription-v2 {
       grid-row: 1;
       min-width: 0;
       width: 100%;
-      height: 70px;
+      height: 45px;
       font-size: 18px;
       padding: 0 18px;
       border-radius: 999px;
@@ -1417,7 +1424,10 @@ body.page-template-template-subscription-v2 {
     &__brand {
       grid-column: 1;
       grid-row: 2;
-      gap: 8px;
+    }
+
+    &__brand-logo {
+      max-width: 140px;
     }
 
     &__brand-mark {
@@ -1441,7 +1451,7 @@ body.page-template-template-subscription-v2 {
       grid-column: 2;
       grid-row: 2;
       justify-self: center;
-      font-size: 22px;
+      font-size: 18px;
       color: #111;
     }
   }
@@ -1455,13 +1465,12 @@ body.page-template-template-subscription-v2 {
     }
 
     &__content {
-      max-width: 340px;
       padding: 12px 0 0;
     }
 
     &__title {
-      font-size: 50px;
-      margin-bottom: 10px;
+      font-size: 50px !important;
+      margin-bottom: 10px !important;
     }
 
     &__copy {
@@ -1524,7 +1533,7 @@ body.page-template-template-subscription-v2 {
   }
 
   .sub-v2-partnership {
-    padding: 48px 0 34px;
+    padding: 80px 0 34px;
     margin-top: -14px;
 
     &__eyebrow {
@@ -1554,7 +1563,7 @@ body.page-template-template-subscription-v2 {
     &__brand-badge {
       width: 42px;
       height: 42px;
-      font-size: 8px;
+      font-size: 12px;
     }
 
     &__body {
@@ -1601,17 +1610,17 @@ body.page-template-template-subscription-v2 {
 
     &__payment--tngpay {
       max-width: 54px;
-      font-size: 10px;
+      font-size: 12px;
     }
 
     &__payment--mastercard {
-      font-size: 9px;
+      font-size: 12px;
       padding-left: 30px;
     }
   }
 
   .sub-v2-tools {
-    padding: 72px 0 62px;
+    padding: 72px 0 0;
 
     &__head {
       margin-bottom: 30px;
@@ -1638,9 +1647,9 @@ body.page-template-template-subscription-v2 {
         margin-right: -12px;
       }
 
-      .slick-slide {
-        padding: 0 12px;
-      }
+      // .slick-slide {
+      //   padding: 0 12px;
+      // }
     }
 
     &__card {
@@ -1674,7 +1683,7 @@ body.page-template-template-subscription-v2 {
   }
 
   .sub-v2-everything {
-    padding: 64px 0 72px;
+    padding: 40px 0 20px;
 
     &__head {
       margin-bottom: 30px;
@@ -1682,7 +1691,7 @@ body.page-template-template-subscription-v2 {
 
     &__title,
     &__title span {
-      font-size: 32px;
+      font-size: 32px !important;
     }
 
     &__layout {
@@ -1740,7 +1749,7 @@ body.page-template-template-subscription-v2 {
   }
 
   .sub-v2-testimonials {
-    padding: 64px 0 72px;
+    padding: 64px 0 20px;
 
     &__head {
       margin-bottom: 34px;
@@ -1748,7 +1757,8 @@ body.page-template-template-subscription-v2 {
 
     &__title,
     &__title span {
-      font-size: 32px;
+      font-size: 32px !important;
+      margin-bottom: 15px;
     }
 
     &__grid {
@@ -1758,7 +1768,7 @@ body.page-template-template-subscription-v2 {
 
     &__card {
       min-height: 0;
-      padding: 68px 26px 92px;
+      padding: 75px 25px 50px;
     }
 
     &__quote--start {
@@ -1774,13 +1784,13 @@ body.page-template-template-subscription-v2 {
     &__badge {
       right: 24px;
       bottom: 98px;
-      width: 64px;
-      height: 64px;
+      width: 54px;
+      height: 54px;
     }
 
     &__avatar {
       right: 28px;
-      top: 28px;
+      top: 8px;
       width: 54px;
       height: 54px;
     }
@@ -1792,7 +1802,7 @@ body.page-template-template-subscription-v2 {
   }
 
   .sub-v2-grow {
-    padding: 56px 0 72px;
+    padding: 50px 0 50px;
 
     &__head {
       margin-bottom: 24px;
@@ -1889,14 +1899,14 @@ body.page-template-template-subscription-v2 {
 
     &__button {
       width: auto;
-      height: 32px;
-      font-size: 11px;
+      height: 45px;
+      font-size: 12px;
       padding: 0 16px;
     }
 
     &__features li {
       padding-left: 20px;
-      font-size: 11.5px;
+      font-size: 12px;
       line-height: 1.22;
       margin-bottom: 5px;
 
@@ -1916,7 +1926,7 @@ body.page-template-template-subscription-v2 {
     }
 
     &__title {
-      font-size: 32px;
+      font-size: 32px !important;
     }
 
     &__trigger {
@@ -2010,7 +2020,7 @@ body.page-template-template-subscription-v2 {
   }
 
   .sub-v2-partnership {
-    padding-top: 76px;
+    padding-top: 80px;
 
     &__brand-text {
       font-size: 18px;

@@ -1,5 +1,7 @@
 <?php
 add_action('wp_head', function () {
+    if (function_exists('is_front_page') && is_front_page()) return;
+
     $uri = $_SERVER['REQUEST_URI'] ?? '';
 
     if (strpos($uri, '/my/') !== 0) {
@@ -33,6 +35,8 @@ add_action('wp_head', function () {
 
 
 add_action('wp_body_open', function () {
+    if (function_exists('is_front_page') && is_front_page()) return;
+
     $uri = $_SERVER['REQUEST_URI'] ?? '';
 
     if (strpos($uri, '/my/') !== 0) {

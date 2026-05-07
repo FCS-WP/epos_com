@@ -205,9 +205,17 @@ class ZIPPY_Pay_Core
 
   public static function global_style()
   {
-    $version = time();
-
-    wp_enqueue_style('zippy-css-checkout', ZIPPY_PAY_DIR_URL . 'includes/assets/dist/css/web.min.css', [], $version);
+    add_action('wp_enqueue_scripts', function () {
+      if (!function_exists('is_checkout') || !is_checkout()) {
+        return;
+      }
+      wp_enqueue_style(
+        'zippy-css-checkout',
+        ZIPPY_PAY_DIR_URL . 'includes/assets/dist/css/web.min.css',
+        [],
+        '7.0.1'
+      );
+    });
   }
 
   public static function  pr($data)

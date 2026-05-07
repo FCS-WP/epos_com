@@ -8,6 +8,7 @@ class GMT_Events
 
   public function gtm_add_to_cart_event()
   {
+    if (function_exists('is_front_page') && is_front_page()) return;
 ?>
     <script>
       jQuery(document.body).on('added_to_cart', function(event, fragments, cart_hash, $button) {

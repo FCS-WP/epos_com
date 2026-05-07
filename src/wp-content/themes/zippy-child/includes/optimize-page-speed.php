@@ -94,6 +94,7 @@ function custom_optimize_preload_theme_fonts()
     '/Montserrat/Montserrat-Medium.woff2',
     '/Montserrat/Montserrat-Bold.woff2',
     '/PlusJakartaSans/PlusJakartaSans-Regular.woff2',
+    '/Inter/inter-latin.woff2',
   );
 
   foreach ($font_paths as $font_path) {

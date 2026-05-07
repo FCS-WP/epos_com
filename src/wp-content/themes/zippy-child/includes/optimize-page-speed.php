@@ -2,7 +2,7 @@
 //cusstom meta
 
 add_filter('flatsome_viewport_meta', function () {
-    return '<meta name="viewport" content="width=device-width, initial-scale=1">';
+  return '<meta name="viewport" content="width=device-width, initial-scale=1">';
 });
 
 function custom_flatsome_get_icons_font_base()
@@ -75,6 +75,11 @@ function custom_flatsome_preload_icons_font()
     '<link rel="preload" href="%1$s" as="font" type="font/woff2" crossorigin>' . "\n",
     esc_url($font_url)
   );
+
+  // Preload LCP image cho mobile
+  if (wp_is_mobile()) {
+    echo '<link rel="preload" as="image" href="https://www.epos.com/wp-content/uploads/2026/05/Run-Your-Business-Not-Just-Payments-2-optimized.webp" fetchpriority="high">' . "\n";
+  }
 }
 
 function custom_optimize_preload_theme_fonts()
@@ -105,11 +110,117 @@ function custom_optimize_add_cls_critical_css()
     return;
   }
 
-  ?>
-<style id="custom-cls-critical-css">
-.header-main{min-height:90px}.header-inner{min-height:90px}.header .flex-col{min-width:0}.header .logo{width:160px;flex:0 0 auto}.header-logo,.header-logo-dark{display:block;width:160px;height:auto;aspect-ratio:1020/228}.header-nav.header-nav-main{min-height:90px;align-items:center}.header .nav-top-link{display:inline-flex;align-items:center;gap:6px;line-height:1.2}.header .ux-menu-icon{display:inline-block;width:20px!important;height:20px!important;min-width:20px;object-fit:contain}.header .flex-col.hide-for-medium.flex-right{min-width:170px;min-height:50px;display:flex;justify-content:flex-end;align-items:center}#content .width-80,#main .width-80{max-width:100%}@media (min-width:992px){#content .width-80,#main .width-80{max-width:80%!important}}#content .section-custom-container{margin:20px!important;width:auto!important;overflow:hidden}#content .section-custom-container .section-bg{border-radius:30px!important}#content .section-custom-container>.section-content>.row:first-child{min-height:520px}@media (min-width:550px){#content .section-custom-container>.section-content>.row:first-child{min-height:680px}}@media (min-width:992px){.header-main,.header-inner,.header-nav.header-nav-main{min-height:90px}#content .section-custom-container{margin:50px!important}#content .section-custom-container>.section-content>.row:first-child{min-height:760px}}.img img,img.ux-menu-icon{height:auto}
-</style>
-  <?php
+?>
+  <style id="custom-cls-critical-css">
+    .header-main {
+      min-height: 90px
+    }
+
+    .header-inner {
+      min-height: 90px
+    }
+
+    .header .flex-col {
+      min-width: 0
+    }
+
+    .header .logo {
+      width: 160px;
+      flex: 0 0 auto
+    }
+
+    .header-logo,
+    .header-logo-dark {
+      display: block;
+      width: 160px;
+      height: auto;
+      aspect-ratio: 1020/228
+    }
+
+    .header-nav.header-nav-main {
+      min-height: 90px;
+      align-items: center
+    }
+
+    .header .nav-top-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.2
+    }
+
+    .header .ux-menu-icon {
+      display: inline-block;
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px;
+      object-fit: contain
+    }
+
+    .header .flex-col.hide-for-medium.flex-right {
+      min-width: 170px;
+      min-height: 50px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center
+    }
+
+    #content .width-80,
+    #main .width-80 {
+      max-width: 100%
+    }
+
+    @media (min-width:992px) {
+
+      #content .width-80,
+      #main .width-80 {
+        max-width: 80% !important
+      }
+    }
+
+    #content .section-custom-container {
+      margin: 20px !important;
+      width: auto !important;
+      overflow: hidden
+    }
+
+    #content .section-custom-container .section-bg {
+      border-radius: 30px !important
+    }
+
+    #content .section-custom-container>.section-content>.row:first-child {
+      min-height: 520px
+    }
+
+    @media (min-width:550px) {
+      #content .section-custom-container>.section-content>.row:first-child {
+        min-height: 680px
+      }
+    }
+
+    @media (min-width:992px) {
+
+      .header-main,
+      .header-inner,
+      .header-nav.header-nav-main {
+        min-height: 90px
+      }
+
+      #content .section-custom-container {
+        margin: 50px !important
+      }
+
+      #content .section-custom-container>.section-content>.row:first-child {
+        min-height: 760px
+      }
+    }
+
+    .img img,
+    img.ux-menu-icon {
+      height: auto
+    }
+  </style>
+<?php
 }
 
 function custom_optimize_remove_jquery_migrate($scripts)
@@ -129,7 +240,8 @@ function custom_optimize_is_sensitive_woocommerce_page()
 {
   if ((function_exists('is_cart') && is_cart())
     || (function_exists('is_checkout') && is_checkout())
-    || (function_exists('is_account_page') && is_account_page())) {
+    || (function_exists('is_account_page') && is_account_page())
+  ) {
     return true;
   }
 
@@ -204,7 +316,7 @@ function custom_optimize_style_loader_tag($html, $handle, $href, $media)
 
   return sprintf(
     '<link rel="preload" href="%1$s" as="style" onload="this.onload=null;this.rel=\'stylesheet\'" media="%2$s">' .
-    '<noscript><link rel="stylesheet" href="%1$s" media="%2$s"></noscript>' . "\n",
+      '<noscript><link rel="stylesheet" href="%1$s" media="%2$s"></noscript>' . "\n",
     esc_url($href),
     esc_attr($media)
   );

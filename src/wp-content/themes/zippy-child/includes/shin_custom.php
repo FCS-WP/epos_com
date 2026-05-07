@@ -11,6 +11,29 @@ function shin_scripts()
   wp_enqueue_style('epos-style-css', THEME_URL . '-child/assets/dist/css/epos.min.css', array(), $css_ver, 'all');
 
   wp_enqueue_script('epos-scripts-js', THEME_URL . '-child/assets/dist/js/epos.min.js', array('jquery'), $js_ver, true);
+
+  // Route-scoped CSS bundles (split out of epos.min.css to reduce site-wide payload)
+  $request_uri = isset($_SERVER['REQUEST_URI']) ? trim($_SERVER['REQUEST_URI'], '/') : '';
+
+  // Epos 360 — match header.php URI pattern
+  $is_epos360 = ($request_uri === 'my/epos360' || strpos($request_uri, 'my/epos360/') === 0);
+  if ($is_epos360) {
+    $epos360_css = THEME_DIR . '-child/assets/dist/css/epos-360.min.css';
+    $epos360_ver = file_exists($epos360_css) ? filemtime($epos360_css) : null;
+    wp_enqueue_style('epos-360-css', THEME_URL . '-child/assets/dist/css/epos-360.min.css', array('epos-style-css'), $epos360_ver, 'all');
+  }
+
+  // WooCommerce flow — cart, checkout, order-received
+  $is_wc_flow = function_exists('is_cart') && (
+    is_cart()
+    || (function_exists('is_checkout') && is_checkout())
+    || (function_exists('is_wc_endpoint_url') && is_wc_endpoint_url('order-received'))
+  );
+  if ($is_wc_flow) {
+    $wc_css = THEME_DIR . '-child/assets/dist/css/woocommerce-flow.min.css';
+    $wc_ver = file_exists($wc_css) ? filemtime($wc_css) : null;
+    wp_enqueue_style('woocommerce-flow-css', THEME_URL . '-child/assets/dist/css/woocommerce-flow.min.css', array('epos-style-css'), $wc_ver, 'all');
+  }
 }
 //Add gallery video for product
 function add_product_video_url_meta_box()

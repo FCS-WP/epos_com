@@ -23,6 +23,8 @@ class My_FB_Init
    */
   public function inject_base_pixel()
   {
+    if (function_exists('is_front_page') && is_front_page()) return;
+
     $pixel_id = get_my_fb_pixel_id();
     if (! $pixel_id) return;
 ?>

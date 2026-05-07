@@ -1,0 +1,7 @@
+@import "variables";
+
+// Epos 360 page bundle — only loaded on /my/epos360
+@import "./epos-360/main-epos360";
+
+// Root _gsap.scss contains epos360-only section selectors (.section-sell, .video-scroll, etc.)
+@import "./gsap";

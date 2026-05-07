@@ -22,6 +22,10 @@ const destFileCss = destChildTheme + "/assets/sass/app.scss";
 const destFileJs = destChildTheme + "/assets/js/app.js";
 const destExternalFileJs = destChildTheme + "/assets/js/externals/webflow/index.js";
 
+// Route-scoped CSS bundles (loaded conditionally — see shin_custom.php)
+const destEpos360Css = destChildTheme + "/assets/sass/epos-360.scss";
+const destWooFlowCss = destChildTheme + "/assets/sass/woocommerce-flow.scss";
+
 const destOutput = destChildTheme + "/assets/dist";
 
 module.exports = [
@@ -29,6 +33,8 @@ module.exports = [
     stats: "minimal",
     entry: {
       epos: [destFileCss, destFileJs],
+      "epos-360": [destEpos360Css],
+      "woocommerce-flow": [destWooFlowCss],
       externals: [destExternalFileJs],
     },
     output: {
@@ -101,7 +107,7 @@ module.exports = [
           destOutput + "/js/*",
         ],
       }),
-      // css extraction into dedicated file
+      // css extraction into per-entry files (epos.min.css, epos-360.min.css, woocommerce-flow.min.css)
       new MiniCssExtractPlugin({
         filename: destOutput + "/css/[name].min.css",
       }),

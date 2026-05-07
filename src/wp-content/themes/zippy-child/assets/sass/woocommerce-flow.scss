@@ -1,0 +1,14 @@
+@import "variables";
+
+// Placeholder used by epos-checkout / epos-cart-page (originally defined in fonts/_fonts.scss).
+// Mirrored here so this bundle compiles standalone without pulling in the full fonts file.
+%inter-important {
+  font-family: "Inter", sans-serif !important;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+// WooCommerce flow bundle — loaded only on cart, checkout, and order-received pages
+@import "page/epos-cart-page";
+@import "page/epos-checkout";
+@import "page/thankyou";

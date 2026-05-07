@@ -35,18 +35,13 @@
 @import "page/my-bluetap";
 @import "page/my-career-workable";
 @import "page/my-shop";
-@import "page/epos-checkout";
 @import "page/epos-bluetap-onboarding";
 @import "page/epos-links";
 @import "page/epos-bluetap-faq";
 @import "page/epos-partner-program";
 @import "page/my-epos360-mini-programme";
-@import "page/thankyou";
-@import "page/epos-cart-page.scss";
 
-//Epos 360
-// @import "page/epos360";
-@import "./epos-360/main-epos360";
-
-//Epos Awards
-@import "./gsap";
+// NOTE: Route-scoped bundles split out into separate webpack entries:
+//   - epos-360.scss     → main-epos360 + gsap + epos360 sections (loaded on /my/epos360)
+//   - woocommerce-flow.scss → epos-checkout + epos-cart-page + thankyou (loaded on cart/checkout/order-received)
+// See webpack.config.js entries and shin_custom.php conditional enqueue.

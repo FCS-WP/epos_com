@@ -410,12 +410,12 @@ whatsappContact({
   buttonName: "Start Chat",
   brandImageUrl:
     "https://www.epos.com.sg/wp-content/uploads/2020/01/pos-system.svg",
-  brandName: "EPOS Pos System",
+  brandName: "EPOS Malaysia",
   brandStatusText: "Typically replies within a day",
   buttonPosition: "bottom-right",
   phoneNumber: "60124655571",
   welcomeMessage: "Hi there! 👋 How can I help you?",
   prefillMessages: "I am looking for: ",
   replyOptions:
-    "Subcription,Others,Tech Support",
+    "Subscription,Others,Tech Support",
 });

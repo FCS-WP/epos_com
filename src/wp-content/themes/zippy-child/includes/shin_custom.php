@@ -11,7 +11,7 @@ function shin_scripts()
   wp_enqueue_style('epos-style-css', THEME_URL . '-child/assets/dist/css/epos.min.css', array(), $css_ver, 'all');
 
   wp_enqueue_script('epos-scripts-js', THEME_URL . '-child/assets/dist/js/epos.min.js', array('jquery'), $js_ver, true);
-;
+
   $wa_origin_file = get_stylesheet_directory() . '/assets/js/widgetWhatsappCustom.js';
   if (is_page('subscription')) {
     wp_enqueue_script('wa-scripts-js', THEME_URL . '-child' . '/assets/js/widgetWhatsappCustom.js', array('jquery'), file_exists($wa_origin_file) ? filemtime($wa_origin_file) : null, true);

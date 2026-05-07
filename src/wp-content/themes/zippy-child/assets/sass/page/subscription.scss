@@ -1,4 +1,4 @@
-// @import "variables";
+@import "../variables";
 @import "slick-carousel/slick/slick.css";
 
 $sub-blue: #001e9a;
@@ -34,6 +34,17 @@ body.page-template-template-subscription-v2 {
   h3,
   h4 {
     margin: 0;
+  }
+  h2 {
+    font-size: 48px !important;
+  }
+  h3 {
+    font-size: 18px !important;
+  }
+  @media (min-width: 992px) {
+    h3 {
+      font-size: 20px !important;
+    } 
   }
   ul {
     margin: 0;
@@ -73,7 +84,7 @@ body.page-template-template-subscription-v2 {
 
 .sub-v2-header {
   background: #fff;
-  padding: 30px 0 28px;
+  padding: 15px 0 15px;
   position: relative;
   z-index: 5;
 
@@ -94,7 +105,7 @@ body.page-template-template-subscription-v2 {
   &__brand-logo {
     display: block;
     width: auto;
-    max-width: 92px;
+    max-width: 120px;
     height: auto;
   }
 
@@ -131,7 +142,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__link {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     color: #101010;
   }
@@ -144,14 +155,14 @@ body.page-template-template-subscription-v2 {
     align-items: center;
     justify-content: center;
     padding: 0 22px;
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 400;
     transition: all 0.2s ease;
   }
 
   &__button--ghost {
-    color: #3216db;
-    border: 1.5px solid #3216db;
+    color: #1e4bcb;
+    border: 1.5px solid #1e4bcb;
     background: #fff;
 
     &:hover {
@@ -161,8 +172,8 @@ body.page-template-template-subscription-v2 {
 
   &__button--primary {
     color: #fff !important;
-    background: #3b0dd8;
-    border: 1.5px solid #3b0dd8;
+    background: #1e4bcb;
+    border: 1.5px solid #1e4bcb;
 
     &:hover {
       background: #2a08aa;
@@ -173,30 +184,35 @@ body.page-template-template-subscription-v2 {
 .sub-v2-hero {
   position: relative;
   background: #fff;
-  padding: 34px 0 0;
   overflow: visible;
   z-index: 2;
 
   &__inner {
     display: grid;
-    grid-template-columns: minmax(320px, 388px) minmax(0, 1fr);
-    align-items: end;
-    gap: 22px;
+    grid-template-columns: minmax(420px, 560px) minmax(0, 1fr);
+    align-items: center;
+    gap: 40px;
+    padding: 40px 0;
+    padding-bottom: 40px;
   }
 
   &__content {
-    max-width: 388px;
-    padding: 10px 0 112px 18px;
+    max-width: 560px;
+    padding: 0 0 80px 0;
+  }
+
+  &__mobile-title {
+    display: none;
   }
 
   &__title {
-    font-family: "Poppins", sans-serif;
-    font-size: 76px !important;
+    font-size: 128px !important;
     font-weight: 500;
-    line-height: 0.9;
-    letter-spacing: -0.08em;
-    color: #05070d;
-    margin: 0 0 16px !important;
+    line-height: 0.8;
+    letter-spacing: -0.06em;
+    color: #000;
+    margin: 0 0 28px !important;
+    text-transform: uppercase;
   }
 
   &__copy {
@@ -205,24 +221,28 @@ body.page-template-template-subscription-v2 {
   }
 
   &__lead {
-    font-family: "Poppins", sans-serif;
-    font-size: 22px;
+    font-size: 36px;
     font-weight: 500;
-    line-height: 1.34;
-    letter-spacing: -0.045em;
-    color: #11131a;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+    color: #000;
     margin: 0 0 8px;
-    max-width: 420px;
+  }
+
+  &__confidence-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
   }
 
   &__confidence {
-    font-family: "Poppins", sans-serif;
-    font-size: 21px;
-    font-weight: 400;
-    line-height: 1.18;
-    letter-spacing: -0.045em;
-    color: #11131a;
-    margin: 0 0 2px;
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+    color: #000;
+    margin: 0;
   }
 
   &__accent-row {
@@ -232,65 +252,62 @@ body.page-template-template-subscription-v2 {
   }
 
   &__accent-line {
-    width: 42px;
-    height: 2px;
-    background: #5231ff;
+    width: 54px;
+    height: 3px;
+    background: #0a22aa;
     flex-shrink: 0;
+    margin-top: 4px;
   }
 
   &__accent {
-    font-family: "Poppins", sans-serif;
-    font-size: 33px;
-    font-weight: 700;
-    line-height: 1.04;
-    letter-spacing: -0.06em;
-    color: #3e20d3;
+    font-size: 63px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    color: #0a22aa;
     margin: 0;
   }
 
   &__desc {
-    max-width: 360px;
-    font-family: "Poppins", sans-serif;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 400;
-    line-height: 1.42;
-    letter-spacing: -0.02em;
-    color: #a0a3ad;
-    margin: 0 0 26px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    color: #8c8f9c;
+    margin: 32px 0 40px;
   }
 
   &__cta {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
   }
 
   &__cta-label {
-    min-width: 136px;
-    height: 40px;
-    padding: 0 20px;
+    min-width: 180px;
+    height: 54px;
+    padding: 0 60px 0 30px;
     border-radius: 999px;
-    background: #eef0ff;
-    color: #3e20d3;
+    background: #eef1ff;
+    color: #0a22aa;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-family: "Poppins", sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: -0.03em;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
   }
 
   &__cta-icon {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    background: #3e20d3;
+    background: #0a22aa;
     color: #fff;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    margin-left: -40px;
 
     svg {
       transition: transform 0.2s ease;
@@ -298,7 +315,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__cta:hover &__cta-icon {
-    background: #2c10b7;
+    background: #0a22aa;
 
     svg {
       transform: translate(1px, -1px);
@@ -311,7 +328,6 @@ body.page-template-template-subscription-v2 {
     align-items: flex-end;
     min-height: 402px;
     margin-right: -18px;
-    margin-bottom: -62px;
     z-index: 2;
     position: relative;
   }
@@ -323,22 +339,19 @@ body.page-template-template-subscription-v2 {
     height: auto;
     object-fit: contain;
     position: relative;
-    transform: translateY(20x);
     z-index: 3;
   }
 }
 
 .sub-v2-partnership {
   position: relative;
-  background: #2548d1;
+  background: #1e4bcb;
   color: #fff;
-  padding: 86px 0 40px;
-  margin-top: -54px;
-  border-top: 2px solid #5f7df1;
+  padding: 60px 0;
   z-index: 1;
 
   &__eyebrow {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     text-align: center;
     letter-spacing: -0.01em;
@@ -387,7 +400,7 @@ body.page-template-template-subscription-v2 {
 
   &__brand-text {
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: -0.03em;
     color: #fff;
   }
@@ -424,7 +437,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__desc {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 1.45;
     text-align: center;
@@ -449,7 +462,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__payments-copy {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     text-align: center;
     margin: 0 0 16px;
@@ -473,7 +486,7 @@ body.page-template-template-subscription-v2 {
     justify-content: center;
     text-align: center;
     white-space: nowrap;
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1;
   }
 
@@ -508,7 +521,7 @@ body.page-template-template-subscription-v2 {
 
   &__payment--mydebit {
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: -0.03em;
   }
 
@@ -547,7 +560,7 @@ body.page-template-template-subscription-v2 {
 }
 
 .sub-v2-tools {
-  padding: 18px 0 72px;
+  padding: 60px 0 50px;
   background: #fff;
   overflow: hidden;
 
@@ -560,7 +573,7 @@ body.page-template-template-subscription-v2 {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     color: #4b31ec;
     margin-bottom: 24px;
@@ -600,21 +613,22 @@ body.page-template-template-subscription-v2 {
   }
 
   &__grid {
-    display: grid;
+    // display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 14px;
 
     &.slick-slider {
-      display: block;
+      display: block !important;
     }
 
     .slick-list {
-      overflow: visible;
+      overflow: hidden;
     }
 
     .slick-track {
-      display: flex !important;
+      display: flex;
       align-items: stretch;
+      gap: 30px;
     }
 
     .slick-slide {
@@ -631,10 +645,9 @@ body.page-template-template-subscription-v2 {
     height: 100%;
     min-height: 492px;
     border-radius: 12px;
-    padding: 32px 26px 0;
+    padding: 32px 26px 0 !important;
     display: flex !important;
     flex-direction: column;
-    border: 1px solid rgba(70, 89, 196, 0.08);
     transition:
       transform 0.25s ease,
       box-shadow 0.25s ease;
@@ -666,6 +679,7 @@ body.page-template-template-subscription-v2 {
       padding-left: 18px;
       font-size: 12px;
       line-height: 1.55;
+      min-height: 38px;
       letter-spacing: -0.01em;
       color: #2f3440;
       margin-bottom: 12px;
@@ -699,7 +713,7 @@ body.page-template-template-subscription-v2 {
     background: rgba(255, 255, 255, 0.46);
     color: #181b24;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     transition: all 0.2s ease;
     margin-top: 0;
     width: fit-content;
@@ -733,37 +747,47 @@ body.page-template-template-subscription-v2 {
     justify-content: center;
     align-items: center;
     gap: 18px;
+    margin-top: 32px;
+  }
+
+  &__grid.slick-initialized + &__nav {
+    display: flex;
   }
 
   &__nav-btn {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 1px solid rgba(113, 121, 145, 0.42) !important;
+    border: 1px solid #d1d5db !important;
     background: #fff;
-    color: #2a3140;
+    color: #374151;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    line-height: 1;
     transition: all 0.2s ease;
     min-height: auto;
 
+    svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 3px;
+    }
+
     &:hover {
-      border-color: rgba(42, 49, 64, 0.8);
+      border-color: #9ca3af;
       color: #000;
+      background: #f9fafb;
     }
   }
 }
 
 .sub-v2-everything {
-  padding: 84px 0 98px;
+  padding:50px 0;
   background: #fff;
 
   &__head {
     text-align: center;
-    margin-bottom: 52px;
+    margin-bottom: 20px;
   }
 
   &__eyebrow,
@@ -815,16 +839,6 @@ body.page-template-template-subscription-v2 {
     min-height: 650px;
   }
 
-  &__mockup {
-    position: absolute;
-    left: 28px;
-    bottom: 0;
-    width: 520px;
-    max-width: 100%;
-    height: auto;
-    display: block;
-  }
-
   &__float {
     position: absolute;
     width: 138px;
@@ -873,8 +887,8 @@ body.page-template-template-subscription-v2 {
     justify-content: center;
 
     img {
-      width: 100%;
-      height: 100%;
+      width: 50px;
+      height: 50px;
       object-fit: contain;
       display: block;
     }
@@ -899,7 +913,7 @@ body.page-template-template-subscription-v2 {
 }
 
 .sub-v2-testimonials {
-  padding: 82px 0 96px;
+  padding: 60px 0 60px;
   background: #f5f8ff;
 
   &__head {
@@ -951,10 +965,76 @@ body.page-template-template-subscription-v2 {
     color: #a0a5b0;
   }
 
+  &__slider-wrap {
+    position: relative;
+    width: min(1188px, calc(100% - 74px));
+    margin: 0 auto;
+  }
+
   &__grid {
-    display: grid;
+    // display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
+
+    &.slick-slider {
+      display: block !important;
+    }
+
+    .slick-list {
+      overflow: hidden;
+    }
+
+    .slick-track {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .slick-slide {
+      height: auto !important;
+      padding: 0 6px;
+
+      > div {
+        height: 100%;
+      }
+    }
+  }
+
+  &__nav {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin-top: 32px;
+  }
+
+  &__grid.slick-initialized + &__nav {
+    display: flex;
+  }
+
+  &__nav-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #d1d5db !important;
+    background: #fff;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    min-height: auto;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 3px;
+    }
+
+    &:hover {
+      border-color: #9ca3af;
+      color: #000;
+      background: #f9fafb;
+    }
   }
 
   &__card {
@@ -981,7 +1061,7 @@ body.page-template-template-subscription-v2 {
     font-size: 40px;
     line-height: 1;
     font-family: "Poppins", sans-serif;
-    font-weight: 700;
+    font-weight: 500;
   }
 
   &__quote--start {
@@ -1029,13 +1109,13 @@ body.page-template-template-subscription-v2 {
   &__meta {
     margin-top: auto;
     padding-left: 20px;
-    border-left: 2px solid #2141e8;
+    border-left: 2px solid #1e4bcb;
 
     strong {
       display: block;
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 500;
-      color: #2141e8;
+      color: #1e4bcb;
       margin-bottom: 4px;
       letter-spacing: -0.01em;
     }
@@ -1065,7 +1145,7 @@ body.page-template-template-subscription-v2 {
     gap: 8px;
     font-size: 12px;
     font-weight: 600;
-    color: #2141e8;
+    color: #1e4bcb;
     margin-bottom: 28px;
 
     &::before {
@@ -1073,14 +1153,14 @@ body.page-template-template-subscription-v2 {
       width: 8px;
       height: 8px;
       border-radius: 2px;
-      background: #2141e8;
+      background: #1e4bcb;
       transform: rotate(45deg);
     }
   }
 
   &__title {
     font-size: 39px;
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1.28;
     letter-spacing: -0.02em;
     color: #000;
@@ -1101,15 +1181,15 @@ body.page-template-template-subscription-v2 {
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 1250px;
+    max-width: 1920px;
     margin: 0 auto;
     overflow: visible;
     isolation: isolate;
   }
 
   &__photo {
-    width: 430px;
-    height: 366px;
+    width: 820px;
+    height: 520px;
     border-radius: 22px;
     overflow: visible;
     flex-shrink: 0;
@@ -1123,8 +1203,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__photo--left {
-    margin-right: -96px;
-    transform: translateY(82px);
+    margin-right: -200px;
     z-index: 1;
 
     img {
@@ -1133,8 +1212,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__photo--right {
-    margin-left: -96px;
-    transform: translateY(82px);
+    margin-left: -200px;
     z-index: 1;
 
     img {
@@ -1145,8 +1223,8 @@ body.page-template-template-subscription-v2 {
   &__card {
     position: relative;
     z-index: 2;
-    width: 412px;
-    min-height: 520px;
+    width: 670px;
+    min-height: 750px;
     background: #fff;
     border-radius: 36px;
     padding: 40px 50px 42px;
@@ -1155,8 +1233,8 @@ body.page-template-template-subscription-v2 {
   }
 
   &__plan-name {
-    font-size: 25px;
-    font-weight: 700;
+    font-size: 42px;
+    font-weight: 600;
     color: #000;
     margin-bottom: 18px;
   }
@@ -1170,7 +1248,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__price {
-    font-size: 58px;
+    font-size: 87px;
     font-weight: 700;
     line-height: 1;
     color: #000;
@@ -1200,11 +1278,11 @@ body.page-template-template-subscription-v2 {
   }
 
   &__button {
-    height: 35px;
-    padding: 0 20px;
+    height: 64px;
+    padding: 0 40px;
     border-radius: 99px;
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 17px;
+    font-weight: 500;
     transition: all 0.2s ease;
     flex: 1;
     display: inline-flex;
@@ -1214,8 +1292,8 @@ body.page-template-template-subscription-v2 {
   }
 
   &__button--ghost {
-    border: 1px solid #2141e8;
-    color: #2141e8;
+    border: 1px solid #1e4bcb;
+    color: #1e4bcb;
     background: transparent;
 
     &:hover {
@@ -1224,7 +1302,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__button--primary {
-    background: #3514d8;
+    background: #1e4bcb;
     color: #fff !important;
 
     &:hover {
@@ -1249,8 +1327,8 @@ body.page-template-template-subscription-v2 {
         content: "✔";
         position: absolute;
         left: 0;
-        color: #2141e8;
-        font-weight: 700;
+        color: #1e4bcb;
+        font-weight: 500;
         font-size: 12px;
       }
     }
@@ -1259,14 +1337,24 @@ body.page-template-template-subscription-v2 {
 
 .sub-v2-faq {
   padding: 48px 0 58px;
-  background: #3d00d7;
+  background: #1e4bcb;
   color: #fff;
   border-radius: 28px 28px 0 0;
 
   &__layout {
-    display: grid;
-    grid-template-columns: 37% 63%;
+    display: flex;
+    flex-wrap: wrap;
     gap: 40px;
+  }
+
+  &__intro {
+    flex: 0 0 37%;
+    min-width: 300px;
+  }
+
+  &__list {
+    flex: 1 1 500px;
+    padding-top: 6px;
   }
 
   &__eyebrow {
@@ -1296,7 +1384,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__list {
-    padding-top: 6px;
+    // Moved to flex child
   }
 
   &__item {
@@ -1390,7 +1478,7 @@ body.page-template-template-subscription-v2 {
   }
 
   .sub-v2-header {
-    padding: 30px 0 26px;
+    padding: 10px 0;
 
     &__inner {
       display: grid;
@@ -1457,44 +1545,48 @@ body.page-template-template-subscription-v2 {
   }
 
   .sub-v2-hero {
-    padding: 28px 0 0;
+    padding: 10px 0 0;
 
     &__inner {
       grid-template-columns: 1fr;
       gap: 16px;
+      padding: 0;
     }
 
     &__content {
       padding: 12px 0 0;
     }
 
-    &__title {
-      font-size: 50px !important;
-      margin-bottom: 10px !important;
-    }
-
-    &__copy {
-      margin-bottom: 18px;
-    }
-
-    &__lead {
-      font-size: 18px;
+    &__mobile-title {
+      display: block;
+      font-size: 28px;
+      line-height: 40px;
       font-weight: 500;
-      // max-width: 280px;
-      margin-bottom: 8px;
+      letter-spacing: 0%;
+      margin-bottom: 24px;
+      color: #000;
+
+      .sub-v2-hero__accent-row {
+        margin-top: 10px;
+        align-items: center;
+      }
+
+      .sub-v2-hero__accent {
+        font-size: 35px;
+        font-weight: 600;
+        color: #0a22aa;
+      }
+
+      .sub-v2-hero__accent-line {
+        width: 40px;
+        height: 3px;
+        background: #0a22aa;
+      }
     }
 
-    &__confidence {
-      font-size: 19px;
-      margin-bottom: 2px;
-    }
-
-    &__accent-row {
-      gap: 8px;
-    }
-
-    &__accent-line {
-      width: 24px;
+    &__title,
+    &__copy {
+      display: none;
     }
 
     &__accent {
@@ -1503,7 +1595,7 @@ body.page-template-template-subscription-v2 {
 
     &__desc {
       max-width: 290px;
-      font-size: 13px;
+      font-size: 14px;
       line-height: 1.42;
       margin-bottom: 20px;
     }
@@ -1511,13 +1603,13 @@ body.page-template-template-subscription-v2 {
     &__cta-label {
       min-width: 124px;
       height: 36px;
-      padding: 0 16px;
-      font-size: 13px;
+      padding: 0 45px 0 16px;
+      font-size: 14px;
     }
 
     &__cta-icon {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
     }
 
     &__visual {
@@ -1533,11 +1625,11 @@ body.page-template-template-subscription-v2 {
   }
 
   .sub-v2-partnership {
-    padding: 80px 0 34px;
+    padding: 30px 0;
     margin-top: -14px;
 
     &__eyebrow {
-      font-size: 13px;
+      font-size: 14px;
       margin-bottom: 22px;
     }
 
@@ -1571,7 +1663,7 @@ body.page-template-template-subscription-v2 {
     }
 
     &__desc {
-      font-size: 13px;
+      font-size: 14px;
     }
 
     &__divider {
@@ -1584,38 +1676,39 @@ body.page-template-template-subscription-v2 {
     }
 
     &__payments-copy {
-      font-size: 13px;
+      font-size: 14px;
       margin-bottom: 16px;
     }
 
     &__payments {
-      gap: 16px 22px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px 16px;
+      align-items: center;
+      justify-items: center;
+      max-width: 320px;
+      margin: 0 auto;
     }
 
     &__payment {
-      min-height: 22px;
+      min-height: 0;
+      width: 100%;
     }
 
     &__payment-logo {
-      max-height: 26px;
-      max-width: 86px;
-    }
-
-    &__payment--alipay,
-    &__payment--duitnow,
-    &__payment--mydebit,
-    &__payment--visa {
-      font-size: 15px;
-    }
-
-    &__payment--tngpay {
-      max-width: 54px;
-      font-size: 12px;
+      max-height: 32px;
+      max-width: 100%;
+      height: auto;
+      width: auto;
+      margin: 0 auto;
     }
 
     &__payment--mastercard {
-      font-size: 12px;
-      padding-left: 30px;
+      padding-left: 0;
+      &::before,
+      &::after {
+        display: none;
+      }
     }
   }
 
@@ -1635,21 +1728,25 @@ body.page-template-template-subscription-v2 {
       }
     }
 
+    &__slider-wrap {
+      width: calc(100% - 32px);
+    }
+
     &__grid {
       display: block;
-      width: calc(100% + 24px);
-      margin-left: -12px;
-      margin-right: -12px;
+      width: auto;
+      margin-left: 0;
+      margin-right: 0;
       margin-bottom: 28px;
 
       &.slick-slider {
-        margin-left: -12px;
-        margin-right: -12px;
+        margin-left: -10px;
+        margin-right: -10px;
       }
 
-      // .slick-slide {
-      //   padding: 0 12px;
-      // }
+      .slick-slide {
+        padding: 0 10px;
+      }
     }
 
     &__card {
@@ -1671,10 +1768,15 @@ body.page-template-template-subscription-v2 {
     }
 
     &__nav-btn {
-      width: 50px;
-      height: 50px;
-      font-size: 22px;
+      width: 44px;
+      height: 44px;
       min-height: auto;
+
+      svg {
+        width: 18px;
+        height: 18px;
+        stroke-width: 3px;
+      }
     }
 
     &__nav {
@@ -1738,8 +1840,8 @@ body.page-template-template-subscription-v2 {
       height: 52px;
 
       img {
-        width: 100%;
-        height: 100%;
+        width: 35px;
+        height: 35px;
       }
     }
 
@@ -1761,14 +1863,32 @@ body.page-template-template-subscription-v2 {
       margin-bottom: 15px;
     }
 
+    &__slider-wrap {
+      width: calc(100% - 32px);
+    }
+
     &__grid {
       grid-template-columns: 1fr;
       gap: 14px;
+
+      &.slick-slider {
+        margin-left: -10px;
+        margin-right: -10px;
+      }
+
+      .slick-slide {
+        padding: 0 10px;
+      }
     }
 
     &__card {
-      min-height: 0;
-      padding: 75px 25px 50px;
+      min-height: 100%;
+      padding: 75px 25px 30px;
+
+      p {
+        font-size: 12px;
+        margin-bottom: 18px;
+      }
     }
 
     &__quote--start {
@@ -1993,14 +2113,14 @@ body.page-template-template-subscription-v2 {
 
     &__desc {
       max-width: 320px;
-      font-size: 13px;
+      font-size: 14px;
       margin-bottom: 22px;
     }
 
     &__cta-label {
       min-width: 128px;
       height: 38px;
-      font-size: 13px;
+      font-size: 14px;
     }
 
     &__cta-icon {
@@ -2041,8 +2161,8 @@ body.page-template-template-subscription-v2 {
       }
     }
 
-    &__grid {
-      display: grid;
+    &__grid:not(.slick-slider) {
+      // display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
       width: auto;
@@ -2146,4 +2266,87 @@ body.page-template-template-subscription-v2 {
       font-size: 54px;
     }
   }
+}
+
+/* Modal */
+.sub-v2-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+
+  &[aria-hidden="false"] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+  }
+
+  &__container {
+    position: relative;
+    width: min(600px, calc(100% - 40px));
+    max-height: 90vh;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+  }
+
+  &[aria-hidden="false"] &__container {
+    transform: translateY(0);
+  }
+
+  &__close {
+    position: absolute;
+    top: 12px;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    color: #6b7280;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #e5e7eb;
+      color: #111827;
+    }
+  }
+
+  &__content {
+    padding: 40px 24px 24px;
+    overflow-y: auto;
+
+    .hs-form-frame {
+      min-height: 400px;
+    }
+  }
+}
+
+body.modal-open {
+  overflow: hidden;
 }

@@ -19,9 +19,9 @@ $sub_svg_data_uri = static function ($svg) {
 $sub_v2_hero_image = '/wp-content/uploads/2026/05/KV-Website-copy-1-1.webp';
 $sub_v2_mockup_image = '/wp-content/uploads/2026/05/KV-3-copy-1-1.webp';
 $sub_v2_qr_image = "/wp-content/uploads/2026/05/Layer_1-4.webp";
-$sub_v2_delivery_image = "/wp-content/uploads/2026/05/Layer_1-5.webp";
+$sub_v2_delivery_image = "/wp-content/uploads/2026/05/Layer_1-6.webp";
 $sub_v2_delivery_man_image = "/wp-content/uploads/2026/05/Layer_1-6.webp";
-$sub_v2_grow_sales_image = "/wp-content/uploads/2026/05/Visuals-001-1-1.webp";
+$sub_v2_grow_sales_image = "/wp-content/uploads/2026/05/Layer_1-5.webp";
 $sub_v2_left_merchant_image = "/wp-content/uploads/2026/05/Layer_1-2-1.webp";
 $sub_v2_right_merchant_image = "/wp-content/uploads/2026/05/Layer_1-3.webp";
 
@@ -38,6 +38,8 @@ $sub_v2_logo_tng_small =  '/wp-content/uploads/2026/05/Isolation_Mode-5.webp';
 $sub_v2_logo_mydebit =  '/wp-content/uploads/2026/05/Isolation_Mode-4.webp';
 $sub_v2_logo_visa =  '/wp-content/uploads/2026/05/Isolation_Mode-3.webp';
 $sub_v2_logo_mastercard =  '/wp-content/uploads/2026/05/Isolation_Mode-2.webp';
+$sub_v2_header_logo = the_custom_logo();;
+$sub_v2_header_logo = $sub_v2_header_logo ?: "https://www.epos.com.sg/wp-content/uploads/2025/12/EPOS_Full-Color.webp";
 ?>
 
 <!DOCTYPE html>
@@ -66,8 +68,12 @@ $sub_v2_logo_mastercard =  '/wp-content/uploads/2026/05/Isolation_Mode-2.webp';
           <div class="sub-shell">
             <div class="sub-v2-header__inner">
               <a href="<?php echo esc_url(home_url('/')); ?>" class="sub-v2-header__brand" aria-label="EPOS home">
-                <span class="sub-v2-header__brand-mark" aria-hidden="true"></span>
-                <span class="sub-v2-header__brand-text">EPOS</span>
+                <img
+                  class="sub-v2-header__brand-logo"
+                  src="<?php echo esc_url($sub_v2_header_logo); ?>"
+                  alt="<?php echo esc_attr(get_bloginfo('name')); ?>"
+                  loading="eager"
+                  decoding="async">
               </a>
 
               <nav class="sub-v2-header__nav" aria-label="Landing page navigation">
@@ -134,7 +140,7 @@ $sub_v2_logo_mastercard =  '/wp-content/uploads/2026/05/Isolation_Mode-2.webp';
                   loading="lazy"
                   decoding="async">
               </div>
-              
+
             </div>
 
             <div class="sub-v2-partnership__divider"></div>

@@ -20,6 +20,8 @@ const localDomain = process.env.PROJECT_HOST
 // Define Work path
 const destFileCss = destChildTheme + "/assets/sass/app.scss";
 const destFileJs = destChildTheme + "/assets/js/app.js";
+const subscriptionFileCss = destChildTheme + "/assets/sass/page/subscription.scss";
+const subscriptionFileJs = destChildTheme + "/assets/js/page/subscription.js";
 const destExternalFileJs = destChildTheme + "/assets/js/externals/webflow/index.js";
 
 const destOutput = destChildTheme + "/assets/dist";
@@ -29,6 +31,7 @@ module.exports = [
     stats: "minimal",
     entry: {
       epos: [destFileCss, destFileJs],
+      subscription: [subscriptionFileCss, subscriptionFileJs],
       externals: [destExternalFileJs],
     },
     output: {

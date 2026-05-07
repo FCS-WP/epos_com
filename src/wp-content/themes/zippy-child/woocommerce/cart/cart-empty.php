@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Empty cart page
  *
@@ -16,16 +17,19 @@
  * @flatsome-version 3.16.2
  */
 
-defined( 'ABSPATH' ) || exit; ?>
+defined('ABSPATH') || exit; ?>
 <div class="empty-cart-section text-center pt pb">
 	<div class="empty-cart-content">
 		<div class="empty-cart-message">
-			<img class="no-lazy" src="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/icons/empty-cart.png" alt="Empty Cart">
-			<?php do_action( 'woocommerce_cart_is_empty' ); ?>
+			<img class="no-lazy" alt="Empty Cart"
+				style="display:block!important"
+				fetchpriority="high"
+				loading="eager" src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/icons/empty-cart.png" alt="Empty Cart">
+			<?php do_action('woocommerce_cart_is_empty'); ?>
 		</div>
 		<p class="return-to-shop">
-			<a class="button wc-backward<?php echo esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>" href="<?php echo esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ); ?>">
-				<?php echo esc_html( apply_filters( 'woocommerce_return_to_shop_text', __( 'View Products', 'woocommerce' ) ) ); ?>
+			<a class="button wc-backward<?php echo esc_attr(wc_wp_theme_get_element_class_name('button') ? ' ' . wc_wp_theme_get_element_class_name('button') : ''); ?>" href="<?php echo esc_url(apply_filters('woocommerce_return_to_shop_redirect', wc_get_page_permalink('shop'))); ?>">
+				<?php echo esc_html(apply_filters('woocommerce_return_to_shop_text', __('View Products', 'woocommerce'))); ?>
 			</a>
 		</p>
 	</div>

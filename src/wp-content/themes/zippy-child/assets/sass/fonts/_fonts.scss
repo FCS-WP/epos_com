@@ -43,6 +43,22 @@
   900
 );
 
+// Poppins
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("#{$assets_path}fonts/Poppins/Poppins-Regular.woff2") format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("#{$assets_path}fonts/Poppins/Poppins-Bold.woff2") format('woff2');
+}
+
 // Source: https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap
 /* Inter latin */
 @font-face {
@@ -77,6 +93,19 @@
 
 body {
   font-family: $main-font;
+  
+  .sub-page {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    a {
+      font-family: $third-font;
+    }
+  }
 }
 #content {
   h1,

@@ -118,9 +118,17 @@ class Zippy_Settings
 
 	function zippy_core_add_scripts_web()
 	{
-		$version = time();
-		// Pass the user ID to the script
-		wp_enqueue_script('core-web-scripts', ZIPPY_CORE_URL . '/assets/dist/js/web.min.js', ['jquery'], $version, true);
-		wp_enqueue_style('core-web-styles', ZIPPY_CORE_URL . '/assets/dist/css/web.min.css', [], $version);
+		// core-web-scripts removed: source index.js is an empty jQuery wrapper that
+		// webpack was bundling the entire jQuery library into (86 KB), duplicating
+		// the WP core jQuery already loaded on every page.
+		// If frontend JS is needed later, re-enqueue here.
+
+		// core-web-styles is checkout-specific (built from _custom_checkout_page.scss).
+		// Only enqueue on checkout to avoid shipping it site-wide.
+		if (function_exists('is_checkout') && is_checkout()) {
+			$css_path = ZIPPY_CORE_DIR_PATH . '/assets/dist/css/web.min.css';
+			$version  = file_exists($css_path) ? filemtime($css_path) : '1.0.0';
+			wp_enqueue_style('core-web-styles', ZIPPY_CORE_URL . '/assets/dist/css/web.min.css', [], $version);
+		}
 	}
 }

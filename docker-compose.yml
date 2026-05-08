@@ -21,6 +21,7 @@ services:
       - ./src/wp-content/themes:/var/www/html/wp-content/themes
       - ./src/wp-content/plugins:/var/www/html/wp-content/plugins
       - ./src/wp-content/uploads:/var/www/html/wp-content/uploads
+      - ./src/wp-content/cache:/var/www/html/wp-content/cache
       
       # Exclude default WP content to save space
       - /var/www/html/wp-content/themes/twentytwentyone/

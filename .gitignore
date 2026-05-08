@@ -1,6 +1,8 @@
 # Ignore thir-party
 package-lock.json
 
+yarn.lock
+
 node_modules
 
 src/wp-content/themes/*/*/dist

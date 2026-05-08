@@ -106,7 +106,7 @@ module.exports = [
       }),
       // css extraction into dedicated file
       new MiniCssExtractPlugin({
-        filename: destOutput + "/css/main.min.css",
+        filename: destOutput + "/css/[name].min.css",
       }),
       new webpack.ProvidePlugin({
         $: "jquery",

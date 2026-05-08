@@ -39,6 +39,9 @@ foreach (glob(THEME_DIR . '-child' . "/includes/hubspot_intergration/*.php") as 
     require_once($file_name);
 }
 
+// Include Language Translate files
+require_once(THEME_DIR . '-child' . "/includes/language_translate/init.php");
+
 // Include epos MY custom flow files
 foreach (glob(THEME_DIR . '-child' . "/includes/epos_my_custom_flow/*.php") as $file_name) {
     require_once($file_name);

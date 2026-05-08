@@ -77,7 +77,7 @@
   }
 
   span {
-    @extend %inter-important;
+    // @extend %inter-important;
 
     color: $checkout-coupon-text;
     text-align: center;
@@ -170,7 +170,7 @@
 }
 
 .woocommerce-checkout {
-  @extend %inter-important;
+  // @extend %inter-important;
 
   @include only-mobile {
     margin-bottom: 0;
@@ -850,10 +850,10 @@
   }
 }
 
-.select2-results__option[aria-selected],
-.select2-results__option[data-selected] {
-  @extend %inter-important;
-}
+// .select2-results__option[aria-selected],
+// .select2-results__option[data-selected] {
+//   @extend %inter-important;
+// }
 
 .woocommerce-message,
 .woocommerce-message > .message-container {

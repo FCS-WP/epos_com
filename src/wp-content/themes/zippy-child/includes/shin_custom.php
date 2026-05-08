@@ -7,7 +7,27 @@ function shin_scripts()
 
   wp_enqueue_style('main-style-css', THEME_URL . '-child' . '/assets/dist/css/main.min.css', array(), $version, 'all');
 
-  wp_enqueue_script('main-scripts-js', THEME_URL . '-child' . '/assets/dist/js/main.min.js', array('jquery'), $version, true);
+  // Subscription template
+  $subscription_style_file = get_stylesheet_directory() . '/assets/dist/css/subscription.min.css';
+  $subscription_script_file = get_stylesheet_directory() . '/assets/dist/js/subscription.min.js';
+
+  if (is_page_template('page-templates/template-subscription.php')) {
+    wp_enqueue_style(
+      'subscription-template-css',
+      get_stylesheet_directory_uri() . '/assets/dist/css/subscription.min.css',
+      array(),
+      file_exists($subscription_style_file) ? filemtime($subscription_style_file) : null,
+      'all'
+    );
+
+    wp_enqueue_script(
+      'subscription-template-js',
+      get_stylesheet_directory_uri() . '/assets/dist/js/subscription.min.js',
+      array(),
+      file_exists($subscription_script_file) ? filemtime($subscription_script_file) : null,
+      true
+    );
+  }
 }
 //Add gallery video for product
 function add_product_video_url_meta_box()

@@ -23,6 +23,12 @@ src/wp-content/plugins/akismet
 
 src/wp-content/plugins/hello.php
 
+src/wp-content/plugins/zippy-*
+src/wp-content/plugins/zippy_*
+src/wp-content/plugins/epos-*
+src/wp-content/plugins/epos_*
+
+
 # Ignore themes default
 src/wp-content/themes/twentytwentyone
 

@@ -9,7 +9,7 @@ class Webflow_CORS
   const ALLOWED_ORIGINS_FILTER = 'bluetap_webflow_allowed_origins';
   const COUNT_ROUTE = '/bluetap/v1/cart/count';
   const DEFAULT_ALLOWED_ORIGINS = array(
-    'https://*.webflow.io',
+    'https://epos-staging.webflow.io',
     'https://www.epos.com',
   );
 

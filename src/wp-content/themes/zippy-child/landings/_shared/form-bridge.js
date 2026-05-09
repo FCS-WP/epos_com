@@ -1,26 +1,24 @@
 // Landings — client-side form submission bridge.
 //
-// Each landing controls its own <form> markup (full design freedom). This
-// library handles the submission behavior:
-//   - reads field values out of the form
-//   - POSTs JSON to the WP REST endpoint with the WP nonce
-//   - calls onSuccess / onError so the landing can update its UI
+// Each landing controls its own <form> markup. This library handles the
+// submission behavior: collect fields, POST JSON to the WP REST endpoint
+// with the WP nonce, call onSuccess / onError so the landing's script can
+// drive its UI.
 //
 // Wire-up from landings/{slug}/script.js:
 //
 //   import { LandingForm } from "../_shared/form-bridge";
 //
 //   new LandingForm({
-//     formElement: document.querySelector("#subscription-form form"),
-//     // Each call surface accepts a function or a CSS selector for a
-//     // status node. Both forms are supported for flexibility.
-//     onSuccess: () => { /* show thank-you state */ },
-//     onError:   (err, fieldErrors) => { /* show errors */ },
-//   }).bind();
+//     formElement: document.querySelector('form[data-landing-form="hubspot"]'),
+//     onSubmitStart: (payload) => { ... },  // mutate payload before send
+//     onSuccess:     (data)    => { ... },  // 2xx response
+//     onError:       (msg, fieldErrors) => { ... },
+//   })._wrapValidation(() => myValidator())  // optional preflight
+//     .bind();
 //
-// The endpoint URL, nonce, and current landing slug are exposed by the
-// loader as window.LANDINGS_FORM_BRIDGE = { endpoint, nonce, slug, pageUri,
-// pageName }. Don't set those manually — the PHP loader injects them.
+// window.LANDINGS_FORM_BRIDGE = { endpoint, nonce, slug, pageUri, pageName }
+// is injected by landing_footer() in landings/loader.php — do not set manually.
 
 const DEFAULT_HONEYPOT_FIELD = "website_url";
 

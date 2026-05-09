@@ -15,14 +15,12 @@ $sub_v2_testimonials = [
     'name' => 'Dexon Button Shop',
     'role' => 'Owner',
     'image' => $sub_v2['images']['testimonials']['dexon'],
-    // 'avatar' => $sub_v2['images']['testimonials']['avatar_2'],
   ],
   [
     'copy' => 'Coffee has always been my passion, and opening my own shop was a dream come true. EPOS360 and BlueTap made the tech side so much easier than I expected. The activation was straightforward, no hassles at all. What surprised me most was the POS feature inside the EPOS360 app, but now I use it daily to check sales and peak times. The AI even tells me my slowest times so I can plan better. Checking the EPOS360 dashboard has become part of my everyday routine.',
     'name' => 'AJOKAIDO Coffee',
     'role' => 'Owner',
     'image' => $sub_v2['images']['testimonials']['ajokaido'],
-    // 'avatar' => $sub_v2['images']['testimonials']['avatar_3'],
   ],
 ];
 ?>

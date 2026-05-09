@@ -48,7 +48,6 @@ $render_options = function ($options, $placeholder) {
     data-success-message="<?php echo esc_attr($success_message); ?>"
     data-phone-countries="<?php echo esc_attr(implode(',', $phone_countries)); ?>"
     data-phone-default="<?php echo esc_attr($phone_default); ?>"
-    data-mock-success
     novalidate
 >
     <?php /*

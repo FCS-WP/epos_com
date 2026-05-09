@@ -2,9 +2,8 @@
 if (! defined('ABSPATH')) exit;
 $sub_v2 = $data ?? array();
 
-// Logo: use the value from content.json if set, otherwise fall back to the
-// WP custom logo (Customizer → Site Identity). This fallback used to live in
-// template-data.php; it lives here now because this is the only place it's used.
+// Logo from content.json, with the WP custom logo (Customizer → Site Identity)
+// as fallback.
 $logo_url = $sub_v2['images']['header']['logo'] ?? '';
 if (! $logo_url) {
     $custom_logo_id = (int) get_theme_mod('custom_logo');

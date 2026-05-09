@@ -89,12 +89,9 @@ function landings_template_label($slug)
     $contents = file_get_contents($landings[$slug] . '/template.php', false, null, 0, 8192);
     if ($contents === false) return $slug;
 
-    // Match only up to the end of the first line — otherwise we'd grab
-    // any subsequent description text up to the closing */ of the comment.
     // The needle is built from concatenated parts so the literal magic
-    // string (Template_Name with a space) never appears in this file —
-    // otherwise Flatsome's theme scanner would pick THIS file up as a
-    // selectable page template.
+    // string never appears in this file — otherwise Flatsome's theme
+    // scanner would pick THIS file up as a selectable page template.
     $needle = 'Template' . ' Name:';
     if (preg_match('/' . preg_quote($needle, '/') . '[ \t]*([^\r\n]+)/', $contents, $m)) {
         return trim($m[1]);
@@ -362,16 +359,10 @@ function landing_footer()
         );
     }
 
-    // Lazy-loading note:
-    //   Flatsome's flatsome-lazy-load.js depends on the Flatsome global +
-    //   jQuery + imagesLoaded — i.e. it's a fragment that requires the rest
-    //   of Flatsome to be loaded. We don't load Flatsome on landings, so we
-    //   intentionally do NOT include it here.
-    //
-    //   Lazy-loading still works via the browser-native loading="lazy"
-    //   attribute, which wp_get_attachment_image() (used by landing_image())
-    //   already adds by default since WP 5.5. Modern browsers handle it
-    //   natively — no JS required.
+    // Lazy-loading is handled via the browser-native loading="lazy"
+    // attribute (added automatically by wp_get_attachment_image since WP 5.5).
+    // We do NOT include flatsome-lazy-load.js — it depends on the Flatsome
+    // global + jQuery + imagesLoaded, all of which we strip from landings.
 }
 
 /**

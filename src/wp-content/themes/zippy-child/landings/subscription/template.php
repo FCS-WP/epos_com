@@ -13,8 +13,6 @@
 
 if (! defined('ABSPATH')) exit;
 
-// content.json's shape is exactly what the partials expect, so no
-// transformation layer is needed — pass it through as $sub_v2.
 $sub_v2 = landing_content();
 ?>
 <!DOCTYPE html>

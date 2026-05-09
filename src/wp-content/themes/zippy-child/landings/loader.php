@@ -297,17 +297,16 @@ function landing_footer()
         );
     }
 
-    // Flatsome lazy-load — standalone file, ~few KB, processes images on the
-    // page. Loaded directly so we don't drag in the rest of Flatsome.
-    $flatsome_lazy = THEME_DIR . '/inc/extensions/flatsome-lazy-load/flatsome-lazy-load.js';
-    if (file_exists($flatsome_lazy)) {
-        $flatsome_lazy_url = THEME_URL . '/inc/extensions/flatsome-lazy-load/flatsome-lazy-load.js';
-        printf(
-            '<script src="%s?ver=%s"></script>' . "\n",
-            esc_url($flatsome_lazy_url),
-            esc_attr((string) filemtime($flatsome_lazy))
-        );
-    }
+    // Lazy-loading note:
+    //   Flatsome's flatsome-lazy-load.js depends on the Flatsome global +
+    //   jQuery + imagesLoaded — i.e. it's a fragment that requires the rest
+    //   of Flatsome to be loaded. We don't load Flatsome on landings, so we
+    //   intentionally do NOT include it here.
+    //
+    //   Lazy-loading still works via the browser-native loading="lazy"
+    //   attribute, which wp_get_attachment_image() (used by landing_image())
+    //   already adds by default since WP 5.5. Modern browsers handle it
+    //   natively — no JS required.
 }
 
 /**

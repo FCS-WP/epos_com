@@ -1,4 +1,3 @@
-
 $sub-blue: #001e9a;
 $sub-navy: #06128a;
 $sub-green: #bdf7c6;
@@ -1748,6 +1747,7 @@ body.modal-open #sub-v2-smoother-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: none;
   padding: 24px;
 
   &[hidden] {
@@ -1757,8 +1757,9 @@ body.modal-open #sub-v2-smoother-wrapper {
   &__backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(17, 24, 39, 0.56);
-    backdrop-filter: blur(6px);
+    background: rgba(15, 23, 42, 0.22);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
     opacity: 0;
     transition: opacity 0.18s ease;
   }
@@ -1797,6 +1798,7 @@ body.modal-open #sub-v2-smoother-wrapper {
     position: absolute;
     top: 14px;
     right: 16px;
+    z-index: 2; // sit above the form-shell inside __content
     width: 44px;
     height: 44px;
     border-radius: 50%;
@@ -3227,7 +3229,6 @@ body.modal-open {
   overflow: hidden;
 }
 
-
 // ─────────────────────────────────────────────────────────
 // Form (.sub-v2-form) — styles for our REST-bridge form
 // rendered by partials/_form.php into both the inline demo
@@ -3238,20 +3239,20 @@ body.modal-open {
 //   submit: bg #1E4BCB
 // The modal variant is compacted (smaller radius, shorter inputs).
 // ─────────────────────────────────────────────────────────
-$sub-form-input-h:        49px;
-$sub-form-input-r:        50px;
-$sub-form-text:           #3E4042;
-$sub-form-placeholder:    #C0C2C6;
-$sub-form-button:         #1E4BCB;
-$sub-form-button-hover:   #1A3FB0;
-$sub-form-danger:         #E11D48;
-$sub-form-success:        #167b10;
+$sub-form-input-h: 49px;
+$sub-form-input-r: 50px;
+$sub-form-text: #3e4042;
+$sub-form-placeholder: #c0c2c6;
+$sub-form-button: #1e4bcb;
+$sub-form-button-hover: #1a3fb0;
+$sub-form-danger: #e11d48;
+$sub-form-success: #167b10;
 
 // Wrap inside .sub-page so our submit button beats the
 // `.sub-page button { background: none; padding: 0; }` reset further up
 // in this file (specificity 0,1,1 — needs at least 0,2,1 to win).
 .sub-page .sub-v2-form {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 18px;
   color: $sub-form-text;
   background: #fff;
@@ -3263,7 +3264,9 @@ $sub-form-success:        #167b10;
   // Reserve vertical space so the layout doesn't jump when the form is
   // replaced by the success message after submit.
   min-height: 720px;
-  @media (min-width: 768px) { min-height: 560px; }
+  @media (min-width: 768px) {
+    min-height: 560px;
+  }
 
   &__grid {
     display: grid;
@@ -3289,14 +3292,30 @@ $sub-form-success:        #167b10;
       //   Industry        Submit
       //
       // Grid fills row-by-row, so odd orders go to col 1, even to col 2.
-      .sub-v2-form__row--name     { order: 1; }
-      .sub-v2-form__row--company  { order: 2; }
-      .sub-v2-form__row--email    { order: 3; }
-      .sub-v2-form__row--state    { order: 4; }
-      .sub-v2-form__row--phone    { order: 5; }
-      .sub-v2-form__row--language { order: 6; }
-      .sub-v2-form__row--industry { order: 7; }
-      .sub-v2-form__row--submit   { order: 8; }
+      .sub-v2-form__row--name {
+        order: 1;
+      }
+      .sub-v2-form__row--company {
+        order: 2;
+      }
+      .sub-v2-form__row--email {
+        order: 3;
+      }
+      .sub-v2-form__row--state {
+        order: 4;
+      }
+      .sub-v2-form__row--phone {
+        order: 5;
+      }
+      .sub-v2-form__row--language {
+        order: 6;
+      }
+      .sub-v2-form__row--industry {
+        order: 7;
+      }
+      .sub-v2-form__row--submit {
+        order: 8;
+      }
     }
   }
 
@@ -3343,7 +3362,9 @@ $sub-form-success:        #167b10;
     font-size: 18px;
     color: $sub-form-text;
     background: #fff;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
 
     // Mobile: smaller font + tighter height to match the 12px label.
     @media (max-width: 767px) {
@@ -3351,7 +3372,9 @@ $sub-form-success:        #167b10;
       height: 35px;
     }
 
-    &::placeholder { color: $sub-form-placeholder; }
+    &::placeholder {
+      color: $sub-form-placeholder;
+    }
     &:focus {
       outline: none;
       border-color: $sub-form-button;
@@ -3385,7 +3408,9 @@ $sub-form-success:        #167b10;
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s ease, opacity 0.2s ease;
+    transition:
+      background 0.2s ease,
+      opacity 0.2s ease;
 
     // Mobile: scaled to match the smaller inputs.
     @media (max-width: 767px) {
@@ -3395,8 +3420,13 @@ $sub-form-success:        #167b10;
       font-size: 14px;
     }
 
-    &:hover { background: $sub-form-button-hover; }
-    &:disabled { opacity: 0.6; cursor: progress; }
+    &:hover {
+      background: $sub-form-button-hover;
+    }
+    &:disabled {
+      opacity: 0.6;
+      cursor: progress;
+    }
   }
 
   &__error {
@@ -3409,7 +3439,9 @@ $sub-form-success:        #167b10;
     // skips it via display:none, tightening the visual distance between
     // adjacent fields). When an error message is set via JS, the element
     // re-appears and pushes the layout.
-    &:empty { display: none; }
+    &:empty {
+      display: none;
+    }
   }
 
   &__status {
@@ -3418,9 +3450,15 @@ $sub-form-success:        #167b10;
     font-size: 14px;
     grid-column: 1 / -1;
 
-    &[data-state="error"]   { color: $sub-form-danger; }
-    &[data-state="success"] { color: $sub-form-success; }
-    &[data-state="pending"] { color: $sub-muted; }
+    &[data-state="error"] {
+      color: $sub-form-danger;
+    }
+    &[data-state="success"] {
+      color: $sub-form-success;
+    }
+    &[data-state="pending"] {
+      color: $sub-muted;
+    }
   }
 
   // Honeypot — visually hide but keep in tab-order blind spot.
@@ -3451,11 +3489,14 @@ $sub-form-success:        #167b10;
   }
   .iti--separate-dial-code .iti__selected-flag,
   .iti--allow-dropdown .iti__selected-flag:hover,
-  .iti--allow-dropdown input:disabled + .iti__flag-container:hover .iti__selected-flag {
+  .iti--allow-dropdown
+    input:disabled
+    + .iti__flag-container:hover
+    .iti__selected-flag {
     background: rgba(0, 0, 0, 0.02);
   }
   .iti input.sub-v2-form__phone,
-  .iti input[type=tel].sub-v2-form__phone {
+  .iti input[type="tel"].sub-v2-form__phone {
     padding-left: 58px; // room for the flag block
   }
 
@@ -3466,12 +3507,26 @@ $sub-form-success:        #167b10;
     box-shadow: none;
     min-height: 0;
 
-    @media (min-width: 768px) { min-height: 0; }
+    @media (min-width: 768px) {
+      min-height: 0;
+    }
 
-    .sub-v2-form__grid { gap: 18px 30px; }
-    .sub-v2-form__input { height: 46px; padding: 0 16px; font-size: 16px; }
-    .sub-v2-form__submit { height: 46px; padding: 0 32px; font-size: 16px; }
-    .sub-v2-form__label { font-size: 14px; }
+    .sub-v2-form__grid {
+      gap: 18px 30px;
+    }
+    .sub-v2-form__input {
+      height: 46px;
+      padding: 0 16px;
+      font-size: 16px;
+    }
+    .sub-v2-form__submit {
+      height: 46px;
+      padding: 0 32px;
+      font-size: 16px;
+    }
+    .sub-v2-form__label {
+      font-size: 14px;
+    }
   }
 }
 
@@ -3502,12 +3557,18 @@ $sub-form-success:        #167b10;
 // When the form is mid-submit, swap label → spinner.
 .sub-page .sub-v2-form[data-submitting="true"] .sub-v2-form__submit {
   cursor: progress;
-  .sub-v2-form__submit-label   { display: none; }
-  .sub-v2-form__submit-spinner { display: inline-block; }
+  .sub-v2-form__submit-label {
+    display: none;
+  }
+  .sub-v2-form__submit-spinner {
+    display: inline-block;
+  }
 }
 
 @keyframes sub-v2-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 // Success state — replaces the form inside the same shell.
@@ -3548,32 +3609,36 @@ $sub-form-success:        #167b10;
   // `display: flex` above overrides the [hidden] attribute's default
   // `display: none` — restore it explicitly so the element stays hidden
   // until JS removes the [hidden] attr at submit time.
-  &[hidden] { display: none; }
+  &[hidden] {
+    display: none;
+  }
 
-  @media (min-width: 768px) { min-height: 560px; }
+  @media (min-width: 768px) {
+    min-height: 560px;
+  }
 
   // ── Static styling (the visible look) ──────────────────────────────
   &__title {
     margin: 0 0 16px;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 32px;
     font-weight: 700;
     line-height: 1.2;
-    color: #1E4BCB;
+    color: #1e4bcb;
     letter-spacing: -0.01em;
   }
   &__lead {
     margin: 0 0 8px;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 18px;
     font-weight: 500;
-    color: #3E4042;
+    color: #3e4042;
   }
   &__body {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 16px;
-    color: #6B7280;
+    color: #6b7280;
     line-height: 1.55;
     max-width: 480px;
     margin-left: auto;
@@ -3598,9 +3663,15 @@ $sub-form-success:        #167b10;
     will-change: opacity, transform;
   }
 
-  &__title { transition-delay: 0.05s; }
-  &__lead  { transition-delay: 0.18s; }
-  &__body  { transition-delay: 0.30s; }
+  &__title {
+    transition-delay: 0.05s;
+  }
+  &__lead {
+    transition-delay: 0.18s;
+  }
+  &__body {
+    transition-delay: 0.3s;
+  }
 
   &.is-visible {
     .sub-v2-form-success__title,
@@ -3613,9 +3684,15 @@ $sub-form-success:        #167b10;
 
   @media (max-width: 767px) {
     padding: 40px 20px;
-    &__title { font-size: 24px; }
-    &__lead  { font-size: 14px; }
-    &__body  { font-size: 13px; }
+    &__title {
+      font-size: 24px;
+    }
+    &__lead {
+      font-size: 14px;
+    }
+    &__body {
+      font-size: 13px;
+    }
 
     // Smaller distance + slightly faster on mobile so the animation
     // doesn't feel heavy on a smaller screen.
@@ -3625,9 +3702,15 @@ $sub-form-success:        #167b10;
       transform: translateY($sub-success-distance-mobile);
       transition-duration: 0.4s;
     }
-    &__title { transition-delay: 0.04s; }
-    &__lead  { transition-delay: 0.14s; }
-    &__body  { transition-delay: 0.24s; }
+    &__title {
+      transition-delay: 0.04s;
+    }
+    &__lead {
+      transition-delay: 0.14s;
+    }
+    &__body {
+      transition-delay: 0.24s;
+    }
   }
 
   // Honour user motion preference — kill animations entirely.
@@ -3641,4 +3724,3 @@ $sub-form-success:        #167b10;
     }
   }
 }
-

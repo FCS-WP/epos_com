@@ -455,10 +455,13 @@ import { LandingForm } from "../_shared/form-bridge";
   }
 
   function bindDemoModal(root) {
-    var modal = root.querySelector("[data-sub-v2-demo-modal]");
+    // Modal lives outside `root` (rendered as a sibling of <main> in
+    // template.php so it isn't disabled by the smoother's pointer-events).
+    // Look for it page-wide.
+    var modal = document.querySelector("[data-sub-v2-demo-modal]");
     if (!modal || modal.hasAttribute("data-v2-demo-modal-bound")) return;
 
-    var openers = root.querySelectorAll("[data-sub-v2-demo-modal-open]");
+    var openers = document.querySelectorAll("[data-sub-v2-demo-modal-open]");
     var closers = modal.querySelectorAll("[data-sub-v2-demo-modal-close]");
     var dialog = modal.querySelector(".sub-v2-modal-demo__dialog");
 
@@ -524,8 +527,11 @@ import { LandingForm } from "../_shared/form-bridge";
   // ── Landing forms (our REST bridge — replaces HubSpot iframe) ──
   // Two <form data-landing-form="hubspot"> instances render on the page:
   // inline (#sub-v2-demo) + modal. Each is wired independently to the bridge.
-  function initLandingForms(root) {
-    var forms = root.querySelectorAll('form[data-landing-form="hubspot"]');
+  function initLandingForms(_root) {
+    // Search page-wide because the modal-demo form lives OUTSIDE the
+    // subscription-v2 root (rendered as a sibling of <main> so it stays
+    // clickable when the smoother wrapper has pointer-events: none).
+    var forms = document.querySelectorAll('form[data-landing-form="hubspot"]');
     if (!forms.length) return;
     forms.forEach(function (formEl) {
       bindLandingForm(formEl);

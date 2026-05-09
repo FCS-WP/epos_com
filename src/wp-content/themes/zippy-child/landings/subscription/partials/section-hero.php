@@ -53,7 +53,7 @@ $sub_v2 = $data ?? array();
       </div>
       <div class="sub-v2-hero__mobile-actions">
         <a href="<?php echo esc_url($sub_v2['contact_sales_url']); ?>" class="sub-v2-header__button sub-v2-header__button--ghost">Contact Sales</a>
-        <a href="#sub-v2-demo" class="sub-v2-header__button sub-v2-header__button--primary">Get a Demo</a>
+        <a href="#sub-v2-demo-modal" class="sub-v2-header__button sub-v2-header__button--primary" data-sub-v2-demo-modal-open>Get a Demo</a>
       </div>
     </div>
   </div>

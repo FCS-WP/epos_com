@@ -21,7 +21,9 @@ $sub_v2 = $data ?? array();
             <span class="sub-v2-faq__icon" aria-hidden="true"></span>
           </button>
           <div class="sub-v2-faq__body">
-            <p>EPOS360 simplifies your daily operations by bringing your deliveries, payments, and orders into one manageable screen. We help you grow by removing the stress of juggling multiple apps and giving you clear AI insights to help you sell more.</p>
+            <div class="sub-v2-faq__body-inner">
+              <p>EPOS360 simplifies your daily operations by bringing your deliveries, payments, and orders into one manageable screen. We help you grow by removing the stress of juggling multiple apps and giving you clear AI insights to help you sell more.</p>
+            </div>
           </div>
         </div>
 
@@ -31,7 +33,9 @@ $sub_v2 = $data ?? array();
             <span class="sub-v2-faq__icon" aria-hidden="true"></span>
           </button>
           <div class="sub-v2-faq__body" hidden>
-            <p>There is no need to buy new hardware, each subscription of the minimum 3-months commitment will receive a free Series 1 Soundbox. You can also choose to upgrade to a BlueTap for a one time payment of RM150.</p>
+            <div class="sub-v2-faq__body-inner">
+              <p>There is no need to buy new hardware, each subscription of the minimum 3-months commitment will receive a free Series 1 Soundbox. You can also choose to upgrade to a BlueTap for a one time payment of RM150.</p>
+            </div>
           </div>
         </div>
 
@@ -41,7 +45,9 @@ $sub_v2 = $data ?? array();
             <span class="sub-v2-faq__icon" aria-hidden="true"></span>
           </button>
           <div class="sub-v2-faq__body" hidden>
-            <p>BlueTap is a flexible payment acceptance device and the Series 1 Soundbox is a smart audio alert device. Both devices provide instant voice notifications for successful payments and can accept various payment methods including Tap-to-Pay with Touch &rsquo;n Go eWallet app, DuitNow QR, Alipay+ and more. Learn more about BlueTap and the Series 1 Soundbox.</p>
+            <div class="sub-v2-faq__body-inner">
+              <p>BlueTap is a flexible payment acceptance device and the Series 1 Soundbox is a smart audio alert device. Both devices provide instant voice notifications for successful payments and can accept various payment methods including Tap-to-Pay with Touch &rsquo;n Go eWallet app, DuitNow QR, Alipay+ and more. Learn more about BlueTap and the Series 1 Soundbox.</p>
+            </div>
           </div>
         </div>
 
@@ -51,7 +57,9 @@ $sub_v2 = $data ?? array();
             <span class="sub-v2-faq__icon" aria-hidden="true"></span>
           </button>
           <div class="sub-v2-faq__body" hidden>
-            <p>You can be up and running in minutes. Once you have the app you will need to link it to your Touch &rsquo;n Go eWallet merchant account. Then upload your menu, sync your delivery apps, and you&rsquo;re ready to take your first order.</p>
+            <div class="sub-v2-faq__body-inner">
+              <p>You can be up and running in minutes. Once you have the app you will need to link it to your Touch &rsquo;n Go eWallet merchant account. Then upload your menu, sync your delivery apps, and you&rsquo;re ready to take your first order.</p>
+            </div>
           </div>
         </div>
 
@@ -61,7 +69,9 @@ $sub_v2 = $data ?? array();
             <span class="sub-v2-faq__icon" aria-hidden="true"></span>
           </button>
           <div class="sub-v2-faq__body" hidden>
-            <p>Yes, those platforms charge their own delivery and service fees. However, EPOS360 does not add any fees on top of those orders. Plus, orders made through your direct online store or table QR codes are 100% yours to keep.</p>
+            <div class="sub-v2-faq__body-inner">
+              <p>Yes, those platforms charge their own delivery and service fees. However, EPOS360 does not add any fees on top of those orders. Plus, orders made through your direct online store or table QR codes are 100% yours to keep.</p>
+            </div>
           </div>
         </div>
 
@@ -71,7 +81,9 @@ $sub_v2 = $data ?? array();
             <span class="sub-v2-faq__icon" aria-hidden="true"></span>
           </button>
           <div class="sub-v2-faq__body" hidden>
-            <p>Yes, there is a 1-year replacement warranty on the Series 1 Soundbox and BlueTap.</p>
+            <div class="sub-v2-faq__body-inner">
+              <p>Yes, there is a 1-year replacement warranty on the Series 1 Soundbox and BlueTap.</p>
+            </div>
           </div>
         </div>
       </div>

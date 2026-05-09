@@ -23,18 +23,22 @@ $sub_v2 = landing_content();
 <?php landing_head(); ?>
 </head>
 <body <?php body_class('landing landing--subscription page-template-subscription-v2'); ?>>
-    <main class="sub-page sub-page--v2 subscription-v2" data-subscription-v2>
-        <?php landing_partial('header',              $sub_v2); ?>
-        <?php landing_partial('section-hero',        $sub_v2); ?>
-        <?php landing_partial('section-partnership', $sub_v2); ?>
-        <?php landing_partial('section-tools',       $sub_v2); ?>
-        <?php landing_partial('section-everything',  $sub_v2); ?>
-        <?php landing_partial('section-testimonials',$sub_v2); ?>
-        <?php landing_partial('section-grow',        $sub_v2); ?>
-        <?php landing_partial('section-demo',        $sub_v2); ?>
-        <?php landing_partial('section-faq',         $sub_v2); ?>
-        <?php landing_partial('modal-demo',          $sub_v2); ?>
-    </main>
+    <div id="sub-v2-smoother-wrapper">
+      <div id="sub-v2-smoother-content">
+        <main class="sub-page sub-page--v2 subscription-v2" data-subscription-v2>
+            <?php landing_partial('header',              $sub_v2); ?>
+            <?php landing_partial('section-hero',        $sub_v2); ?>
+            <?php landing_partial('section-partnership', $sub_v2); ?>
+            <?php landing_partial('section-tools',       $sub_v2); ?>
+            <?php landing_partial('section-everything',  $sub_v2); ?>
+            <?php landing_partial('section-testimonials',$sub_v2); ?>
+            <?php landing_partial('section-grow',        $sub_v2); ?>
+            <?php landing_partial('section-demo',        $sub_v2); ?>
+            <?php landing_partial('section-faq',         $sub_v2); ?>
+            <?php landing_partial('modal-demo',          $sub_v2); ?>
+        </main>
+      </div>
+    </div>
 <?php landing_footer(); ?>
 </body>
 </html>

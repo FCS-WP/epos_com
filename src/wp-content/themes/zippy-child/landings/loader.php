@@ -322,7 +322,13 @@ function landing_footer()
     if (in_array('gsap', $libs, true)) {
         $gsap_dir = THEME_DIR . '-child/assets/js/gsap';
         $gsap_url = THEME_URL . '-child/assets/js/gsap';
-        foreach (array('gsap.min.js', 'ScrollTrigger.min.js', 'ScrollToPlugin.min.js') as $f) {
+        // Order matters: gsap → plugins. ScrollSmoother depends on ScrollTrigger.
+        foreach (array(
+            'gsap.min.js',
+            'ScrollTrigger.min.js',
+            'ScrollToPlugin.min.js',
+            'ScrollSmoother.min.js',
+        ) as $f) {
             $p = $gsap_dir . '/' . $f;
             if (file_exists($p)) {
                 printf(

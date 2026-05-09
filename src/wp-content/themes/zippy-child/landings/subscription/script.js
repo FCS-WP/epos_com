@@ -15,12 +15,48 @@ import { LandingForm } from "../_shared/form-bridge";
   var $ = window.jQuery;
   var gsap = window.gsap;
   var ScrollTrigger = window.ScrollTrigger;
+  var ScrollToPlugin = window.ScrollToPlugin;
+  var ScrollSmoother = window.ScrollSmoother;
 
   var scrollRefreshTimer = null;
   var animationResetTimer = null;
+  var smoother = null;
 
-  if (gsap && ScrollTrigger && typeof gsap.registerPlugin === "function") {
-    gsap.registerPlugin(ScrollTrigger);
+  if (gsap && typeof gsap.registerPlugin === "function") {
+    var plugins = [];
+    if (ScrollTrigger)   plugins.push(ScrollTrigger);
+    if (ScrollToPlugin)  plugins.push(ScrollToPlugin);
+    if (ScrollSmoother)  plugins.push(ScrollSmoother);
+    if (plugins.length)  gsap.registerPlugin.apply(gsap, plugins);
+  }
+
+  function initScrollSmoother() {
+    if (!ScrollSmoother || typeof ScrollSmoother.create !== "function") return;
+    var wrapper = document.getElementById("sub-v2-smoother-wrapper");
+    var content = document.getElementById("sub-v2-smoother-content");
+    if (!wrapper || !content) return;
+    if (isReducedMotionPreferred()) return;
+
+    // Destroy any previous instance (e.g. after HMR / resize reset)
+    if (smoother) {
+      smoother.kill();
+      smoother = null;
+    }
+
+    smoother = ScrollSmoother.create({
+      wrapper: wrapper,
+      content: content,
+      // Higher = more lag / more cinematic feel. 1.2–1.6 is the sweet spot.
+      smooth: 1.5,
+      // Normalize scroll delta across trackpad / mouse wheel / touch for
+      // consistent velocity — this is the biggest factor for "feeling smooth"
+      normalizeScroll: true,
+      // Slight smoothing on touch devices — 0 = native, 1 = full smooth
+      smoothTouch: 0.08,
+      // Prevent ScrollTrigger from recalculating on every mobile resize
+      // (address bar show/hide causes constant jitter without this)
+      ignoreMobileResize: true,
+    });
   }
 
   function initSubscriptionV2() {
@@ -29,8 +65,10 @@ import { LandingForm } from "../_shared/form-bridge";
     );
     if (!root) return;
 
+    initScrollSmoother();
     bindFaq(root);
     bindDemoModal(root);
+    bindSmoothScroll(root);
     initToolsSlider(root, 0);
     initTestimonialsSlider(root, 0);
     initLandingForms(root);
@@ -60,8 +98,8 @@ import { LandingForm } from "../_shared/form-bridge";
     var isCompact = window.matchMedia("(max-width: 767px)").matches;
     var revealDistance = isCompact ? 32 : 60;
     var heroDistance = isCompact ? 48 : 80;
-    var revealDuration = isCompact ? 0.75 : 1;
-    var heroDuration = isCompact ? 0.9 : 1.2;
+    var revealDuration = isCompact ? 0.9 : 1.15;
+    var heroDuration = isCompact ? 1.0 : 1.35;
 
     var ctx = gsap.context(function () {
       createHeroTimeline(root, {
@@ -79,8 +117,8 @@ import { LandingForm } from "../_shared/form-bridge";
             ),
             distance: revealDistance,
             duration: revealDuration,
-            stagger: 0.1,
-            start: "top 92%",
+            stagger: 0.12,
+            start: "top 95%",
           });
         },
       );
@@ -88,20 +126,20 @@ import { LandingForm } from "../_shared/form-bridge";
       createFadeRevealBatch(root, "[data-animate='fade-up']", {
         distance: revealDistance,
         duration: revealDuration,
-        start: "top 85%",
+        start: "top 90%",
       });
 
       createGenericStaggerBatch(root, "[data-animate='stagger']", {
         distance: revealDistance,
         duration: revealDuration,
         stagger: isCompact ? 0.08 : 0.15,
-        start: "top 85%",
+        start: "top 90%",
       });
 
       createGrowStageReveal(root, {
         distance: isCompact ? 24 : 42,
-        duration: isCompact ? 0.82 : 0.96,
-        start: isCompact ? "top 88%" : "top 84%",
+        duration: isCompact ? 0.95 : 1.1,
+        start: isCompact ? "top 90%" : "top 88%",
       });
 
       if (!isCompact) {
@@ -116,34 +154,161 @@ import { LandingForm } from "../_shared/form-bridge";
     };
   }
 
+  function bindSmoothScroll(root) {
+    if (root.hasAttribute("data-v2-smooth-scroll-bound")) return;
+    root.setAttribute("data-v2-smooth-scroll-bound", "true");
+
+    document.addEventListener("click", function (e) {
+      var link = e.target.closest("a[href^='#']");
+      if (!link) return;
+
+      var hash = link.getAttribute("href");
+      if (!hash || hash === "#") return;
+
+      var target = document.querySelector(hash);
+      if (!target) return;
+
+      // skip modal triggers — they handle their own logic
+      if (link.hasAttribute("data-sub-v2-demo-modal-open")) return;
+
+      e.preventDefault();
+
+      var header = document.querySelector(".sub-v2-header");
+      var headerH = header ? header.getBoundingClientRect().height : 0;
+      var targetTop = target.getBoundingClientRect().top + window.pageYOffset - headerH - 12;
+
+      if (smoother) {
+        // ScrollSmoother.scrollTo animates through the smoother's virtual
+        // scroll position — so easing & inertia stay consistent
+        gsap.to(smoother, {
+          scrollTop: targetTop,
+          duration: 1.2,
+          ease: "power4.inOut",
+          overwrite: "auto",
+        });
+      } else {
+        gsap.to(window, {
+          scrollTo: { y: targetTop, autoKill: true },
+          duration: 1.2,
+          ease: "power4.inOut",
+        });
+      }
+    });
+  }
+
   function bindFaq(root) {
     var faqRoot = root.querySelector("[data-sub-v2-faq]");
     if (!faqRoot || faqRoot.hasAttribute("data-v2-faq-bound")) return;
 
     faqRoot.setAttribute("data-v2-faq-bound", "true");
 
-    var faqItems = faqRoot.querySelectorAll(".sub-v2-faq__item");
+    var faqItems    = toArray(faqRoot.querySelectorAll(".sub-v2-faq__item"));
+    var activeTween = null; // global lock — kill before starting new sequence
+
+    var CLOSE_DUR  = 0.32;
+    var OPEN_DUR   = 0.48;
+    var CLOSE_EASE = "power2.inOut";
+    var OPEN_EASE  = "power3.out";
+
+    // Bootstrap: strip hidden attr, set initial collapsed/expanded state
+    faqItems.forEach(function (item) {
+      var body    = item.querySelector(".sub-v2-faq__body");
+      var trigger = item.querySelector(".sub-v2-faq__trigger");
+      var icon    = item.querySelector(".sub-v2-faq__icon");
+      if (!body || !trigger) return;
+
+      body.removeAttribute("hidden");
+      var isOpen = trigger.getAttribute("aria-expanded") === "true";
+      gsap.set(body, { height: isOpen ? "auto" : 0, overflow: "hidden" });
+      if (icon) gsap.set(icon, { rotation: isOpen ? 180 : 0, transformOrigin: "50% 50%" });
+    });
+
+    function getOpenItem() {
+      return faqItems.find(function (item) {
+        var t = item.querySelector(".sub-v2-faq__trigger");
+        return t && t.getAttribute("aria-expanded") === "true";
+      }) || null;
+    }
+
+    function runSequence(itemToClose, itemToOpen) {
+      // Kill whatever is running — prevents mid-animation click fighting
+      if (activeTween) {
+        activeTween.kill();
+        activeTween = null;
+      }
+
+      var tl = gsap.timeline({
+        onComplete: function () {
+          activeTween = null;
+          scheduleScrollRefresh();
+        },
+      });
+
+      // ── Phase 1: close current open item (if any) ────────────────────────
+      if (itemToClose) {
+        var closeBody    = itemToClose.querySelector(".sub-v2-faq__body");
+        var closeTrigger = itemToClose.querySelector(".sub-v2-faq__trigger");
+        var closeIcon    = itemToClose.querySelector(".sub-v2-faq__icon");
+
+        closeTrigger.setAttribute("aria-expanded", "false");
+
+        tl.to(closeBody, {
+          height: 0,
+          duration: CLOSE_DUR,
+          ease: CLOSE_EASE,
+        }, 0);
+
+        if (closeIcon) {
+          tl.to(closeIcon, {
+            rotation: 0,
+            duration: CLOSE_DUR,
+            ease: CLOSE_EASE,
+          }, 0); // same position — runs in parallel with body close
+        }
+      }
+
+      // ── Phase 2: open target item — starts when close is 60% done ────────
+      if (itemToOpen) {
+        var openBody    = itemToOpen.querySelector(".sub-v2-faq__body");
+        var openTrigger = itemToOpen.querySelector(".sub-v2-faq__trigger");
+        var openIcon    = itemToOpen.querySelector(".sub-v2-faq__icon");
+        // Overlap: start opening before close finishes — feels snappy, not laggy
+        var openOffset  = itemToClose ? CLOSE_DUR * 0.55 : 0;
+
+        openTrigger.setAttribute("aria-expanded", "true");
+
+        tl.to(openBody, {
+          height: "auto",
+          duration: OPEN_DUR,
+          ease: OPEN_EASE,
+        }, openOffset);
+
+        if (openIcon) {
+          tl.to(openIcon, {
+            rotation: 180,
+            duration: OPEN_DUR,
+            ease: OPEN_EASE,
+          }, openOffset);
+        }
+      }
+
+      activeTween = tl;
+    }
 
     faqItems.forEach(function (item) {
       var trigger = item.querySelector(".sub-v2-faq__trigger");
-      var body = item.querySelector(".sub-v2-faq__body");
-
-      if (!trigger || !body) return;
+      if (!trigger) return;
 
       trigger.addEventListener("click", function () {
-        var isOpen = trigger.getAttribute("aria-expanded") === "true";
+        var isOpen    = trigger.getAttribute("aria-expanded") === "true";
+        var openItem  = getOpenItem();
 
-        faqItems.forEach(function (entry) {
-          var entryTrigger = entry.querySelector(".sub-v2-faq__trigger");
-          var entryBody = entry.querySelector(".sub-v2-faq__body");
-
-          if (entryTrigger) entryTrigger.setAttribute("aria-expanded", "false");
-          if (entryBody) entryBody.hidden = true;
-        });
-
-        if (!isOpen) {
-          trigger.setAttribute("aria-expanded", "true");
-          body.hidden = false;
+        if (isOpen) {
+          // Toggle closed — no item to open after
+          runSequence(item, null);
+        } else {
+          // Close current open (may be null), then open clicked item
+          runSequence(openItem !== item ? openItem : null, item);
         }
       });
     });
@@ -166,8 +331,6 @@ import { LandingForm } from "../_shared/form-bridge";
     var $toolsSlider = $(toolsSlider);
     resetSlider($toolsSlider);
 
-    // Each slide is a wrapper <div> around the <article>. Counting the
-    // wrappers (direct children) is the canonical way for Slick.
     var slideCount = $toolsSlider.children().length;
     if (!slideCount) return;
 
@@ -231,7 +394,6 @@ import { LandingForm } from "../_shared/form-bridge";
     var $testimonialsSlider = $(testimonialsSlider);
     resetSlider($testimonialsSlider);
 
-    // Direct children are wrapper <div>s (each containing the article).
     var slideCount = $testimonialsSlider.children().length;
     if (!slideCount) return;
 
@@ -300,7 +462,7 @@ import { LandingForm } from "../_shared/form-bridge";
     var closers = modal.querySelectorAll("[data-sub-v2-demo-modal-close]");
     var dialog = modal.querySelector(".sub-v2-modal-demo__dialog");
 
-    if (!openers.length || !closers.length || !dialog) return;
+    if (!closers.length || !dialog) return;
 
     modal.setAttribute("data-v2-demo-modal-bound", "true");
 
@@ -311,20 +473,32 @@ import { LandingForm } from "../_shared/form-bridge";
       modal.setAttribute("aria-hidden", "false");
       document.body.classList.add("modal-open");
 
+      // Pause ScrollSmoother so it doesn't fight the modal's scroll lock
+      if (smoother) smoother.paused(true);
+
       window.requestAnimationFrame(function () {
         modal.classList.add("is-open");
         dialog.focus();
       });
     }
 
+    // Use delegation so any current or future opener triggers the modal
+    document.addEventListener("click", function (e) {
+      if (e.target.closest("[data-sub-v2-demo-modal-open]")) {
+        openModal(e);
+      }
+    });
+
     function closeModal() {
       modal.classList.remove("is-open");
       modal.setAttribute("aria-hidden", "true");
       document.body.classList.remove("modal-open");
 
+      // Resume smoother after modal transition completes
       window.setTimeout(function () {
         if (modal.getAttribute("aria-hidden") === "true") {
           modal.hidden = true;
+          if (smoother) smoother.paused(false);
         }
       }, 180);
     }
@@ -348,13 +522,11 @@ import { LandingForm } from "../_shared/form-bridge";
   }
 
   // ── Landing forms (our REST bridge — replaces HubSpot iframe) ──
-  // The page renders two <form data-landing-form="hubspot"> instances:
-  // one inline (#sub-v2-demo) and one in the modal. Both submit through the
-  // same WP REST endpoint; we just wire each independently.
+  // Two <form data-landing-form="hubspot"> instances render on the page:
+  // inline (#sub-v2-demo) + modal. Each is wired independently to the bridge.
   function initLandingForms(root) {
     var forms = root.querySelectorAll('form[data-landing-form="hubspot"]');
     if (!forms.length) return;
-
     forms.forEach(function (formEl) {
       bindLandingForm(formEl);
     });
@@ -389,7 +561,6 @@ import { LandingForm } from "../_shared/form-bridge";
       });
     }
 
-    // Clear field errors as the user types/changes them.
     var clearFieldError = function (name) {
       var node = formEl.querySelector('[data-error-for="' + name + '"]');
       if (node) node.textContent = "";
@@ -460,7 +631,6 @@ import { LandingForm } from "../_shared/form-bridge";
           "Thanks — we'll be in touch within one business day.",
         "success"
       );
-      // Re-anchor on the confirmation block.
       var section = formEl.closest(".sub-v2-demo, .sub-v2-modal-demo__content") || statusEl;
       if (section && typeof section.scrollIntoView === "function") {
         section.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -489,8 +659,31 @@ import { LandingForm } from "../_shared/form-bridge";
       .bind();
   }
 
-  // ── Legacy HubSpot-iframe code (kept as no-op stub so callsites compile). ──
-  function _unusedHubspotStub(demoForm) {
+  // ── Legacy HubSpot iframe code below — unused after the migration to our
+  // bridge. Kept as a safety net but not invoked by initSubscriptionV2.
+  function _unusedHubspotStub(root, attempt) {
+    var demoForms = getAnimationTargets(
+      root.querySelectorAll("[data-sub-v2-demo-form]"),
+    );
+
+    if (!demoForms.length) return;
+
+    var pending = false;
+
+    demoForms.forEach(function (demoForm) {
+      if (!initSingleHubspotDemoForm(demoForm)) {
+        pending = true;
+      }
+    });
+
+    if (pending && attempt < 40) {
+      window.setTimeout(function () {
+        initHubspotDemoForms(root, attempt + 1);
+      }, 250);
+    }
+  }
+
+  function initSingleHubspotDemoForm(demoForm) {
     if (!demoForm) return true;
     var isModal = demoForm.classList.contains("sub-v2-modal-demo__form");
 
@@ -617,24 +810,22 @@ import { LandingForm } from "../_shared/form-bridge";
 
     if (!targets.length) return;
 
-    if (targets.length) {
-      gsap.set(targets, {
-        autoAlpha: 0,
-      });
-    }
+    gsap.set(targets, {
+      autoAlpha: 0,
+      y: options.distance * 0.5,
+    });
 
     var timeline = gsap.timeline({
       defaults: { ease: "power3.out" },
     });
 
-    if (targets.length) {
-      timeline.to(targets, {
-        autoAlpha: 1,
-        duration: options.duration,
-        stagger: 0.12,
-        clearProps: "opacity,visibility",
-      });
-    }
+    timeline.to(targets, {
+      autoAlpha: 1,
+      y: 0,
+      duration: options.duration,
+      stagger: 0.1,
+      clearProps: "transform,opacity,visibility",
+    });
   }
 
   function createFadeRevealBatch(root, selector, options) {
@@ -670,6 +861,7 @@ import { LandingForm } from "../_shared/form-bridge";
 
     gsap.set(element, {
       autoAlpha: 0,
+      y: options.distance * 0.6,
     });
 
     ScrollTrigger.create({
@@ -679,9 +871,10 @@ import { LandingForm } from "../_shared/form-bridge";
       onEnter: function () {
         gsap.to(element, {
           autoAlpha: 1,
+          y: 0,
           duration: options.duration,
-          ease: "power2.out",
-          clearProps: "opacity,visibility",
+          ease: "power3.out",
+          clearProps: "transform,opacity,visibility",
         });
       },
     });
@@ -695,6 +888,7 @@ import { LandingForm } from "../_shared/form-bridge";
 
     gsap.set(card, {
       autoAlpha: 0,
+      y: options.distance * 0.6,
     });
 
     ScrollTrigger.create({
@@ -702,16 +896,12 @@ import { LandingForm } from "../_shared/form-bridge";
       start: options.start || "top 84%",
       once: true,
       onEnter: function () {
-        var timeline = gsap.timeline({
-          defaults: {
-            ease: "power3.out",
-          },
-        });
-
-        timeline.to(card, {
+        gsap.to(card, {
           autoAlpha: 1,
+          y: 0,
           duration: options.duration,
-          clearProps: "opacity,visibility",
+          ease: "power3.out",
+          clearProps: "transform,opacity,visibility",
         });
       },
     });
@@ -722,6 +912,7 @@ import { LandingForm } from "../_shared/form-bridge";
 
     gsap.set(options.targets, {
       autoAlpha: 0,
+      y: options.distance * 0.5,
     });
 
     ScrollTrigger.create({
@@ -731,10 +922,11 @@ import { LandingForm } from "../_shared/form-bridge";
       onEnter: function () {
         gsap.to(options.targets, {
           autoAlpha: 1,
+          y: 0,
           duration: options.duration,
-          ease: "power2.out",
+          ease: "power3.out",
           stagger: options.stagger || 0.1,
-          clearProps: "opacity,visibility",
+          clearProps: "transform,opacity,visibility",
         });
       },
     });
@@ -752,19 +944,19 @@ import { LandingForm } from "../_shared/form-bridge";
         gsap.fromTo(
           animatedItems,
           {
-            y: 40,
-            opacity: 0.4,
+            y: 28,
+            opacity: 0.5,
           },
           {
             y: 0,
             opacity: 1,
-            stagger: 0.12,
-            ease: "none",
+            stagger: 0.1,
+            ease: "power1.inOut",
             scrollTrigger: {
               trigger: section,
               start: "top top",
               end: "+=100%",
-              scrub: true,
+              scrub: 1,
               pin: true,
               anticipatePin: 1,
             },
@@ -775,7 +967,7 @@ import { LandingForm } from "../_shared/form-bridge";
           trigger: section,
           start: "top top",
           end: "+=100%",
-          scrub: true,
+          scrub: 1,
           pin: true,
           anticipatePin: 1,
         });

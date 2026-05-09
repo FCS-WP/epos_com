@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 const webpack = require("webpack");
 // Init Config Webpack
 require("dotenv-extended").load();
@@ -28,6 +29,37 @@ const destWooFlowCss = destChildTheme + "/assets/sass/woocommerce-flow.scss";
 
 const destOutput = destChildTheme + "/assets/dist";
 
+// Auto-discover landing entries: landings/{slug}/style.scss + script.js.
+// Each landing folder becomes its own webpack entry "landings/{slug}".
+// CSS-only and JS-only landings are both supported. Folders prefixed with
+// "_" (e.g. _shared) are skipped so we can host shared partials there.
+function discoverLandingEntries() {
+  const landingsDir = path.resolve(__dirname, destChildTheme, "landings");
+  const entries = {};
+
+  if (!fs.existsSync(landingsDir)) return entries;
+
+  for (const dirent of fs.readdirSync(landingsDir, { withFileTypes: true })) {
+    if (!dirent.isDirectory()) continue;
+    if (dirent.name.startsWith("_")) continue;
+
+    const folder = path.join(landingsDir, dirent.name);
+    if (!fs.existsSync(path.join(folder, "template.php"))) continue;
+
+    const sources = [];
+    const scss = path.join(folder, "style.scss");
+    const js   = path.join(folder, "script.js");
+    if (fs.existsSync(scss)) sources.push("./" + path.relative(__dirname, scss));
+    if (fs.existsSync(js))   sources.push("./" + path.relative(__dirname, js));
+
+    if (sources.length === 0) continue;
+    entries["landings/" + dirent.name] = sources;
+  }
+
+  return entries;
+}
+const landingEntries = discoverLandingEntries();
+
 module.exports = [
   {
     stats: "minimal",
@@ -36,6 +68,7 @@ module.exports = [
       "epos-360": [destEpos360Css],
       "woocommerce-flow": [destWooFlowCss],
       externals: [destExternalFileJs],
+      ...landingEntries,
     },
     output: {
       filename: destOutput + "/js/[name].min.js",
@@ -102,9 +135,11 @@ module.exports = [
       // Get ENV Variables
       // clear out build directories on each build
       new CleanWebpackPlugin({
+        // Clean nested too so dist/css/landings/* and dist/js/landings/*
+        // get refreshed when entries are removed.
         cleanOnceBeforeBuildPatterns: [
-          destOutput + "/css/*",
-          destOutput + "/js/*",
+          destOutput + "/css/**/*",
+          destOutput + "/js/**/*",
         ],
       }),
       // css extraction into per-entry files (epos.min.css, epos-360.min.css, woocommerce-flow.min.css)

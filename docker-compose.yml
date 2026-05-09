@@ -12,6 +12,8 @@ services:
       - ./src/wp-content/themes/index.php:/var/www/html/wp-content/plugins/index.php
       - ./src/wp-content/plugins:/var/www/html/wp-content/plugins
       - ./src/wp-content/uploads:/var/www/html/wp-content/uploads
+      - ./src/wp-content/cache:/var/www/html/wp-content/cache
+
       # Exclude themes default
       - /var/www/html/wp-content/themes/twentytwentyone/
       - /var/www/html/wp-content/themes/twentytwentytwo/

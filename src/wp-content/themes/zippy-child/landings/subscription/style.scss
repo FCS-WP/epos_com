@@ -1,0 +1,348 @@
+// Subscription landing — fully isolated from main site CSS.
+// Bundle is built to dist/css/landings/subscription.min.css and only loaded
+// on pages that select the "Ads — Subscription" template.
+
+@import "../_shared/tokens";
+
+// To diverge from brand defaults for this campaign, override tokens here
+// BEFORE the @import above (Sass picks the first definition):
+//   $ld-primary: #ff6600;
+//   @import "../_shared/tokens";
+
+.landing.landing--subscription {
+  font-family: $ld-font-sans;
+  color: $ld-text;
+  background: $ld-bg;
+  margin: 0;
+  line-height: $ld-leading-normal;
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  .landing__main {
+    max-width: $ld-container-max;
+    margin: 0 auto;
+    padding: $ld-space-7 $ld-space-5;
+    display: flex;
+    flex-direction: column;
+    gap: $ld-space-8;
+  }
+
+  .landing__section-title {
+    font-size: $ld-text-3xl;
+    font-weight: $ld-weight-bold;
+    margin: 0 0 $ld-space-5;
+    letter-spacing: $ld-tracking-snug;
+  }
+
+  // ── Hero ─────────────────────────────────────────────────
+  .landing__hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $ld-space-6;
+    align-items: center;
+
+    @media (min-width: $ld-bp-tablet) {
+      grid-template-columns: 1fr 1fr;
+      gap: $ld-space-7;
+    }
+  }
+  .landing__hero-eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: $ld-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: $ld-tracking-wide;
+    color: $ld-primary;
+    margin-bottom: $ld-space-3;
+  }
+  .landing__hero-headline {
+    font-size: $ld-text-4xl;
+    line-height: $ld-leading-tight;
+    font-weight: $ld-weight-extrabold;
+    letter-spacing: $ld-tracking-tight;
+    margin: 0 0 $ld-space-4;
+
+    @media (min-width: $ld-bp-tablet) { font-size: $ld-text-5xl; }
+  }
+  .landing__hero-subheadline {
+    font-size: $ld-text-lg;
+    color: $ld-text-muted;
+    margin: 0 0 $ld-space-5;
+  }
+  .landing__hero-cta {
+    display: inline-block;
+    padding: 14px 28px;
+    background: $ld-primary;
+    color: $ld-text-on-dark;
+    border-radius: $ld-radius-pill;
+    text-decoration: none;
+    font-weight: $ld-weight-semibold;
+    font-size: $ld-text-base;
+    transition: background $ld-transition-base;
+
+    &:hover { background: $ld-primary-dark; }
+  }
+  .landing__hero-image img {
+    width: 100%;
+    height: auto;
+    border-radius: $ld-radius-lg;
+  }
+
+  // ── Features ─────────────────────────────────────────────
+  .landing__features-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: $ld-space-5;
+    grid-template-columns: 1fr;
+
+    @media (min-width: $ld-bp-tablet) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .landing__features-item {
+    background: $ld-card;
+    border: 1px solid $ld-border;
+    border-radius: $ld-radius-lg;
+    padding: $ld-space-5;
+    box-shadow: $ld-shadow-md;
+  }
+  .landing__features-icon img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    margin-bottom: $ld-space-4;
+  }
+  .landing__features-title {
+    font-size: $ld-text-lg;
+    font-weight: $ld-weight-bold;
+    margin: 0 0 $ld-space-2;
+  }
+  .landing__features-body {
+    color: $ld-text-muted;
+    margin: 0;
+  }
+
+  // ── Form ─────────────────────────────────────────────────
+  .landing__form {
+    background: $ld-card;
+    border: 1px solid $ld-border;
+    border-radius: $ld-radius-lg;
+    padding: $ld-space-7;
+    box-shadow: $ld-shadow-md;
+
+    // Reserve space so when the form is replaced by the success message
+    // the surrounding layout doesn't collapse upward. The min-height matches
+    // roughly the rendered form height; tweak if the form length changes.
+    min-height: 720px;
+    @media (min-width: $ld-bp-tablet) { min-height: 560px; }
+  }
+  .landing__form-inner { margin: 0 auto; }
+  .landing__form-intro { color: $ld-text-muted; margin: 0 0 $ld-space-5; }
+  .landing__form-placeholder { color: $ld-text-muted; font-size: $ld-text-sm; }
+
+  // ── Form spec (per design) ────────────────────────────
+  // Font: Poppins 18px
+  // Inputs: height 49px, radius 50, placeholder #C0C2C6, text #3E4042
+  // Submit: bg #1E4BCB
+  $sub-input-height:  49px;
+  $sub-input-radius:  50px;
+  $sub-text:          #3E4042;
+  $sub-placeholder:   #C0C2C6;
+  $sub-button:        #1E4BCB;
+  $sub-button-hover:  #1A3FB0;
+  $sub-border:        #E5E7EB;
+  $sub-font:          'Poppins', $ld-font-sans;
+
+  .landing__form-element {
+    font-family: $sub-font;
+    font-size: 18px;
+    color: $sub-text;
+  }
+
+  // Two-column grid on desktop, single column on mobile.
+  // Each row spans one cell; the submit row aligns to the bottom-right.
+  .landing__form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $ld-space-5 $ld-space-6;
+
+    @media (min-width: $ld-bp-tablet) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .landing__form-row { display: flex; flex-direction: column; gap: $ld-space-2; }
+  .landing__form-row--submit {
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .landing__form-label {
+    font-family: $sub-font;
+    font-size: 16px;
+    font-weight: $ld-weight-medium;
+    color: $sub-text;
+  }
+  .landing__form-required { color: #E11D48; margin-left: 2px; }
+
+  .landing__form-input {
+    width: 100%;
+    height: $sub-input-height;
+    border: 1px solid $sub-border;
+    border-radius: $sub-input-radius;
+    padding: 0 $ld-space-5;
+    font-family: $sub-font;
+    font-size: 18px;
+    color: $sub-text;
+    background: $ld-card;
+    transition: border-color $ld-transition-base, box-shadow $ld-transition-base;
+
+    &::placeholder { color: $sub-placeholder; }
+    &:focus {
+      outline: none;
+      border-color: $sub-button;
+      box-shadow: 0 0 0 3px rgba(30, 75, 203, 0.12);
+    }
+    &[aria-invalid="true"] {
+      border-color: $ld-danger;
+    }
+  }
+
+  // Native <select> styled to match (custom caret, padded for it).
+  .landing__form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8' fill='none'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%233E4042' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right $ld-space-5 center;
+    padding-right: $ld-space-7;
+    cursor: pointer;
+  }
+
+  .landing__form-submit {
+    height: $sub-input-height;
+    background: $sub-button;
+    color: #fff;
+    border: 0;
+    border-radius: $sub-input-radius;
+    padding: 0 $ld-space-7;
+    min-width: 180px;
+    font-family: $sub-font;
+    font-size: 18px;
+    font-weight: $ld-weight-semibold;
+    cursor: pointer;
+    transition: background $ld-transition-base, opacity $ld-transition-base;
+
+    &:hover { background: $sub-button-hover; }
+    &:disabled { opacity: 0.6; cursor: progress; }
+  }
+
+  .landing__form-error {
+    margin: 0;
+    min-height: 1em;
+    font-size: 13px;
+    color: $ld-danger;
+  }
+
+  .landing__form-status {
+    margin: 0;
+    min-height: 1.5em;
+    font-size: 14px;
+    grid-column: 1 / -1;
+
+    &[data-state="error"]   { color: $ld-danger; }
+    &[data-state="success"] { color: $ld-success; }
+    &[data-state="pending"] { color: $ld-text-muted; }
+  }
+
+  // Honeypot — visually hide but keep in tab-order blind spot.
+  .landing__form-honeypot {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  // ── intl-tel-input integration ────────────────────────
+  // The library wraps our input in .iti and adds its own flag dropdown.
+  // We restyle the wrapper so the input inherits our height + radius.
+  .iti {
+    width: 100%;
+    display: block;
+  }
+  .iti__flag-container {
+    border-top-left-radius: $sub-input-radius;
+    border-bottom-left-radius: $sub-input-radius;
+  }
+  .iti__selected-flag {
+    border-top-left-radius: $sub-input-radius;
+    border-bottom-left-radius: $sub-input-radius;
+    padding: 0 $ld-space-3 0 $ld-space-4;
+    background: transparent;
+  }
+  .iti--separate-dial-code .iti__selected-flag,
+  .iti--allow-dropdown .iti__selected-flag:hover,
+  .iti--allow-dropdown input:disabled + .iti__flag-container:hover .iti__selected-flag {
+    background: rgba(0, 0, 0, 0.02);
+  }
+  .iti input.landing__form-phone,
+  .iti input[type=tel].landing__form-phone {
+    padding-left: 58px; // room for the flag block
+  }
+
+  // ── Footer CTA ───────────────────────────────────────────
+  .landing__footer-cta {
+    text-align: center;
+    padding: $ld-space-6 0;
+  }
+  .landing__footer-cta-headline {
+    font-size: $ld-text-2xl;
+    font-weight: $ld-weight-bold;
+    margin: 0 0 $ld-space-2;
+  }
+  .landing__footer-cta-body {
+    color: $ld-text-muted;
+    margin: 0 0 $ld-space-5;
+  }
+  .landing__footer-cta-actions {
+    display: flex;
+    gap: $ld-space-3;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .landing__btn {
+    display: inline-block;
+    padding: $ld-space-3 $ld-space-5;
+    border-radius: $ld-radius-pill;
+    text-decoration: none;
+    font-weight: $ld-weight-semibold;
+    font-size: 15px;
+    transition: background $ld-transition-base, color $ld-transition-base;
+  }
+  .landing__btn--primary {
+    background: $ld-primary;
+    color: $ld-text-on-dark;
+    &:hover { background: $ld-primary-dark; }
+  }
+  .landing__btn--secondary {
+    background: transparent;
+    color: $ld-primary;
+    border: 1px solid $ld-primary;
+    &:hover { background: $ld-primary; color: $ld-text-on-dark; }
+  }
+
+  // ── Animations (driven by data-animate + script.js IntersectionObserver) ──
+  [data-animate] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+
+    &.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "_doc": "Edit this file to update the page. After editing, no rebuild is needed — content is read on each request. Image IDs come from the WP Media Library (upload, then look at the attachment URL or sidebar for the numeric ID).",
+
+  "hero": {
+    "image_id": 0,
+    "eyebrow": "New plan",
+    "headline": "Subscribe and save 20%",
+    "subheadline": "Lower your hardware costs and get auto-replenishment of receipts, ribbons, and supplies.",
+    "cta_label": "Get started",
+    "cta_url": "#subscription-form"
+  },
+
+  "features": {
+    "section_title": "Why subscribe",
+    "items": [
+      {
+        "image_id": 0,
+        "title": "Real-time stock visibility",
+        "body": "See live inventory from every outlet in one dashboard."
+      },
+      {
+        "image_id": 0,
+        "title": "Auto-replenish supplies",
+        "body": "Receipts and ribbons delivered before you run out."
+      },
+      {
+        "image_id": 0,
+        "title": "Predictable monthly cost",
+        "body": "One flat fee covers hardware, software, and consumables."
+      }
+    ]
+  },
+
+  "form": {
+    "section_title": "Talk to a specialist",
+    "intro": "Tell us about your business — we'll get back within one working day.",
+    "submit_label": "Submit",
+    "success_message": "Thanks — we'll be in touch within one business day.",
+    "hubspot_portal_id": "46681097",
+    "hubspot_form_id": "7f93badd-1ebe-4c1e-873b-5b861d9debe7",
+
+    "phone_countries": ["my", "sg", "vn"],
+    "phone_default_country": "my",
+
+    "industry_options": [
+      { "label": "Retail",     "value": "Retail" },
+      { "label": "Minimart",   "value": "Minimart" },
+      { "label": "F&B",        "value": "F&B" },
+      { "label": "Hair Salon", "value": "Hair Salon" },
+      { "label": "Gym",        "value": "Gym" },
+      { "label": "Services",   "value": "Services" },
+      { "label": "Others",     "value": "Others" }
+    ],
+
+    "state_options": [
+      { "label": "Selangor",        "value": "Selangor" },
+      { "label": "Kuala Lumpur",    "value": "Kuala Lumpur" },
+      { "label": "Penang",          "value": "Penang" },
+      { "label": "Melaka",          "value": "Melaka" },
+      { "label": "Negeri Sembilan", "value": "Negeri Sembilan" },
+      { "label": "Johor",           "value": "Johor" },
+      { "label": "Kelantan",        "value": "Kelantan" },
+      { "label": "Kedah",           "value": "Kedah" },
+      { "label": "Perlis",          "value": "Perlis" },
+      { "label": "Terengganu",      "value": "Terengganu" }
+    ],
+
+    "language_options": [
+      { "label": "English", "value": "en" },
+      { "label": "Malay",   "value": "ms" },
+      { "label": "Chinese", "value": "zh" }
+    ],
+
+    "interested_product_default": "BlueTap"
+  },
+
+  "footer_cta": {
+    "headline": "Not ready yet?",
+    "body": "Browse the full hardware range or download the brochure.",
+    "primary_label": "Browse hardware",
+    "primary_url": "/shop/",
+    "secondary_label": "Download brochure",
+    "secondary_url": "#"
+  }
+}

@@ -3268,8 +3268,33 @@ $sub-form-success:        #167b10;
     grid-template-columns: 1fr;
     gap: 24px 32px;
 
+    // Mobile: tighter vertical gap between fields.
+    @media (max-width: 767px) {
+      gap: 17px;
+    }
+
     @media (min-width: 768px) {
       grid-template-columns: 1fr 1fr;
+
+      // Desktop layout uses CSS `order:` to interleave the mobile DOM order
+      // (Name, Email, Phone, Industry, Company, State, Language, Submit) into
+      // the two-column grid:
+      //
+      //   Left column     Right column
+      //   Name            Company
+      //   Email           State
+      //   Phone           Language
+      //   Industry        Submit
+      //
+      // Grid fills row-by-row, so odd orders go to col 1, even to col 2.
+      .sub-v2-form__row--name     { order: 1; }
+      .sub-v2-form__row--company  { order: 2; }
+      .sub-v2-form__row--email    { order: 3; }
+      .sub-v2-form__row--state    { order: 4; }
+      .sub-v2-form__row--phone    { order: 5; }
+      .sub-v2-form__row--language { order: 6; }
+      .sub-v2-form__row--industry { order: 7; }
+      .sub-v2-form__row--submit   { order: 8; }
     }
   }
 
@@ -3281,6 +3306,11 @@ $sub-form-success:        #167b10;
     &--submit {
       align-items: flex-end;
       justify-content: center;
+
+      // Mobile: center the button instead of right-aligning.
+      @media (max-width: 767px) {
+        align-items: center;
+      }
     }
   }
 
@@ -3289,6 +3319,11 @@ $sub-form-success:        #167b10;
     font-size: 24px;
     font-weight: 500;
     color: $sub-form-text;
+
+    // 24px is for desktop; mobile gets a smaller, denser label.
+    @media (max-width: 767px) {
+      font-size: 12px;
+    }
   }
 
   &__required {
@@ -3307,6 +3342,12 @@ $sub-form-success:        #167b10;
     color: $sub-form-text;
     background: #fff;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    // Mobile: smaller font + tighter height to match the 12px label.
+    @media (max-width: 767px) {
+      font-size: 12px;
+      height: 35px;
+    }
 
     &::placeholder { color: $sub-form-placeholder; }
     &:focus {
@@ -3344,15 +3385,29 @@ $sub-form-success:        #167b10;
     cursor: pointer;
     transition: background 0.2s ease, opacity 0.2s ease;
 
+    // Mobile: scaled to match the smaller inputs.
+    @media (max-width: 767px) {
+      height: 38px;
+      padding: 0 32px;
+      min-width: 140px;
+      font-size: 14px;
+    }
+
     &:hover { background: $sub-form-button-hover; }
     &:disabled { opacity: 0.6; cursor: progress; }
   }
 
   &__error {
     margin: 0;
-    min-height: 1em;
     font-size: 13px;
     color: $sub-form-danger;
+
+    // When there's no error message, collapse the element entirely so it
+    // doesn't reserve a line of space (and the flex `gap` on the row above
+    // skips it via display:none, tightening the visual distance between
+    // adjacent fields). When an error message is set via JS, the element
+    // re-appears and pushes the layout.
+    &:empty { display: none; }
   }
 
   &__status {
@@ -3415,6 +3470,173 @@ $sub-form-success:        #167b10;
     .sub-v2-form__input { height: 46px; padding: 0 16px; font-size: 16px; }
     .sub-v2-form__submit { height: 46px; padding: 0 32px; font-size: 16px; }
     .sub-v2-form__label { font-size: 14px; }
+  }
+}
+
+// ─────────────────────────────────────────────────────────
+// Submit-button spinner (in-flight state) + Success block
+// ─────────────────────────────────────────────────────────
+.sub-page .sub-v2-form__submit {
+  position: relative;
+
+  // The label and the spinner overlap; we toggle their visibility based
+  // on the form's data-submitting attribute (set by JS).
+  .sub-v2-form__submit-label,
+  .sub-v2-form__submit-spinner {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .sub-v2-form__submit-spinner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: sub-v2-spin 0.7s linear infinite;
+  }
+}
+
+// When the form is mid-submit, swap label → spinner.
+.sub-page .sub-v2-form[data-submitting="true"] .sub-v2-form__submit {
+  cursor: progress;
+  .sub-v2-form__submit-label   { display: none; }
+  .sub-v2-form__submit-spinner { display: inline-block; }
+}
+
+@keyframes sub-v2-spin {
+  to { transform: rotate(360deg); }
+}
+
+// Success state — replaces the form inside the same shell.
+// Inherits the form's container chrome (background, border, radius, shadow)
+// because it lives inside .sub-v2-form-shell, but matches the form's spacing
+// so the layout doesn't visually shift on swap.
+.sub-page .sub-v2-form-shell {
+  position: relative;
+}
+
+// Form fade-out before swap. JS adds .is-leaving for ~200ms then hides
+// the form (display:none) and switches the success block in.
+.sub-page .sub-v2-form {
+  transition: opacity 0.2s ease;
+
+  &.is-leaving {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.sub-page .sub-v2-form-success {
+  background: #fff;
+  border: 1px solid $sub-border;
+  border-radius: 16px;
+  padding: 64px 32px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+
+  // Match the form's height so the section doesn't collapse on swap.
+  // Success content centers vertically inside the block.
+  min-height: 720px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  // `display: flex` above overrides the [hidden] attribute's default
+  // `display: none` — restore it explicitly so the element stays hidden
+  // until JS removes the [hidden] attr at submit time.
+  &[hidden] { display: none; }
+
+  @media (min-width: 768px) { min-height: 560px; }
+
+  // ── Static styling (the visible look) ──────────────────────────────
+  &__title {
+    margin: 0 0 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #1E4BCB;
+    letter-spacing: -0.01em;
+  }
+  &__lead {
+    margin: 0 0 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #3E4042;
+  }
+  &__body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #6B7280;
+    line-height: 1.55;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  // ── Entrance animation (only the content, not the whole box) ────────
+  // Starts at translateY+0 opacity, settles to natural state when the
+  // parent has .is-visible. Each child gets its own delay for a subtle
+  // stagger. JS removes [hidden] then adds .is-visible after one frame.
+  $sub-success-distance: 18px;
+  $sub-success-distance-mobile: 12px;
+
+  &__title,
+  &__lead,
+  &__body {
+    opacity: 0;
+    transform: translateY($sub-success-distance);
+    transition:
+      opacity 0.5s ease-out,
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  &__title { transition-delay: 0.05s; }
+  &__lead  { transition-delay: 0.18s; }
+  &__body  { transition-delay: 0.30s; }
+
+  &.is-visible {
+    .sub-v2-form-success__title,
+    .sub-v2-form-success__lead,
+    .sub-v2-form-success__body {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 767px) {
+    padding: 40px 20px;
+    &__title { font-size: 24px; }
+    &__lead  { font-size: 14px; }
+    &__body  { font-size: 13px; }
+
+    // Smaller distance + slightly faster on mobile so the animation
+    // doesn't feel heavy on a smaller screen.
+    &__title,
+    &__lead,
+    &__body {
+      transform: translateY($sub-success-distance-mobile);
+      transition-duration: 0.4s;
+    }
+    &__title { transition-delay: 0.04s; }
+    &__lead  { transition-delay: 0.14s; }
+    &__body  { transition-delay: 0.24s; }
+  }
+
+  // Honour user motion preference — kill animations entirely.
+  @media (prefers-reduced-motion: reduce) {
+    &__title,
+    &__lead,
+    &__body {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 }
 

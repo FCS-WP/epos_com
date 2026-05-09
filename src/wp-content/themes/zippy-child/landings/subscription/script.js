@@ -581,6 +581,33 @@ import { LandingForm } from "../_shared/form-bridge";
     });
 
     var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Friendly per-field error messages. Used by BOTH our client-side
+    // pre-flight validation and the response handler that surfaces field
+    // errors HubSpot returns (HubSpot's raw text reads like
+    // "Required field 'state_dropdown' is missing" — not user-facing).
+    var FIELD_LABELS = {
+      lastname:       "your name",
+      email:          "your email",
+      phone:          "your WhatsApp phone number",
+      your_industry:  "your industry",
+      state_dropdown: "your state / region",
+      hs_language:    "your preferred language",
+      company:        "your company name",
+    };
+    var friendlyFieldError = function (name, kind) {
+      var label = FIELD_LABELS[name] || "this field";
+      // Verbs differ between text inputs and dropdowns for cleaner copy.
+      var isSelect = !!formEl.querySelector('select[name="' + name + '"]');
+      var verb = isSelect ? "Please select " : "Please enter ";
+      if (kind === "invalid") {
+        return name === "email"
+          ? "Please enter a valid email address."
+          : (name === "phone" ? "Please enter a valid phone number." : "Please check " + label + ".");
+      }
+      return verb + label + ".";
+    };
+
     var validate = function () {
       var firstInvalid = null;
       formEl.querySelectorAll("[data-error-for]").forEach(function (n) { n.textContent = ""; });
@@ -588,33 +615,38 @@ import { LandingForm } from "../_shared/form-bridge";
 
       var name = formEl.querySelector('[name="lastname"]');
       if (name && !name.value.trim()) {
-        setFieldError("lastname", "Please enter your name.");
+        setFieldError("lastname", friendlyFieldError("lastname"));
         firstInvalid = firstInvalid || name;
       }
       var email = formEl.querySelector('[name="email"]');
       if (email) {
         var v = email.value.trim();
         if (!v) {
-          setFieldError("email", "Please enter your email.");
+          setFieldError("email", friendlyFieldError("email"));
           firstInvalid = firstInvalid || email;
         } else if (!EMAIL_RE.test(v)) {
-          setFieldError("email", "Please enter a valid email address.");
+          setFieldError("email", friendlyFieldError("email", "invalid"));
           firstInvalid = firstInvalid || email;
         }
       }
       if (phoneEl) {
         if (!phoneEl.value.trim()) {
-          setFieldError("phone", "Please enter your WhatsApp phone number.");
+          setFieldError("phone", friendlyFieldError("phone"));
           firstInvalid = firstInvalid || phoneEl;
         } else if (iti && typeof iti.isValidNumber === "function" && iti.isValidNumber() === false) {
-          setFieldError("phone", "Please enter a valid phone number.");
+          setFieldError("phone", friendlyFieldError("phone", "invalid"));
           firstInvalid = firstInvalid || phoneEl;
         }
       }
       var industry = formEl.querySelector('[name="your_industry"]');
       if (industry && industry.required && !industry.value) {
-        setFieldError("your_industry", "Please select your industry.");
+        setFieldError("your_industry", friendlyFieldError("your_industry"));
         firstInvalid = firstInvalid || industry;
+      }
+      var state = formEl.querySelector('[name="state_dropdown"]');
+      if (state && state.required && !state.value) {
+        setFieldError("state_dropdown", friendlyFieldError("state_dropdown"));
+        firstInvalid = firstInvalid || state;
       }
 
       if (firstInvalid) {
@@ -624,18 +656,67 @@ import { LandingForm } from "../_shared/form-bridge";
       return true;
     };
 
-    var handleSuccess = function () {
-      formEl.style.display = "none";
-      setStatus(
-        formEl.dataset.successMessage ||
-          "Thanks — we'll be in touch within one business day.",
-        "success"
-      );
-      var section = formEl.closest(".sub-v2-demo, .sub-v2-modal-demo__content") || statusEl;
-      if (section && typeof section.scrollIntoView === "function") {
-        section.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
+    // In-flight indicator: toggling data-submitting on the form swaps the
+    // button label for a CSS spinner (no status text needed).
+    var setSubmitting = function (on) {
+      if (on) formEl.setAttribute("data-submitting", "true");
+      else formEl.removeAttribute("data-submitting");
     };
+
+    var handleSuccess = function () {
+      // Two-phase animation:
+      //   1. Form fades out (CSS transition on .is-leaving) — 200ms
+      //   2. Form display:none, success block painted in initial state,
+      //      then on the next frame .is-visible flips on so children's
+      //      transitions kick in (fade + slide-up, staggered).
+      var shell = formEl.closest("[data-form-shell]");
+      var successEl = shell ? shell.querySelector("[data-form-success]") : null;
+
+      setStatus("", ""); // clear any prior status text
+      setSubmitting(false);
+
+      formEl.classList.add("is-leaving");
+
+      var FADE_OUT_MS = 200;
+      window.setTimeout(function () {
+        formEl.style.display = "none";
+
+        if (successEl) {
+          // Reveal in its initial (pre-animation) state.
+          successEl.removeAttribute("hidden");
+
+          // Force a paint at the initial state, THEN on the next frame
+          // flip .is-visible so the CSS transition runs. Without the rAF
+          // the browser may collapse both states into one and skip the
+          // animation entirely.
+          window.requestAnimationFrame(function () {
+            window.requestAnimationFrame(function () {
+              successEl.classList.add("is-visible");
+            });
+          });
+        }
+
+        var anchor = successEl || formEl.closest(".sub-v2-demo, .sub-v2-modal-demo__content") || statusEl;
+        if (anchor && typeof anchor.scrollIntoView === "function") {
+          anchor.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, FADE_OUT_MS);
+    };
+
+    // ── MOCK MODE (UI preview only) ─────────────────────
+    // When the form has data-mock-success, skip the bridge entirely and just
+    // show the success UI on submit. To disable: remove the attribute from
+    // partials/_form.php. Validation still runs.
+    if (formEl.hasAttribute("data-mock-success")) {
+      formEl.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (!validate()) return;
+        setSubmitting(true);
+        // Slight delay so the spinner is visible before swap.
+        setTimeout(handleSuccess, 600);
+      });
+      return;
+    }
 
     new LandingForm({
       formElement: formEl,
@@ -644,15 +725,33 @@ import { LandingForm } from "../_shared/form-bridge";
           var e164 = iti.getNumber();
           if (e164) payload.fields.phone = e164;
         }
-        setStatus("Submitting…", "pending");
+        setSubmitting(true);
+        setStatus("", ""); // any prior error text is cleared as we retry
       },
       onSuccess: handleSuccess,
       onError: function (message, fieldErrors) {
-        Object.keys(fieldErrors || {}).forEach(function (n) {
-          var msg = typeof fieldErrors[n] === "string" ? fieldErrors[n] : "Please check this field.";
-          setFieldError(n, msg);
+        // HubSpot's raw error text (e.g. "Required field 'state_dropdown'
+        // is missing") is developer-facing — translate to the user-friendly
+        // version using our per-field label map.
+        var keys = Object.keys(fieldErrors || {});
+        keys.forEach(function (n) {
+          var raw = typeof fieldErrors[n] === "string" ? fieldErrors[n] : "";
+          var kind = /\binvalid\b|\bnot a valid\b/i.test(raw) ? "invalid" : "missing";
+          setFieldError(n, friendlyFieldError(n, kind));
         });
-        setStatus(message, "error");
+
+        // Top-level message: prefer something specific to what failed.
+        if (keys.length) {
+          setStatus("Please check the highlighted fields and try again.", "error");
+        } else {
+          setStatus(
+            "Something went wrong. Please try again in a moment.",
+            "error"
+          );
+        }
+
+        // Restore submit button so the user can retry.
+        setSubmitting(false);
       },
     })
       ._wrapValidation(validate)

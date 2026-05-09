@@ -40,6 +40,7 @@ $render_options = function ($options, $placeholder) {
     }
 };
 ?>
+<div class="sub-v2-form-shell" data-form-shell>
 <form
     class="sub-v2-form sub-v2-form--<?php echo esc_attr($variant); ?>"
     data-landing-form="hubspot"
@@ -47,10 +48,16 @@ $render_options = function ($options, $placeholder) {
     data-success-message="<?php echo esc_attr($success_message); ?>"
     data-phone-countries="<?php echo esc_attr(implode(',', $phone_countries)); ?>"
     data-phone-default="<?php echo esc_attr($phone_default); ?>"
+    data-mock-success
     novalidate
 >
+    <?php /*
+      DOM order matches the MOBILE layout (single column reads top-to-bottom).
+      Desktop two-column layout is achieved with CSS `order:` overrides on
+      each --name modifier — see style.scss `.sub-v2-form__grid` block.
+    */ ?>
     <div class="sub-v2-form__grid">
-        <div class="sub-v2-form__row">
+        <div class="sub-v2-form__row sub-v2-form__row--name">
             <label class="sub-v2-form__label" for="<?php echo esc_attr($prefix . 'lastname'); ?>">
                 Name <span class="sub-v2-form__required" aria-hidden="true">*</span>
             </label>
@@ -66,20 +73,7 @@ $render_options = function ($options, $placeholder) {
             <p class="sub-v2-form__error" data-error-for="lastname"></p>
         </div>
 
-        <div class="sub-v2-form__row">
-            <label class="sub-v2-form__label" for="<?php echo esc_attr($prefix . 'company'); ?>">Company Name</label>
-            <input
-                type="text"
-                id="<?php echo esc_attr($prefix . 'company'); ?>"
-                name="company"
-                class="sub-v2-form__input"
-                placeholder="Company name"
-                autocomplete="organization"
-            />
-            <p class="sub-v2-form__error" data-error-for="company"></p>
-        </div>
-
-        <div class="sub-v2-form__row">
+        <div class="sub-v2-form__row sub-v2-form__row--email">
             <label class="sub-v2-form__label" for="<?php echo esc_attr($prefix . 'email'); ?>">
                 Email <span class="sub-v2-form__required" aria-hidden="true">*</span>
             </label>
@@ -95,19 +89,7 @@ $render_options = function ($options, $placeholder) {
             <p class="sub-v2-form__error" data-error-for="email"></p>
         </div>
 
-        <div class="sub-v2-form__row">
-            <label class="sub-v2-form__label" for="<?php echo esc_attr($prefix . 'state'); ?>">State / Region</label>
-            <select
-                id="<?php echo esc_attr($prefix . 'state'); ?>"
-                name="state_dropdown"
-                class="sub-v2-form__input sub-v2-form__select"
-            >
-                <?php $render_options($state_options, 'Region'); ?>
-            </select>
-            <p class="sub-v2-form__error" data-error-for="state_dropdown"></p>
-        </div>
-
-        <div class="sub-v2-form__row">
+        <div class="sub-v2-form__row sub-v2-form__row--phone">
             <label class="sub-v2-form__label" for="<?php echo esc_attr($prefix . 'phone'); ?>">
                 WhatsApp Phone Number <span class="sub-v2-form__required" aria-hidden="true">*</span>
             </label>
@@ -123,19 +105,7 @@ $render_options = function ($options, $placeholder) {
             <p class="sub-v2-form__error" data-error-for="phone"></p>
         </div>
 
-        <div class="sub-v2-form__row">
-            <label class="sub-v2-form__label" for="<?php echo esc_attr($prefix . 'language'); ?>">Preferred Language</label>
-            <select
-                id="<?php echo esc_attr($prefix . 'language'); ?>"
-                name="hs_language"
-                class="sub-v2-form__input sub-v2-form__select"
-            >
-                <?php $render_options($language_options, 'English'); ?>
-            </select>
-            <p class="sub-v2-form__error" data-error-for="hs_language"></p>
-        </div>
-
-        <div class="sub-v2-form__row">
+        <div class="sub-v2-form__row sub-v2-form__row--industry">
             <label class="sub-v2-form__label" for="<?php echo esc_attr($prefix . 'industry'); ?>">
                 Your Industry <span class="sub-v2-form__required" aria-hidden="true">*</span>
             </label>
@@ -150,9 +120,50 @@ $render_options = function ($options, $placeholder) {
             <p class="sub-v2-form__error" data-error-for="your_industry"></p>
         </div>
 
+        <div class="sub-v2-form__row sub-v2-form__row--company">
+            <label class="sub-v2-form__label" for="<?php echo esc_attr($prefix . 'company'); ?>">Company Name</label>
+            <input
+                type="text"
+                id="<?php echo esc_attr($prefix . 'company'); ?>"
+                name="company"
+                class="sub-v2-form__input"
+                placeholder="Company name"
+                autocomplete="organization"
+            />
+            <p class="sub-v2-form__error" data-error-for="company"></p>
+        </div>
+
+        <div class="sub-v2-form__row sub-v2-form__row--state">
+            <label class="sub-v2-form__label" for="<?php echo esc_attr($prefix . 'state'); ?>">
+                State / Region <span class="sub-v2-form__required" aria-hidden="true">*</span>
+            </label>
+            <select
+                id="<?php echo esc_attr($prefix . 'state'); ?>"
+                name="state_dropdown"
+                class="sub-v2-form__input sub-v2-form__select"
+                required
+            >
+                <?php $render_options($state_options, 'Region'); ?>
+            </select>
+            <p class="sub-v2-form__error" data-error-for="state_dropdown"></p>
+        </div>
+
+        <div class="sub-v2-form__row sub-v2-form__row--language">
+            <label class="sub-v2-form__label" for="<?php echo esc_attr($prefix . 'language'); ?>">Preferred Language</label>
+            <select
+                id="<?php echo esc_attr($prefix . 'language'); ?>"
+                name="hs_language"
+                class="sub-v2-form__input sub-v2-form__select"
+            >
+                <?php $render_options($language_options, 'English'); ?>
+            </select>
+            <p class="sub-v2-form__error" data-error-for="hs_language"></p>
+        </div>
+
         <div class="sub-v2-form__row sub-v2-form__row--submit">
             <button type="submit" class="sub-v2-form__submit">
-                <?php echo esc_html($form['submit_label'] ?? 'Submit'); ?>
+                <span class="sub-v2-form__submit-label"><?php echo esc_html($form['submit_label'] ?? 'Submit'); ?></span>
+                <span class="sub-v2-form__submit-spinner" aria-hidden="true"></span>
             </button>
         </div>
     </div>
@@ -168,3 +179,11 @@ $render_options = function ($options, $placeholder) {
 
     <p class="sub-v2-form__status" role="status" aria-live="polite"></p>
 </form>
+
+    <?php // Success block — hidden by default, swapped in by JS when submit succeeds. ?>
+    <div class="sub-v2-form-success" data-form-success hidden>
+      <h3 class="sub-v2-form-success__title">Application Received</h3>
+      <p class="sub-v2-form-success__lead">Thank you for your interest.</p>
+      <p class="sub-v2-form-success__body">Our team will review your details and respond to you on WhatsApp shortly.</p>
+    </div>
+</div><?php // /.sub-v2-form-shell ?>

@@ -2,31 +2,38 @@
 /*
  * Template Name: Ads — Subscription
  *
- * Bare landing page (no main header/footer, no theme chrome) for ad campaigns
- * and HubSpot form submissions. Reads content from content.json.
+ * Subscription V2 landing — bare page (no theme chrome). HubSpot form is
+ * submitted via our REST bridge (see _shared/integrations/hubspot/), NOT
+ * via HubSpot's iframe embed.
  *
- * NOTE: This template does NOT call wp_head() / wp_footer() — instead it uses
- * landing_head() and landing_footer() which emit only what the landing needs
- * (no Flatsome, WooCommerce, plugin chrome, or tracking). WP Rocket page
- * cache + minify continue to work because they hook template_redirect.
- *
- * If a campaign needs tracking (GTM, FB Pixel, GA), paste the snippet
- * directly below <head> or before </body> in this template.
+ * Section order matches the v2 design:
+ *   header → hero → partnership → tools → everything → testimonials
+ *   → grow → demo (form) → faq → modal-demo (popup form)
  */
 
 if (! defined('ABSPATH')) exit;
+
+// content.json's shape is exactly what the partials expect, so no
+// transformation layer is needed — pass it through as $sub_v2.
+$sub_v2 = landing_content();
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
 <?php landing_head(); ?>
 </head>
-<body <?php body_class('landing landing--subscription'); ?>>
-    <main class="landing__main">
-        <?php landing_partial('hero'); ?>
-        <?php landing_partial('features'); ?>
-        <?php landing_partial('form'); ?>
-        <?php landing_partial('footer-cta'); ?>
+<body <?php body_class('landing landing--subscription page-template-subscription-v2'); ?>>
+    <main class="sub-page sub-page--v2 subscription-v2" data-subscription-v2>
+        <?php landing_partial('header',              $sub_v2); ?>
+        <?php landing_partial('section-hero',        $sub_v2); ?>
+        <?php landing_partial('section-partnership', $sub_v2); ?>
+        <?php landing_partial('section-tools',       $sub_v2); ?>
+        <?php landing_partial('section-everything',  $sub_v2); ?>
+        <?php landing_partial('section-testimonials',$sub_v2); ?>
+        <?php landing_partial('section-grow',        $sub_v2); ?>
+        <?php landing_partial('section-demo',        $sub_v2); ?>
+        <?php landing_partial('section-faq',         $sub_v2); ?>
+        <?php landing_partial('modal-demo',          $sub_v2); ?>
     </main>
 <?php landing_footer(); ?>
 </body>

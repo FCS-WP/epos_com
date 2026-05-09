@@ -1,34 +1,56 @@
 {
-  "_doc": "Edit this file to update the page. After editing, no rebuild is needed — content is read on each request. Image IDs come from the WP Media Library (upload, then look at the attachment URL or sidebar for the numeric ID).",
+  "_doc": "Subscription landing — v2 design. Edit copy/images/options here, no PHP edits required. Image paths under wp-content/uploads/... must point to assets you've uploaded to WP Media Library or committed to the theme's uploads dir.",
 
-  "hero": {
-    "image_id": 0,
-    "eyebrow": "New plan",
-    "headline": "Subscribe and save 20%",
-    "subheadline": "Lower your hardware costs and get auto-replenishment of receipts, ribbons, and supplies.",
-    "cta_label": "Get started",
-    "cta_url": "#subscription-form"
-  },
+  "libs": ["jquery", "gsap", "slick"],
 
-  "features": {
-    "section_title": "Why subscribe",
-    "items": [
-      {
-        "image_id": 0,
-        "title": "Real-time stock visibility",
-        "body": "See live inventory from every outlet in one dashboard."
-      },
-      {
-        "image_id": 0,
-        "title": "Auto-replenish supplies",
-        "body": "Receipts and ribbons delivered before you run out."
-      },
-      {
-        "image_id": 0,
-        "title": "Predictable monthly cost",
-        "body": "One flat fee covers hardware, software, and consumables."
-      }
-    ]
+  "section_kicker_icon": "/wp-content/uploads/2026/05/fire-icon-tag.webp",
+  "contact_sales_url": "https://api.whatsapp.com/send/?phone=60124655571&text=Hi+there%2C+I+want+to+learn+about+EPOS360&type=phone_number&app_absent=0",
+
+  "images": {
+    "header": {
+      "logo": "https://www.epos.com.sg/wp-content/uploads/2025/12/EPOS_Full-Color.webp"
+    },
+    "hero": {
+      "visual": "/wp-content/uploads/2026/05/hero-banner-desktop.webp"
+    },
+    "partnership": {
+      "logo_epos":      "/wp-content/uploads/2026/05/epos-360-logo.webp",
+      "logo_tng_small": "/wp-content/uploads/2026/05/TNG-payemnt-logo.webp"
+    },
+    "payments": {
+      "logo_alipay":     "/wp-content/uploads/2026/05/alipay-payemnt-logo.webp",
+      "logo_duitnow":    "/wp-content/uploads/2026/05/Duit-payemnt-logo.webp",
+      "logo_tng_small":  "/wp-content/uploads/2026/05/TNG-payemnt-logo.webp",
+      "logo_mydebit":    "/wp-content/uploads/2026/05/MyDebit-payemnt-logo.webp",
+      "logo_visa":       "/wp-content/uploads/2026/05/Visa-payemnt-logo.webp",
+      "logo_mastercard": "/wp-content/uploads/2026/05/Mastercard-payemnt-logo.webp"
+    },
+    "everything": {
+      "mockup":     "/wp-content/uploads/2026/05/All-in-one-place-1.webp",
+      "qr":         "/wp-content/uploads/2026/05/boost-icon.webp",
+      "grow_sales": "/wp-content/uploads/2026/05/stress-icon.webp",
+      "delivery":   "/wp-content/uploads/2026/05/no-extra-icon.webp"
+    },
+    "tools": {
+      "food_delivery":   "/wp-content/uploads/2026/05/Bussiness-card-1.webp",
+      "table_qr":        "/wp-content/uploads/2026/05/Bussiness-card-2.webp",
+      "online_store":    "/wp-content/uploads/2026/05/Bussiness-card-3.webp",
+      "loyalty":         "/wp-content/uploads/2026/05/Bussiness-card-4.webp",
+      "google_business": "/wp-content/uploads/2026/05/Bussiness-card-5.webp",
+      "smart_insights":  "/wp-content/uploads/2026/05/Bussiness-card-6.webp"
+    },
+    "testimonials": {
+      "durianbb": "/wp-content/uploads/2026/05/testimonial-bg-1.webp",
+      "dexon":    "/wp-content/uploads/2026/05/testimonial-bg-2.webp",
+      "ajokaido": "/wp-content/uploads/2026/05/testimonial-bg-3.webp",
+      "avatar_1": "/wp-content/uploads/2026/05/testimonial-avatar-1.webp",
+      "avatar_2": "/wp-content/uploads/2026/05/testimonial-avatar-1.webp",
+      "avatar_3": "/wp-content/uploads/2026/05/testimonial-avatar-1.webp"
+    },
+    "grow": {
+      "merchant_left":  "/wp-content/uploads/2026/05/smarter-business-women-1.webp",
+      "merchant_right": "/wp-content/uploads/2026/05/smarter-business-man-1.webp"
+    }
   },
 
   "form": {
@@ -72,14 +94,5 @@
     ],
 
     "interested_product_default": "BlueTap"
-  },
-
-  "footer_cta": {
-    "headline": "Not ready yet?",
-    "body": "Browse the full hardware range or download the brochure.",
-    "primary_label": "Browse hardware",
-    "primary_url": "/shop/",
-    "secondary_label": "Download brochure",
-    "secondary_url": "#"
   }
 }

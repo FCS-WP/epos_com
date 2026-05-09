@@ -218,6 +218,26 @@ function landing_head()
         echo '<link rel="stylesheet" href="' . esc_url($iti_css_url) . '?ver=18.5.2">' . "\n";
     }
 
+    // Optional shared library CSS, declared in content.json["libs"].
+    // Slick is the only CSS-bearing lib we currently support.
+    $libs = isset($landing_data['libs']) && is_array($landing_data['libs'])
+        ? array_map('strval', $landing_data['libs']) : array();
+
+    if (in_array('slick', $libs, true)) {
+        $slick_dir = THEME_DIR . '-child/assets/lib/slick';
+        $slick_url = THEME_URL . '-child/assets/lib/slick';
+        foreach (array('slick.css', 'slick-theme.css') as $f) {
+            $p = $slick_dir . '/' . $f;
+            if (file_exists($p)) {
+                printf(
+                    '<link rel="stylesheet" href="%s?ver=%s">' . "\n",
+                    esc_url($slick_url . '/' . $f),
+                    esc_attr((string) filemtime($p))
+                );
+            }
+        }
+    }
+
     // Landing's compiled CSS — filemtime cache-bust so browsers cache long-term
     // but pick up changes on rebuild.
     $css_path = LANDINGS_DIST_CSS_DIR . '/' . $slug . '.min.css';
@@ -284,6 +304,45 @@ function landing_footer()
     if ($needs_phone) {
         $iti_js_url = THEME_URL . '-child/assets/lib/intl-tel-input/js/intlTelInput.min.js';
         echo '<script src="' . esc_url($iti_js_url) . '?ver=18.5.2"></script>' . "\n";
+    }
+
+    // Optional shared libraries declared in content.json["libs"].
+    // Emitted as separate <script> tags so the browser caches them across
+    // landings and so each lib can be excluded individually from WP Rocket
+    // Delay JS if needed. Order matters — jQuery before plugins that depend
+    // on it (Slick).
+    $libs = isset($landing_data['libs']) && is_array($landing_data['libs'])
+        ? array_map('strval', $landing_data['libs']) : array();
+
+    if (in_array('jquery', $libs, true)) {
+        // WP ships jQuery at /wp-includes/js/jquery/jquery.min.js. Reuse it so
+        // any other plugin that's also using jQuery doesn't load a duplicate.
+        echo '<script src="' . esc_url(includes_url('js/jquery/jquery.min.js')) . '"></script>' . "\n";
+    }
+    if (in_array('gsap', $libs, true)) {
+        $gsap_dir = THEME_DIR . '-child/assets/js/gsap';
+        $gsap_url = THEME_URL . '-child/assets/js/gsap';
+        foreach (array('gsap.min.js', 'ScrollTrigger.min.js', 'ScrollToPlugin.min.js') as $f) {
+            $p = $gsap_dir . '/' . $f;
+            if (file_exists($p)) {
+                printf(
+                    '<script src="%s?ver=%s"></script>' . "\n",
+                    esc_url($gsap_url . '/' . $f),
+                    esc_attr((string) filemtime($p))
+                );
+            }
+        }
+    }
+    if (in_array('slick', $libs, true)) {
+        $slick_dir = THEME_DIR . '-child/assets/lib/slick';
+        $slick_url = THEME_URL . '-child/assets/lib/slick';
+        if (file_exists($slick_dir . '/slick.min.js')) {
+            printf(
+                '<script src="%s?ver=%s"></script>' . "\n",
+                esc_url($slick_url . '/slick.min.js'),
+                esc_attr((string) filemtime($slick_dir . '/slick.min.js'))
+            );
+        }
     }
 
     // Landing JS bundle.
@@ -358,10 +417,19 @@ function landing_image($attachment_id, $size = 'full', $attrs = array())
 /**
  * Include a partial from the current landing's partials/ folder.
  *
+ * The optional $data array is exposed to the partial as $data. Partials
+ * that prefer a domain-specific variable name (e.g. $sub_v2) should copy
+ * it on their first line: $sub_v2 = $data ?? array();
+ *
+ * Why explicit-pass instead of `global $sub_v2`: keeps each partial
+ * self-contained, no hidden coupling. Mirrors WP's own get_template_part()
+ * which added an $args parameter in 5.5 for this same reason.
+ *
  * @param string $name Partial filename without extension.
+ * @param array  $data Optional data passed to the partial as $data.
  * @return void
  */
-function landing_partial($name)
+function landing_partial($name, $data = array())
 {
     $slug = landings_current_slug();
     if (! $slug) return;
@@ -369,5 +437,6 @@ function landing_partial($name)
     $path = LANDINGS_DIR . '/' . $slug . '/partials/' . $name . '.php';
     if (! file_exists($path)) return;
 
+    // $data is in scope for the included file.
     include $path;
 }

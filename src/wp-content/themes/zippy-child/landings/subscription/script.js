@@ -51,8 +51,10 @@ import { LandingForm } from "../_shared/form-bridge";
       // Normalize scroll delta across trackpad / mouse wheel / touch for
       // consistent velocity — this is the biggest factor for "feeling smooth"
       normalizeScroll: true,
-      // Slight smoothing on touch devices — 0 = native, 1 = full smooth
-      smoothTouch: 0.08,
+      // Touch smoothing — 0 = native scroll, 1 = full lerp.
+      // 0.3 feels deliberate without breaking finger-to-content tracking;
+      // higher values risk feeling like input lag on iOS Safari.
+      smoothTouch: 0.3,
       // Prevent ScrollTrigger from recalculating on every mobile resize
       // (address bar show/hide causes constant jitter without this)
       ignoreMobileResize: true,

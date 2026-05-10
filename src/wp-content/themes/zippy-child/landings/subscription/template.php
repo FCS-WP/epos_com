@@ -40,6 +40,8 @@ $sub_v2 = landing_content();
     </div>
     <!-- modal-demo is rendered outside <main> (sibling of it) so it isn't a descendant of the .sub-page on <main>, but we still want the .sub-page .sub-v2-form rules to apply to the form in the modal, so we add .sub-page to the modal's root element (see partial below). -->
     <?php landing_partial('modal-demo', $sub_v2); ?>
+    <?php // Floating WhatsApp button — outside smoother so it stays clickable. ?>
+    <?php landing_partial('whatsapp-button', $sub_v2); ?>
     <?php landing_footer(); ?>
 </body>
 

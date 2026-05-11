@@ -1263,7 +1263,7 @@ body.page-template-template-subscription-v2 {
 .sub-v2-grow {
   padding: 65px 0 0;
   background: #fff;
-  overflow: visible;
+  overflow-x: clip;
 
   &__head {
     text-align: center;

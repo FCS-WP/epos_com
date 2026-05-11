@@ -11,7 +11,7 @@ $sub_v2 = $data ?? array();
           <img class="sub-v2-kicker__icon" src="<?php echo esc_url($sub_v2['section_kicker_icon']); ?>" alt="" aria-hidden="true" decoding="async">
           <span>Have a question?</span>
         </p>
-        <h2 class="sub-v2-faq__title sub-v2-section-title sub-v2-section-title--light">Frequently asked questions</h2>
+        <h2 class="sub-v2-faq__title sub-v2-section-title sub-v2-section-title--light">Frequently Asked Questions</h2>
       </div>
 
       <div class="sub-v2-faq__list" data-animate-group="faq-items" data-animate="stagger">
@@ -34,7 +34,7 @@ $sub_v2 = $data ?? array();
           </button>
           <div class="sub-v2-faq__body" hidden>
             <div class="sub-v2-faq__body-inner">
-              <p>There is no need to buy new hardware, each subscription of the minimum 3-months commitment will receive a free Series 1 Soundbox. You can also choose to upgrade to a BlueTap for a one time payment of RM150.</p>
+              <p>There is no need to purchase new hardware. Each merchant is entitled to one (1) complimentary Series 1 Soundbox on its first sign-up for a minimum 3-month subscription only, or may upgrade to a BlueTap device for a one-time payment of RM150.</p>
             </div>
           </div>
         </div>

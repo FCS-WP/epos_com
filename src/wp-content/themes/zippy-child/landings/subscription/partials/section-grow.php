@@ -10,6 +10,7 @@ $sub_v2_grow_features = [
   'Drive repeat customers through loyalty & memberships',
   'AI-powered smart insights for growth',
   'All-in-one payment hub with FREE soundbox',
+  '24/7 customer support',
 ];
 ?>
 
@@ -42,7 +43,7 @@ $sub_v2_grow_features = [
 
       <div class="sub-v2-grow__price-block">
         <div class="sub-v2-grow__price-row">
-          <span class="sub-v2-grow__price">RM49</span>
+          <span class="sub-v2-grow__price">RM39</span>
           <span class="sub-v2-grow__price-suffix">/month</span>
         </div>
 
@@ -52,7 +53,7 @@ $sub_v2_grow_features = [
 
         <div class="sub-v2-grow__price-meta">
           <p class="sub-v2-grow__old-price">RM99</p>
-          <div class="sub-v2-grow__discount">50% OFF</div>
+          <div class="sub-v2-grow__discount">60% OFF</div>
         </div>
       </div>
 
@@ -66,7 +67,7 @@ $sub_v2_grow_features = [
             <path d="M12 7H16.5C17.8807 7 19 5.88071 19 4.5C19 3.11929 17.8807 2 16.5 2C14 2 12 7 12 7Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </span>
-        <p>Pay for 12 months,<br><span class="sub-v2-grow__offer-highlight">get extra 3 months free</span></p>
+        <p>Subscribe for 12 months,<br><span class="sub-v2-grow__offer-highlight">get 3 extra months free</span></p>
       </div>
 
       <div class="sub-v2-grow__actions">

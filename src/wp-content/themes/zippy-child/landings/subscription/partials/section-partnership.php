@@ -47,7 +47,7 @@ $sub_v2 = $data ?? array();
         <span>Payment Methods</span>
       </p>
       <h2 class="sub-v2-payments__title sub-v2-section-title">
-        Accept popular payments
+        Accept Popular Payments
         <span>With One Simple System</span>
       </h2>
     </div>

@@ -4,7 +4,7 @@
   "libs": ["jquery", "lenis", "gsap", "slick"],
 
   "section_kicker_icon": "/wp-content/uploads/2026/05/fire-icon-tag.webp",
-  "contact_sales_url": "https://api.whatsapp.com/send/?phone=60124655571&text=Hi+there%2C+I+want+to+learn+about+EPOS360&type=phone_number&app_absent=0",
+  "contact_sales_url": "https://api.whatsapp.com/send/?phone=60124655571&text=Hi%21+I%27d+like+to+find+out+how+EPOS360+can+grow+my+business.+Can+you+tell+me+more%3F&type=phone_number&app_absent=0",
 
   "images": {
     "header": {
@@ -33,12 +33,12 @@
       "delivery":   "/wp-content/uploads/2026/05/no-extra-icon.webp"
     },
     "tools": {
-      "food_delivery":   "/wp-content/uploads/2026/05/Bussiness-card-1.webp",
-      "table_qr":        "/wp-content/uploads/2026/05/Bussiness-card-2.webp",
-      "online_store":    "/wp-content/uploads/2026/05/Bussiness-card-3.webp",
-      "loyalty":         "/wp-content/uploads/2026/05/Bussiness-card-4.webp",
-      "google_business": "/wp-content/uploads/2026/05/Bussiness-card-5.webp",
-      "smart_insights":  "/wp-content/uploads/2026/05/Bussiness-card-6.webp"
+      "food_delivery":   "/wp-content/uploads/2026/05/Bussiness-card-1-1-Photoroom.webp",
+      "table_qr":        "/wp-content/uploads/2026/05/Bussiness-card-2-1-1-1.webp",
+      "online_store":    "/wp-content/uploads/2026/05/Bussiness-card-3-1-Photoroom.webp",
+      "loyalty":         "/wp-content/uploads/2026/05/Bussiness-card-4-1-Photoroom.webp",
+      "google_business": "/wp-content/uploads/2026/05/Bussiness-card-5-1-Photoroom.webp",
+      "smart_insights":  "/wp-content/uploads/2026/05/Bussiness-card-6-1-Photoroom.webp"
     },
     "testimonials": {
       "durianbb": "/wp-content/uploads/2026/05/testimonial-bg-1.webp",

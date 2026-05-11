@@ -346,26 +346,35 @@ import { LandingForm } from "../_shared/form-bridge";
 
     var wrap = root.querySelector("[data-animate-slider].sub-v2-tools__slider-wrap");
 
+    var toolsArrowPrev = '<button type="button" class="sub-v2-slider-arrow sub-v2-slider-arrow--prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
+    var toolsArrowNext = '<button type="button" class="sub-v2-slider-arrow sub-v2-slider-arrow--next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
+
     $s.css("display", "block").slick({
       slidesToShow: Math.min(count, 3),
-      slidesToScroll: count > 3 ? 2 : 1,
-      infinite: count > 3,
-      arrows: false,
+      slidesToScroll: 1,
+      infinite: true,
+      autoplay: true,
+      autoplaySpeed: 10000,
+      arrows: true,
+      prevArrow: toolsArrowPrev,
+      nextArrow: toolsArrowNext,
       dots: count > 1,
       appendDots: dotsTarget ? $(dotsTarget) : $s,
       speed: 600,
       adaptiveHeight: false,
       responsive: [
-        { breakpoint: 1024, settings: { slidesToShow: Math.max(1, Math.min(count, 2)), slidesToScroll: count > 2 ? 2 : 1, infinite: count > 2, dots: count > 1, appendDots: dotsTarget ? $(dotsTarget) : $s } },
-        { breakpoint: 768,  settings: { slidesToShow: 1, slidesToScroll: 1, infinite: count > 1, dots: count > 1, appendDots: dotsTarget ? $(dotsTarget) : $s, centerMode: true, centerPadding: "32px" } },
+        { breakpoint: 1024, settings: { slidesToShow: Math.max(1, Math.min(count, 2)), slidesToScroll: 1, infinite: true, autoplay: true, autoplaySpeed: 10000, arrows: true, prevArrow: toolsArrowPrev, nextArrow: toolsArrowNext, dots: count > 1, appendDots: dotsTarget ? $(dotsTarget) : $s } },
+        { breakpoint: 768,  settings: { slidesToShow: 1, slidesToScroll: 1, infinite: true, autoplay: true, autoplaySpeed: 10000, arrows: false, dots: count > 1, appendDots: dotsTarget ? $(dotsTarget) : $s, centerMode: true, centerPadding: "32px" } },
       ],
+    });
+
+    $s.on("afterChange.sv2tools", function () {
+      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
     });
 
     // Animate the wrapper after slick finishes layout — avoids GSAP hiding
     // the element before slick can measure its width (broken slide sizes).
     animateSliderWrap(wrap);
-
-    $s.on("setPosition.sv2 afterChange.sv2", function () { if (window.ScrollTrigger) window.ScrollTrigger.refresh(); });
   }
 
   function initTestimonialsSlider(root, attempt) {

@@ -17,6 +17,9 @@ body.page-template-template-subscription-v2 {
     display: none !important;
   }
   margin: 0;
+  .slick-list{
+    overflow-y: auto;
+  }
 }
 
 .sub-page {
@@ -75,7 +78,7 @@ body.page-template-template-subscription-v2 {
   flex-wrap: nowrap !important;
   gap: 10px !important;
   margin: 0 0 18px !important;
-  font-size: 18px !important;
+  font-size: 1.125rem !important;
   line-height: 28px !important;
   font-weight: 500 !important;
   letter-spacing: -0.02em;
@@ -112,7 +115,7 @@ body.page-template-template-subscription-v2 {
 
 .sub-v2-section-title {
   margin: 0 !important;
-  font-size: clamp(38px, 4.6vw, 66px) !important;
+  font-size: clamp(34px, 4.1vw, 60px) !important;
   line-height: 1.08 !important;
   letter-spacing: -0.05em !important;
   font-weight: 500 !important;
@@ -284,7 +287,7 @@ body.page-template-template-subscription-v2 {
   transition: transform 0.45s var(--ease-out-quart);
 
   &.is-open {
-    transform: rotate(180deg);
+    transform: rotate(0deg);
   }
 }
 
@@ -332,18 +335,19 @@ body.page-template-template-subscription-v2 {
     align-items: center;
     justify-content: center;
     padding: 0 24px;
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 20px;
     transition: all 0.2s ease;
   }
 
   &__button--ghost {
-    color: $sub-primary;
-    border: 1.5px solid $sub-primary;
-    background: #fff;
+    color: $sub-primary !important;
+    border: 1.5px solid $sub-primary !important;
+    background: #fff !important;
 
     &:hover {
-      background: #f3f1ff;
+      background: #f3f1ff !important;
+      color: $sub-primary !important;
     }
   }
 
@@ -375,15 +379,15 @@ body.page-template-template-subscription-v2 {
     width: 100%;
     min-height: 100%;
     display: grid;
-    grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 46%) minmax(0, 1fr);
     align-items: center;
-    gap: clamp(32px, 4vw, 88px);
+    gap: clamp(16px, 2vw, 48px);
     padding: clamp(24px, 3vw, 48px) 0;
   }
 
   &__content {
-    max-width: clamp(440px, 36vw, 600px);
-    padding: 0;
+    max-width: clamp(440px, 40vw, 640px);
+    padding: 0 0 0 clamp(0px, 3vw, 48px);
   }
 
   &__mobile-title {
@@ -391,7 +395,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__title {
-    font-size: 111px !important;
+    font-size: clamp(56px, 7vw, 100px) !important;
     font-weight: 600;
     line-height: 0.85;
     letter-spacing: -0.04em;
@@ -406,7 +410,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__lead {
-    font-size: 36px;
+    font-size: clamp(22px, 2.2vw, 32px);
     font-weight: 500;
     line-height: 1.4;
     letter-spacing: -0.03em;
@@ -415,7 +419,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__confidence {
-    font-size: 36px;
+    font-size: clamp(22px, 2.2vw, 32px);
     font-weight: 500;
     line-height: 1.4;
     letter-spacing: -0.03em;
@@ -424,7 +428,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__desc {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 400;
     line-height: 28px;
     letter-spacing: 0;
@@ -447,7 +451,7 @@ body.page-template-template-subscription-v2 {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 25px;
+    font-size: clamp(16px, 1.5vw, 23px);
     line-height: 20px;
     font-weight: 500;
     letter-spacing: -0.02em;
@@ -483,10 +487,10 @@ body.page-template-template-subscription-v2 {
   &__visual {
     display: flex;
     justify-content: flex-end;
-    align-items: flex-end;
-    min-height: clamp(420px, 35vw, 560px);
-    margin-right: 0;
-    padding-right: clamp(0px, 1vw, 18px);
+    align-items: center;
+    min-height: clamp(460px, 40vw, 640px);
+    margin-right: clamp(-60px, -4vw, -20px);
+    padding-right: 0;
     z-index: 2;
     position: relative;
     overflow: visible;
@@ -495,7 +499,7 @@ body.page-template-template-subscription-v2 {
   &__visual-image {
     display: block;
     width: 100%;
-    max-width: clamp(720px, 52vw, 1040px);
+    max-width: clamp(800px, 62vw, 1160px);
     height: auto;
     object-fit: contain;
     position: relative;
@@ -524,7 +528,7 @@ body.page-template-template-subscription-v2 {
   &__panel {
     background: #1e4bcb;
     border-radius: 28px;
-    padding: 52px clamp(32px, 3.2vw, 48px) 40px;
+    padding: clamp(52px, 6vw, 88px) clamp(32px, 3.2vw, 48px) clamp(52px, 6vw, 80px);
   }
 
   &__brand-row {
@@ -536,7 +540,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__brand-symbol {
-    font-size: 36px;
+    font-size: 2.25rem;
     line-height: 1;
     font-weight: 300;
     color: rgba(255, 255, 255, 0.9);
@@ -582,7 +586,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__desc {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 500;
     line-height: 30px;
     letter-spacing: -0.01em;
@@ -607,7 +611,7 @@ body.page-template-template-subscription-v2 {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 28px;
     font-weight: 500;
     color: $sub-primary;
@@ -624,7 +628,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__title {
-    font-size: 59px !important;
+    font-size: clamp(30px, 3.6vw, 53px) !important;
     font-weight: 500 !important;
     line-height: 1.08;
     letter-spacing: -0.045em;
@@ -684,7 +688,7 @@ body.page-template-template-subscription-v2 {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 25px;
+    font-size: clamp(16px, 1.5vw, 23px);
     line-height: 36px;
     font-weight: 500;
     color: $sub-primary;
@@ -701,9 +705,9 @@ body.page-template-template-subscription-v2 {
   }
 
   &__title {
-    font-size: 66px;
+    font-size: clamp(34px, 4.1vw, 60px);
     font-weight: 500;
-    line-height: 87px;
+    line-height: 1.1;
     letter-spacing: -0.055em;
     color: #000;
 
@@ -721,6 +725,7 @@ body.page-template-template-subscription-v2 {
     position: relative;
     width: min(1852px, calc(100% - clamp(24px, 3vw, 40px)));
     margin: 0 auto;
+    overflow: visible;
   }
 
   &__dots {
@@ -756,14 +761,23 @@ body.page-template-template-subscription-v2 {
     }
   }
 
+  &__slide {
+    height: 100%;
+
+    > div, article {
+      height: 100%;
+    }
+  }
+
   &__card {
     position: relative;
-    min-height: 766px;
-    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: clamp(400px, 56vw, 550px);
+    border-radius: clamp(20px, 2.5vw, 40px);
     overflow: hidden;
-    // No `display: block !important` here — Slick sets display:inline-block
-    // + width:100% on the slide content; forcing block kills the gap between
-    // cards. (Slide content = the wrapper <div> in section-tools.php.)
     backface-visibility: hidden;
     transition:
       transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -772,57 +786,60 @@ body.page-template-template-subscription-v2 {
     &:hover {
       transform: translateY(-6px);
     }
+
+    &--1 { background: linear-gradient(0deg, #cde3f5 0%, #e8f4fc 55%, #f5faff 100%); }
+    &--2 { background: linear-gradient(0deg, #c8ebd8 0%, #e2f5eb 55%, #f2fbf6 100%); }
+    &--3 { background: linear-gradient(0deg, #c9d9f5 0%, #e2ecfb 55%, #f2f6fe 100%); }
+    &--4 { background: linear-gradient(0deg, #d0eddc 0%, #e5f5ec 55%, #f3fbf6 100%); }
+    &--5 { background: linear-gradient(0deg, #ccd6f2 0%, #e0e8fa 55%, #f0f4fd 100%); }
+    &--6 { background: linear-gradient(0deg, #c6e8d4 0%, #def3e8 55%, #f0faf4 100%); }
   }
 
   &__card-bg {
-    position: absolute;
-    inset: 0;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-  }
-
-  &__card--normal-bg &__card-bg {
-    transform: none !important;
+    flex: 1 1 0;
+    min-height: 180px;
+    object-fit: contain;
+    object-position: center bottom;
+    margin-top: auto;
   }
 
   &__card-content {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     flex-direction: column;
-    min-height: 100%;
-    padding: 46px 48px 48px;
+    justify-content: space-between;
+    height: 100%;
+    flex-shrink: 0;
+    padding: clamp(16px, 2.4vw, 37px) clamp(13px, 2.05vw, 30px) 0;
 
     h3 {
-      max-width: 420px;
-      font-size: 32px;
+      font-size: clamp(14px, 1.6vw, 29px);
       font-weight: 500;
       line-height: 1.28;
       letter-spacing: -0.04em;
       color: #2c2c2c;
-      margin-bottom: 18px;
+      margin-bottom: clamp(8px, 1vw, 18px);
     }
 
     > p {
-      max-width: 430px;
-      font-size: 20px;
+      font-size: clamp(13px, 1.1vw, 20px);
       line-height: 1.45;
       letter-spacing: -0.02em;
       color: #3e4042;
-      margin-bottom: 20px;
+      margin-bottom: clamp(10px, 1.2vw, 20px);
     }
 
     ul {
-      margin-bottom: auto;
-      padding-bottom: 24px;
+      margin-bottom: clamp(14px, 1.5vw, 28px);
+      padding-bottom: 0;
     }
 
     li {
       position: relative;
-      padding-left: 22px;
-      font-size: 14px;
+      padding-left: clamp(14px, 1.4vw, 22px);
+      font-size: clamp(11px, 0.85vw, 14px);
       line-height: 1.8;
       letter-spacing: -0.01em;
       color: #3e4042;
@@ -846,15 +863,15 @@ body.page-template-template-subscription-v2 {
     align-items: center;
     justify-content: center;
     width: fit-content;
-    min-width: 178px;
-    height: 46px;
-    padding: 0 24px;
+    height: clamp(36px, 3.2vw, 46px);
+    padding: 0 clamp(16px, 1.8vw, 24px);
     border: 1px solid rgba(0, 0, 0, 0.78);
     border-radius: 55px;
     background: rgba(255, 255, 255, 0.64);
     color: #000;
-    font-size: 20px;
-    line-height: 29px;
+    font-size: clamp(12px, 1vw, 20px);
+    line-height: 1.4;
+    white-space: nowrap;
     box-shadow: 0 8px 18px rgba(16, 24, 40, 0.06);
 
     &:hover {
@@ -864,6 +881,59 @@ body.page-template-template-subscription-v2 {
       transform: translateY(-1px);
     }
   }
+
+}
+
+// ─── Slider arrows (Tools section) ───────────────────────────────────────────
+.sub-v2-slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid rgba(30, 75, 203, 0.18);
+  color: $sub-primary;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+  opacity: 0;
+  pointer-events: none;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease,
+              transform 0.2s ease, opacity 0.25s ease;
+
+  svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: $sub-primary;
+    border-color: $sub-primary;
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(30, 75, 203, 0.22);
+    transform: translateY(-50%) scale(1.08);
+  }
+
+  &.slick-disabled {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+
+  &--prev { left: 8px; }
+  &--next { right: 8px; }
+}
+
+// Chỉ show arrow khi hover vào slider-wrap
+.sub-v2-tools__slider-wrap:hover .sub-v2-slider-arrow:not(.slick-disabled) {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .sub-v2-everything {
@@ -884,7 +954,7 @@ body.page-template-template-subscription-v2 {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 25px;
+    font-size: clamp(16px, 1.5vw, 23px);
     line-height: 36px;
     font-weight: 500;
     color: $sub-primary;
@@ -900,8 +970,8 @@ body.page-template-template-subscription-v2 {
   }
 
   &__title {
-    font-size: 66px;
-    line-height: 87px;
+    font-size: clamp(31px, 3.7vw, 54px);
+    line-height: 1.1;
     letter-spacing: -0.05em;
     font-weight: 500;
     color: #000;
@@ -979,7 +1049,7 @@ body.page-template-template-subscription-v2 {
 
   &__copy {
     h3 {
-      font-size: clamp(28px, 2.3vw, 39px);
+      font-size: clamp(20px, 1.7vw, 28px);
       line-height: 1.15;
       letter-spacing: -0.035em;
       font-weight: 500;
@@ -988,7 +1058,7 @@ body.page-template-template-subscription-v2 {
     }
 
     p {
-      font-size: clamp(18px, 1.15vw, 20px);
+      font-size: clamp(16px, 1.04vw, 18px);
       line-height: 28px;
       color: #1f232b;
       margin: 0;
@@ -1009,7 +1079,7 @@ body.page-template-template-subscription-v2 {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 25px;
+    font-size: clamp(16px, 1.5vw, 23px);
     line-height: 36px;
     font-weight: 500;
     color: $sub-primary;
@@ -1025,8 +1095,8 @@ body.page-template-template-subscription-v2 {
   }
 
   &__title {
-    font-size: 66px;
-    line-height: 87px;
+    font-size: clamp(31px, 3.7vw, 54px);
+    line-height: 1.1;
     letter-spacing: -0.05em;
     font-weight: 500;
     color: #000;
@@ -1044,7 +1114,7 @@ body.page-template-template-subscription-v2 {
   &__desc {
     max-width: 920px;
     margin: 20px auto 0;
-    font-size: 25px;
+    font-size: clamp(14px, 1.35vw, 21px);
     line-height: 1.44;
     color: #939393;
   }
@@ -1091,7 +1161,7 @@ body.page-template-template-subscription-v2 {
     p {
       position: relative;
       z-index: 1;
-      font-size: clamp(12px, 1.2vw, 17px);
+      font-size: clamp(11px, 1.08vw, 15px);
       line-height: 1.72;
       color: #fff;
       font-weight: 400;
@@ -1117,7 +1187,7 @@ body.page-template-template-subscription-v2 {
 
   &__card-overlay {
     background: linear-gradient(
-      180deg,
+      0deg,
       rgba(7, 17, 32, 0.34) 0%,
       rgba(7, 17, 32, 0.12) 34%,
       rgba(7, 17, 32, 0.46) 100%
@@ -1128,7 +1198,7 @@ body.page-template-template-subscription-v2 {
     position: relative;
     z-index: 1;
     color: #fff;
-    font-size: 42px;
+    font-size: 2.375rem;
     line-height: 1;
     font-family: "Poppins", sans-serif;
     font-weight: 600;
@@ -1170,7 +1240,7 @@ body.page-template-template-subscription-v2 {
 
     strong {
       display: block;
-      font-size: 21px;
+      font-size: 1.1875rem;
       font-weight: 500;
       color: #fff;
       margin-bottom: 4px;
@@ -1179,7 +1249,7 @@ body.page-template-template-subscription-v2 {
 
     span {
       display: block;
-      font-size: 15px;
+      font-size: 0.875rem;
       line-height: 1.4;
       color: rgba(255, 255, 255, 0.92);
       font-weight: 400;
@@ -1201,7 +1271,7 @@ body.page-template-template-subscription-v2 {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 28px;
     font-weight: 500;
     color: $sub-primary;
@@ -1217,7 +1287,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__title {
-    font-size: 62px;
+    font-size: clamp(30px, 3.8vw, 56px);
     font-weight: 500;
     line-height: 1.06;
     letter-spacing: -0.045em;
@@ -1227,7 +1297,7 @@ body.page-template-template-subscription-v2 {
     span {
       display: block;
       margin-top: 8px;
-      font-size: 58px;
+      font-size: clamp(28px, 3.5vw, 52px);
       background: linear-gradient(86deg, #1e4bcb 5%, #a6bef4 100%);
       -webkit-background-clip: text;
       background-clip: text;
@@ -1304,7 +1374,7 @@ body.page-template-template-subscription-v2 {
     align-items: center;
     justify-content: center;
     color: #fff;
-    font-size: 38px;
+    font-size: clamp(22px, 2.3vw, 34px);
     line-height: 1;
     font-weight: 500;
     letter-spacing: -0.03em;
@@ -1323,7 +1393,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__price {
-    font-size: 72px;
+    font-size: clamp(36px, 4.5vw, 65px);
     font-weight: 600;
     line-height: 1;
     color: #000;
@@ -1331,7 +1401,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__price-suffix {
-    font-size: 32px;
+    font-size: clamp(20px, 2vw, 29px);
     font-weight: 400;
     line-height: 1.1;
     color: #939393;
@@ -1358,7 +1428,7 @@ body.page-template-template-subscription-v2 {
     height: 22px;
     background: #fff;
     color: #8f95a3;
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 1;
     transform: translate(-50%, -50%);
   }
@@ -1372,7 +1442,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__old-price {
-    font-size: 22px;
+    font-size: 1.375rem;
     line-height: 1;
     color: #a7acb8;
     font-weight: 500;
@@ -1388,7 +1458,7 @@ body.page-template-template-subscription-v2 {
     align-items: center;
     justify-content: center;
     gap: 16px;
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 1.3;
     color: #3f4b69;
     margin-bottom: 28px;
@@ -1427,7 +1497,7 @@ body.page-template-template-subscription-v2 {
     border-radius: 999px;
     background: #58cc52;
     color: #fff;
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 1;
     font-weight: 600;
   }
@@ -1446,7 +1516,7 @@ body.page-template-template-subscription-v2 {
     height: 57px;
     padding: 0 24px;
     border-radius: 99px;
-    font-size: 22px;
+    font-size: 1.375rem;
     line-height: 1;
     flex: 1;
     display: inline-flex;
@@ -1487,7 +1557,7 @@ body.page-template-template-subscription-v2 {
     li {
       position: relative;
       padding-left: 21px;
-      font-size: 17px;
+      font-size: 1.0625rem;
       line-height: 1.76;
       color: #111827;
       margin-bottom: 2px;
@@ -1498,7 +1568,7 @@ body.page-template-template-subscription-v2 {
         left: 0;
         top: 6px;
         color: $sub-primary;
-        font-size: 13px;
+        font-size: 0.8125rem;
         font-weight: 700;
         line-height: 1;
       }
@@ -1519,7 +1589,7 @@ body.page-template-template-subscription-v2 {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    font-size: 25px;
+    font-size: clamp(14px, 1.35vw, 21px);
     line-height: 36px;
     font-weight: 600;
     color: $sub-primary;
@@ -1535,8 +1605,8 @@ body.page-template-template-subscription-v2 {
   }
 
   &__title {
-    font-size: 66px;
-    line-height: 87px;
+    font-size: clamp(31px, 3.7vw, 54px);
+    line-height: 1.1;
     letter-spacing: -0.05em;
     font-weight: 500;
     color: #000;
@@ -1606,7 +1676,7 @@ body.page-template-template-subscription-v2 {
     .hs-form label {
       display: block;
       margin: 0 0 10px;
-      font-size: 24px;
+      font-size: 1.5rem;
       line-height: 36px;
       font-weight: 400;
       color: #000;
@@ -1634,7 +1704,7 @@ body.page-template-template-subscription-v2 {
       background: #fff;
       box-shadow: none;
       font-family: "Poppins", sans-serif;
-      font-size: 18px;
+      font-size: 1.125rem;
       line-height: 36px;
       color: #3e4042;
       transition:
@@ -1700,7 +1770,7 @@ body.page-template-template-subscription-v2 {
     .hs-richtext,
     .submitted-message {
       margin-top: 22px;
-      font-size: 13px;
+      font-size: 0.8125rem;
       line-height: 21px;
       color: #667085;
     }
@@ -1731,7 +1801,7 @@ body.page-template-template-subscription-v2 {
       color: #fff;
       box-shadow: none;
       font-family: "Poppins", sans-serif;
-      font-size: 22px;
+      font-size: 1.375rem;
       line-height: 20px;
     }
 
@@ -1812,7 +1882,7 @@ body.page-template-template-subscription-v2 {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px;
+    font-size: 1.75rem;
     line-height: 1;
     transition:
       background 0.2s ease,
@@ -1841,7 +1911,7 @@ body.page-template-template-subscription-v2 {
 
     .hs-form label {
       margin-bottom: 9px;
-      font-size: 16px;
+      font-size: 1rem;
       line-height: 24px;
     }
 
@@ -1852,7 +1922,7 @@ body.page-template-template-subscription-v2 {
       padding: 0 16px;
       border-color: #e5e7eb;
       border-radius: 10px;
-      font-size: 16px;
+      font-size: 1rem;
       line-height: 24px;
     }
 
@@ -1891,7 +1961,7 @@ body.page-template-template-subscription-v2 {
       border-radius: 10px;
       background: #32b52b;
       box-shadow: 0 8px 18px rgba(50, 181, 43, 0.22);
-      font-size: 18px;
+      font-size: 1.125rem;
       line-height: 22px;
       font-weight: 600;
     }
@@ -1939,7 +2009,7 @@ body.page-template-template-subscription-v2 {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    font-size: 25px;
+    font-size: clamp(16px, 1.5vw, 23px);
     line-height: 36px;
     font-weight: 500;
     margin: 0 0 28px;
@@ -1954,9 +2024,9 @@ body.page-template-template-subscription-v2 {
   }
 
   &__title {
-    font-size: 66px;
+    font-size: clamp(31px, 3.7vw, 54px);
     font-weight: 500;
-    line-height: 90px;
+    line-height: 1.1;
     letter-spacing: -0.05em;
     color: #fff;
     margin: 0;
@@ -1988,7 +2058,7 @@ body.page-template-template-subscription-v2 {
     span:first-child {
       min-width: 0;
       flex: 1 1 auto;
-      font-size: 25px;
+      font-size: 1.4rem;
       line-height: 34px;
       font-weight: 500;
       letter-spacing: -0.02em;
@@ -2030,7 +2100,7 @@ body.page-template-template-subscription-v2 {
     padding: 2px 54px 30px 0;
 
     p {
-      font-size: 18px;
+      font-size: 1rem;
       line-height: 30px;
       color: rgba(255, 255, 255, 0.88);
       margin: 0 0 12px;
@@ -2050,7 +2120,7 @@ body.page-template-template-subscription-v2 {
   .sub-v2-kicker {
     gap: 6px !important;
     margin-bottom: 10px !important;
-    font-size: 12px !important;
+    font-size: 0.75rem !important;
     line-height: 1.4 !important;
 
     .sub-v2-kicker__icon {
@@ -2060,7 +2130,7 @@ body.page-template-template-subscription-v2 {
   }
 
   .sub-v2-section-title {
-    font-size: 30px !important;
+    font-size: 1.6875rem !important;
     line-height: 1.1 !important;
     letter-spacing: -0.04em !important;
 
@@ -2123,7 +2193,7 @@ body.page-template-template-subscription-v2 {
 
     &__mobile-title {
       display: block;
-      font-size: 60px;
+      font-size: 3.375rem;
       line-height: 0.9;
       font-weight: 600;
       letter-spacing: -0.04em;
@@ -2132,7 +2202,7 @@ body.page-template-template-subscription-v2 {
 
       span {
         display: block;
-        font-size: 25px;
+        font-size: 1.5625rem;
         line-height: 1.32;
         letter-spacing: -0.03em;
         font-weight: 500;
@@ -2149,7 +2219,7 @@ body.page-template-template-subscription-v2 {
     &__desc {
       max-width: 252px;
       margin: 0 auto;
-      font-size: 14px;
+      font-size: 0.875rem;
       line-height: 1.43;
       color: #555;
       margin-bottom: 0;
@@ -2176,15 +2246,22 @@ body.page-template-template-subscription-v2 {
 
     &__mobile-actions {
       display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
       gap: 10px;
-      padding: 16px 20px 0;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
       width: 100%;
+      background: #fff;
+      box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.08);
 
       // override header button min-width so both buttons share space equally
       .sub-v2-header__button {
         flex: 1;
         min-width: 0;
-        font-size: 13px;
+        font-size: 0.8125rem;
       }
     }
   }
@@ -2209,7 +2286,7 @@ body.page-template-template-subscription-v2 {
     }
 
     &__brand-symbol {
-      font-size: 20px;
+      font-size: 1.25rem;
     }
 
     &__brand-logo--epos {
@@ -2228,7 +2305,7 @@ body.page-template-template-subscription-v2 {
     }
 
     &__desc {
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 1.6;
       max-width: 100%;
     }
@@ -2244,12 +2321,12 @@ body.page-template-template-subscription-v2 {
     }
 
     &__title {
-      font-size: 28px !important;
+      font-size: 1.5625rem !important;
       line-height: 1.15 !important;
 
       span {
         margin-top: 4px;
-        font-size: 28px !important;
+        font-size: 1.5625rem !important;
       }
     }
 
@@ -2309,13 +2386,13 @@ body.page-template-template-subscription-v2 {
     }
 
     &__title {
-      font-size: 30px !important;
+      font-size: 1.6875rem !important;
       line-height: 1.15 !important;
       letter-spacing: -0.04em !important;
 
       span {
         margin-top: 4px;
-        font-size: 30px !important;
+        font-size: 1.6875rem !important;
       }
     }
 
@@ -2353,22 +2430,22 @@ body.page-template-template-subscription-v2 {
 
     &__card {
       height: 100%;
-      min-height: 420px;
+      min-height: clamp(300px, 90vw, 350px);
       border-radius: 20px;
     }
 
     &__card-content {
-      padding: 22px 20px 20px;
+      padding: 22px 20px 0;
 
       h3 {
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.3;
         letter-spacing: -0.03em;
         margin-bottom: 10px;
       }
 
       > p {
-        font-size: 12px;
+        font-size: 0.75rem;
         line-height: 1.5;
         margin-bottom: 12px;
       }
@@ -2379,7 +2456,7 @@ body.page-template-template-subscription-v2 {
 
       li {
         padding-left: 14px;
-        font-size: 10px;
+        font-size: 0.625rem;
         line-height: 1.6;
         margin-bottom: 4px;
 
@@ -2437,7 +2514,7 @@ body.page-template-template-subscription-v2 {
 
     &__title,
     &__title span {
-      font-size: 30px !important;
+      font-size: 1.6875rem !important;
       letter-spacing: -0.04em !important;
     }
 
@@ -2483,14 +2560,14 @@ body.page-template-template-subscription-v2 {
 
     &__copy {
       h3 {
-        font-size: 20px;
+        font-size: 1.25rem;
         line-height: 1.3;
         letter-spacing: -0.03em;
         margin-bottom: 6px;
       }
 
       p {
-        font-size: 10px;
+        font-size: 0.625rem;
         line-height: 1.6;
       }
     }
@@ -2508,7 +2585,7 @@ body.page-template-template-subscription-v2 {
 
     &__title,
     &__title span {
-      font-size: 30px !important;
+      font-size: 1.6875rem !important;
       letter-spacing: -0.04em !important;
       margin-bottom: 8px;
     }
@@ -2516,7 +2593,7 @@ body.page-template-template-subscription-v2 {
     &__desc {
       max-width: 260px;
       margin-top: 10px;
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 1.5;
     }
 
@@ -2554,14 +2631,14 @@ body.page-template-template-subscription-v2 {
       border-radius: 20px;
 
       p {
-        font-size: 10px;
+        font-size: 0.625rem;
         line-height: 1.7;
         margin-bottom: 12px;
       }
     }
 
     &__quote {
-      font-size: 36px;
+      font-size: 2.25rem;
     }
 
     &__quote--start {
@@ -2587,12 +2664,12 @@ body.page-template-template-subscription-v2 {
       gap: 0;
 
       strong {
-        font-size: 16px;
+        font-size: 1rem;
         margin-bottom: 2px;
       }
 
       span {
-        font-size: 10px;
+        font-size: 0.625rem;
         line-height: 1.4;
       }
     }
@@ -2608,13 +2685,13 @@ body.page-template-template-subscription-v2 {
     }
 
     &__title {
-      font-size: 30px !important;
+      font-size: 1.6875rem !important;
       line-height: 1.1 !important;
       letter-spacing: -0.04em !important;
       margin: 0 auto;
 
       span {
-        font-size: 30px !important;
+        font-size: 1.6875rem !important;
         line-height: 1.1 !important;
         margin-top: 4px;
         white-space: normal;
@@ -2645,7 +2722,7 @@ body.page-template-template-subscription-v2 {
 
     &__ribbon {
       height: 35px;
-      font-size: 20px;
+      font-size: 1.125rem;
       border-radius: 20px 20px 0 0;
     }
 
@@ -2659,11 +2736,11 @@ body.page-template-template-subscription-v2 {
     }
 
     &__price {
-      font-size: 40px;
+      font-size: 2.25rem;
     }
 
     &__price-suffix {
-      font-size: 14px;
+      font-size: 0.8125rem;
       transform: translateY(-4px);
     }
 
@@ -2678,18 +2755,18 @@ body.page-template-template-subscription-v2 {
     }
 
     &__old-price {
-      font-size: 14px;
+      font-size: 0.875rem;
     }
 
     &__discount {
       min-width: 60px;
       height: 22px;
-      font-size: 11px;
+      font-size: 0.6875rem;
       padding: 0 10px;
     }
 
     &__offer {
-      font-size: 11px;
+      font-size: 0.6875rem;
       line-height: 1.45;
       margin-bottom: 14px;
       padding: 12px 14px;
@@ -2710,7 +2787,7 @@ body.page-template-template-subscription-v2 {
     &__button {
       flex: 1;
       height: 36px;
-      font-size: 12px;
+      font-size: 0.75rem;
       padding: 0 12px;
       min-width: 0;
     }
@@ -2721,13 +2798,13 @@ body.page-template-template-subscription-v2 {
 
     &__features li {
       padding-left: 16px;
-      font-size: 10px;
+      font-size: 0.625rem;
       line-height: 1.7;
       margin-bottom: 4px;
 
       &::before {
         top: 4px;
-        font-size: 10px;
+        font-size: 0.625rem;
       }
     }
   }
@@ -2743,7 +2820,7 @@ body.page-template-template-subscription-v2 {
 
     &__title,
     &__title span {
-      font-size: 30px !important;
+      font-size: 1.6875rem !important;
       letter-spacing: -0.04em !important;
     }
 
@@ -2762,7 +2839,7 @@ body.page-template-template-subscription-v2 {
       }
 
       .hs-form label {
-        font-size: 12px;
+        font-size: 0.75rem;
         line-height: 1.4;
         margin-bottom: 6px;
       }
@@ -2771,7 +2848,7 @@ body.page-template-template-subscription-v2 {
       select,
       textarea {
         height: 35px;
-        font-size: 12px;
+        font-size: 0.75rem;
         line-height: 1;
         padding: 0 16px;
         border-radius: 50px;
@@ -2795,7 +2872,7 @@ body.page-template-template-subscription-v2 {
         width: 100%;
         min-width: 0;
         height: 44px;
-        font-size: 14px;
+        font-size: 0.875rem;
         padding: 0 20px;
       }
     }
@@ -2818,7 +2895,7 @@ body.page-template-template-subscription-v2 {
     }
 
     &__title {
-      font-size: 30px !important;
+      font-size: 1.6875rem !important;
       line-height: 1.2 !important;
       letter-spacing: -0.04em !important;
     }
@@ -2828,7 +2905,7 @@ body.page-template-template-subscription-v2 {
       gap: 12px;
 
       span:first-child {
-        font-size: 12px;
+        font-size: 0.75rem;
         line-height: 1.5;
       }
     }
@@ -2847,7 +2924,7 @@ body.page-template-template-subscription-v2 {
       padding: 0 24px 16px 0;
 
       p {
-        font-size: 12px;
+        font-size: 0.75rem;
         line-height: 1.6;
       }
     }
@@ -2868,7 +2945,7 @@ body.page-template-template-subscription-v2 {
       right: 10px;
       width: 36px;
       height: 36px;
-      font-size: 24px;
+      font-size: 1.5rem;
     }
 
     &__form {
@@ -2883,7 +2960,7 @@ body.page-template-template-subscription-v2 {
       }
 
       .hs-form label {
-        font-size: 16px;
+        font-size: 1rem;
         line-height: 24px;
       }
 
@@ -2918,17 +2995,17 @@ body.page-template-template-subscription-v2 {
 @media (max-width: 380px) {
   .sub-v2-hero {
     &__mobile-title {
-      font-size: 48px;
-      span { font-size: 21px; }
+      font-size: 2.6875rem;
+      span { font-size: 1.1875rem; }
     }
-    &__desc { font-size: 13px; }
-    &__mobile-actions .sub-v2-header__button { font-size: 12px; padding: 0 10px; }
+    &__desc { font-size: 0.8125rem; }
+    &__mobile-actions .sub-v2-header__button { font-size: 0.75rem; padding: 0 10px; }
   }
   .sub-v2-grow {
     &__card { padding: clamp(80px, 22vw, 96px) 14px 20px; }
   }
   .sub-v2-faq {
-    &__trigger span:first-child { font-size: 11px; }
+    &__trigger span:first-child { font-size: 0.6875rem; }
   }
 }
 
@@ -2936,20 +3013,22 @@ body.page-template-template-subscription-v2 {
 @media (min-width: 480px) and (max-width: 767px) {
   .sub-v2-hero {
     &__mobile-title {
-      font-size: 72px;
-      span { font-size: 28px; }
+      font-size: 4.0625rem;
+      span { font-size: 1.5625rem; }
     }
   }
   .sub-v2-tools {
-    &__card { min-height: 460px; }
+    &__card { min-height: clamp(380px, 70vw, 460px); }
     &__card-content {
-      h3 { font-size: 17px; }
-      > p { font-size: 13px; }
+      h3 { font-size: clamp(14px, 3.8vw, 18px); }
+      > p { font-size: clamp(11px, 2.8vw, 14px); }
+      li  { font-size: clamp(10px, 2.4vw, 12px); }
     }
+    &__button { font-size: clamp(11px, 2.8vw, 14px); height: 34px; }
   }
   .sub-v2-testimonials {
     &__card { min-height: 400px; }
-    &__card p { font-size: 11px; }
+    &__card p { font-size: 0.6875rem; }
   }
   .sub-v2-grow {
     &__card { width: min(420px, calc(100% - 40px)); }
@@ -2958,7 +3037,7 @@ body.page-template-template-subscription-v2 {
 
 @media (min-width: 768px) and (max-width: 1024px) {
   .sub-v2-kicker {
-    font-size: 16px !important;
+    font-size: 1rem !important;
     line-height: 24px !important;
     margin-bottom: 14px !important;
 
@@ -2969,7 +3048,7 @@ body.page-template-template-subscription-v2 {
   }
 
   .sub-v2-section-title {
-    font-size: clamp(42px, 5.2vw, 52px) !important;
+    font-size: clamp(38px, 4.7vw, 47px) !important;
     line-height: 1.1 !important;
   }
 
@@ -2992,11 +3071,11 @@ body.page-template-template-subscription-v2 {
     }
 
     &__title {
-      font-size: 64px;
+      font-size: 3.625rem;
     }
 
     &__lead {
-      font-size: 20px;
+      font-size: 1.25rem;
       font-weight: 500;
       max-width: 310px;
       margin-bottom: 8px;
@@ -3007,7 +3086,7 @@ body.page-template-template-subscription-v2 {
     }
 
     &__confidence {
-      font-size: 20px;
+      font-size: 1.25rem;
       margin-bottom: 2px;
     }
 
@@ -3020,19 +3099,19 @@ body.page-template-template-subscription-v2 {
     }
 
     &__accent {
-      font-size: 27px;
+      font-size: 1.6875rem;
     }
 
     &__desc {
       max-width: 320px;
-      font-size: 14px;
+      font-size: 0.875rem;
       margin-bottom: 22px;
     }
 
     &__cta-label {
       min-width: 128px;
       height: 38px;
-      font-size: 14px;
+      font-size: 0.875rem;
     }
 
     &__cta-icon {
@@ -3076,10 +3155,10 @@ body.page-template-template-subscription-v2 {
     padding: 0 0 56px;
 
     &__title {
-      font-size: 48px !important;
+      font-size: 2.6875rem !important;
 
       span {
-        font-size: 48px !important;
+        font-size: 2.6875rem !important;
       }
     }
 
@@ -3090,10 +3169,10 @@ body.page-template-template-subscription-v2 {
 
   .sub-v2-tools {
     &__title {
-      font-size: 46px;
+      font-size: 2.5625rem;
 
       span {
-        font-size: 46px;
+        font-size: 2.5625rem;
       }
     }
 
@@ -3105,27 +3184,9 @@ body.page-template-template-subscription-v2 {
     }
 
     &__card {
-      min-height: 620px;
+      min-height: clamp(400px, 56vw, 550px);
     }
 
-    &__card-content {
-      padding: 34px 28px;
-
-      h3 {
-        font-size: 24px;
-        line-height: 34px;
-      }
-
-      > p {
-        font-size: 17px;
-        line-height: 24px;
-      }
-
-      li {
-        font-size: 13px;
-        line-height: 22px;
-      }
-    }
   }
 
   .sub-v2-everything {
@@ -3135,7 +3196,7 @@ body.page-template-template-subscription-v2 {
 
     &__title,
     &__title span {
-      font-size: 52px;
+      font-size: 2.9375rem;
     }
 
     &__layout {
@@ -3154,14 +3215,14 @@ body.page-template-template-subscription-v2 {
     }
 
     &__copy h3 {
-      font-size: 22px;
+      font-size: 1.375rem;
     }
   }
 
   .sub-v2-testimonials {
     &__title,
     &__title span {
-      font-size: 52px;
+      font-size: 2.9375rem;
     }
 
     &__grid {
@@ -3174,7 +3235,7 @@ body.page-template-template-subscription-v2 {
     }
 
     &__card p {
-      font-size: 14px;
+      font-size: 0.875rem;
       line-height: 26px;
     }
 
@@ -3188,7 +3249,7 @@ body.page-template-template-subscription-v2 {
     &__title {
       &,
       span {
-        font-size: 50px;
+        font-size: 2.8125rem;
       }
     }
 
@@ -3213,16 +3274,16 @@ body.page-template-template-subscription-v2 {
 
     &__ribbon {
       height: 50px;
-      font-size: 22px;
+      font-size: 1.25rem;
       border-radius: 24px 24px 0 0;
     }
 
     &__price {
-      font-size: 46px;
+      font-size: 2.5625rem;
     }
 
     &__price-suffix {
-      font-size: 18px;
+      font-size: 1rem;
     }
 
     &__price-meta {
@@ -3230,7 +3291,7 @@ body.page-template-template-subscription-v2 {
     }
 
     &__offer {
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 17px;
       padding: 10px 12px;
     }
@@ -3238,11 +3299,11 @@ body.page-template-template-subscription-v2 {
     &__button {
       min-width: 0;
       height: 36px;
-      font-size: 12px;
+      font-size: 0.75rem;
     }
 
     &__features li {
-      font-size: 11px;
+      font-size: 0.6875rem;
       line-height: 17px;
     }
   }
@@ -3250,7 +3311,7 @@ body.page-template-template-subscription-v2 {
   .sub-v2-demo {
     &__title,
     &__title span {
-      font-size: 52px;
+      font-size: 2.9375rem;
     }
 
     &__form {
@@ -3259,7 +3320,7 @@ body.page-template-template-subscription-v2 {
       }
 
       .hs-form label {
-        font-size: 20px;
+        font-size: 1.25rem;
         line-height: 30px;
       }
     }
@@ -3277,7 +3338,7 @@ body.page-template-template-subscription-v2 {
     }
 
     &__title {
-      font-size: 54px;
+      font-size: 3.0625rem;
     }
   }
 
@@ -3317,7 +3378,7 @@ $sub-form-success: #167b10;
 // in this file (specificity 0,1,1 — needs at least 0,2,1 to win).
 .sub-page .sub-v2-form {
   font-family: "Poppins", sans-serif;
-  font-size: 18px;
+  font-size: 1.125rem;
   color: $sub-form-text;
   background: #fff;
   border: 1px solid $sub-border;
@@ -3401,13 +3462,13 @@ $sub-form-success: #167b10;
 
   &__label {
     font-family: inherit;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: 500;
     color: $sub-form-text;
 
     // 24px is for desktop; mobile gets a smaller, denser label.
     @media (max-width: 767px) {
-      font-size: 12px;
+      font-size: 0.75rem;
     }
   }
 
@@ -3423,7 +3484,7 @@ $sub-form-success: #167b10;
     border-radius: $sub-form-input-r;
     padding: 0 24px;
     font-family: inherit;
-    font-size: 18px;
+    font-size: 1.125rem;
     color: $sub-form-text;
     background: #fff;
     transition:
@@ -3432,7 +3493,7 @@ $sub-form-success: #167b10;
 
     // Mobile: smaller font + tighter height to match the 12px label.
     @media (max-width: 767px) {
-      font-size: 12px;
+      font-size: 0.75rem;
       height: 35px;
     }
 
@@ -3469,7 +3530,7 @@ $sub-form-success: #167b10;
     padding: 0 48px;
     min-width: 180px;
     font-family: inherit;
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
     cursor: pointer;
     transition:
@@ -3481,7 +3542,7 @@ $sub-form-success: #167b10;
       height: 38px;
       padding: 0 32px;
       min-width: 140px;
-      font-size: 14px;
+      font-size: 0.875rem;
     }
 
     &:hover {
@@ -3495,7 +3556,7 @@ $sub-form-success: #167b10;
 
   &__error {
     margin: 0;
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: $sub-form-danger;
 
     // When there's no error message, collapse the element entirely so it
@@ -3511,7 +3572,7 @@ $sub-form-success: #167b10;
   &__status {
     margin: 0;
     min-height: 1.5em;
-    font-size: 14px;
+    font-size: 0.875rem;
     grid-column: 1 / -1;
 
     &[data-state="error"] {
@@ -3581,15 +3642,15 @@ $sub-form-success: #167b10;
     .sub-v2-form__input {
       height: 46px;
       padding: 0 16px;
-      font-size: 16px;
+      font-size: 1rem;
     }
     .sub-v2-form__submit {
       height: 46px;
       padding: 0 32px;
-      font-size: 16px;
+      font-size: 1rem;
     }
     .sub-v2-form__label {
-      font-size: 14px;
+      font-size: 0.875rem;
     }
   }
 }
@@ -3685,7 +3746,7 @@ $sub-form-success: #167b10;
   &__title {
     margin: 0 0 16px;
     font-family: "Poppins", sans-serif;
-    font-size: 32px;
+    font-size: 2rem;
     font-weight: 700;
     line-height: 1.2;
     color: #1e4bcb;
@@ -3694,14 +3755,14 @@ $sub-form-success: #167b10;
   &__lead {
     margin: 0 0 8px;
     font-family: "Poppins", sans-serif;
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 500;
     color: #3e4042;
   }
   &__body {
     margin: 0;
     font-family: "Poppins", sans-serif;
-    font-size: 16px;
+    font-size: 1rem;
     color: #6b7280;
     line-height: 1.55;
     max-width: 480px;
@@ -3749,13 +3810,13 @@ $sub-form-success: #167b10;
   @media (max-width: 767px) {
     padding: 40px 20px;
     &__title {
-      font-size: 24px;
+      font-size: 1.5rem;
     }
     &__lead {
-      font-size: 14px;
+      font-size: 0.875rem;
     }
     &__body {
-      font-size: 13px;
+      font-size: 0.8125rem;
     }
 
     // Smaller distance + slightly faster on mobile so the animation

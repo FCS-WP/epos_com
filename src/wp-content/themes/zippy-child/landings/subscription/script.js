@@ -307,7 +307,7 @@ import { LandingForm } from "../_shared/form-bridge";
         }
 
         // Let ScrollTrigger recalculate after height change
-        if (window.ScrollTrigger) window.setTimeout(function () { window.ScrollTrigger.refresh(); }, 420);
+        if (window.ScrollTrigger) window.setTimeout(function () { window.ScrollTrigger.refresh(); }, 720);
       });
     });
   }
@@ -352,7 +352,7 @@ import { LandingForm } from "../_shared/form-bridge";
     $s.css("display", "block").slick({
       slidesToShow: Math.min(count, 3),
       slidesToScroll: 1,
-      infinite: true,
+      infinite: false,
       autoplay: true,
       autoplaySpeed: 10000,
       arrows: true,
@@ -363,8 +363,8 @@ import { LandingForm } from "../_shared/form-bridge";
       speed: 600,
       adaptiveHeight: false,
       responsive: [
-        { breakpoint: 1024, settings: { slidesToShow: Math.max(1, Math.min(count, 2)), slidesToScroll: 1, infinite: true, autoplay: true, autoplaySpeed: 10000, arrows: true, prevArrow: toolsArrowPrev, nextArrow: toolsArrowNext, dots: count > 1, appendDots: dotsTarget ? $(dotsTarget) : $s } },
-        { breakpoint: 768,  settings: { slidesToShow: 1, slidesToScroll: 1, infinite: true, autoplay: true, autoplaySpeed: 10000, arrows: false, dots: count > 1, appendDots: dotsTarget ? $(dotsTarget) : $s, centerMode: true, centerPadding: "32px" } },
+        { breakpoint: 1024, settings: { slidesToShow: Math.max(1, Math.min(count, 2)), slidesToScroll: 1, infinite: false, autoplay: true, autoplaySpeed: 10000, arrows: true, prevArrow: toolsArrowPrev, nextArrow: toolsArrowNext, dots: count > 1, appendDots: dotsTarget ? $(dotsTarget) : $s } },
+        { breakpoint: 768,  settings: { slidesToShow: 1, slidesToScroll: 1, infinite: false, autoplay: true, autoplaySpeed: 10000, arrows: false, dots: count > 1, appendDots: dotsTarget ? $(dotsTarget) : $s, centerMode: true, centerPadding: "32px" } },
       ],
     });
 

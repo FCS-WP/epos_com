@@ -9,8 +9,8 @@ $sub_v2_grow_features = [
   'Scan-to-order lifts revenue by speeding up service',
   'Drive repeat customers through loyalty & memberships',
   'AI-powered smart insights for growth',
-  'All-in-one payment hub with FREE soundbox',
   '24/7 customer support',
+  'All-in-one payment hub with FREE soundbox',
 ];
 ?>
 

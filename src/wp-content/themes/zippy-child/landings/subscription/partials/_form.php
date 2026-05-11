@@ -186,6 +186,6 @@ $render_options = function ($options, $placeholder, $default_value = '') {
     <div class="sub-v2-form-success" data-form-success hidden>
       <h3 class="sub-v2-form-success__title">Application Received</h3>
       <p class="sub-v2-form-success__lead">Thank you for your interest.</p>
-      <p class="sub-v2-form-success__body">Our team will review your details and respond to you on WhatsApp shortly.</p>
+      <p class="sub-v2-form-success__body">Our team is currently reviewing your application and will reach out to you via WhatsApp shortly.</p>
     </div>
 </div><?php // /.sub-v2-form-shell ?>

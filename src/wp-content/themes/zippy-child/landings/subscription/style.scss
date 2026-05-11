@@ -112,7 +112,7 @@ body.page-template-template-subscription-v2 {
 
 .sub-v2-section-title {
   margin: 0 !important;
-  font-size: clamp(34px, 4.1vw, 60px) !important;
+  font-size: clamp(34px, 3vw, 60px) !important;
   line-height: 1.08 !important;
   letter-spacing: -0.05em !important;
   font-weight: 500 !important;
@@ -276,15 +276,15 @@ body.page-template-template-subscription-v2 {
 
 // ─── FAQ body transition ──────────────────────────────────────────────────────
 .sub-v2-faq__body {
-  transition: height 0.45s var(--ease-out-quart);
+  transition: height 0.7s var(--ease-out-quart);
   overflow: hidden;
 }
 
 .sub-v2-faq__icon {
-  transition: transform 0.45s var(--ease-out-quart);
+  transition: transform 0.7s var(--ease-out-quart);
 
   &.is-open {
-    transform: rotate(0deg);
+    transform: rotate(180deg);
   }
 }
 
@@ -378,7 +378,7 @@ body.page-template-template-subscription-v2 {
     display: grid;
     grid-template-columns: minmax(0, 46%) minmax(0, 1fr);
     align-items: center;
-    gap: clamp(16px, 2vw, 48px);
+    gap: clamp(10px, 0.5vw, 24px);
     padding: clamp(24px, 3vw, 48px) 0;
   }
 
@@ -597,7 +597,7 @@ body.page-template-template-subscription-v2 {
 
 .sub-v2-payments {
   background: #fff;
-  padding: 0 0 92px;
+  padding: 0 0 65px;
 
   &__head {
     text-align: center;
@@ -648,7 +648,7 @@ body.page-template-template-subscription-v2 {
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    gap: 0 60px;
+    gap: 40px;
     max-width: 1400px;
     margin: 0 auto;
   }
@@ -658,21 +658,27 @@ body.page-template-template-subscription-v2 {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    min-height: 58px;
+    width: 150px;
+    height: 75px;
+    padding: 14px 20px;
+    background: #fff;
+    border: 1px solid #EFEFEF;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
 
     img {
       display: block;
       width: auto;
       height: auto;
-      max-height: 46px;
-      max-width: 150px;
+      max-height: 100%;
+      max-width: 100%;
       object-fit: contain;
     }
   }
 }
 
 .sub-v2-tools {
-  padding: 102px 0 106px;
+  padding: 65px 0 45px;
   background: #fff;
   overflow: visible;
 
@@ -821,8 +827,8 @@ body.page-template-template-subscription-v2 {
     }
 
     > p {
-      font-size: clamp(13px, 1.1vw, 20px);
-      line-height: 1.45;
+      font-size: clamp(15px, 1.35vw, 22px);
+      line-height: 1.5;
       letter-spacing: -0.02em;
       color: #3e4042;
       margin-bottom: clamp(10px, 1.2vw, 20px);
@@ -836,8 +842,8 @@ body.page-template-template-subscription-v2 {
     li {
       position: relative;
       padding-left: clamp(14px, 1.4vw, 22px);
-      font-size: clamp(11px, 0.85vw, 14px);
-      line-height: 1.8;
+      font-size: clamp(13px, 1.15vw, 17px);
+      line-height: 1.7;
       letter-spacing: -0.01em;
       color: #3e4042;
       margin-bottom: 4px;
@@ -1064,7 +1070,7 @@ body.page-template-template-subscription-v2 {
 }
 
 .sub-v2-testimonials {
-  padding: 96px 0 118px;
+  padding: 60 0 115px;
   background: #fff;
 
   &__head {
@@ -1255,7 +1261,7 @@ body.page-template-template-subscription-v2 {
 }
 
 .sub-v2-grow {
-  padding: 94px 0 0;
+  padding: 65px 0 0;
   background: #fff;
   overflow: visible;
 
@@ -1554,7 +1560,7 @@ body.page-template-template-subscription-v2 {
     li {
       position: relative;
       padding-left: 21px;
-      font-size: 1.0625rem;
+      font-size: 1rem;
       line-height: 1.76;
       color: #111827;
       margin-bottom: 2px;
@@ -1574,7 +1580,7 @@ body.page-template-template-subscription-v2 {
 }
 
 .sub-v2-demo {
-  padding: 108px 0 112px;
+  padding: 65px 0 60px;
   background: #fff;
 
   &__head {
@@ -2055,7 +2061,7 @@ body.page-template-template-subscription-v2 {
     span:first-child {
       min-width: 0;
       flex: 1 1 auto;
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       line-height: 34px;
       font-weight: 500;
       letter-spacing: -0.02em;
@@ -2336,9 +2342,15 @@ body.page-template-template-subscription-v2 {
     }
 
     &__logo-item {
-      min-height: 32px;
+      min-height: 56px;
+      height: 56px;
       width: 100%;
+      padding: 8px 10px;
       justify-content: center;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
     }
 
     &__logo-item--alipay img {
@@ -3165,7 +3177,13 @@ body.page-template-template-subscription-v2 {
     }
 
     &__logos {
-      gap: 0 24px;
+      gap: 14px;
+    }
+
+    &__logo-item {
+      width: 120px;
+      height: 72px;
+      padding: 10px 14px;
     }
   }
 
@@ -3464,7 +3482,7 @@ $sub-form-success: #167b10;
 
   &__label {
     font-family: inherit;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 500;
     color: $sub-form-text;
 

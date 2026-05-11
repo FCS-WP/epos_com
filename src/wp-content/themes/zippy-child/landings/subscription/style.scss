@@ -9,13 +9,14 @@ $sub-dark: #0b1020;
 $sub-muted: #667085;
 $sub-primary: #1e4bcb;
 $sub-accent: #0a22aa;
-$sub-shell: min(1710px, calc(100% - 64px));
+$sub-shell: min(1710px, calc(100% - clamp(64px, 11vw, 210px)));
 
 body.page-template-subscription-v2,
 body.page-template-template-subscription-v2 {
   .floating-mail-btn {
     display: none !important;
   }
+  margin: 0;
 }
 
 .sub-page {
@@ -71,6 +72,7 @@ body.page-template-template-subscription-v2 {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center;
+  flex-wrap: nowrap !important;
   gap: 10px !important;
   margin: 0 0 18px !important;
   font-size: 18px !important;
@@ -78,6 +80,7 @@ body.page-template-template-subscription-v2 {
   font-weight: 500 !important;
   letter-spacing: -0.02em;
   color: $sub-primary !important;
+  white-space: nowrap;
 
   &::before {
     content: none !important;
@@ -85,7 +88,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__icon {
-    display: block;
+    display: inline-block;
     width: 10px;
     height: 14px;
     object-fit: contain;
@@ -93,8 +96,9 @@ body.page-template-template-subscription-v2 {
   }
 
   span {
-    display: block;
+    display: inline !important;
     color: inherit;
+    white-space: nowrap;
   }
 }
 
@@ -232,40 +236,56 @@ body.page-template-template-subscription-v2 {
     box-shadow 0.2s ease;
 }
 
-// `will-change` removed from idle-state selectors — keeping it on elements
-// that aren't currently animating wastes GPU memory and causes more jank
-// than it prevents. GSAP applies `will-change` via force3D on active tweens
-// for the duration of each animation, which is what we actually want.
-[data-scroll-pin] {
-  position: relative;
+// ─── Easing tokens ────────────────────────────────────────────────────────────
+:root {
+  --ease-out-expo:  cubic-bezier(.19, 1, .22, 1);
+  --ease-out-quart: cubic-bezier(.25, 1, .5, 1);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .sub-v2-animate,
-  [data-animate="fade-up"],
-  [data-animate="stagger"] > *,
-  [data-scroll-pin],
-  [data-hero-animate],
-  [data-pin-animate] {
-    transform: none !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    transition: none !important;
-    animation: none !important;
+// ─── Section heading line-clip wrapper ───────────────────────────────────────
+// JS wraps .sub-v2-kicker / .sub-v2-section-title in .sv2-reveal-line so GSAP
+// can animate .sv2-reveal-line__inner from yPercent(105) → 0 inside a clip.
+.sv2-reveal-line {
+  overflow: hidden;
+
+  > .sv2-reveal-line__inner {
+    display: block;
+    will-change: transform;
   }
 }
 
-// ─── ScrollSmoother ───────────────────────────────────────────────────────────
-// Let GSAP own all positioning — do NOT set position/overflow here.
-// Only prevent horizontal overflow bleed from content inside.
-#sub-v2-smoother-content {
-  overflow-x: clip;
-  width: 100%;
+// Kicker là inline-flex — __inner phải inherit flex layout để icon + text cùng hàng
+.sub-v2-kicker.sv2-reveal-line {
+  > .sv2-reveal-line__inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
 }
 
-// Kill smoother layout when modal is open so backdrop scroll-lock works
-body.modal-open #sub-v2-smoother-wrapper {
-  pointer-events: none;
+@media (prefers-reduced-motion: reduce) {
+  [data-hero-animate] {
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .sv2-reveal-line > .sv2-reveal-line__inner {
+    transform: none !important;
+  }
+}
+
+// ─── FAQ body transition ──────────────────────────────────────────────────────
+.sub-v2-faq__body {
+  transition: height 0.45s var(--ease-out-quart);
+  overflow: hidden;
+}
+
+.sub-v2-faq__icon {
+  transition: transform 0.45s var(--ease-out-quart);
+
+  &.is-open {
+    transform: rotate(180deg);
+  }
 }
 
 .sub-page--v2 {
@@ -344,9 +364,6 @@ body.modal-open #sub-v2-smoother-wrapper {
   overflow: visible;
   z-index: 2;
   height: 100vh;
-  // 100dvh accounts for mobile browser chrome (address bar collapse).
-  // Older browsers fall back to the 100vh declared above.
-  height: 100dvh;
 
   > .sub-shell {
     height: 100%;
@@ -358,7 +375,7 @@ body.modal-open #sub-v2-smoother-wrapper {
     width: 100%;
     min-height: 100%;
     display: grid;
-    grid-template-columns: minmax(420px, 38%) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
     align-items: center;
     gap: clamp(32px, 4vw, 88px);
     padding: clamp(24px, 3vw, 48px) 0;
@@ -900,10 +917,10 @@ body.modal-open #sub-v2-smoother-wrapper {
 
   &__layout {
     display: grid;
-    grid-template-columns: minmax(520px, 1.05fr) minmax(420px, 0.95fr);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
     align-items: center;
     gap: clamp(28px, 3vw, 58px);
-    margin: 0 100px;
+    margin: 0 clamp(0px, 6vw, 100px);
   }
 
   &__visual {
@@ -1268,7 +1285,7 @@ body.modal-open #sub-v2-smoother-wrapper {
   &__card {
     position: relative;
     z-index: 2;
-    width: clamp(560px, 34vw, 666px);
+    width: min(666px, calc(100% - 32px));
     min-height: clamp(760px, 45vw, 807px);
     background: #fff;
     border-radius: 20px;
@@ -1897,7 +1914,7 @@ body.modal-open #sub-v2-smoother-wrapper {
 
   &__layout {
     display: grid;
-    grid-template-columns: minmax(280px, 1fr) minmax(760px, 956px);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 956px);
     gap: 54px;
     align-items: start;
   }
@@ -2058,10 +2075,6 @@ body.modal-open #sub-v2-smoother-wrapper {
     display: none;
   }
 
-  [data-scroll-pin] {
-    position: relative;
-  }
-
   // ─── HEADER ───────────────────────────────────────────────────────────
   .sub-v2-header {
     padding: 15px 0;
@@ -2087,16 +2100,12 @@ body.modal-open #sub-v2-smoother-wrapper {
   // ─── HERO (Section 1) ─────────────────────────────────────────────────
   // Figma: "GROW" large blue text, subtitle below, small desc, no visual/CTA
   .sub-v2-hero {
-    height: 100vh;
-    // Use 100dvh on browsers that support it so the hero accounts for
-    // mobile browser UI chrome (address bar collapse) and doesn't overflow.
-    height: 100dvh;
+    height: auto;
     padding: 16px 0 20px;
 
     > .sub-shell {
-      height: 100%;
-      display: flex;
-      align-items: center;
+      height: auto;
+      display: block;
     }
 
     &__inner {
@@ -2245,15 +2254,17 @@ body.modal-open #sub-v2-smoother-wrapper {
     }
 
     &__logos {
-      gap: 14px 20px;
-      flex-wrap: wrap;
-      max-width: 280px;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px 12px;
+      max-width: 300px;
+      justify-items: center;
     }
 
     &__logo-item {
       min-height: 32px;
-      flex: 0 0 auto;
+      width: 100%;
+      justify-content: center;
     }
 
     &__logo-item--alipay img {
@@ -2291,6 +2302,7 @@ body.modal-open #sub-v2-smoother-wrapper {
   // Figma: card slider, readable text, proper card height
   .sub-v2-tools {
     padding: 32px 0 28px;
+    overflow: hidden;
 
     &__head {
       margin-bottom: 24px;
@@ -2308,7 +2320,8 @@ body.modal-open #sub-v2-smoother-wrapper {
     }
 
     &__slider-wrap {
-      width: calc(100% - 20px);
+      width: 100%;
+      margin: 0;
     }
 
     &__grid {
@@ -2318,16 +2331,28 @@ body.modal-open #sub-v2-smoother-wrapper {
       margin-bottom: 16px;
 
       &.slick-slider {
-        margin-left: -8px;
-        margin-right: -8px;
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .slick-track {
+        display: flex !important;
+        align-items: stretch;
       }
 
       .slick-slide {
+        float: none !important;
+        height: auto !important;
         padding: 0 8px;
+
+        > div {
+          height: 100%;
+        }
       }
     }
 
     &__card {
+      height: 100%;
       min-height: 420px;
       border-radius: 20px;
     }
@@ -2367,14 +2392,7 @@ body.modal-open #sub-v2-smoother-wrapper {
     }
 
     &__button {
-      min-width: 120px;
-      height: 34px;
-      padding: 0 16px;
-      font-size: 12px;
-      line-height: 1;
-      border-width: 1px;
-      border-radius: 999px;
-      box-shadow: none;
+      display: none;
     }
 
     &__dots {
@@ -2386,9 +2404,6 @@ body.modal-open #sub-v2-smoother-wrapper {
   // ─── Shared mobile dots for both sliders ──────────────────────────────
   .sub-v2-tools,
   .sub-v2-testimonials {
-    .slick-list {
-      overflow: visible !important;
-    }
 
     .slick-dots li {
       width: 8px !important;
@@ -2485,6 +2500,7 @@ body.modal-open #sub-v2-smoother-wrapper {
   // Figma: card slider with photo bg, quote, merchant name/role
   .sub-v2-testimonials {
     padding: 32px 0 28px;
+    overflow: hidden;
 
     &__head {
       margin-bottom: 20px;
@@ -2505,21 +2521,34 @@ body.modal-open #sub-v2-smoother-wrapper {
     }
 
     &__slider-wrap {
-      width: calc(100% - 20px);
+      width: 100%;
+      margin: 0;
     }
 
     &__grid {
       &.slick-slider {
-        margin-left: -8px;
-        margin-right: -8px;
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .slick-track {
+        display: flex !important;
+        align-items: stretch;
       }
 
       .slick-slide {
+        float: none !important;
+        height: auto !important;
         padding: 0 8px;
+
+        > div {
+          height: 100%;
+        }
       }
     }
 
     &__card {
+      height: 100%;
       min-height: 380px;
       padding: 28px 20px 20px;
       border-radius: 20px;
@@ -2885,6 +2914,48 @@ body.modal-open #sub-v2-smoother-wrapper {
   }
 }
 
+// ─── SMALL MOBILE (≤ 380px) — tiny phones ──────────────────────────────────
+@media (max-width: 380px) {
+  .sub-v2-hero {
+    &__mobile-title {
+      font-size: 48px;
+      span { font-size: 21px; }
+    }
+    &__desc { font-size: 13px; }
+    &__mobile-actions .sub-v2-header__button { font-size: 12px; padding: 0 10px; }
+  }
+  .sub-v2-grow {
+    &__card { padding: clamp(80px, 22vw, 96px) 14px 20px; }
+  }
+  .sub-v2-faq {
+    &__trigger span:first-child { font-size: 11px; }
+  }
+}
+
+// ─── LARGE MOBILE / PHABLET (480px – 767px) ────────────────────────────────
+@media (min-width: 480px) and (max-width: 767px) {
+  .sub-v2-hero {
+    &__mobile-title {
+      font-size: 72px;
+      span { font-size: 28px; }
+    }
+  }
+  .sub-v2-tools {
+    &__card { min-height: 460px; }
+    &__card-content {
+      h3 { font-size: 17px; }
+      > p { font-size: 13px; }
+    }
+  }
+  .sub-v2-testimonials {
+    &__card { min-height: 400px; }
+    &__card p { font-size: 11px; }
+  }
+  .sub-v2-grow {
+    &__card { width: min(420px, calc(100% - 40px)); }
+  }
+}
+
 @media (min-width: 768px) and (max-width: 1024px) {
   .sub-v2-kicker {
     font-size: 16px !important;
@@ -3070,6 +3141,7 @@ body.modal-open #sub-v2-smoother-wrapper {
     &__layout {
       grid-template-columns: 44% 56%;
       gap: 18px;
+      margin: 0;
     }
 
     &__visual {
@@ -3717,11 +3789,7 @@ $sub-form-success: #167b10;
   }
 }
 
-// ─────────────────────────────────────────────────────────
-// Floating WhatsApp button (bottom-right)
-// Rendered outside the smoother wrapper as a sibling of <main>
-// so it stays clickable regardless of smoother / modal state.
-// ─────────────────────────────────────────────────────────
+// ─── WhatsApp Floating Button ─────────────────────────────────────────────────
 .sub-v2-whatsapp {
   $wa-green: #25D366;
   $wa-green-hover: #1EBE5D;
@@ -3731,7 +3799,7 @@ $sub-form-success: #167b10;
   position: fixed;
   right: 24px;
   bottom: 24px;
-  z-index: 9000; // above page content, below modal (modal is 9999)
+  z-index: 9000;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3759,7 +3827,6 @@ $sub-form-success: #167b10;
     height: 60%;
   }
 
-  // Pulse ring — radiates out from the button to draw attention.
   &__pulse {
     position: absolute;
     inset: 0;
@@ -3770,7 +3837,6 @@ $sub-form-success: #167b10;
     pointer-events: none;
   }
 
-  // Mobile sizing + closer to the corner.
   @media (max-width: 767px) {
     right: 16px;
     bottom: 16px;
@@ -3778,12 +3844,10 @@ $sub-form-success: #167b10;
     height: $wa-size-mobile;
   }
 
-  // Hide while the modal is open so the focus stays on the form.
   body.modal-open & {
     display: none;
   }
 
-  // Honour reduced-motion preference — keep it visible, drop the pulse.
   @media (prefers-reduced-motion: reduce) {
     &__pulse { animation: none; opacity: 0; }
     transition: none;
@@ -3792,7 +3856,7 @@ $sub-form-success: #167b10;
 }
 
 @keyframes sub-v2-whatsapp-pulse {
-  0%   { transform: scale(1);    opacity: 0.55; }
-  70%  { transform: scale(1.6);  opacity: 0;    }
-  100% { transform: scale(1.6);  opacity: 0;    }
+  0%   { transform: scale(1);   opacity: 0.55; }
+  70%  { transform: scale(1.6); opacity: 0;    }
+  100% { transform: scale(1.6); opacity: 0;    }
 }

@@ -46,7 +46,7 @@ $sub_v2 = $data ?? array();
       <div class="sub-v2-hero__mobile-visual" data-animate="fade-up">
         <img
           class="sub-v2-hero__mobile-visual-image"
-          src="<?php echo esc_url($sub_v2['images']['hero']['visual']); ?>"
+          src="<?php echo esc_url($sub_v2['images']['hero']['visual_mobile']); ?>"
           alt="EPOS360 hero visual"
           loading="eager"
           decoding="async">

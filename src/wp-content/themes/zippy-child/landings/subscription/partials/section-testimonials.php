@@ -41,33 +41,33 @@ $sub_v2_testimonials = [
         Built on the same platform 13,000+ Malaysian merchants already trust.
       </p>
     </div>
+  </div>
 
-    <div class="sub-v2-testimonials__slider-wrap" data-animate="fade-up">
-      <div class="sub-v2-testimonials__grid" data-sub-v2-testimonials-slider>
-        <?php foreach ($sub_v2_testimonials as $testimonial) : ?>
-          <div class="sub-v2-testimonials__slide">
-          <article class="sub-v2-testimonials__card">
-            <img class="sub-v2-testimonials__card-bg" src="<?php echo esc_url($testimonial['image']); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
-            <div class="sub-v2-testimonials__card-overlay"></div>
-            <span class="sub-v2-testimonials__quote sub-v2-testimonials__quote--start">"</span>
-            <p><?php echo wp_kses_post($testimonial['copy']); ?></p>
-            <span class="sub-v2-testimonials__quote sub-v2-testimonials__quote--end">"</span>
-            <div class="sub-v2-testimonials__meta">
-              <div class="sub-v2-testimonials__meta-text">
-                <?php if (!empty($testimonial['avatar'])) : ?>
-                  <img class="sub-v2-testimonials__avatar" src="<?php echo esc_url($testimonial['avatar']); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
-                <?php endif; ?>
-                <div>
-                  <strong><?php echo esc_html($testimonial['name']); ?></strong>
-                  <span><?php echo esc_html($testimonial['role']); ?></span>
-                </div>
+  <div class="sub-v2-testimonials__slider-wrap" data-animate-slider>
+    <div class="sub-v2-testimonials__grid" data-sub-v2-testimonials-slider>
+      <?php foreach ($sub_v2_testimonials as $testimonial) : ?>
+        <div class="sub-v2-testimonials__slide">
+        <article class="sub-v2-testimonials__card">
+          <img class="sub-v2-testimonials__card-bg" src="<?php echo esc_url($testimonial['image']); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
+          <div class="sub-v2-testimonials__card-overlay"></div>
+          <span class="sub-v2-testimonials__quote sub-v2-testimonials__quote--start">"</span>
+          <p><?php echo wp_kses_post($testimonial['copy']); ?></p>
+          <span class="sub-v2-testimonials__quote sub-v2-testimonials__quote--end">"</span>
+          <div class="sub-v2-testimonials__meta">
+            <div class="sub-v2-testimonials__meta-text">
+              <?php if (!empty($testimonial['avatar'])) : ?>
+                <img class="sub-v2-testimonials__avatar" src="<?php echo esc_url($testimonial['avatar']); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
+              <?php endif; ?>
+              <div>
+                <strong><?php echo esc_html($testimonial['name']); ?></strong>
+                <span><?php echo esc_html($testimonial['role']); ?></span>
               </div>
             </div>
-          </article>
           </div>
-        <?php endforeach; ?>
-      </div>
-      <div class="sub-v2-tools__dots" data-sub-v2-testimonials-dots></div>
+        </article>
+        </div>
+      <?php endforeach; ?>
     </div>
+    <div class="sub-v2-tools__dots" data-sub-v2-testimonials-dots></div>
   </div>
 </section>

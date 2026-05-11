@@ -81,7 +81,7 @@ $sub_v2_tools = [
     </div>
   </div>
 
-  <div class="sub-v2-tools__slider-wrap" data-animate="fade-up">
+  <div class="sub-v2-tools__slider-wrap" data-animate-slider>
     <div class="sub-v2-tools__grid" data-sub-v2-tools-slider>
       <?php foreach ($sub_v2_tools as $tool) : ?>
         <div class="sub-v2-tools__slide">

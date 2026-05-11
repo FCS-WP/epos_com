@@ -1,7 +1,7 @@
 {
   "_doc": "Subscription landing — v2 design. Edit copy/images/options here, no PHP edits required. Image paths under wp-content/uploads/... must point to assets you've uploaded to WP Media Library or committed to the theme's uploads dir.",
 
-  "libs": ["jquery", "gsap", "slick"],
+  "libs": ["jquery", "lenis", "gsap", "slick"],
 
   "section_kicker_icon": "/wp-content/uploads/2026/05/fire-icon-tag.webp",
   "contact_sales_url": "https://api.whatsapp.com/send/?phone=60124655571&text=Hi+there%2C+I+want+to+learn+about+EPOS360&type=phone_number&app_absent=0",
@@ -11,7 +11,8 @@
       "logo": "https://www.epos.com.sg/wp-content/uploads/2025/12/EPOS_Full-Color.webp"
     },
     "hero": {
-      "visual": "/wp-content/uploads/2026/05/hero-banner-desktop.webp"
+      "visual": "/wp-content/uploads/2026/05/hero-banner-desktop.webp",
+      "visual_mobile": "/wp-content/uploads/2026/05/R5_KV-Website_mobile-copy-1-1.webp"
     },
     "partnership": {
       "logo_epos":      "/wp-content/uploads/2026/05/epos-360-logo.webp",

@@ -216,9 +216,19 @@ function landing_head()
     }
 
     // Optional shared library CSS, declared in content.json["libs"].
-    // Slick is the only CSS-bearing lib we currently support.
     $libs = isset($landing_data['libs']) && is_array($landing_data['libs'])
         ? array_map('strval', $landing_data['libs']) : array();
+
+    if (in_array('lenis', $libs, true)) {
+        $lenis_css = THEME_DIR . '-child/assets/lib/lenis/lenis.css';
+        if (file_exists($lenis_css)) {
+            printf(
+                '<link rel="stylesheet" href="%s?ver=%s">' . "\n",
+                esc_url(THEME_URL . '-child/assets/lib/lenis/lenis.css'),
+                esc_attr((string) filemtime($lenis_css))
+            );
+        }
+    }
 
     if (in_array('slick', $libs, true)) {
         $slick_dir = THEME_DIR . '-child/assets/lib/slick';
@@ -316,16 +326,23 @@ function landing_footer()
         // any other plugin that's also using jQuery doesn't load a duplicate.
         echo '<script src="' . esc_url(includes_url('js/jquery/jquery.min.js')) . '"></script>' . "\n";
     }
+    if (in_array('lenis', $libs, true)) {
+        $lenis_dir = THEME_DIR . '-child/assets/lib/lenis';
+        $lenis_url = THEME_URL . '-child/assets/lib/lenis';
+        $lenis_js  = $lenis_dir . '/lenis.min.js';
+        if (file_exists($lenis_js)) {
+            printf(
+                '<script src="%s?ver=%s"></script>' . "\n",
+                esc_url($lenis_url . '/lenis.min.js'),
+                esc_attr((string) filemtime($lenis_js))
+            );
+        }
+    }
     if (in_array('gsap', $libs, true)) {
         $gsap_dir = THEME_DIR . '-child/assets/js/gsap';
         $gsap_url = THEME_URL . '-child/assets/js/gsap';
-        // Order matters: gsap → plugins. ScrollSmoother depends on ScrollTrigger.
-        foreach (array(
-            'gsap.min.js',
-            'ScrollTrigger.min.js',
-            'ScrollToPlugin.min.js',
-            'ScrollSmoother.min.js',
-        ) as $f) {
+        // Load order: gsap core → ScrollTrigger. ScrollSmoother not needed (Lenis handles smooth scroll).
+        foreach (array('gsap.min.js', 'ScrollTrigger.min.js') as $f) {
             $p = $gsap_dir . '/' . $f;
             if (file_exists($p)) {
                 printf(

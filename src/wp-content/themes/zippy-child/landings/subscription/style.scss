@@ -2428,7 +2428,12 @@ body.page-template-template-subscription-v2 {
     &__card {
       height: 100%;
       min-height: clamp(300px, 90vw, 350px);
+      max-height: 460px;
       border-radius: 20px;
+    }
+
+    &__card-bg {
+      max-height: 220px;
     }
 
     &__card-content {
@@ -3015,7 +3020,7 @@ body.page-template-template-subscription-v2 {
     }
   }
   .sub-v2-tools {
-    &__card { min-height: clamp(380px, 70vw, 460px); }
+    &__card { min-height: clamp(360px, 90vw, 420px); }
     &__card-content {
       h3 { font-size: clamp(14px, 3.8vw, 18px); }
       > p { font-size: clamp(11px, 2.8vw, 14px); }

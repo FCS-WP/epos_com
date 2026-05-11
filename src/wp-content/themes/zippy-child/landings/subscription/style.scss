@@ -17,9 +17,6 @@ body.page-template-template-subscription-v2 {
     display: none !important;
   }
   margin: 0;
-  .slick-list{
-    overflow-y: auto;
-  }
 }
 
 .sub-page {
@@ -3900,7 +3897,7 @@ $sub-form-success: #167b10;
 
   @media (max-width: 767px) {
     right: 16px;
-    bottom: 16px;
+    bottom: 80px;
     width: $wa-size-mobile;
     height: $wa-size-mobile;
   }

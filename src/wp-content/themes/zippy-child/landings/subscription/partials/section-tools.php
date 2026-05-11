@@ -96,7 +96,6 @@ $sub_v2_tools = [
               <img class="sub-v2-tools__card-bg" src="<?php echo esc_url($tool['image']); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
 
             </div>
-            <img class="sub-v2-tools__card-bg" src="<?php echo esc_url($tool['image']); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
           </article>
         </div>
       <?php endforeach; ?>

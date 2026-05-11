@@ -28,14 +28,17 @@ $variant = isset($form_variant) && in_array($form_variant, array('inline', 'moda
 // collide. Each input gets its own id so labels still wire correctly.
 $prefix = 'ld-' . $variant . '-';
 
-$render_options = function ($options, $placeholder) {
-    echo '<option value="" disabled selected>' . esc_html($placeholder) . '</option>';
+$render_options = function ($options, $placeholder, $default_value = '') {
+    echo '<option value="" disabled' . ($default_value === '' ? ' selected' : '') . '>'
+        . esc_html($placeholder) . '</option>';
     foreach ($options as $opt) {
         if (! is_array($opt) || empty($opt['value'])) continue;
+        $value = (string) $opt['value'];
         printf(
-            '<option value="%s">%s</option>',
-            esc_attr($opt['value']),
-            esc_html($opt['label'] ?? $opt['value'])
+            '<option value="%s"%s>%s</option>',
+            esc_attr($value),
+            $value === $default_value ? ' selected' : '',
+            esc_html($opt['label'] ?? $value)
         );
     }
 };
@@ -114,7 +117,7 @@ $render_options = function ($options, $placeholder) {
                 class="sub-v2-form__input sub-v2-form__select"
                 required
             >
-                <?php $render_options($industry_options, 'Financial Technology'); ?>
+                <?php $render_options($industry_options, 'Select your industry', 'F&B'); ?>
             </select>
             <p class="sub-v2-form__error" data-error-for="your_industry"></p>
         </div>

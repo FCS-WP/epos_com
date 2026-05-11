@@ -1171,7 +1171,7 @@ body.page-template-template-subscription-v2 {
       line-height: 1.72;
       color: #fff;
       font-weight: 400;
-      margin: 0 0 24px;
+      margin: 0 0px;
     }
   }
 
@@ -1203,11 +1203,15 @@ body.page-template-template-subscription-v2 {
   &__quote {
     position: relative;
     z-index: 1;
+    display: inline-flex;
     color: #fff;
-    font-size: 2.375rem;
     line-height: 1;
-    font-family: "Poppins", sans-serif;
-    font-weight: 600;
+
+    svg {
+      width: clamp(28px, 2vw, 36px);
+      height: clamp(28px, 2vw, 36px);
+      display: block;
+    }
   }
 
   &__quote--start {
@@ -1215,9 +1219,14 @@ body.page-template-template-subscription-v2 {
   }
 
   &__quote--end {
-    align-self: flex-end;
-    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
     margin-bottom: 18px;
+
+    svg {
+      transform: scaleX(-1);
+    }
   }
 
   &__meta {
@@ -2654,8 +2663,9 @@ body.page-template-template-subscription-v2 {
       }
     }
 
-    &__quote {
-      font-size: 2.25rem;
+    &__quote svg {
+      width: 16px;
+      height: 16px;
     }
 
     &__quote--start {

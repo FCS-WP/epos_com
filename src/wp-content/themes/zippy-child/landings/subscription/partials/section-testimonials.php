@@ -50,9 +50,17 @@ $sub_v2_testimonials = [
         <article class="sub-v2-testimonials__card">
           <img class="sub-v2-testimonials__card-bg" src="<?php echo esc_url($testimonial['image']); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
           <div class="sub-v2-testimonials__card-overlay"></div>
-          <span class="sub-v2-testimonials__quote sub-v2-testimonials__quote--start">"</span>
+          <span class="sub-v2-testimonials__quote sub-v2-testimonials__quote--start" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg" focusable="false">
+              <path d="M11.0877 25.4075H2.66669L10.5924 6.6665H15.9587L11.0877 25.4075ZM24.4624 25.4075H16.0413L23.967 6.6665H29.3334L24.4624 25.4075Z"/>
+            </svg>
+          </span>
           <p><?php echo wp_kses_post($testimonial['copy']); ?></p>
-          <span class="sub-v2-testimonials__quote sub-v2-testimonials__quote--end">"</span>
+          <span class="sub-v2-testimonials__quote sub-v2-testimonials__quote--end" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg" focusable="false">
+              <path d="M11.0877 25.4075H2.66669L10.5924 6.6665H15.9587L11.0877 25.4075ZM24.4624 25.4075H16.0413L23.967 6.6665H29.3334L24.4624 25.4075Z"/>
+            </svg>
+          </span>
           <div class="sub-v2-testimonials__meta">
             <div class="sub-v2-testimonials__meta-text">
               <?php if (!empty($testimonial['avatar'])) : ?>

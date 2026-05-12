@@ -59,3 +59,7 @@ if (class_exists('Webflow_CORS')) {
 if (class_exists('Webflow_Cart_API') && class_exists('Webflow_Cart_Service')) {
     new Webflow_Cart_API(new Webflow_Cart_Service());
 }
+
+// Landings loader — auto-discovers landing pages under landings/{slug}/,
+// registers their templates, and conditionally enqueues their bundles.
+require_once(THEME_DIR . '-child' . "/landings/loader.php");

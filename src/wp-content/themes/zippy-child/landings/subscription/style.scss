@@ -4250,7 +4250,7 @@ $sub-form-success: #167b10;
     position: absolute;
     bottom: 24px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) !important;
     white-space: nowrap;
   }
 

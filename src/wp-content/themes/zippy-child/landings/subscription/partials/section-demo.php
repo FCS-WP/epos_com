@@ -7,7 +7,7 @@ $sub_v2 = $data ?? array();
   <div class="sub-shell">
     <div class="sub-v2-demo__head" data-animate-group="section-head">
       <p class="sub-v2-demo__eyebrow sub-v2-kicker">
-        <img class="sub-v2-kicker__icon" src="<?php echo esc_url($sub_v2['section_kicker_icon']); ?>" alt="" aria-hidden="true" decoding="async">
+        <img class="sub-v2-kicker__icon" src="<?php echo esc_url($sub_v2['section_kicker_icon']); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
         <span>Try EPOS360</span>
       </p>
       <h2 class="sub-v2-demo__title sub-v2-section-title">

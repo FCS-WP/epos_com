@@ -678,6 +678,15 @@ body.page-template-template-subscription-v2 {
       object-fit: contain;
     }
   }
+
+  // Alipay logo already ships with its own padding + rounded background in
+  // the artwork, so the tile chrome would double up. Strip it for this one.
+  &__logo-item--alipay {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
 }
 
 .sub-v2-tools {

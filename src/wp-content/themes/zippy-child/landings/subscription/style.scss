@@ -829,7 +829,7 @@ body.page-template-template-subscription-v2 {
     // photo renders at proper scale instead of shrinking.
     width: 100%;
     flex: 1 1 0;
-    min-height: clamp(260px, 22vw, 360px);
+    min-height: clamp(240px, 22vw, 360px);
     object-fit: contain;
     object-position: center bottom;
     margin-top: auto;

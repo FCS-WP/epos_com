@@ -97,7 +97,7 @@ $sub_v2_tools = [
                   <a href="#sub-v2-demo" class="sub-v2-tools__button">Get a demo</a>
                 </div>
               </div>
-              <img class="sub-v2-tools__card-bg" src="<?php echo esc_url($tool['image']); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
+              <img class="sub-v2-tools__card-bg" src="<?php echo esc_url($tool['image']); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async" width="536" height="360">
 
             </div>
           </article>

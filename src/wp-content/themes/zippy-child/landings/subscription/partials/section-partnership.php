@@ -13,7 +13,9 @@ $sub_v2 = $data ?? array();
             src="<?php echo esc_url($sub_v2['images']['partnership']['logo_epos']); ?>"
             alt="EPOS360"
             loading="lazy"
-            decoding="async">
+            decoding="async"
+            width="176"
+            height="25">
         </div>
         <span class="sub-v2-partnership__brand-symbol" aria-hidden="true">x</span>
         <div class="sub-v2-partnership__brand">
@@ -22,7 +24,9 @@ $sub_v2 = $data ?? array();
             src="<?php echo esc_url($sub_v2['images']['partnership']['logo_tng_small']); ?>"
             alt="Touch 'n Go"
             loading="lazy"
-            decoding="async">
+            decoding="async"
+            width="52"
+            height="52">
         </div>
       </div>
 
@@ -54,22 +58,22 @@ $sub_v2 = $data ?? array();
 
     <div class="sub-v2-payments__logos" aria-label="Supported payments" data-animate-group="payments-logos" data-animate="stagger">
       <div class="sub-v2-payments__logo-item sub-v2-payments__logo-item--alipay" data-animate="stagger-item" data-stagger-item>
-        <img src="<?php echo esc_url($sub_v2['images']['payments']['logo_alipay']); ?>" alt="Alipay+" loading="lazy" decoding="async">
+        <img src="<?php echo esc_url($sub_v2['images']['payments']['logo_alipay']); ?>" alt="Alipay+" loading="lazy" decoding="async" width="108" height="27">
       </div>
       <div class="sub-v2-payments__logo-item sub-v2-payments__logo-item--tng" data-animate="stagger-item" data-stagger-item>
-        <img src="<?php echo esc_url($sub_v2['images']['payments']['logo_tng_small']); ?>" alt="Touch 'n Go eWallet" loading="lazy" decoding="async">
+        <img src="<?php echo esc_url($sub_v2['images']['payments']['logo_tng_small']); ?>" alt="Touch 'n Go eWallet" loading="lazy" decoding="async" width="63" height="63">
       </div>
       <div class="sub-v2-payments__logo-item sub-v2-payments__logo-item--duitnow" data-animate="stagger-item" data-stagger-item>
-        <img src="<?php echo esc_url($sub_v2['images']['payments']['logo_duitnow']); ?>" alt="DuitNow" loading="lazy" decoding="async">
+        <img src="<?php echo esc_url($sub_v2['images']['payments']['logo_duitnow']); ?>" alt="DuitNow" loading="lazy" decoding="async" width="69" height="63">
       </div>
       <div class="sub-v2-payments__logo-item sub-v2-payments__logo-item--mastercard" data-animate="stagger-item" data-stagger-item>
-        <img src="<?php echo esc_url($sub_v2['images']['payments']['logo_mastercard']); ?>" alt="Mastercard" loading="lazy" decoding="async">
+        <img src="<?php echo esc_url($sub_v2['images']['payments']['logo_mastercard']); ?>" alt="Mastercard" loading="lazy" decoding="async" width="81" height="63">
       </div>
       <div class="sub-v2-payments__logo-item sub-v2-payments__logo-item--visa" data-animate="stagger-item" data-stagger-item>
-        <img src="<?php echo esc_url($sub_v2['images']['payments']['logo_visa']); ?>" alt="Visa" loading="lazy" decoding="async">
+        <img src="<?php echo esc_url($sub_v2['images']['payments']['logo_visa']); ?>" alt="Visa" loading="lazy" decoding="async" width="108" height="35">
       </div>
       <div class="sub-v2-payments__logo-item sub-v2-payments__logo-item--mydebit" data-animate="stagger-item" data-stagger-item>
-        <img src="<?php echo esc_url($sub_v2['images']['payments']['logo_mydebit']); ?>" alt="MyDebit" loading="lazy" decoding="async">
+        <img src="<?php echo esc_url($sub_v2['images']['payments']['logo_mydebit']); ?>" alt="MyDebit" loading="lazy" decoding="async" width="108" height="24">
       </div>
     </div>
   </div>

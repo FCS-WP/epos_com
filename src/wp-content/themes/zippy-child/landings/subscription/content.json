@@ -3,54 +3,54 @@
 
   "libs": ["jquery", "lenis", "gsap", "slick"],
 
-  "section_kicker_icon": "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/fire-icon-tag.webp",
+  "section_kicker_icon": "/wp-content/uploads/2026/05/fire-icon-tag.webp",
   "contact_sales_url": "https://api.whatsapp.com/send/?phone=60124655571&text=Hi%21+I%27d+like+to+find+out+how+EPOS360+can+grow+my+business.+Can+you+tell+me+more%3F&type=phone_number&app_absent=0",
 
   "images": {
     "header": {
-      "logo": "https://www.epos.com.sg/wp-content/uploads/2025/12/EPOS_Full-Color.webp"
+      "logo": "https://www.epos.com/wp-content/uploads/2025/12/EPOS_Full-Color.webp"
     },
     "hero": {
-      "visual": "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/main-hero.webp",
-      "visual_mobile": "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/R5_KV-Website_mobile-copy-1-1.webp"
+      "visual": "https://www.epos.com/wp-content/uploads/2026/05/main-hero.webp",
+      "visual_mobile": "https://www.epos.com/wp-content/uploads/2026/05/R5_KV-Website_mobile-copy-1-1.webp"
     },
     "partnership": {
-      "logo_epos":      "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/epos-360-logo.webp",
-      "logo_tng_small": "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/TNG-payemnt-logo.webp"
+      "logo_epos":      "https://www.epos.com/wp-content/uploads/2026/05/epos-360-logo.webp",
+      "logo_tng_small": "https://www.epos.com/wp-content/uploads/2026/05/TNG-payemnt-logo.webp"
     },
     "payments": {
-      "logo_alipay":     "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/alipay-payemnt-logo.webp",
-      "logo_duitnow":    "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/Duit-payemnt-logo.webp",
-      "logo_tng_small":  "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/TNG-payemnt-logo.webp",
-      "logo_mydebit":    "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/MyDebit-payemnt-logo.webp",
-      "logo_visa":       "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/Visa-payemnt-logo.webp",
-      "logo_mastercard": "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/Mastercard-payemnt-logo.webp"
+      "logo_alipay":     "https://www.epos.com/wp-content/uploads/2026/05/alipay-payemnt-logo.webp",
+      "logo_duitnow":    "https://www.epos.com/wp-content/uploads/2026/05/Duit-payemnt-logo.webp",
+      "logo_tng_small":  "https://www.epos.com/wp-content/uploads/2026/05/TNG-payemnt-logo.webp",
+      "logo_mydebit":    "https://www.epos.com/wp-content/uploads/2026/05/MyDebit-payemnt-logo.webp",
+      "logo_visa":       "https://www.epos.com/wp-content/uploads/2026/05/Visa-payemnt-logo.webp",
+      "logo_mastercard": "https://www.epos.com/wp-content/uploads/2026/05/Mastercard-payemnt-logo.webp"
     },
     "everything": {
-      "mockup":     "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/all_in_1.webp",
-      "qr":         "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/boost-icon.webp",
-      "grow_sales": "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/stress-icon.webp",
-      "delivery":   "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/no-extra-icon.webp"
+      "mockup":     "https://www.epos.com/wp-content/uploads/2026/05/all_in_1.webp",
+      "qr":         "https://www.epos.com/wp-content/uploads/2026/05/boost-icon.webp",
+      "grow_sales": "https://www.epos.com/wp-content/uploads/2026/05/stress-icon.webp",
+      "delivery":   "https://www.epos.com/wp-content/uploads/2026/05/no-extra-icon.webp"
     },
     "tools": {
-      "food_delivery":   "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/Bussiness-card-1-1-Photoroom.webp",
-      "table_qr":        "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/Bussiness-card-2-1-1-1.webp",
-      "online_store":    "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/Bussiness-card-3-1-Photoroom.webp",
-      "loyalty":         "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/Bussiness-card-4-1-Photoroom.webp",
-      "google_business": "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/Bussiness-card-5-1-Photoroom.webp",
-      "smart_insights":  "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/Bussiness-card-6-1-Photoroom.webp"
+      "food_delivery":   "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-1-1-Photoroom.webp",
+      "table_qr":        "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-2-1-1.webp",
+      "online_store":    "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-3-1-Photoroom.webp",
+      "loyalty":         "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-4-1-Photoroom.webp",
+      "google_business": "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-5-1-Photoroom.webp",
+      "smart_insights":  "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-6-1-Photoroom.webp"
     },
     "testimonials": {
-      "durianbb": "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/testimonial-bg-1.webp",
-      "dexon":    "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/testimonial-bg-2.webp",
-      "ajokaido": "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/testimonial-bg-3.webp",
-      "avatar_1": "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/testimonial-avatar-1.webp",
-      "avatar_2": "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/testimonial-avatar-1.webp",
-      "avatar_3": "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/testimonial-avatar-1.webp"
+      "durianbb": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-bg-1.webp",
+      "dexon":    "https://www.epos.com/wp-content/uploads/2026/05/testimonial-bg-2.webp",
+      "ajokaido": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-bg-3.webp",
+      "avatar_1": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-avatar-1.webp",
+      "avatar_2": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-avatar-1.webp",
+      "avatar_3": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-avatar-1.webp"
     },
     "grow": {
-      "merchant_left":  "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/smarter-business-women-1.webp",
-      "merchant_right": "https://epos_com-staging.theshin.info/wp-content/uploads/2026/05/smarter-business-man-1.webp"
+      "merchant_left":  "https://www.epos.com/wp-content/uploads/2026/05/smarter-business-women-1.webp",
+      "merchant_right": "https://www.epos.com/wp-content/uploads/2026/05/smarter-business-man-1.webp"
     }
   },
 

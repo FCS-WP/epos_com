@@ -48,7 +48,6 @@ $sub_v2_grow_features = [
         </div>
 
         <div class="sub-v2-grow__divider" aria-hidden="true">
-          <span class="sub-v2-grow__divider-plus">+</span>
         </div>
 
         <div class="sub-v2-grow__price-meta">

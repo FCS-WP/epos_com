@@ -514,7 +514,7 @@ body.page-template-template-subscription-v2 {
   position: relative;
   background: #fff;
   color: #fff;
-  padding: 28px 0 50px;
+  padding: clamp(28px, 3.5vw, 52px) 0 clamp(28px, 3.5vw, 52px);
   z-index: 1;
 
   &__shell {
@@ -597,7 +597,7 @@ body.page-template-template-subscription-v2 {
 
 .sub-v2-payments {
   background: #fff;
-  padding: 0 0 65px;
+  padding: clamp(28px, 3.5vw, 52px) 0;
 
   &__head {
     text-align: center;
@@ -678,7 +678,7 @@ body.page-template-template-subscription-v2 {
 }
 
 .sub-v2-tools {
-  padding: 65px 0 45px;
+  padding: clamp(28px, 3.5vw, 52px) 0;
   background: #fff;
   overflow: visible;
 
@@ -943,7 +943,7 @@ body.page-template-template-subscription-v2 {
 }
 
 .sub-v2-everything {
-  padding: 78px 0 96px;
+  padding: clamp(28px, 3.5vw, 52px) 0;
   background: #fff;
 
   &__shell {
@@ -1073,7 +1073,7 @@ body.page-template-template-subscription-v2 {
 }
 
 .sub-v2-testimonials {
-  padding: 60 0 115px;
+  padding: clamp(28px, 3.5vw, 52px) 0;
   background: #fff;
 
   &__head {
@@ -1273,7 +1273,8 @@ body.page-template-template-subscription-v2 {
 }
 
 .sub-v2-grow {
-  padding: 65px 0 0;
+  // bottom kept at 0 — section-faq sits on top with rounded corners overlapping
+  padding: clamp(28px, 3.5vw, 52px) 0 0;
   background: #fff;
   overflow-x: clip;
 
@@ -1426,26 +1427,10 @@ body.page-template-template-subscription-v2 {
   &__divider {
     position: relative;
     width: 100%;
-    max-width: 296px;
+    max-width: 280px;
     height: 1px;
     margin: 0 auto 18px;
     background: rgba(17, 24, 39, 0.18);
-  }
-
-  &__divider-plus {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    background: #fff;
-    color: #8f95a3;
-    font-size: 1.125rem;
-    line-height: 1;
-    transform: translate(-50%, -50%);
   }
 
   &__price-meta {
@@ -1592,7 +1577,7 @@ body.page-template-template-subscription-v2 {
 }
 
 .sub-v2-demo {
-  padding: 65px 0 60px;
+  padding: clamp(28px, 3.5vw, 52px) 0;
   background: #fff;
 
   &__head {
@@ -1992,7 +1977,7 @@ body.page-template-template-subscription-v2 {
 }
 
 .sub-v2-faq {
-  padding: 68px 0 84px;
+  padding: clamp(28px, 3.5vw, 52px) 0;
   background: #1e4bcb;
   color: #fff;
   border-radius: 28px 28px 0 0;
@@ -2772,7 +2757,7 @@ body.page-template-template-subscription-v2 {
     }
 
     &__divider {
-      max-width: 120px;
+      max-width: 150px;
       margin-bottom: 10px;
     }
 

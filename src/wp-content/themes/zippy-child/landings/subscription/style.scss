@@ -880,6 +880,13 @@ body.page-template-template-subscription-v2 {
     }
   }
 
+  &__card-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
   &__button {
     display: inline-flex;
     align-items: center;
@@ -2500,7 +2507,7 @@ body.page-template-template-subscription-v2 {
       }
 
       ul {
-        padding-bottom: 16px;
+        margin-bottom: 0 !important;
       }
 
       li {

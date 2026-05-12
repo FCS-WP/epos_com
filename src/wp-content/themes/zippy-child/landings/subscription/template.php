@@ -35,7 +35,8 @@ $sub_v2 = landing_content();
         <?php landing_partial('section-faq',         $sub_v2); ?>
     </main>
     <!-- modal-demo is rendered outside <main> so it isn't disabled by scroll-lock on <body>. We add .sub-page to the modal root so form styles still apply (see partial). -->
-    <?php landing_partial('modal-demo', $sub_v2); ?>
+    <?php landing_partial('modal-demo',  $sub_v2); ?>
+    <?php landing_partial('modal-promo', $sub_v2); ?>
     <?php landing_partial('whatsapp-button', $sub_v2); ?>
     <?php landing_footer(); ?>
 </body>

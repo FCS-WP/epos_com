@@ -455,6 +455,74 @@ import { LandingForm } from "../_shared/form-bridge";
     });
   }
 
+  // ── Promo modal (GROW — timed + exit-intent) ─────────────────────────────
+  function bindPromoModal(_root) {
+    var modal = document.querySelector("[data-sub-v2-promo-modal]");
+    if (!modal || modal.hasAttribute("data-v2-promo-modal-bound")) return;
+    modal.setAttribute("data-v2-promo-modal-bound", "true");
+
+    var dialog  = modal.querySelector(".sub-v2-modal-promo__dialog");
+    var closers = modal.querySelectorAll("[data-sub-v2-promo-modal-close]");
+    var learnMoreBtn = modal.querySelector("[data-sub-v2-promo-learn-more]");
+    if (!dialog) return;
+
+    var opened = false;
+
+    function openPromo() {
+      if (opened) return;
+      opened = true;
+
+      modal.hidden = false;
+      modal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+      if (lenis) lenis.stop();
+      requestAnimationFrame(function () {
+        modal.classList.add("is-open");
+      });
+    }
+
+    function closePromo() {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+      window.setTimeout(function () {
+        if (modal.getAttribute("aria-hidden") === "true") {
+          modal.hidden = true;
+          if (lenis) lenis.start();
+        }
+      }, 220);
+    }
+
+    // Close via backdrop / × button
+    closers.forEach(function (c) {
+      c.addEventListener("click", function (e) { e.preventDefault(); closePromo(); });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.getAttribute("aria-hidden") === "false") closePromo();
+    });
+
+    // "Learn More" — close promo and let the anchor navigate to #sub-v2-demo
+    if (learnMoreBtn) {
+      learnMoreBtn.addEventListener("click", function () { closePromo(); });
+    }
+
+    // Trigger 1: time delay (3 s desktop + mobile)
+    var isMobile   = window.matchMedia("(max-width: 767px)").matches;
+    var timeoutId  = window.setTimeout(openPromo, 3000);
+
+    // Trigger 2: exit intent — desktop only, mouse leaves through the top edge,
+    // but only after the user has been on the page for at least 3 s.
+    if (!isMobile) {
+      var pageLoadTime = Date.now();
+      document.addEventListener("mouseleave", function (e) {
+        if (e.clientY > 10) return;                       // not a top-exit
+        if (Date.now() - pageLoadTime < 3000) return;    // too soon
+        clearTimeout(timeoutId);
+        openPromo();
+      });
+    }
+  }
+
   // ── Landing forms ─────────────────────────────────────────────────────────
   function initLandingForms(_root) {
     var forms = document.querySelectorAll('form[data-landing-form="hubspot"]');
@@ -605,6 +673,7 @@ import { LandingForm } from "../_shared/form-bridge";
 
     bindFaq(root);
     bindDemoModal(root);
+    bindPromoModal(root);
     bindSmoothScroll(root);
     initToolsSlider(root, 0);
     initTestimonialsSlider(root, 0);

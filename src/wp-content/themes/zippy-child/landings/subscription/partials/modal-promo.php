@@ -4,6 +4,7 @@ $sub_v2 = $data ?? array();
 
 $img_desktop = esc_url($sub_v2['images']['popup']['banner_desktop'] ?? '');
 $img_mobile  = esc_url($sub_v2['images']['popup']['banner_mobile'] ?? '');
+$whatsapp_url = esc_url($sub_v2['contact_sales_url'] ?? '');
 ?>
 <?php // `.sub-page` is added so font/reset rules resolve inside the modal
       // (rendered outside <main> — not a descendant of the .sub-page on <main>). ?>
@@ -34,7 +35,7 @@ $img_mobile  = esc_url($sub_v2['images']['popup']['banner_mobile'] ?? '');
       <div class="sub-v2-modal-promo__text">
         <p class="sub-v2-modal-promo__title">GROW</p>
         <p class="sub-v2-modal-promo__subtitle">Your Business Digitally<br>With Confidence</p>
-        <a href="https://api.whatsapp.com/send/?phone=60124655571&text=Hi%21+I%27d+like+to+find+out+how+EPOS360+can+grow+my+business.+Can+you+tell+me+more%3F&type=phone_number&app_absent=0"
+        <a href="<?php echo $whatsapp_url; ?>"
            class="sub-v2-modal-promo__cta sub-v2-modal-promo__cta--desktop"
            data-sub-v2-promo-learn-more>
           Learn More
@@ -58,7 +59,7 @@ $img_mobile  = esc_url($sub_v2['images']['popup']['banner_mobile'] ?? '');
              alt="EPOS360 — Grow your business digitally"
              loading="lazy"
              decoding="async">
-        <a href="https://api.whatsapp.com/send/?phone=60124655571&text=Hi%21+I%27d+like+to+find+out+how+EPOS360+can+grow+my+business.+Can+you+tell+me+more%3F&type=phone_number&app_absent=0"
+        <a href="<?php echo $whatsapp_url; ?>"
            class="sub-v2-modal-promo__cta sub-v2-modal-promo__cta--mobile"
            data-sub-v2-promo-learn-more>
           Learn More

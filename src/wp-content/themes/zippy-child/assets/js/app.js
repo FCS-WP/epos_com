@@ -7,6 +7,7 @@ import "../js/checkout/phone-validation.js";
 import "../js/scrollToBullet.js";
 import "./page/epos-bluetap-onboarding.js";
 import "./promo_popup/promo-popup.js";
+import "./promo_popup/homepage-popup.js";
 
 ("use strict");
 $ = jQuery;

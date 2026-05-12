@@ -23,7 +23,6 @@ import { LandingForm } from "../_shared/form-bridge";
 
     lenis = new window.Lenis({
       duration: isTouchDevice ? 1.6 : 1.2,
-      easing: function (t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); },
       smoothWheel: true,
       touchMultiplier: isTouchDevice ? 1.4 : 1.5,
       syncTouch: isTouchDevice,       // native-feel momentum on mobile
@@ -250,7 +249,7 @@ import { LandingForm } from "../_shared/form-bridge";
       var targetTop = target.getBoundingClientRect().top + window.pageYOffset - headerH - 12;
 
       if (lenis) {
-        lenis.scrollTo(targetTop, { duration: 1.4, easing: function (t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); } });
+        lenis.scrollTo(targetTop, { duration: 1.4 });
       } else {
         window.scrollTo({ top: targetTop, behavior: "smooth" });
       }
@@ -315,11 +314,6 @@ import { LandingForm } from "../_shared/form-bridge";
   function expandBody(body) {
     body.style.overflow = "hidden";
     body.style.height = body.scrollHeight + "px";
-    body.addEventListener("transitionend", function onEnd() {
-      body.removeEventListener("transitionend", onEnd);
-      body.style.height = "auto";
-      body.style.overflow = "";
-    });
   }
 
   function collapseBody(body) {

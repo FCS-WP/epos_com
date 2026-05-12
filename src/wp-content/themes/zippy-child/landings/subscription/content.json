@@ -1,11 +1,13 @@
 {
   "_doc": "Subscription landing — v2 design. Edit copy/images/options here, no PHP edits required. Image paths under wp-content/uploads/... must point to assets you've uploaded to WP Media Library or committed to the theme's uploads dir.",
-
-  "libs": ["jquery", "lenis", "gsap", "slick"],
-
+  "libs": [
+    "jquery",
+    "lenis",
+    "gsap",
+    "slick"
+  ],
   "section_kicker_icon": "https://www.epos.com/wp-content/uploads/2026/05/fire-icon-tag.webp",
   "contact_sales_url": "https://api.whatsapp.com/send/?phone=60124655571&text=Hi%21+I%27d+like+to+find+out+how+EPOS360+can+grow+my+business.+Can+you+tell+me+more%3F&type=phone_number&app_absent=0",
-
   "images": {
     "header": {
       "logo": "https://www.epos.com/wp-content/uploads/2026/05/EPOS_Full-Color.webp"
@@ -15,49 +17,48 @@
       "banner_mobile": "https://www.epos.com/wp-content/uploads/2026/05/R5_KV-Website_mobile-copy-1-1.webp"
     },
     "hero": {
-      "visual": "https://www.epos.com/wp-content/uploads/2026/05/new-hero-banner-desktop.webp",
+      "visual": "https://www.epos.com/wp-content/uploads/2026/05/my-hero-banner-desktop.webp",
       "visual_mobile": "https://www.epos.com/wp-content/uploads/2026/05/R5_KV-Website_mobile-copy-1-1.webp"
     },
     "partnership": {
-      "logo_epos":      "https://www.epos.com/wp-content/uploads/2026/05/epos-360-logo.webp",
+      "logo_epos": "https://www.epos.com/wp-content/uploads/2026/05/epos-360-logo.webp",
       "logo_tng_small": "https://www.epos.com/wp-content/uploads/2026/05/TNG-payemnt-logo.webp"
     },
     "payments": {
-      "logo_alipay":     "https://www.epos.com/wp-content/uploads/2026/05/alipay-payemnt-logo.webp",
-      "logo_duitnow":    "https://www.epos.com/wp-content/uploads/2026/05/Duit-payemnt-logo.webp",
-      "logo_tng_small":  "https://www.epos.com/wp-content/uploads/2026/05/TNG-payemnt-logo.webp",
-      "logo_mydebit":    "https://www.epos.com/wp-content/uploads/2026/05/MyDebit-payemnt-logo.webp",
-      "logo_visa":       "https://www.epos.com/wp-content/uploads/2026/05/Visa-payemnt-logo.webp",
+      "logo_alipay": "https://www.epos.com/wp-content/uploads/2026/05/alipay-payemnt-logo.webp",
+      "logo_duitnow": "https://www.epos.com/wp-content/uploads/2026/05/Duit-payemnt-logo.webp",
+      "logo_tng_small": "https://www.epos.com/wp-content/uploads/2026/05/TNG-payemnt-logo.webp",
+      "logo_mydebit": "https://www.epos.com/wp-content/uploads/2026/05/MyDebit-payemnt-logo.webp",
+      "logo_visa": "https://www.epos.com/wp-content/uploads/2026/05/Visa-payemnt-logo.webp",
       "logo_mastercard": "https://www.epos.com/wp-content/uploads/2026/05/Mastercard-payemnt-logo.webp"
     },
     "everything": {
-      "mockup":     "https://www.epos.com/wp-content/uploads/2026/05/all_in_1.webp",
-      "qr":         "https://www.epos.com/wp-content/uploads/2026/05/boost-icon.webp",
+      "mockup": "https://www.epos.com/wp-content/uploads/2026/05/all_in_1.webp",
+      "qr": "https://www.epos.com/wp-content/uploads/2026/05/boost-icon.webp",
       "grow_sales": "https://www.epos.com/wp-content/uploads/2026/05/stress-icon.webp",
-      "delivery":   "https://www.epos.com/wp-content/uploads/2026/05/no-extra-icon.webp"
+      "delivery": "https://www.epos.com/wp-content/uploads/2026/05/no-extra-icon.webp"
     },
     "tools": {
-      "food_delivery":   "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-1-1-Photoroom.webp",
-      "table_qr":        "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-2-1-1.webp",
-      "online_store":    "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-3-1-Photoroom.webp",
-      "loyalty":         "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-4-1-Photoroom.webp",
+      "food_delivery": "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-1-1-Photoroom.webp",
+      "table_qr": "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-2-1-1.webp",
+      "online_store": "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-3-1-Photoroom.webp",
+      "loyalty": "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-4-1-Photoroom.webp",
       "google_business": "/wp-content/uploads/2026/05/businesss_card.webp",
-      "smart_insights":  "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-6-1-Photoroom.webp"
+      "smart_insights": "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-6-1-Photoroom.webp"
     },
     "testimonials": {
       "durianbb": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-bg-1.webp",
-      "dexon":    "https://www.epos.com/wp-content/uploads/2026/05/testimonial-bg-2.webp",
+      "dexon": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-bg-2.webp",
       "ajokaido": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-bg-3.webp",
       "avatar_1": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-avatar-1.webp",
       "avatar_2": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-avatar-1.webp",
       "avatar_3": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-avatar-1.webp"
     },
     "grow": {
-      "merchant_left":  "https://www.epos.com/wp-content/uploads/2026/05/smarter-business-women-1.webp",
+      "merchant_left": "https://www.epos.com/wp-content/uploads/2026/05/smarter-business-women-1.webp",
       "merchant_right": "https://www.epos.com/wp-content/uploads/2026/05/smarter-business-man-1.webp"
     }
   },
-
   "form": {
     "section_title": "Talk to a specialist",
     "intro": "Tell us about your business — we'll get back within one working day.",
@@ -65,39 +66,98 @@
     "success_message": "Thanks — we'll be in touch within one business day.",
     "hubspot_portal_id": "46681097",
     "hubspot_form_id": "7f93badd-1ebe-4c1e-873b-5b861d9debe7",
-
-    "phone_countries": ["my", "sg", "vn"],
+    "phone_countries": [
+      "my",
+      "sg",
+      "vn"
+    ],
     "phone_default_country": "my",
-
     "industry_options": [
-      { "label": "Retail",     "value": "Retail" },
-      { "label": "Minimart",   "value": "Minimart" },
-      { "label": "F&B",        "value": "F&B" },
-      { "label": "Hair Salon", "value": "Hair Salon" },
-      { "label": "Gym",        "value": "Gym" },
-      { "label": "Services",   "value": "Services" },
-      { "label": "Others",     "value": "Others" }
+      {
+        "label": "Retail",
+        "value": "Retail"
+      },
+      {
+        "label": "Minimart",
+        "value": "Minimart"
+      },
+      {
+        "label": "F&B",
+        "value": "F&B"
+      },
+      {
+        "label": "Hair Salon",
+        "value": "Hair Salon"
+      },
+      {
+        "label": "Gym",
+        "value": "Gym"
+      },
+      {
+        "label": "Services",
+        "value": "Services"
+      },
+      {
+        "label": "Others",
+        "value": "Others"
+      }
     ],
-
     "state_options": [
-      { "label": "Selangor",        "value": "Selangor" },
-      { "label": "Kuala Lumpur",    "value": "Kuala Lumpur" },
-      { "label": "Penang",          "value": "Penang" },
-      { "label": "Melaka",          "value": "Melaka" },
-      { "label": "Negeri Sembilan", "value": "Negeri Sembilan" },
-      { "label": "Johor",           "value": "Johor" },
-      { "label": "Kelantan",        "value": "Kelantan" },
-      { "label": "Kedah",           "value": "Kedah" },
-      { "label": "Perlis",          "value": "Perlis" },
-      { "label": "Terengganu",      "value": "Terengganu" }
+      {
+        "label": "Selangor",
+        "value": "Selangor"
+      },
+      {
+        "label": "Kuala Lumpur",
+        "value": "Kuala Lumpur"
+      },
+      {
+        "label": "Penang",
+        "value": "Penang"
+      },
+      {
+        "label": "Melaka",
+        "value": "Melaka"
+      },
+      {
+        "label": "Negeri Sembilan",
+        "value": "Negeri Sembilan"
+      },
+      {
+        "label": "Johor",
+        "value": "Johor"
+      },
+      {
+        "label": "Kelantan",
+        "value": "Kelantan"
+      },
+      {
+        "label": "Kedah",
+        "value": "Kedah"
+      },
+      {
+        "label": "Perlis",
+        "value": "Perlis"
+      },
+      {
+        "label": "Terengganu",
+        "value": "Terengganu"
+      }
     ],
-
     "language_options": [
-      { "label": "English", "value": "en" },
-      { "label": "Malay",   "value": "ms" },
-      { "label": "Chinese", "value": "zh" }
+      {
+        "label": "English",
+        "value": "en"
+      },
+      {
+        "label": "Malay",
+        "value": "ms"
+      },
+      {
+        "label": "Chinese",
+        "value": "zh"
+      }
     ],
-
     "interested_product_default": "BlueTap"
   }
 }

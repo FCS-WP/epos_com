@@ -40,11 +40,11 @@ $sub_v2_tools = [
     'image'   => $sub_v2['images']['tools']['loyalty'],
   ],
   [
-    'title'   => 'All-in-One Payment Hub',
-    'desc'    => 'Everything you need to accept payments and grow your business.',
+    'title'   => 'All-in-One Payment Hub',
+    'desc'    => 'Everything you need to accept payments and grow your business.',
     'bullets' => [
-      'Welcome and serve every customer no matter how they pay.',
-      'Get dedicated support for the one device that accepts it all.',
+      'Welcome and serve every customer no matter how they pay.',
+      'Get dedicated support for the one device that accepts it all.',
     ],
     'image'   => $sub_v2['images']['tools']['google_business'],
   ],

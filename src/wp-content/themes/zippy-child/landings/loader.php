@@ -205,9 +205,9 @@ function landing_head()
     }
 
     // Poppins (form spec) — preconnect first so the font fetch isn't TCP-blocked.
-    echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
-    echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
-    echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">' . "\n";
+    // echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
+    // echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
+    // echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">' . "\n";
 
     // intl-tel-input CSS (only if landing needs phone)
     if ($needs_phone) {

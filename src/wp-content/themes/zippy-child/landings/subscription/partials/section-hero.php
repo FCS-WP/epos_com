@@ -39,7 +39,8 @@ $sub_v2 = $data ?? array();
           src="<?php echo esc_url($sub_v2['images']['hero']['visual']); ?>"
           alt="EPOS360 hero visual"
           loading="eager"
-          decoding="async">
+          decoding="async"
+          fetchpriority="high">
       </div>
 
       <!-- Mobile only: visual image + CTA buttons -->
@@ -49,7 +50,10 @@ $sub_v2 = $data ?? array();
           src="<?php echo esc_url($sub_v2['images']['hero']['visual_mobile']); ?>"
           alt="EPOS360 hero visual"
           loading="eager"
-          decoding="async">
+          decoding="async"
+          width="385"
+          height="426"
+          fetchpriority="high">
       </div>
       <div class="sub-v2-hero__mobile-actions">
         <a href="<?php echo esc_url($sub_v2['contact_sales_url']); ?>" class="sub-v2-header__button sub-v2-header__button--ghost">Contact Sales</a>

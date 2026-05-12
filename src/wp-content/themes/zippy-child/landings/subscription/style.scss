@@ -4033,6 +4033,7 @@ $sub-form-success: #167b10;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: none;
   padding: 16px;
 
   &[hidden] {
@@ -4043,11 +4044,11 @@ $sub-form-success: #167b10;
   &__backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(15, 23, 42, 0.25);
-    backdrop-filter: blur(10px) saturate(160%);
-    -webkit-backdrop-filter: blur(10px) saturate(160%);
+    background: rgba(15, 23, 42, 0.22);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
     opacity: 0;
-    transition: opacity 0.22s ease;
+    transition: opacity 0.18s ease;
   }
 
   // Card

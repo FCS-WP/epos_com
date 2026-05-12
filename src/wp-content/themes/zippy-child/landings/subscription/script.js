@@ -667,7 +667,7 @@ import { LandingForm } from "../_shared/form-bridge";
 
     bindFaq(root);
     bindDemoModal(root);
-    // bindPromoModal(root);
+    bindPromoModal(root);
     bindSmoothScroll(root);
     initToolsSlider(root, 0);
     initTestimonialsSlider(root, 0);

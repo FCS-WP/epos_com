@@ -82,16 +82,20 @@ $sub_v2_tools = [
           <article class="sub-v2-tools__card sub-v2-tools__card--<?php echo $i + 1; ?>">
             <div class="sub-v2-tools__card-content">
               <div class="sub-v2-tools__card-text">
-                <h3><?php echo esc_html($tool['title']); ?></h3>
-                <p><?php echo esc_html($tool['desc']); ?></p>
-                <?php if (!empty($tool['bullets'])) : ?>
-                  <ul>
-                    <?php foreach ($tool['bullets'] as $bullet) : ?>
-                      <li><?php echo wp_kses_post($bullet); ?></li>
-                    <?php endforeach; ?>
-                  </ul>
-                <?php endif; ?>
-                <a href="#sub-v2-demo" class="sub-v2-tools__button">Get a demo</a>
+                <div class="sub-v2-tools__card-inner-text">
+                  <h3><?php echo esc_html($tool['title']); ?></h3>
+                  <p><?php echo esc_html($tool['desc']); ?></p>
+                  <?php if (!empty($tool['bullets'])) : ?>
+                    <ul>
+                      <?php foreach ($tool['bullets'] as $bullet) : ?>
+                        <li><?php echo wp_kses_post($bullet); ?></li>
+                      <?php endforeach; ?>
+                    </ul>
+                  <?php endif; ?>
+                </div>
+                <div class="sub-v2-tools__card-inner-cta">
+                  <a href="#sub-v2-demo" class="sub-v2-tools__button">Get a demo</a>
+                </div>
               </div>
               <img class="sub-v2-tools__card-bg" src="<?php echo esc_url($tool['image']); ?>" alt="" aria-hidden="true" loading="lazy" decoding="async">
 

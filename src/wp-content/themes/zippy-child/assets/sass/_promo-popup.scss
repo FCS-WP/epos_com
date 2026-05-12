@@ -46,3 +46,226 @@
   cursor: pointer;
   z-index: 3;
 }
+
+// ── Homepage GROW promo popup ──────────────────────────────────────────────
+// Injected on /my/home via epos_promo_popup.php. Shares the same markup +
+// CSS as the subscription landing modal-promo (sub-v2-modal-promo).
+// Variable substitutions: $sub-primary=#1e4bcb, $sub-dark=#0b1020, $sub-accent=#0a22aa
+.sub-v2-modal-promo {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  padding: 16px;
+  font-family: "Poppins", sans-serif;
+
+  &[hidden] {
+    display: none !important;
+  }
+
+  // Animated backdrop
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.22);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    opacity: 0;
+    transition: opacity 0.18s ease;
+  }
+
+  // Card
+  &__dialog {
+    position: relative;
+    z-index: 1;
+    width: min(860px, calc(100vw - 32px));
+    border-radius: 20px;
+    background: #eef2ff;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.18);
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s ease;
+  }
+
+  &.is-open {
+    .sub-v2-modal-promo__backdrop {
+      opacity: 1;
+    }
+    .sub-v2-modal-promo__dialog {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  // Close ×
+  &__close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #667085;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
+    margin: 0 !important;
+
+    &:hover {
+      color: #0b1020;
+      background: rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  // Two-column grid: text | image
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    min-height: 280px;
+
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Left column — copy
+  &__text {
+    padding: 44px 36px 44px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+
+    @media (max-width: 767px) {
+      padding: 36px 24px 0;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  &__title {
+    font-family: "Poppins", sans-serif;
+    font-size: clamp(64px, 9vw, 96px);
+    font-weight: 700;
+    line-height: 1;
+    color: #1e4bcb;
+    margin: 0 0 14px;
+  }
+
+  &__subtitle {
+    font-family: "Poppins", sans-serif;
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    font-weight: 500;
+    line-height: 1.4;
+    color: #0b1020;
+    margin: 0 0 32px;
+
+    @media (max-width: 767px) {
+      margin: 0;
+    }
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    padding: 13px 36px;
+    background: #1e4bcb;
+    color: #fff !important;
+    border-radius: 50px;
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+      background 0.2s ease,
+      transform 0.2s ease;
+
+    &:hover {
+      background: #0a22aa;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 767px) {
+      align-self: center;
+      font-size: 1.2rem;
+    }
+  }
+
+  // Right column — visual
+  &__visual {
+    overflow: hidden;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+    }
+  }
+
+  // Desktop visual: shown ≥ 768px, hidden on mobile
+  &__visual--desktop {
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+
+  // Mobile wrapper: hidden on desktop, full-width below text on mobile.
+  &__mobile-wrap {
+    display: none;
+    position: relative;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    @media (max-width: 767px) {
+      display: block;
+    }
+  }
+
+  // Desktop CTA: visible on desktop, hidden on mobile
+  &__cta--desktop {
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+
+  // Mobile CTA: overlaid on the bottom-center of the mobile image
+  &__cta--mobile {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) !important;
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__dialog,
+    &__backdrop {
+      transition: none;
+    }
+  }
+}

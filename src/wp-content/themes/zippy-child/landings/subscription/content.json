@@ -3,15 +3,19 @@
 
   "libs": ["jquery", "lenis", "gsap", "slick"],
 
-  "section_kicker_icon": "/wp-content/uploads/2026/05/fire-icon-tag.webp",
+  "section_kicker_icon": "https://www.epos.com/wp-content/uploads/2026/05/fire-icon-tag.webp",
   "contact_sales_url": "https://api.whatsapp.com/send/?phone=60124655571&text=Hi%21+I%27d+like+to+find+out+how+EPOS360+can+grow+my+business.+Can+you+tell+me+more%3F&type=phone_number&app_absent=0",
 
   "images": {
     "header": {
-      "logo": "https://www.epos.com/wp-content/uploads/2025/12/EPOS_Full-Color.webp"
+      "logo": "https://www.epos.com/wp-content/uploads/2026/05/EPOS_Full-Color.webp"
+    },
+    "popup": {
+      "banner_desktop": "https://www.epos.com/wp-content/uploads/2026/05/popup-banner-desktop.webp",
+      "banner_mobile": "https://www.epos.com/wp-content/uploads/2026/05/R5_KV-Website_mobile-copy-1-1.webp"
     },
     "hero": {
-      "visual": "https://www.epos.com/wp-content/uploads/2026/05/main-hero.webp",
+      "visual": "https://www.epos.com/wp-content/uploads/2026/05/new-hero-banner-desktop.webp",
       "visual_mobile": "https://www.epos.com/wp-content/uploads/2026/05/R5_KV-Website_mobile-copy-1-1.webp"
     },
     "partnership": {
@@ -37,7 +41,7 @@
       "table_qr":        "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-2-1-1.webp",
       "online_store":    "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-3-1-Photoroom.webp",
       "loyalty":         "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-4-1-Photoroom.webp",
-      "google_business": "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-5-1-Photoroom.webp",
+      "google_business": "/wp-content/uploads/2026/05/businesss_card.webp",
       "smart_insights":  "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-6-1-Photoroom.webp"
     },
     "testimonials": {

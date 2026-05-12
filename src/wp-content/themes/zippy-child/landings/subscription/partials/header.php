@@ -21,7 +21,9 @@ if (! $logo_url) {
             src="<?php echo esc_url($logo_url); ?>"
             alt="<?php echo esc_attr(get_bloginfo('name')); ?>"
             loading="eager"
-            decoding="async">
+            decoding="async"
+            width="150"
+            height="33">
         <?php endif; ?>
       </a>
 

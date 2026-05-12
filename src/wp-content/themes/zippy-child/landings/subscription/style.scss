@@ -1,3 +1,5 @@
+@import "../../assets/sass/variables";
+
 $sub-blue: #001e9a;
 $sub-navy: #06128a;
 $sub-green: #bdf7c6;
@@ -238,8 +240,8 @@ body.page-template-template-subscription-v2 {
 
 // ─── Easing tokens ────────────────────────────────────────────────────────────
 :root {
-  --ease-out-expo:  cubic-bezier(.19, 1, .22, 1);
-  --ease-out-quart: cubic-bezier(.25, 1, .5, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 // ─── Section heading line-clip wrapper ───────────────────────────────────────
@@ -525,7 +527,8 @@ body.page-template-template-subscription-v2 {
   &__panel {
     background: #1e4bcb;
     border-radius: 28px;
-    padding: clamp(52px, 6vw, 88px) clamp(32px, 3.2vw, 48px) clamp(52px, 6vw, 80px);
+    padding: clamp(52px, 6vw, 88px) clamp(32px, 3.2vw, 48px)
+      clamp(52px, 6vw, 80px);
   }
 
   &__brand-row {
@@ -662,7 +665,7 @@ body.page-template-template-subscription-v2 {
     height: 75px;
     padding: 5px 20px;
     background: #fff;
-    border: 1px solid #EFEFEF;
+    border: 1px solid #efefef;
     border-radius: 12px;
     box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
 
@@ -767,7 +770,8 @@ body.page-template-template-subscription-v2 {
   &__slide {
     height: 100%;
 
-    > div, article {
+    > div,
+    article {
       height: 100%;
     }
   }
@@ -790,12 +794,24 @@ body.page-template-template-subscription-v2 {
       transform: translateY(-6px);
     }
 
-    &--1 { background: linear-gradient(0deg, #cde3f5 0%, #e8f4fc 55%, #f5faff 100%); }
-    &--2 { background: linear-gradient(0deg, #c8ebd8 0%, #e2f5eb 55%, #f2fbf6 100%); }
-    &--3 { background: linear-gradient(0deg, #c9d9f5 0%, #e2ecfb 55%, #f2f6fe 100%); }
-    &--4 { background: linear-gradient(0deg, #d0eddc 0%, #e5f5ec 55%, #f3fbf6 100%); }
-    &--5 { background: linear-gradient(0deg, #ccd6f2 0%, #e0e8fa 55%, #f0f4fd 100%); }
-    &--6 { background: linear-gradient(0deg, #c6e8d4 0%, #def3e8 55%, #f0faf4 100%); }
+    &--1 {
+      background: linear-gradient(0deg, #cde3f5 0%, #e8f4fc 55%, #f5faff 100%);
+    }
+    &--2 {
+      background: linear-gradient(0deg, #c8ebd8 0%, #e2f5eb 55%, #f2fbf6 100%);
+    }
+    &--3 {
+      background: linear-gradient(0deg, #c9d9f5 0%, #e2ecfb 55%, #f2f6fe 100%);
+    }
+    &--4 {
+      background: linear-gradient(0deg, #d0eddc 0%, #e5f5ec 55%, #f3fbf6 100%);
+    }
+    &--5 {
+      background: linear-gradient(0deg, #ccd6f2 0%, #e0e8fa 55%, #f0f4fd 100%);
+    }
+    &--6 {
+      background: linear-gradient(0deg, #c6e8d4 0%, #def3e8 55%, #f0faf4 100%);
+    }
   }
 
   &__card-bg {
@@ -821,6 +837,8 @@ body.page-template-template-subscription-v2 {
     padding: clamp(16px, 2.4vw, 37px) clamp(13px, 2.05vw, 30px) 0;
 
     h3 {
+      // Reserve space for up to 2 lines so 1-line and 2-line titles align.
+      min-height: clamp(44px, 4.2vw, 76px);
       font-size: clamp(14px, 1.6vw, 29px);
       font-weight: 500;
       line-height: 1.28;
@@ -830,6 +848,9 @@ body.page-template-template-subscription-v2 {
     }
 
     > p {
+      // Reserve space for up to 3 lines of body copy so cards with longer
+      // descriptions don't push the bullets/button down further than others.
+      min-height: clamp(78px, 7vw, 120px);
       font-size: clamp(15px, 1.35vw, 22px);
       line-height: 1.5;
       letter-spacing: -0.02em;
@@ -838,6 +859,9 @@ body.page-template-template-subscription-v2 {
     }
 
     ul {
+      // Reserve space for up to 2 bullets (each up to 2 lines) so the
+      // Get-a-demo button lands at the same baseline across all cards.
+      min-height: clamp(100px, 8.5vw, 160px);
       margin-bottom: clamp(14px, 1.5vw, 28px);
       padding-bottom: 0;
     }
@@ -873,7 +897,7 @@ body.page-template-template-subscription-v2 {
     padding: 0 clamp(16px, 1.8vw, 24px);
     border: 1px solid rgba(0, 0, 0, 0.78);
     border-radius: 55px;
-    background: rgba(255, 255, 255, 0.64);
+    // background: rgba(255, 255, 255, 0.64);
     color: #000;
     font-size: clamp(12px, 1vw, 20px);
     line-height: 1.4;
@@ -887,7 +911,6 @@ body.page-template-template-subscription-v2 {
       transform: translateY(-1px);
     }
   }
-
 }
 
 // ─── Slider arrows (Tools section) ───────────────────────────────────────────
@@ -906,11 +929,15 @@ body.page-template-template-subscription-v2 {
   border: 1.5px solid rgba(30, 75, 203, 0.18);
   color: $sub-primary;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   opacity: 0;
   pointer-events: none;
-  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease,
-              transform 0.2s ease, opacity 0.25s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.25s ease;
 
   svg {
     width: 22px;
@@ -932,8 +959,12 @@ body.page-template-template-subscription-v2 {
     pointer-events: none;
   }
 
-  &--prev { left: 16px; }
-  &--next { right: 16px; }
+  &--prev {
+    left: 16px;
+  }
+  &--next {
+    right: 16px;
+  }
 }
 
 // Chỉ show arrow khi hover vào slider-wrap
@@ -2452,37 +2483,41 @@ body.page-template-template-subscription-v2 {
     &__card {
       height: 100%;
       min-height: clamp(300px, 90vw, 350px);
-      max-height: 460px;
       border-radius: 20px;
     }
 
     &__card-bg {
-      max-height: 220px;
+      max-height: 260px;
     }
 
     &__card-content {
       padding: 22px 20px 0;
 
       h3 {
-        font-size: 0.9375rem;
+        // Reset desktop min-height — button is hidden on mobile so we don't
+        // need to reserve space for cross-card alignment.
+        min-height: 0;
+        font-size: 1.2rem;
         line-height: 1.3;
         letter-spacing: -0.03em;
         margin-bottom: 10px;
       }
 
       > p {
+        min-height: 0;
         font-size: 0.75rem;
         line-height: 1.5;
         margin-bottom: 12px;
       }
 
       ul {
+        min-height: 0;
         padding-bottom: 16px;
       }
 
       li {
         padding-left: 14px;
-        font-size: 0.625rem;
+        font-size: 0.8rem;
         line-height: 1.6;
         margin-bottom: 4px;
 
@@ -2507,7 +2542,6 @@ body.page-template-template-subscription-v2 {
   // ─── Shared mobile dots for both sliders ──────────────────────────────
   .sub-v2-tools,
   .sub-v2-testimonials {
-
     .slick-dots li {
       width: 8px !important;
       height: 8px !important;
@@ -2593,7 +2627,7 @@ body.page-template-template-subscription-v2 {
       }
 
       p {
-        font-size: 0.625rem;
+        font-size: 0.8rem;
         line-height: 1.6;
       }
     }
@@ -2657,7 +2691,7 @@ body.page-template-template-subscription-v2 {
       border-radius: 20px;
 
       p {
-        font-size: 0.625rem;
+        font-size: 0.8rem;
         line-height: 1.7;
         margin-bottom: 12px;
       }
@@ -2696,7 +2730,7 @@ body.page-template-template-subscription-v2 {
       }
 
       span {
-        font-size: 0.625rem;
+        font-size: 0.8rem;
         line-height: 1.4;
       }
     }
@@ -2825,13 +2859,13 @@ body.page-template-template-subscription-v2 {
 
     &__features li {
       padding-left: 16px;
-      font-size: 0.625rem;
+      font-size: 0.8rem;
       line-height: 1.7;
       margin-bottom: 4px;
 
       &::before {
         top: 4px;
-        font-size: 0.625rem;
+        font-size: 0.8rem;
       }
     }
   }
@@ -2932,7 +2966,7 @@ body.page-template-template-subscription-v2 {
       gap: 12px;
 
       span:first-child {
-        font-size: 0.75rem;
+        font-size: 0.85rem;
         line-height: 1.5;
       }
     }
@@ -3023,16 +3057,27 @@ body.page-template-template-subscription-v2 {
   .sub-v2-hero {
     &__mobile-title {
       font-size: 2.6875rem;
-      span { font-size: 1.1875rem; }
+      span {
+        font-size: 1.1875rem;
+      }
     }
-    &__desc { font-size: 0.8125rem; }
-    &__mobile-actions .sub-v2-header__button { font-size: 0.75rem; padding: 0 10px; }
+    &__desc {
+      font-size: 0.8125rem;
+    }
+    &__mobile-actions .sub-v2-header__button {
+      font-size: 0.75rem;
+      padding: 0 10px;
+    }
   }
   .sub-v2-grow {
-    &__card { padding: clamp(80px, 22vw, 96px) 14px 20px; }
+    &__card {
+      padding: clamp(80px, 22vw, 96px) 14px 20px;
+    }
   }
   .sub-v2-faq {
-    &__trigger span:first-child { font-size: 0.6875rem; }
+    &__trigger span:first-child {
+      font-size: 0.6875rem;
+    }
   }
 }
 
@@ -3041,24 +3086,43 @@ body.page-template-template-subscription-v2 {
   .sub-v2-hero {
     &__mobile-title {
       font-size: 4.0625rem;
-      span { font-size: 1.5625rem; }
+      span {
+        font-size: 1.5625rem;
+      }
     }
   }
   .sub-v2-tools {
-    &__card { min-height: clamp(360px, 90vw, 420px); }
-    &__card-content {
-      h3 { font-size: clamp(14px, 3.8vw, 18px); }
-      > p { font-size: clamp(11px, 2.8vw, 14px); }
-      li  { font-size: clamp(10px, 2.4vw, 12px); }
+    &__card {
+      min-height: clamp(360px, 90vw, 420px);
     }
-    &__button { font-size: clamp(11px, 2.8vw, 14px); height: 34px; }
+    &__card-content {
+      h3 {
+        font-size: clamp(14px, 3.8vw, 18px);
+      }
+      > p {
+        font-size: clamp(11px, 2.8vw, 14px);
+      }
+      li {
+        font-size: clamp(10px, 2.4vw, 12px);
+      }
+    }
+    &__button {
+      font-size: clamp(11px, 2.8vw, 14px);
+      height: 34px;
+    }
   }
   .sub-v2-testimonials {
-    &__card { min-height: 400px; }
-    &__card p { font-size: 0.6875rem; }
+    &__card {
+      min-height: 400px;
+    }
+    &__card p {
+      font-size: 0.6875rem;
+    }
   }
   .sub-v2-grow {
-    &__card { width: min(420px, calc(100% - 40px)); }
+    &__card {
+      width: min(420px, calc(100% - 40px));
+    }
   }
 }
 
@@ -3098,7 +3162,7 @@ body.page-template-template-subscription-v2 {
     }
 
     &__title {
-      font-size: 3.625rem;
+      font-size: 3.8rem;
     }
 
     &__lead {
@@ -3219,7 +3283,6 @@ body.page-template-template-subscription-v2 {
     &__card {
       min-height: clamp(400px, 56vw, 550px);
     }
-
   }
 
   .sub-v2-everything {
@@ -3885,8 +3948,8 @@ $sub-form-success: #167b10;
 
 // ─── WhatsApp Floating Button ─────────────────────────────────────────────────
 .sub-v2-whatsapp {
-  $wa-green: #25D366;
-  $wa-green-hover: #1EBE5D;
+  $wa-green: #25d366;
+  $wa-green-hover: #1ebe5d;
   $wa-size-desktop: 56px;
   $wa-size-mobile: 48px;
 
@@ -3903,9 +3966,13 @@ $sub-form-success: #167b10;
   background: $wa-green;
   color: #fff;
   text-decoration: none;
-  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.32),
-              0 2px 6px rgba(0, 0, 0, 0.18);
-  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow:
+    0 8px 24px rgba(37, 211, 102, 0.32),
+    0 2px 6px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:hover,
   &:focus-visible {
@@ -3943,14 +4010,247 @@ $sub-form-success: #167b10;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    &__pulse { animation: none; opacity: 0; }
+    &__pulse {
+      animation: none;
+      opacity: 0;
+    }
     transition: none;
-    &:hover, &:focus-visible { transform: none; }
+    &:hover,
+    &:focus-visible {
+      transform: none;
+    }
   }
 }
 
 @keyframes sub-v2-whatsapp-pulse {
-  0%   { transform: scale(1);   opacity: 0.55; }
-  70%  { transform: scale(1.6); opacity: 0;    }
-  100% { transform: scale(1.6); opacity: 0;    }
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+// ── Promo popup (GROW — timed / exit-intent) ───────────────────────────────
+.sub-v2-modal-promo {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  padding: 16px;
+
+  &[hidden] {
+    display: none !important;
+  }
+
+  // Animated backdrop
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.22);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    opacity: 0;
+    transition: opacity 0.18s ease;
+  }
+
+  // Card
+  &__dialog {
+    position: relative;
+    z-index: 1;
+    width: min(860px, calc(100vw - 32px));
+    border-radius: 20px;
+    background: #eef2ff;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.18);
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s ease;
+  }
+
+  &.is-open {
+    .sub-v2-modal-promo__backdrop {
+      opacity: 1;
+    }
+    .sub-v2-modal-promo__dialog {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  // Close ×
+  &__close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #667085;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
+
+    &:hover {
+      color: $sub-dark;
+      background: rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  // Two-column grid: text | image
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    min-height: 280px;
+
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Left column — copy
+  &__text {
+    padding: 44px 36px 44px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+
+    @media (max-width: 767px) {
+      padding: 36px 24px 0;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  &__title {
+    font-family: "Poppins", sans-serif;
+    font-size: clamp(64px, 9vw, 96px);
+    font-weight: 700;
+    line-height: 1;
+    color: $sub-primary;
+    margin: 0 0 14px;
+  }
+
+  &__subtitle {
+    font-family: "Poppins", sans-serif;
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    font-weight: 500;
+    line-height: 1.4;
+    color: $sub-dark;
+    margin: 0 0 32px;
+    @media (max-width: 767px) {
+      margin: 0;
+    }
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    padding: 13px 36px;
+    background: $sub-primary;
+    color: #fff !important;
+    border-radius: 50px;
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+      background 0.2s ease,
+      transform 0.2s ease;
+
+    &:hover {
+      background: darken($sub-accent, 8%);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 767px) {
+      align-self: center;
+      font-size: 1.2rem;
+    }
+  }
+
+  // Right column — visual
+  &__visual {
+    overflow: hidden;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+    }
+  }
+
+  // Desktop visual: shown ≥ 768px, hidden on mobile
+  &__visual--desktop {
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+
+  // Mobile wrapper: hidden on desktop, full-width below text on mobile.
+  // Image fills the wrapper; CTA is overlaid at the bottom center.
+  &__mobile-wrap {
+    display: none;
+    position: relative;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    @media (max-width: 767px) {
+      display: block;
+    }
+  }
+
+  // Desktop CTA: visible on desktop, hidden on mobile (mobile has its own)
+  &__cta--desktop {
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+
+  // Mobile CTA: overlaid on the bottom-center of the mobile image
+  &__cta--mobile {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__dialog,
+    &__backdrop {
+      transition: none;
+    }
+  }
 }

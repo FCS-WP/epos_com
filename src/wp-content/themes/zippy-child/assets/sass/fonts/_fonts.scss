@@ -1,4 +1,34 @@
 /* Font face for web template */
+// Poppins
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("#{$assets_path}fonts/Poppins/Poppins-Regular-400.woff2") format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("#{$assets_path}fonts/Poppins/Poppins-Medium-500.woff2") format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("#{$assets_path}fonts/Poppins/Poppins-SemiBold-600.woff2") format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("#{$assets_path}fonts/Poppins/Poppins-Bold-700.woff2") format('woff2');
+}
+
 // Montserrat
 @include font-face(
   "Montserrat",

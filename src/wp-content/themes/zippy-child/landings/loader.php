@@ -204,11 +204,6 @@ function landing_head()
         echo '<meta name="description" content="' . esc_attr(wp_strip_all_tags($excerpt)) . '">' . "\n";
     }
 
-    // Poppins (form spec) — preconnect first so the font fetch isn't TCP-blocked.
-    echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
-    echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
-    echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">' . "\n";
-
     // intl-tel-input CSS (only if landing needs phone)
     if ($needs_phone) {
         $iti_css_url = THEME_URL . '-child/assets/lib/intl-tel-input/css/intlTelInput.min.css';

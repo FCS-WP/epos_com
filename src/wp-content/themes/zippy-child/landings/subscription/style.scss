@@ -1,3 +1,5 @@
+@import "../../assets/sass/variables";
+
 $sub-blue: #001e9a;
 $sub-navy: #06128a;
 $sub-green: #bdf7c6;
@@ -20,7 +22,7 @@ body.page-template-template-subscription-v2 {
 }
 
 .sub-page {
-  font-family: "Poppins", sans-serif;
+  font-family: $third-font;
   color: $sub-dark;
   background: #fff;
   -webkit-font-smoothing: antialiased;
@@ -1457,7 +1459,7 @@ body.page-template-template-subscription-v2 {
   }
 
   &__old-price {
-    font-size: 1.375rem;
+    font-size: 1.7rem;
     line-height: 1;
     color: #a7acb8;
     font-weight: 500;
@@ -1512,7 +1514,7 @@ body.page-template-template-subscription-v2 {
     border-radius: 999px;
     background: #58cc52;
     color: #fff;
-    font-size: 1.125rem;
+    font-size: 1.3rem;
     line-height: 1;
     font-weight: 600;
   }
@@ -1656,7 +1658,7 @@ body.page-template-template-subscription-v2 {
 
     .hs-form {
       margin: 0;
-      font-family: "Poppins", sans-serif;
+      font-family: $third-font;
     }
 
     .hs-form fieldset {
@@ -1718,7 +1720,7 @@ body.page-template-template-subscription-v2 {
       border-radius: 50px;
       background: #fff;
       box-shadow: none;
-      font-family: "Poppins", sans-serif;
+      font-family: $third-font;
       font-size: 1.125rem;
       line-height: 36px;
       color: #3e4042;
@@ -1815,7 +1817,7 @@ body.page-template-template-subscription-v2 {
       background: $sub-primary;
       color: #fff;
       box-shadow: none;
-      font-family: "Poppins", sans-serif;
+      font-family: $third-font;
       font-size: 1.375rem;
       line-height: 20px;
     }
@@ -3410,7 +3412,7 @@ $sub-form-success: #167b10;
 // `.sub-page button { background: none; padding: 0; }` reset further up
 // in this file (specificity 0,1,1 — needs at least 0,2,1 to win).
 .sub-page .sub-v2-form {
-  font-family: "Poppins", sans-serif;
+  font-family: $third-font;
   font-size: 1.125rem;
   color: $sub-form-text;
   background: #fff;
@@ -3778,7 +3780,7 @@ $sub-form-success: #167b10;
   // ── Static styling (the visible look) ──────────────────────────────
   &__title {
     margin: 0 0 16px;
-    font-family: "Poppins", sans-serif;
+    font-family: $third-font;
     font-size: 2rem;
     font-weight: 700;
     line-height: 1.2;
@@ -3787,14 +3789,14 @@ $sub-form-success: #167b10;
   }
   &__lead {
     margin: 0 0 8px;
-    font-family: "Poppins", sans-serif;
+    font-family: $third-font;
     font-size: 1.125rem;
     font-weight: 500;
     color: #3e4042;
   }
   &__body {
     margin: 0;
-    font-family: "Poppins", sans-serif;
+    font-family: $third-font;
     font-size: 1rem;
     color: #6b7280;
     line-height: 1.55;

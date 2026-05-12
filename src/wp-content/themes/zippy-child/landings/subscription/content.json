@@ -8,49 +8,49 @@
 
   "images": {
     "header": {
-      "logo": "https://www.epos.com.sg/wp-content/uploads/2025/12/EPOS_Full-Color.webp"
+      "logo": "https://www.epos.com/wp-content/uploads/2025/12/EPOS_Full-Color.webp"
     },
     "hero": {
-      "visual": "/wp-content/uploads/2026/05/main-hero.webp",
-      "visual_mobile": "/wp-content/uploads/2026/05/R5_KV-Website_mobile-copy-1-1.webp"
+      "visual": "https://www.epos.com/wp-content/uploads/2026/05/main-hero.webp",
+      "visual_mobile": "https://www.epos.com/wp-content/uploads/2026/05/R5_KV-Website_mobile-copy-1-1.webp"
     },
     "partnership": {
-      "logo_epos":      "/wp-content/uploads/2026/05/epos-360-logo.webp",
-      "logo_tng_small": "/wp-content/uploads/2026/05/TNG-payemnt-logo.webp"
+      "logo_epos":      "https://www.epos.com/wp-content/uploads/2026/05/epos-360-logo.webp",
+      "logo_tng_small": "https://www.epos.com/wp-content/uploads/2026/05/TNG-payemnt-logo.webp"
     },
     "payments": {
-      "logo_alipay":     "/wp-content/uploads/2026/05/alipay-payemnt-logo.webp",
-      "logo_duitnow":    "/wp-content/uploads/2026/05/Duit-payemnt-logo.webp",
-      "logo_tng_small":  "/wp-content/uploads/2026/05/TNG-payemnt-logo.webp",
-      "logo_mydebit":    "/wp-content/uploads/2026/05/MyDebit-payemnt-logo.webp",
-      "logo_visa":       "/wp-content/uploads/2026/05/Visa-payemnt-logo.webp",
-      "logo_mastercard": "/wp-content/uploads/2026/05/Mastercard-payemnt-logo.webp"
+      "logo_alipay":     "https://www.epos.com/wp-content/uploads/2026/05/alipay-payemnt-logo.webp",
+      "logo_duitnow":    "https://www.epos.com/wp-content/uploads/2026/05/Duit-payemnt-logo.webp",
+      "logo_tng_small":  "https://www.epos.com/wp-content/uploads/2026/05/TNG-payemnt-logo.webp",
+      "logo_mydebit":    "https://www.epos.com/wp-content/uploads/2026/05/MyDebit-payemnt-logo.webp",
+      "logo_visa":       "https://www.epos.com/wp-content/uploads/2026/05/Visa-payemnt-logo.webp",
+      "logo_mastercard": "https://www.epos.com/wp-content/uploads/2026/05/Mastercard-payemnt-logo.webp"
     },
     "everything": {
-      "mockup":     "/wp-content/uploads/2026/05/all_in_1.webp",
-      "qr":         "/wp-content/uploads/2026/05/boost-icon.webp",
-      "grow_sales": "/wp-content/uploads/2026/05/stress-icon.webp",
-      "delivery":   "/wp-content/uploads/2026/05/no-extra-icon.webp"
+      "mockup":     "https://www.epos.com/wp-content/uploads/2026/05/all_in_1.webp",
+      "qr":         "https://www.epos.com/wp-content/uploads/2026/05/boost-icon.webp",
+      "grow_sales": "https://www.epos.com/wp-content/uploads/2026/05/stress-icon.webp",
+      "delivery":   "https://www.epos.com/wp-content/uploads/2026/05/no-extra-icon.webp"
     },
     "tools": {
-      "food_delivery":   "/wp-content/uploads/2026/05/Bussiness-card-1-1-Photoroom.webp",
-      "table_qr":        "/wp-content/uploads/2026/05/Bussiness-card-2-1-1-1.webp",
-      "online_store":    "/wp-content/uploads/2026/05/Bussiness-card-3-1-Photoroom.webp",
-      "loyalty":         "/wp-content/uploads/2026/05/Bussiness-card-4-1-Photoroom.webp",
-      "google_business": "/wp-content/uploads/2026/05/Bussiness-card-5-1-Photoroom.webp",
-      "smart_insights":  "/wp-content/uploads/2026/05/Bussiness-card-6-1-Photoroom.webp"
+      "food_delivery":   "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-1-1-Photoroom.webp",
+      "table_qr":        "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-2-1-1.webp",
+      "online_store":    "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-3-1-Photoroom.webp",
+      "loyalty":         "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-4-1-Photoroom.webp",
+      "google_business": "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-5-1-Photoroom.webp",
+      "smart_insights":  "https://www.epos.com/wp-content/uploads/2026/05/Bussiness-card-6-1-Photoroom.webp"
     },
     "testimonials": {
-      "durianbb": "/wp-content/uploads/2026/05/testimonial-bg-1.webp",
-      "dexon":    "/wp-content/uploads/2026/05/testimonial-bg-2.webp",
-      "ajokaido": "/wp-content/uploads/2026/05/testimonial-bg-3.webp",
-      "avatar_1": "/wp-content/uploads/2026/05/testimonial-avatar-1.webp",
-      "avatar_2": "/wp-content/uploads/2026/05/testimonial-avatar-1.webp",
-      "avatar_3": "/wp-content/uploads/2026/05/testimonial-avatar-1.webp"
+      "durianbb": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-bg-1.webp",
+      "dexon":    "https://www.epos.com/wp-content/uploads/2026/05/testimonial-bg-2.webp",
+      "ajokaido": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-bg-3.webp",
+      "avatar_1": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-avatar-1.webp",
+      "avatar_2": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-avatar-1.webp",
+      "avatar_3": "https://www.epos.com/wp-content/uploads/2026/05/testimonial-avatar-1.webp"
     },
     "grow": {
-      "merchant_left":  "/wp-content/uploads/2026/05/smarter-business-women-1.webp",
-      "merchant_right": "/wp-content/uploads/2026/05/smarter-business-man-1.webp"
+      "merchant_left":  "https://www.epos.com/wp-content/uploads/2026/05/smarter-business-women-1.webp",
+      "merchant_right": "https://www.epos.com/wp-content/uploads/2026/05/smarter-business-man-1.webp"
     }
   },
 

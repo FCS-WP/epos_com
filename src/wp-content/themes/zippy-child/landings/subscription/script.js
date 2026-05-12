@@ -451,7 +451,6 @@ import { LandingForm } from "../_shared/form-bridge";
 
   // ── Promo modal (GROW — timed + exit-intent) ─────────────────────────────
   function bindPromoModal(_root) {
-    console.log("Binding promo modal");
     var modal = document.querySelector("[data-sub-v2-promo-modal]");
     if (!modal || modal.hasAttribute("data-v2-promo-modal-bound")) return;
     modal.setAttribute("data-v2-promo-modal-bound", "true");

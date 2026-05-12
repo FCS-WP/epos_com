@@ -2,8 +2,8 @@
 if (! defined('ABSPATH')) exit;
 $sub_v2 = $data ?? array();
 
-$img_desktop = esc_url($sub_v2['images']['hero']['visual']        ?? '');
-$img_mobile  = esc_url($sub_v2['images']['hero']['visual_mobile'] ?? '');
+$img_desktop = esc_url($sub_v2['images']['popup']['banner_desktop'] ?? '');
+$img_mobile  = esc_url($sub_v2['images']['popup']['banner_mobile'] ?? '');
 ?>
 <?php // `.sub-page` is added so font/reset rules resolve inside the modal
       // (rendered outside <main> — not a descendant of the .sub-page on <main>). ?>

@@ -4189,8 +4189,8 @@ $sub-form-success: #167b10;
     img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: left center;
+      object-fit: contain;
+      object-position: center center;
       display: block;
     }
   }

@@ -618,6 +618,10 @@ import { LandingForm } from "../_shared/form-bridge";
     };
 
     var handleSuccess = function () {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "epos360_subscription", page_location: window.location.href });
+      console.log("[tracking] lead_form_submit fired", window.dataLayer);
+      
       var shell     = formEl.closest("[data-form-shell]");
       var successEl = shell ? shell.querySelector("[data-form-success]") : null;
       setStatus("", "");
@@ -660,6 +664,22 @@ import { LandingForm } from "../_shared/form-bridge";
     })._wrapValidation(validate).bind();
   }
 
+  // ── Conversion tracking ───────────────────────────────────────────────────
+  function bindWhatsAppTracking() {
+    document.addEventListener("click", function (e) {
+      var floatingBtn = e.target.closest(".sub-v2-whatsapp");
+      var contactBtn  = e.target.closest(".sub-v2-header__button--ghost, .sub-v2-grow__button--ghost");
+      if (!floatingBtn && !contactBtn) return;
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "epos360_subscription",
+        button_location: floatingBtn ? "floating_button" : "contact_sales",
+        page_location: window.location.href,
+      });
+      console.log("[tracking] whatsapp_contact_click fired", floatingBtn ? "floating_button" : "contact_sales", window.dataLayer);
+    });
+  }
+
   // ── Bootstrap ─────────────────────────────────────────────────────────────
   function initSubscriptionV2() {
     var root = document.querySelector(".subscription-v2, [data-subscription-v2], .sub-page--v2");
@@ -673,6 +693,7 @@ import { LandingForm } from "../_shared/form-bridge";
     initTestimonialsSlider(root, 0);
     initLandingForms(root);
     initScrollAnimations(root);
+    bindWhatsAppTracking();
 
     var resizeTimer;
     window.addEventListener("resize", function () {

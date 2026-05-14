@@ -3,6 +3,8 @@ package-lock.json
 
 node_modules
 
+yarn.lock
+
 src/wp-content/themes/*/*/dist
 
 

@@ -3352,7 +3352,7 @@ body.page-template-template-subscription-v2 {
     }
 
     &__card {
-      min-height: 560px;
+      min-height: 440px;
       padding: 32px 24px 24px;
     }
 
@@ -3510,9 +3510,9 @@ $sub-form-success: #167b10;
 
   // Reserve vertical space so the layout doesn't jump when the form is
   // replaced by the success message after submit.
-  min-height: 720px;
+  min-height: 600px;
   @media (min-width: 768px) {
-    min-height: 560px;
+    min-height: 440px;
   }
 
   &__grid {
@@ -3562,6 +3562,10 @@ $sub-form-success: #167b10;
       }
       .sub-v2-form__row--submit {
         order: 8;
+        // Span the full grid width so the button can sit flush against
+        // the form's right edge regardless of which optional fields are
+        // rendered above it (e.g. Language is sometimes omitted).
+        grid-column: 1 / -1;
       }
     }
   }
@@ -3574,6 +3578,7 @@ $sub-form-success: #167b10;
     &--submit {
       align-items: flex-end;
       justify-content: center;
+      margin-top: auto;
 
       // Mobile: center the button instead of right-aligning.
       @media (max-width: 767px) {
@@ -3847,7 +3852,7 @@ $sub-form-success: #167b10;
 
   // Match the form's height so the section doesn't collapse on swap.
   // Success content centers vertically inside the block.
-  min-height: 720px;
+  min-height: 600px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -3861,7 +3866,7 @@ $sub-form-success: #167b10;
   }
 
   @media (min-width: 768px) {
-    min-height: 560px;
+    min-height: 440px;
   }
 
   // ── Static styling (the visible look) ──────────────────────────────

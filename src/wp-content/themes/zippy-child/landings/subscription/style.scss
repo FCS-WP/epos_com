@@ -4030,6 +4030,7 @@ $sub-form-success: #167b10;
   }
 
   @media (max-width: 767px) {
+    display: none !important;
     right: 16px;
     bottom: 80px;
     width: $wa-size-mobile;

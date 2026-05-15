@@ -73,8 +73,6 @@
       { "label": "Retail",     "value": "Retail" },
       { "label": "Minimart",   "value": "Minimart" },
       { "label": "F&B",        "value": "F&B" },
-      { "label": "Hair Salon", "value": "Hair Salon" },
-      { "label": "Gym",        "value": "Gym" },
       { "label": "Services",   "value": "Services" },
       { "label": "Others",     "value": "Others" }
     ],

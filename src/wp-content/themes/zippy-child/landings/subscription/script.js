@@ -569,7 +569,7 @@ import { LandingForm } from "../_shared/form-bridge";
     var FIELD_LABELS = {
       lastname: "your name", email: "your email", phone: "your WhatsApp phone number",
       your_industry: "your industry", state_dropdown: "your state / region",
-      hs_language: "your preferred language", company: "your company name",
+      company: "your company name",
     };
     var friendlyFieldError = function (name, kind) {
       var label    = FIELD_LABELS[name] || "this field";

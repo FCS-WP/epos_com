@@ -7,7 +7,6 @@ if (! $url) return;
 <a
   class="sub-v2-whatsapp"
   href="<?php echo esc_url($url); ?>"
-  target="_blank"
   rel="noopener noreferrer"
   aria-label="Contact us on WhatsApp"
 >

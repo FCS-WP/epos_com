@@ -150,17 +150,6 @@ $render_options = function ($options, $placeholder, $default_value = '') {
             <p class="sub-v2-form__error" data-error-for="state_dropdown"></p>
         </div>
 
-        <div class="sub-v2-form__row sub-v2-form__row--language">
-            <label class="sub-v2-form__label" for="<?php echo esc_attr($prefix . 'language'); ?>">Preferred Language</label>
-            <select
-                id="<?php echo esc_attr($prefix . 'language'); ?>"
-                name="hs_language"
-                class="sub-v2-form__input sub-v2-form__select"
-            >
-                <?php $render_options($language_options, 'English'); ?>
-            </select>
-            <p class="sub-v2-form__error" data-error-for="hs_language"></p>
-        </div>
 
         <div class="sub-v2-form__row sub-v2-form__row--submit">
             <button type="submit" class="sub-v2-form__submit">

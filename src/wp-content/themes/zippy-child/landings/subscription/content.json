@@ -4,7 +4,7 @@
   "libs": ["jquery", "lenis", "gsap", "slick"],
 
   "section_kicker_icon": "https://www.epos.com/wp-content/uploads/2026/05/fire-icon-tag.webp",
-  "contact_sales_url": "/my/subscription/#sub-v2-demo",
+  "contact_sales_url": "#sub-v2-demo",
 
   "images": {
     "header": {

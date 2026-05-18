@@ -1446,6 +1446,16 @@ body.page-template-template-subscription-v2 {
     margin-bottom: 24px;
   }
 
+  &__price-from {
+    font-size: clamp(18px, 2.8vw, 36px);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    color: $sub-primary;
+    text-transform: uppercase;
+    margin: 0 0 8px;
+  }
+
   &__price-row {
     display: flex;
     align-items: flex-end;
@@ -1519,7 +1529,7 @@ body.page-template-template-subscription-v2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: 12px;
     font-size: 1.25rem;
     line-height: 1.3;
     color: #3f4b69;
@@ -2814,6 +2824,11 @@ body.page-template-template-subscription-v2 {
 
     &__price-block {
       margin-bottom: 16px;
+    }
+
+    &__price-from {
+      font-size: 0.875rem;
+      margin: 0 0 4px;
     }
 
     &__price-row {

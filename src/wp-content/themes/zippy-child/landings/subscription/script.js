@@ -618,8 +618,25 @@ import { LandingForm } from "../_shared/form-bridge";
     };
 
     var handleSuccess = function () {
+      // GTM dataLayer event (existing behavior)
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: "epos360_subscription", page_location: window.location.href });
+
+      // ── Meta Pixel: Lead conversion ──────────────────────────────────────
+      // Fires for every successful form submission, regardless of which CTA
+      if (typeof window.fbq === "function") {
+        var fbEventId = "LEAD_" + Date.now() + "_" + Math.random().toString(36).slice(2, 9);
+        var fbPayload = {
+          content_name:     "Subscription Demo Request",
+          content_category: formEl.dataset.formVariant || "inline",
+          page_location:    window.location.href,
+        };
+        window.fbq("track", "Lead", fbPayload, { eventID: fbEventId });
+        console.log("[Meta Pixel] Lead event fired", { eventID: fbEventId, payload: fbPayload });
+      } else {
+        console.warn("[Meta Pixel] fbq not available — pixel may not be loaded");
+      }
+
       console.log("[tracking] lead_form_submit fired", window.dataLayer);
       
       var shell     = formEl.closest("[data-form-shell]");

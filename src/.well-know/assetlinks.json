@@ -1,0 +1,10 @@
+[
+    {
+        "relation": ["delegate_permission/common.handle_all_urls","delegate_permission/common.get_login_creds"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.ipds.epos",
+            "sha256_cert_fingerprints": ["6D:3E:17:30:4A:BE:4C:24:D1:FA:2D:2B:2F:9E:70:9C:CD:41:FA:35:BC:DB:91:46:B7:E5:E3:57:FA:F0:14:EB","A5:FE:9C:36:06:BC:9D:A6:E4:E1:21:CC:AD:22:FD:79:D7:20:33:26:FF:E1:4B:B5:91:85:A7:0A:90:BE:6F:BE"]
+        }
+    }
+]

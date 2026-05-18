@@ -25,7 +25,8 @@ services:
       - ./src/wp-content/plugins:/var/www/html/wp-content/plugins
       - ./src/wp-content/uploads:/var/www/html/wp-content/uploads
       - ./src/wp-content/cache:/var/www/html/wp-content/cache
-      
+      - ./src/.well-know/assetlinks.json:/var/www/html/.well-known/assetlinks.json
+
       # Exclude default WP content to save space
       - /var/www/html/wp-content/themes/twentytwentyone/
       - /var/www/html/wp-content/themes/twentytwentytwo/

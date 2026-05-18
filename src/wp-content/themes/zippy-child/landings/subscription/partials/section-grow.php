@@ -42,23 +42,15 @@ $sub_v2_grow_features = [
       <div class="sub-v2-grow__ribbon">Grow</div>
 
       <div class="sub-v2-grow__price-block">
+        <p class="sub-v2-grow__price-from">FROM</p>
         <div class="sub-v2-grow__price-row">
           <span class="sub-v2-grow__price">RM39</span>
-          <span class="sub-v2-grow__price-suffix">/month</span>
-        </div>
-
-        <div class="sub-v2-grow__divider" aria-hidden="true">
-        </div>
-
-        <div class="sub-v2-grow__price-meta">
-          <p class="sub-v2-grow__old-price">RM99</p>
-          <div class="sub-v2-grow__discount">60% OFF</div>
         </div>
       </div>
 
       <div class="sub-v2-grow__offer">
         <span class="sub-v2-grow__offer-icon" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M20 12V21H4V12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M22 7H2V12H22V7Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M12 21V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />

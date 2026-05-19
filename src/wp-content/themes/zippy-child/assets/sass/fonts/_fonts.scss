@@ -1,108 +1,37 @@
 /* Font face for web template */
 // Poppins
+// src: https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap
 @font-face {
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("#{$assets_path}fonts/Poppins/Poppins-Regular-400.woff2") format('woff2');
+  src: url("../../fonts/Poppins/pxiEyp8kv8JHgFVrJJfecg.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("#{$assets_path}fonts/Poppins/Poppins-Medium-500.woff2") format('woff2');
+  src: url("../../fonts/Poppins/pxiByp8kv8JHgFVrLGT9Z1xlFQ.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("#{$assets_path}fonts/Poppins/Poppins-SemiBold-600.woff2") format('woff2');
+  src: url("../../fonts/Poppins/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("#{$assets_path}fonts/Poppins/Poppins-Bold-700.woff2") format('woff2');
-}
-
-// Montserrat
-@include font-face(
-  "Montserrat",
-  "#{$assets_path}fonts/Montserrat/Montserrat-Regular",
-  400
-);
-@include font-face(
-  "Montserrat",
-  "#{$assets_path}fonts/Montserrat/Montserrat-Light",
-  300
-);
-@include font-face(
-  "Montserrat",
-  "#{$assets_path}fonts/Montserrat/Montserrat-Medium",
-  500
-);
-@include font-face(
-  "Montserrat",
-  "#{$assets_path}fonts/Montserrat/Montserrat-Bold",
-  900
-);
-
-//PlusJakartaSans
-@include font-face(
-  "PlusJakartaSans",
-  "#{$assets_path}fonts/PlusJakartaSans/PlusJakartaSans-Regular",
-  400
-);
-@include font-face(
-  "PlusJakartaSans",
-  "#{$assets_path}fonts/PlusJakartaSans/PlusJakartaSans-Light",
-  300
-);
-@include font-face(
-  "PlusJakartaSans",
-  "#{$assets_path}fonts/PlusJakartaSans/PlusJakartaSans-Medium",
-  500
-);
-@include font-face(
-  "PlusJakartaSans",
-  "#{$assets_path}fonts/PlusJakartaSans/PlusJakartaSans-Bold",
-  900
-);
-
-// Source: https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap
-/* Inter latin */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url("#{$assets_path}fonts/Inter/inter-latin.woff2") format('woff2');
+  src: url("../../fonts/Poppins/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2") format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* Inter latin italic */
-@font-face {
-  font-family: 'Inter';
-  font-style: italic;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url("#{$assets_path}fonts/Inter/inter-latin-italic.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-%inter {
-  font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
-}
-
-%inter-important {
-  font-family: "Inter", sans-serif !important;
-  font-optical-sizing: auto;
-  font-style: normal;
 }
 
 body {
@@ -115,7 +44,7 @@ body {
   h4,
   h5,
   h6 {
-    font-family: $second-font;
+    font-family: $main-font;
     color: $secondary-color;
   }
   p {
@@ -131,6 +60,7 @@ body {
   h1 {
     font-size: 28px !important;
     line-height: 1.2em;
+    font-weight: 600 !important;
 
     @include tablet {
       font-size: 38px !important;
@@ -140,7 +70,7 @@ body {
     }
     span {
       font-size: 28px !important;
-      font-family: $second-font !important;
+      font-family: $main-font !important;
       @include tablet {
         font-size: 38px !important;
       }
@@ -153,6 +83,7 @@ body {
   h2 {
     font-size: 24px !important;
     line-height: 1.2em;
+    font-weight: 600 !important;
 
     @include tablet {
       font-size: 32px !important;
@@ -162,7 +93,7 @@ body {
     }
     span {
       font-size: 24px !important;
-      font-family: $second-font !important;
+      font-family: $main-font !important;
       @include tablet {
         font-size: 32px !important;
       }
@@ -174,6 +105,7 @@ body {
 
   h3 {
     font-size: 18px !important;
+    font-weight: 600 !important;
     @include desktop {
       font-size: 22px !important;
     } 

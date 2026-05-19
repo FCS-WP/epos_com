@@ -90,15 +90,15 @@ function custom_optimize_preload_theme_fonts()
 
   $font_base_url = trailingslashit(get_stylesheet_directory_uri()) . 'assets/fonts';
   $font_paths = array(
-    '/Poppins/Poppins-Regular-400.woff2',
-    '/Poppins/Poppins-Medium-500.woff2',
-    '/Poppins/Poppins-SemiBold-600.woff2',
-    '/Poppins/Poppins-Bold-700.woff2',
-    '/Montserrat/Montserrat-Regular.woff2',
-    '/Montserrat/Montserrat-Medium.woff2',
-    '/Montserrat/Montserrat-Bold.woff2',
-    '/PlusJakartaSans/PlusJakartaSans-Regular.woff2',
-    '/Inter/inter-latin.woff2',
+    '/Poppins/pxiEyp8kv8JHgFVrJJfecg.woff2',
+    '/Poppins/pxiByp8kv8JHgFVrLGT9Z1xlFQ.woff2',
+    '/Poppins/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2',
+    '/Poppins/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2',
+    // '/Montserrat/Montserrat-Regular.woff2',
+    // '/Montserrat/Montserrat-Medium.woff2',
+    // '/Montserrat/Montserrat-Bold.woff2',
+    // '/PlusJakartaSans/PlusJakartaSans-Regular.woff2',
+    // '/Inter/inter-latin.woff2',
   );
 
   foreach ($font_paths as $font_path) {

@@ -94,11 +94,11 @@ function custom_optimize_preload_theme_fonts()
     '/Poppins/pxiByp8kv8JHgFVrLGT9Z1xlFQ.woff2',
     '/Poppins/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2',
     '/Poppins/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2',
-    '/Montserrat/Montserrat-Regular.woff2',
-    '/Montserrat/Montserrat-Medium.woff2',
-    '/Montserrat/Montserrat-Bold.woff2',
-    '/PlusJakartaSans/PlusJakartaSans-Regular.woff2',
-    '/Inter/inter-latin.woff2',
+    // '/Montserrat/Montserrat-Regular.woff2',
+    // '/Montserrat/Montserrat-Medium.woff2',
+    // '/Montserrat/Montserrat-Bold.woff2',
+    // '/PlusJakartaSans/PlusJakartaSans-Regular.woff2',
+    // '/Inter/inter-latin.woff2',
   );
 
   foreach ($font_paths as $font_path) {
